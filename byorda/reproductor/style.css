@@ -1,0 +1,41 @@
+#wrapper {
+  width: 50%;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid black;
+}
+
+#wrapper-contenido {
+  overflow: hidden;
+}
+
+#contenido {
+  overflow: hidden;
+  width: auto;
+  text-align: center;
+  border: 1px solid green;
+}
+
+#barra-herramientas {
+  text-align: right;
+  border: 1px solid blue;
+}
+
+#panel-filtros {
+  float: left;
+  width: 19%;
+  border: 1px solid red;
+}
+
+#panel-filtros ul {
+  list-style-type: none;
+  list-style-position: outside;
+}
+
+#panel-filtros ul input {
+  width: 100%;
+}
+
+#controles-reproductor {
+  border: 1px solid orange;
+}
