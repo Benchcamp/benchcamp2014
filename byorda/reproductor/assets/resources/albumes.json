@@ -1,0 +1,16 @@
+{
+  "albumes": [
+    {
+      "nombre": "Album 1",
+      "artista": "Artista 1"
+    },
+    {
+      "nombre": "Album 2",
+      "artista": "Artista 2"
+    },
+    {
+      "nombre": "Album 3",
+      "artista": "Artista 2"
+    }
+  ]
+}
