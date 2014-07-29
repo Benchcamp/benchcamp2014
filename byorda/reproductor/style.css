@@ -38,6 +38,7 @@
 
 #controles-reproductor {
   border: 1px solid orange;
+  text-align: center;
 }
 
 #controles-reproductor ul li {

@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function(e) {
-	document.getElementById("btnMute").addEventListener("click", muteAll, false);
+	document.getElementById("btnMute").addEventListener("click", toggleMute, false);
 });
 
 function init() {
@@ -19,7 +19,12 @@ function handleLoad(event) {
 	createjs.Sound.play(event.src);
 }
 
-function muteAll(){
-	var mute = createjs.Sound.getMute();
+function toggleMute(){
+	var mute, btnMute;
+	
+	mute = createjs.Sound.getMute();
+	btnMute = document.getElementById("btnMute");
+
 	createjs.Sound.setMute(!mute);
+	btnMute.style.color == "red" ? btnMute.style.color = "black" : btnMute.style.color = "red";
 }

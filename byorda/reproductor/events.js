@@ -12,10 +12,12 @@ document.addEventListener("DOMContentLoaded", function(e) {
   document.getElementById("btnFiltroArtistas").addEventListener("click", registrarEvento, false);
   document.getElementById("btnFiltroArtistas").addEventListener("click", mostrarArtistas, false);
 
+  document.getElementById("btnMute").addEventListener("click", registrarEvento, false);
+
   document.getElementById("btnEventos").addEventListener("click", mostrarLogEventos, false);
 });
 
-//GET falla a menos que la aplicación esté en el mismo dominio que los assets.
+// GET falla a menos que la aplicación esté en el mismo dominio que los assets.
 function getJson(path, callback) {
     var httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = function() {
@@ -53,7 +55,7 @@ function mostrarLogEventos() {
   tablaContenido.innerHTML += "<tr id=\"cabezal-contenido\"><th>Acci&oacute;n</th><th>Elemento</th><th>Hora</th></tr>";
 
   for (var i = 0; i < logEventos.length; i++) {
-    tablaContenido.innerHTML += "<tr><td>" + logEventos[i].accion + "</td><td>" + logEventos[i].elemento.id + "</td><td>" + logEventos[i].hora + "</td></tr>";
+    tablaContenido.innerHTML += "<tr><td>" + logEventos[i].accion + "</td><td>" + logEventos[i].elemento.id + "</td><td>" + formatearHora(logEventos[i].hora) + "</td></tr>";
   }
 }
 
