@@ -39,3 +39,8 @@
 #controles-reproductor {
   border: 1px solid orange;
 }
+
+#controles-reproductor ul li {
+  display: inline;
+  list-style-type: none;
+}

@@ -2,21 +2,20 @@ var contadorEventos, logEventos;
 contadorEventos = 0;
 logEventos = [];
 
-function incrementarCantEventos() {
-  contadorEventos++;
-  document.getElementById("lblContadorEventos").innerHTML = contadorEventos;
-}
+document.addEventListener("DOMContentLoaded", function(e) {
+  document.getElementById("btnFiltroCanciones").addEventListener("click", registrarEvento, false);
+  document.getElementById("btnFiltroCanciones").addEventListener("click", mostrarCanciones, false);
 
-function registrarEvento(e) {
-  var evento = {
-    accion: e.type,
-    elemento: e.target,
-    hora: new Date().getTime()
-  };
-  logEventos.push(evento);
-  incrementarCantEventos();
-}
+  document.getElementById("btnFiltroAlbumes").addEventListener("click", registrarEvento, false);
+  document.getElementById("btnFiltroAlbumes").addEventListener("click", mostrarAlbumes, false);
 
+  document.getElementById("btnFiltroArtistas").addEventListener("click", registrarEvento, false);
+  document.getElementById("btnFiltroArtistas").addEventListener("click", mostrarArtistas, false);
+
+  document.getElementById("btnEventos").addEventListener("click", mostrarLogEventos, false);
+});
+
+//GET falla a menos que la aplicación esté en el mismo dominio que los assets.
 function getJson(path, callback) {
     var httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = function() {
@@ -29,6 +28,21 @@ function getJson(path, callback) {
     };
     httpRequest.open('GET', path);
     httpRequest.send();
+}
+
+function registrarEvento(e) {
+  var evento = {
+    accion: e.type,
+    elemento: e.target,
+    hora: new Date().getTime()
+  };
+  logEventos.push(evento);
+  incrementarCantEventos();
+}
+
+function incrementarCantEventos() {
+  contadorEventos++;
+  document.getElementById("lblContadorEventos").innerHTML = contadorEventos;
 }
 
 //Podrían combinarse en una función única parametrizada, separando el código que llena la tabla en funciones aparte.
@@ -52,23 +66,28 @@ function mostrarCanciones() {
   //Llenar tabla con las canciones
   getJson("http://localhost:8080/assets/resources/canciones.json", function(data){
       for (var i = 0; i < data.canciones.length; i++) {
-        var cancion, tablaContenido, row, celdaNombre, celdaAlbum, celdaArtista;
+        var cancion, tablaContenido, row, celdaNombre, celdaArtista, celdaTiempo, celdaAlbum;
 
         cancion = data.canciones[i];
 
         tablaContenido = document.getElementById("tabla-contenido");
+        
         row = document.createElement("tr");
+
         celdaNombre = document.createElement("td");
-        celdaAlbum = document.createElement("td");
         celdaArtista = document.createElement("td");
+        celdaTiempo = document.createElement("td");
+        celdaAlbum = document.createElement("td");
         
         celdaNombre.innerHTML = cancion.nombre;
-        celdaAlbum.innerHTML = cancion.album;
         celdaArtista.innerHTML = cancion.artista;
+        celdaTiempo.innerHTML = cancion.tiempo;
+        celdaAlbum.innerHTML = cancion.album;
 
         row.appendChild(celdaNombre);
-        row.appendChild(celdaAlbum);
         row.appendChild(celdaArtista);
+        row.appendChild(celdaTiempo);
+        row.appendChild(celdaAlbum);
 
         tablaContenido.appendChild(row);
       };
@@ -90,14 +109,14 @@ function mostrarAlbumes() {
 
         tablaContenido = document.getElementById("tabla-contenido");
         row = document.createElement("tr");
-        celdaNombre = document.createElement("td");
         celdaArtista = document.createElement("td");
+        celdaNombre = document.createElement("td");
         
-        celdaNombre.innerHTML = album.nombre;
         celdaArtista.innerHTML = album.artista;
+        celdaNombre.innerHTML = album.nombre;
 
-        row.appendChild(celdaNombre);
         row.appendChild(celdaArtista);
+        row.appendChild(celdaNombre);
 
         tablaContenido.appendChild(row);
       };
@@ -131,16 +150,3 @@ function mostrarArtistas() {
       };
   });
 }
-
-document.addEventListener("DOMContentLoaded", function(e) {
-  document.getElementById("btnFiltroCanciones").addEventListener("click", registrarEvento, false);
-  document.getElementById("btnFiltroCanciones").addEventListener("click", mostrarCanciones, false);
-
-  document.getElementById("btnFiltroAlbumes").addEventListener("click", registrarEvento, false);
-  document.getElementById("btnFiltroAlbumes").addEventListener("click", mostrarAlbumes, false);
-
-  document.getElementById("btnFiltroArtistas").addEventListener("click", registrarEvento, false);
-  document.getElementById("btnFiltroArtistas").addEventListener("click", mostrarArtistas, false);
-
-  document.getElementById("btnEventos").addEventListener("click", mostrarLogEventos, false);
-});
