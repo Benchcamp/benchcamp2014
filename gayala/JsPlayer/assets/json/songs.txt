@@ -1,0 +1,45 @@
+[
+
+{
+track : "Lepidoptera",
+artist: "Epoq",
+album: "Desconocido",
+time: "05:02",
+url: "ogg/Epoq-Lepidoptera.ogg"
+}
+
+
+,{
+track : "Hydrate",
+artist: "Kenny Beltrey",
+album: "Favorite Things",
+time: "04:24",
+url: "ogg/Hydrate-Kenny_Beltrey.ogg"
+}
+
+,{
+track : "Lumme",
+artist: "Badloop",
+album: "Favorite Things",
+time: "06:45",
+url: "ogg/Lumme-Badloop.ogg"
+}
+
+,{
+track : "Mists of Time",
+artist: "4T Thieves",
+album: "Favorite Things",
+time: "06:40",
+url: "ogg/Mists_of_Time-4T.ogg"
+}
+
+,{
+track : "The Abyss",
+artist: "4T Thieves",
+album: "Favorite Things",
+time: "06:20",
+url: "ogg/The_Abyss-4T.ogg"
+}
+
+
+]

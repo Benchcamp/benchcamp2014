@@ -1,0 +1,91 @@
+.reproductor{
+	background-color : blue ;
+	width: 800px;
+	height: 300px;	
+}
+
+.reproductor .toolBox{
+	background-color : gray;
+	height: 15%;	
+}
+
+.reproductor .mainContent{
+	overflow: none;
+	height: 70%;
+}
+
+.reproductor .mainContent .filter{
+	background-color : red;
+	width: 20%;	
+	height: 100%;
+	float: left;
+}
+
+.reproductor .control{
+	background-color : purple;
+	height: 15%;
+}
+
+.reproductor .progressBar{
+	width: 50%;
+	background-color: orange;
+}
+
+.reproductor .control div{		
+	display: table-cell;
+	height: 100%;
+}
+
+/* content table */
+
+.reproductor .mainContent #content{
+}
+
+.mainContent #content table{
+    text-align: left;
+    border: 1px;
+}
+
+
+.mainContent #content {
+    width: 80%;
+	height: 100%;	
+	float: right;    
+    font: normal 12px/150% Arial, Helvetica, sans-serif;
+    background: #fff;
+    
+    overflow: hidden;
+    
+    /*
+    border: 1px solid #006699;
+    */
+    
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    
+    border-radius: 3px;
+}
+
+
+
+.mainContent #content table { border-collapse: collapse; text-align: left; width: 100%; } 
+
+
+.mainContent #content  td, .mainContent #content table th { padding: 3px 10px; }
+.mainContent #content  th {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; color:#FFFFFF; font-size: 15px; font-weight: bold; border-left: 1px solid #0070A8; } 
+.mainContent #content  th:first-child { border: none; }
+.mainContent #content  td { cursor: pointer ; color: #00496B; border-left: 1px solid #E1EEF4;font-size: 12px;font-weight: normal; }
+.mainContent #content .sel td { cursor: default ;  background: #E1EEF4; color: #00496B; }
+.mainContent #content  td:first-child { border-left: none; }
+.mainContent #content  tr:last-child td { border-bottom: none; }
+
+
+
+
+
+
+
+
+
+
+

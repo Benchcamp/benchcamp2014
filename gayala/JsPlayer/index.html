@@ -1,0 +1,68 @@
+<html>
+	<head>		
+		<title>Js Player</title>
+        <link rel="stylesheet" type="text/css" href="css/reproStyle.css">
+        <link rel="stylesheet" type="text/css" href="css/button.css">
+        
+		<script src="js/soundjs-0.5.2.min.js"></script>
+
+        <script type="text/javascript" src="js/utility.js" ></script>
+        <script type="text/javascript" src="js/songLibrary.js" ></script>
+        <script type="text/javascript" src="js/jsplayer.js" ></script>
+		<script type="text/javascript" src="js/main.Js" ></script>
+		
+
+		<script type="text/javascript">
+			init();
+		</script>		
+
+	</head>
+
+	<body>
+
+		<div class="reproductor" >
+			<div class="toolBox"></div>
+	
+
+			<div class="mainContent" >
+				<div class="filter">
+	
+				<ul>
+					<li id="songFilter" class="button" >Canciones</li>
+					<li id="albumFilter" class="button" >&Aacute;lbums</li>
+					<li id="artistFilter" class="button" >Artistas</li>
+				</ul>			
+				</div>
+                
+				<div id="content">
+                    
+                    
+
+				</div>
+			</div>
+
+
+			<div class="control">
+
+				<div>
+					<button id="prev"  class="button">Pre</button>
+					<button id="play"  class="button">Play</button>
+					<button id="next"  class="button">next</button>
+				</div>
+
+				<div class="progressBar">
+
+				</div>
+
+				<div>
+					<button  id="LButton" class="button">L</button >
+					<button  id="RButton" class="button">R</button >
+				</div>
+			</div>
+		</div>
+
+
+
+
+	</body>
+</html>
