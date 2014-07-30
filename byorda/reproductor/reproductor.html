@@ -6,20 +6,20 @@
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
-<body onload="init()">
-<!-- <body> -->
+<!-- <body onload="init()"> -->
+<body>
   <div id="wrapper">
     <div id="barra-herramientas">
       <label id="lblContadorEventos" value="">0</label>
-      <input id="btnEventos" type="button" value="Eventos">
+      <input name="Eventos" id="btnEventos" type="button" value="Eventos">
     </div>
     
     <div id="wrapper-contenido">
       <div id="panel-filtros">
         <ul>
-          <li><input id="btnFiltroCanciones" type="button" value="Canciones"></li>
-          <li><input id="btnFiltroAlbumes" type="button" value="Albums"></li>
-          <li><input id="btnFiltroArtistas" type="button" value="Artistas"></li>
+          <li><input name="Canciones" id="btnFiltroCanciones" type="button" value="Canciones"></li>
+          <li><input name="Albumes" id="btnFiltroAlbumes" type="button" value="Albums"></li>
+          <li><input name="Artistas" id="btnFiltroArtistas" type="button" value="Artistas"></li>
         </ul>
       </div>
       <div id="contenido">
@@ -30,16 +30,15 @@
 
     <div id="controles-reproductor">
       <ul>
-        <li><input id="btnAtras" type="button" value="<<"></li>
-        <li><input id="btnPlay" type="button" value=">"></li>
-        <li><input id="btnPause" type="button" value="||"></li>
-        <li><input id="btnSiguiente" type="button" value=">>"></li>
+        <li><input name="Atras" id="btnAtras" type="button" value="<<"></li>
+        <li><input name="Play/Pausa" id="btnPlayPausa" type="button" value=">"></li>
+        <li><input name="Siguiente" id="btnSiguiente" type="button" value=">>"></li>
         <label>0:00</label>
-        <li><input id="btnMute" type="button" value="<)/"></li>
+        <li><input name="Mute" id="btnMute" type="button" value="<)/"></li>
         <!--SLIDER-->
         <label>0:00</label>
-        <li><input id="btnRepetir" type="button" value="L"></li>
-        <li><input id="btnRandom" type="button" value="R"></li>
+        <li><input name="Repetir" id="btnRepetir" type="button" value="L"></li>
+        <li><input name="Random" id="btnRandom" type="button" value="R"></li>
       </ul>
     </div>
   </div>

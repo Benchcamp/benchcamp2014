@@ -1,10 +1,10 @@
 {
-  "artistas": [
+  "items": [
     {
-      "nombre": "Artista 1"
+      "Artista": "Artista 1"
     },
     {
-      "nombre": "Artista 2"
+      "Artista": "Artista 2"
     }
   ]
 }
