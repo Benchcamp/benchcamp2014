@@ -1,5 +1,14 @@
 var listOfevents = [];
 var count = 0;
+var onPlay = false;
+
+createjs.Sound.alternateExtensions = ["mp3"];
+createjs.Sound.addEventListener("fileload", createjs.proxy(this.loadHandler, this));
+
+function loadSongs(){
+   
+}
+
 
 function countEvents(){
 
@@ -11,8 +20,6 @@ function countEvents(){
     }
     
     listOfevents.push(newEvent);
-    
-    //count += 1;
     document.getElementById("cantOfEvents").innerHTML = listOfevents.length;
 }
 
@@ -42,8 +49,26 @@ function back(){
     countEvents();
 }
 
-function play(){
+function playStop(){
     countEvents();
+    
+    if(!onPlay){
+        createjs.Sound.registerSound("Counting Stars - One Republic.mp3", "sound");
+        loadHandler(window.event);
+        onPlay = true;
+    }
+    else{
+        onPlay = false;
+        createjs.Sound.stop();
+    }
+}
+
+
+function loadHandler(event) {
+     // This is fired for each sound that is registered.
+     var instance = createjs.Sound.play("sound");  // play using id.  Could also use full sourcepath or event.src.
+     instance.addEventListener("complete", createjs.proxy(this.handleComplete, this));
+     instance.volume = 0.5;
 }
 
 function next(){
