@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Glober Player</title>
+        <link rel="stylesheet" type="text/css" href="HomePlayer.css">
+        <script type="text/javascript" src="soundjs-0.5.2.min.js"></script>
+        <script type="text/javascript" src="LogicPlayer.js" ></script>
+    </head>
+    <body>
+        <script language="javascript">
+            window.onload = function(){
+                document.getElementById("showEvents").addEventListener('click', showEvents, false);
+                
+                document.getElementById("back").addEventListener('click', back, false);
+                document.getElementById("play").addEventListener('click', play, false);
+                document.getElementById("next").addEventListener('click', next, false);
+                
+                document.getElementById("repeat").addEventListener('click', repeat, false);
+                document.getElementById("loop").addEventListener('click', loop, false);
+            }
+        </script>
+        
+        <div class="box toolBar">
+            <input class="buttonOfEvents" id="showEvents" type="button" value="Eventos">
+            <label class="numberOfEvents" id="cantOfEvents">0</label>
+            
+        </div>
+        <div class="Traks">
+            <div class="box sortMusicByType">
+                
+                    <spam id="sortBySongs">Songs</spam>
+                    <spam id="sortByAlbums">Albums</spam>
+                    <spam id="sortByArtists">Artists</spam>
+                </ul>
+            </div>
+
+            <div class="box listOfThemes">
+                <table class="tableOfTraks">
+                    <thead>
+                        <tr>
+                            <th class="track">Track</th>
+                            <th class="artist">Artist</th>
+                            <th class="time">Time</th>
+                            <th class="album">Album</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listOfMusic">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="box buttonsPlayers">
+            <div class="buttons">
+                <input type="button" id="back" value="Back">
+                <input type="button" id="play" value="Play">
+                <input type="button" id="next" value="Next">
+            </div>
+            <div>
+                
+            </div>
+            <div class="listOptions">
+                
+                <input type="button" id="repeat" value="R">
+                <input type="button" id="loop" value="L">
+            </div>
+        </div>
+        <div id="showEvents">
+        </div>
+    
+        <div class="shadowbox" id="historicalEvents">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Element</th>
+                        <th>Hour</th>
+                    </tr>
+                </thead>
+                <tbody id=listOfEvents>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
