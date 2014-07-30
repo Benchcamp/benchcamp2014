@@ -19,21 +19,28 @@ function reproducirCancion () {
 	var btnPlayPausa, nombreCancion;
 
 	btnPlayPausa = document.getElementById("btnPlayPausa");
-	nombreCancion = document.querySelectorAll("tr.selected td")[0].innerHTML;
-	
-	if (btnPlayPausa.value == ">") {
-		if (playing === null) {
-			createjs.Sound.addEventListener("fileload", loadHandler);
-			createjs.Sound.registerSound(audioPath + nombreCancion + ".mp3", "playing", audioPath);
-		} else {
+
+	if (playing !== null) {
+		if (btnPlayPausa.value == ">") {
 			playing.resume();
-		}
-		btnPlayPausa.value = "||";
-	} else {
-		if (playing !== null) {
+			btnPlayPausa.value = "||";
+		} else {
 			playing.pause();
+			btnPlayPausa.value = ">";
 		}
-		btnPlayPausa.value = ">";
+		return;
+	} else {
+		nombreCancion = document.querySelectorAll("tr.selected td")[0].innerHTML;
+		
+		if (btnPlayPausa.value == ">") {
+			if (playing === null) {
+				createjs.Sound.addEventListener("fileload", loadHandler);
+				createjs.Sound.registerSound(audioPath + nombreCancion + ".mp3", "playing", audioPath);
+			} else {
+				playing.resume();
+			}
+			btnPlayPausa.value = "||";
+		}	
 	}
 }
 
