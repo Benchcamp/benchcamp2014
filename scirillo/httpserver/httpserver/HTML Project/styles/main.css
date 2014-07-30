@@ -1,0 +1,100 @@
+
+
+	#player {
+			width: 451px;
+			height: 101px;
+			background-image: url('assets/mediaplayer/player.png');
+
+			user-select: none;
+			-moz-user-select: none;
+			-webkit-user-select: none;
+		}
+		#blocker {
+			background-color: #f00;
+			opacity: 0;
+			width: 451px;
+			height: 101px;
+			cursor: pointer;
+		}
+		#player DIV {
+			position: absolute;
+		}
+		.button {
+			width: 64px;
+			height: 64px;
+			top: 31px;
+		}
+		#playBtn {
+			left: 324px;
+		}
+		.playBtn {
+			background-image: url('../assets/mediaplayer/buttonPlay.png');
+		}
+		.playBtn:hover {
+			background-image: url('../assets/mediaplayer/buttonPlayHover.png');
+		}
+		#nextBtn {
+			left: 324px;
+		}
+		.nextBtn {
+			background-image: url('../assets/mediaplayer/buttonNext.png');
+		}
+		.nextBtn:hover {
+			background-image: url('../assets/mediaplayer/buttonNextHover.png');
+		}
+		.lastBtn {
+			background-image: url('../assets/mediaplayer/buttonLast.png');
+		}
+		.lastBtn:hover {
+			background-image: url('../assets/mediaplayer/buttonLastHover.png');
+		}
+		.pauseBtn {
+			background-image: url('../assets/mediaplayer/buttonPause.png');
+		}
+		.pauseBtn:hover {
+			background-image: url('../assets/mediaplayer/buttonPauseHover.png');
+		}
+		#stopBtn {
+			left: 387px;
+		}
+		.stopBtn {
+			background-image: url('../assets/mediaplayer/buttonStop.png');
+		}
+		.stopBtn:hover {
+			background-image: url('../assets/mediaplayer/buttonStopHover.png');
+		}
+
+		#labels {
+			top: 35px;
+			left: 37px;
+			position: absolute;
+		}
+		#player LABEL {
+			color: #336666;
+		}
+		#song {
+		}
+		#artist {
+			top: 52px;
+			left: 37px;
+		}
+
+		#track {
+			width: 262px;
+			height: 5px;
+			top: 78px;
+			left: 40px;
+			background-image: url("../assets/mediaplayer/scubberBar.png");
+		}
+
+		#thumb {
+			cursor: pointer;
+			background-image: url("../assets/mediaplayer/scrubberPlayhead.png");
+			width: 16px;
+			height: 16px;
+			top: -5px;
+		}
+		.disabled {
+			opacity: 0.5;
+		}
+
