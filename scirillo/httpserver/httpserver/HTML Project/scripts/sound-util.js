@@ -17,10 +17,7 @@ var instance;
     createjs.Sound.alternateExtensions = ["mp3"];
     createjs.Sound.addEventListener("fileload", handleLoad);
     createjs.Sound.registerManifest(manifest, audioPath);
-    instance = createjs.Sound.play("Music");
-    var soundDur = instance.getDuration();
-    document.getElementById("totalTime").textContent = soundDur;
-
+ //   instance = createjs.Sound.play("Music");
 }
 
 function handleLoad(event) {
@@ -38,25 +35,20 @@ function lastClick(event){
     createjs.Sound.play("Music");
 }
 
+function repeat(event){
+
+}
+
 function handleClick(event) {
     if(playButton.className == "btn button playBtn"){
         playButton.className = "btn button stopBtn"
-        createjs.Sound.play("Music");    
+        instance = createjs.Sound.play("Music");    
+        var soundDur = instance.getDuration();
+        document.getElementById("totalTime").textContent = soundDur;
     }else{
         playButton.className  = "btn button playBtn"
         createjs.Sound.stop("Music");
     }
-    /*if(playButton.textContent == "p"){
-        playButton.textContent = "s";
-        playButton.className = "btn button stopBtn"
-        instance = createjs.Sound.play("Music");
-        createjs.Sound.play("Thunder");    
-    }else{
-        playButton.textContent = "p";
-        playButton.className  = "btn button playBtn"
-        createjs.Sound.stop("Music");
-        createjs.Sound.stop("Thunder");
-    } */   
     trackTime();
 }
 
