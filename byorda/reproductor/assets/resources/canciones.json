@@ -1,46 +1,46 @@
 {
-  "canciones": [
+  "items": [
     {
-      "nombre": "Cancion 1",
-      "album": "Album 1",
-      "artista": "Artista 1",
-      "tiempo": "1:20"
+      "Pista": "Cancion 1",
+      "Album": "Album 1",
+      "Artista": "Artista 1",
+      "Tiempo": "1:20"
     },
     {
-      "nombre": "Cancion 2",
-      "album": "Album 1",
-      "artista": "Artista 1",
-      "tiempo": "2:25"
+      "Pista": "Cancion 2",
+      "Album": "Album 1",
+      "Artista": "Artista 1",
+      "Tiempo": "2:25"
     },
     {
-      "nombre": "Cancion 3",
-      "album": "Album 1",
-      "artista": "Artista 1",
-      "tiempo": "2:15"
+      "Pista": "Cancion 3",
+      "Album": "Album 1",
+      "Artista": "Artista 1",
+      "Tiempo": "2:15"
     },
     {
-      "nombre": "Cancion 4",
-      "album": "Album 2",
-      "artista": "Artista 2",
-      "tiempo": "2:02"
+      "Pista": "Cancion 4",
+      "Album": "Album 2",
+      "Artista": "Artista 2",
+      "Tiempo": "2:02"
     },
     {
-      "nombre": "Cancion 5",
-      "album": "Album 2",
-      "artista": "Artista 2",
-      "tiempo": "3:25"
+      "Pista": "Cancion 5",
+      "Album": "Album 2",
+      "Artista": "Artista 2",
+      "Tiempo": "3:25"
     },
     {
-      "nombre": "Cancion 6",
-      "album": "Album 3",
-      "artista": "Artista 2",
-      "tiempo": "3:02"
+      "Pista": "Cancion 6",
+      "Album": "Album 3",
+      "Artista": "Artista 2",
+      "Tiempo": "3:02"
     },
     {
-      "nombre": "Cancion 7",
-      "album": "Album 3",
-      "artista": "Artista 2",
-      "tiempo": "2:51"
+      "Pista": "Cancion 7",
+      "Album": "Album 3",
+      "Artista": "Artista 2",
+      "Tiempo": "2:51"
     }
   ]
 }

@@ -1,0 +1,288 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"eve",
+				"event"
+			],
+			[
+				"p",
+				"play"
+			],
+			[
+				"e",
+				"eventCount"
+			],
+			[
+				"get",
+				"getAttribute"
+			],
+			[
+				"u",
+				"ul	Tag"
+			],
+			[
+				"t",
+				"tbody	Tag"
+			],
+			[
+				"background-",
+				"background-image"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "scripts/main.js",
+			"settings":
+			{
+				"buffer_size": 2576,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "scripts/utils.js",
+			"settings":
+			{
+				"buffer_size": 457,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 1492,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Browser",
+	"command_palette":
+	{
+		"height": 81.0,
+		"selected_items":
+		[
+		],
+		"width": 392.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/httpserver/HTML Project/scripts/main.js",
+		"/C/httpserver/HTML Project/index.html",
+		"/C/httpserver/HTML Project/scripts/flashplugin-0.5.2.min.js",
+		"/C/Users/santiago.cirillo/Downloads/STProjectMaker-master/STProjectMaker-master/Sample-Templates/HTML Project/scripts/main.js",
+		"/C/Users/santiago.cirillo/Downloads/STProjectMaker-master/STProjectMaker-master/Sample-Templates/HTML Project/index.html",
+		"/C/Users/santiago.cirillo/Downloads/STProjectMaker-master/STProjectMaker-master/Sample-Templates/HTML Project/styles/main.css",
+		"/C/Users/santiago.cirillo/Downloads/SoundJS-release_v0.5.2/SoundJS-release_v0.5.2/examples/TestSuite.html",
+		"/C/Users/santiago.cirillo/Downloads/STProjectMaker-master/STProjectMaker-master/Sample-Templates/HTML Project/_project_name_.sublime-project",
+		"/C/Users/santiago.cirillo/AppData/Roaming/Sublime Text 2/Packages/User/mediatest.sublime-snippet",
+		"/C/Users/santiago.cirillo/AppData/Roaming/Sublime Text 2/Packages/User/mediajs.js"
+	],
+	"find":
+	{
+		"height": 0.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "scripts/main.js",
+					"settings":
+					{
+						"buffer_size": 2576,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1321,
+								1335
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 225.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "scripts/utils.js",
+					"settings":
+					{
+						"buffer_size": 457,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								449,
+								449
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "index.html",
+					"settings":
+					{
+						"buffer_size": 1492,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1275,
+								1275
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 675.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 100.0
+	},
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"",
+				"_project_name_.sublime-project"
+			],
+			[
+				"med",
+				"/C/Users/santiago.cirillo/AppData/Roaming/Sublime Text 2/Packages/User/mediatest.sublime-snippet"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 256.0,
+	"status_bar_visible": true
+}

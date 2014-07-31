@@ -1,16 +1,16 @@
 {
-  "albumes": [
+  "items": [
     {
-      "nombre": "Album 1",
-      "artista": "Artista 1"
+      "Album": "Album 1",
+      "Artista": "Artista 1"
     },
     {
-      "nombre": "Album 2",
-      "artista": "Artista 2"
+      "Album": "Album 2",
+      "Artista": "Artista 2"
     },
     {
-      "nombre": "Album 3",
-      "artista": "Artista 2"
+      "Album": "Album 3",
+      "Artista": "Artista 2"
     }
   ]
 }

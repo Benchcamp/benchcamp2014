@@ -1,0 +1,18 @@
+{"artist": {
+    "items": [
+        {"id": "La renga"},
+        {"id": "Los piojos"},
+        {"id": "Metallica"},
+        {"id": "Oasis"},
+        {"id": "Hermetica"},
+        {"id": "Enanitos verdes"},
+        {"id": "ACDC"},
+        {"id": "Mecano"},
+        {"id": "Marea"},
+        {"id": "NTVG""},
+        {"id": "Las pastillas del abuelo"},
+        {"id": "Los redonditos de ricota"},
+        {"id": "Cosplay"},
+        {"id": "U2"}
+    ]
+}}
