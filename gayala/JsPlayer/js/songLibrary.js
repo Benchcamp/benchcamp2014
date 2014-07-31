@@ -1,3 +1,5 @@
+// http://www.vorbis.com/music/
+
 function SongLibrary() {
     var self = this;
     self.artist = null;
@@ -7,7 +9,7 @@ function SongLibrary() {
     self.getArtists = function (callback) {
         if (self.artist == null)
             fetchJSONFile("assets/json/artists.txt",function (data){
-                self.artist = eval(data);
+                self.artist = JSON.parse(data);
                 callback(self.artist)
             });
         else
@@ -17,7 +19,7 @@ function SongLibrary() {
     self.getSongs = function (callback) {
         if (self.songs == null)
             fetchJSONFile("assets/json/songs.txt",function (data){
-                self.songs = eval(data);
+                self.songs = JSON.parse(data);
                 callback(self.songs)
             });
         else
@@ -27,7 +29,7 @@ function SongLibrary() {
     self.getAlbum = function (callback) {
         if (self.album == null)
             fetchJSONFile("assets/json/albums.txt",function (data){
-                self.album = eval(data);
+                self.album = JSON.parse(data);
                 callback(self.album)
             });
         else

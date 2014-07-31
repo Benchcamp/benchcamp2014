@@ -12,7 +12,12 @@ function fetchJSONFile(path, callback) {
     httpRequest.send(); 
 }
 
-function createTable(data,columns, rowCallback){    
+function getTimeFromMilisecond(miliseconds){    
+    var date = new Date(0, 0, 0, 0, 0, 0, miliseconds);    
+    return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+};
+
+function createTable(data,columns, rowCallback){   
     var table = document.createElement('table');
     
     // add headers
@@ -30,6 +35,8 @@ function createTable(data,columns, rowCallback){
         var tr = document.createElement('tr');
         tr.onclick = rowCallback;
         tr.data = data[i];
+        tr.rowId = i;
+                
         table.appendChild(tr);
         for (var j = 0; j < columns.length; j++) {            
             var td = document.createElement('td');            

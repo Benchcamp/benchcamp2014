@@ -1,10 +1,8 @@
-[
- {album: "Desconocido",
-  artist: "Epoq"
- }
- 
- ,{album: "Favorite Things",
-  artist: "Kenny Beltrey, Badloop, 4T Thieves"
- } 
-
+[{
+		"album" : "Desconocido",
+		"artist" : "Epoq"
+	}, {
+		"album" : "Favorite Things",
+		"artist" : "Kenny Beltrey, Badloop, 4T Thieves"
+	}
 ]

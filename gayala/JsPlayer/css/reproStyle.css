@@ -1,13 +1,10 @@
-.reproductor{
-	background-color : blue ;
+.reproductor{	
 	width: 800px;
 	height: 300px;	
 }
 
-.reproductor .toolBox{
-	background-color : gray;
-	height: 15%;	
-}
+
+
 
 .reproductor .mainContent{
 	overflow: none;
@@ -26,7 +23,7 @@
 	height: 15%;
 }
 
-.reproductor .progressBar{
+.reproductor #progressBar{
 	width: 50%;
 	background-color: orange;
 }
@@ -47,26 +44,32 @@
 }
 
 
+.reproductor .toolBox{
+	background-color : gray;
+	height: 30px;	
+}
+
 .mainContent #content {
     width: 80%;
 	height: 100%;	
 	float: right;    
     font: normal 12px/150% Arial, Helvetica, sans-serif;
-    background: #fff;
-    
+    background: #fff;    
     overflow: hidden;
-    
-    /*
-    border: 1px solid #006699;
-    */
-    
     -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    
+    -moz-border-radius: 3px;    
     border-radius: 3px;
 }
 
-
+.reproductor #nowPlay{
+    height: 20px;
+    text-align: center;
+    cursor: progress;
+    color: #00496B;
+    border-left: 1px solid #E1EEF4;
+    font-size: 12px;
+    font-weight: normal; 
+}
 
 .mainContent #content table { border-collapse: collapse; text-align: left; width: 100%; } 
 
