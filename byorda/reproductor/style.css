@@ -9,6 +9,8 @@
   overflow: hidden;
 }
 
+/* * * * * * */
+
 #contenido {
   overflow: hidden;
   width: auto;
@@ -18,21 +20,26 @@
 
 #contenido table {
   width: 100%;
+  border-collapse: collapse;
+}
+
+#contenido table tr * {
+  text-align: center;
 }
 
 .selected {
-  color: blue;
-  font-weight: bold;
+  background-color: green;
+  color: white;
 }
 
-#contenido table tr td {
-  text-align: center;
-}
+/* * * * * * */
 
 #barra-herramientas {
   text-align: right;
   border: 1px solid blue;
 }
+
+/* * * * * * */
 
 #panel-filtros {
   float: left;
@@ -48,6 +55,8 @@
 #panel-filtros ul input {
   width: 100%;
 }
+
+/* * * * * * */
 
 #controles-reproductor {
   border: 1px solid orange;

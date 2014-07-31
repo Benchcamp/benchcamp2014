@@ -4,43 +4,43 @@
       "Pista": "Cancion 1",
       "Album": "Album 1",
       "Artista": "Artista 1",
-      "Tiempo": "1:20"
+      "Tiempo": "2:55"
     },
     {
       "Pista": "Cancion 2",
       "Album": "Album 1",
       "Artista": "Artista 1",
-      "Tiempo": "2:25"
+      "Tiempo": "2:22"
     },
     {
       "Pista": "Cancion 3",
       "Album": "Album 1",
       "Artista": "Artista 1",
-      "Tiempo": "2:15"
+      "Tiempo": "0:00"
     },
     {
       "Pista": "Cancion 4",
       "Album": "Album 2",
       "Artista": "Artista 2",
-      "Tiempo": "2:02"
+      "Tiempo": "0:00"
     },
     {
       "Pista": "Cancion 5",
       "Album": "Album 2",
       "Artista": "Artista 2",
-      "Tiempo": "3:25"
+      "Tiempo": "0:00"
     },
     {
       "Pista": "Cancion 6",
       "Album": "Album 3",
       "Artista": "Artista 2",
-      "Tiempo": "3:02"
+      "Tiempo": "0:00"
     },
     {
       "Pista": "Cancion 7",
       "Album": "Album 3",
       "Artista": "Artista 2",
-      "Tiempo": "2:51"
+      "Tiempo": "0:00"
     }
   ]
 }

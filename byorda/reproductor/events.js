@@ -1,4 +1,4 @@
-var contadorEventos, controlesAuditables, logEventos, jsonCanciones, jsonAlbumes, jsonArtistas;
+var contadorEventos, controlesAuditables, logEventos, jsonCanciones, jsonAlbumes, jsonArtistas, filtroSeleccionado;
 
 contadorEventos = 0;
 controlesAuditables = ["btnFiltroCanciones", "btnFiltroAlbumes", "btnFiltroArtistas", "btnMute", "btnPlayPausa", "btnAtras", "btnSiguiente", "btnRepetir", "btnRandom"];
@@ -56,4 +56,3 @@ function mostrarAlbumes() {
 function mostrarArtistas() {
   mostrarContenidoJSON(jsonArtistas);
 }
-

@@ -6,8 +6,7 @@
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
-<!-- <body onload="init()"> -->
-<body>
+<body onload="init()">
   <div id="wrapper">
     <div id="barra-herramientas">
       <label id="lblContadorEventos" value="">0</label>
@@ -33,10 +32,10 @@
         <li><input name="Atras" id="btnAtras" type="button" value="<<"></li>
         <li><input name="Play/Pausa" id="btnPlayPausa" type="button" value=">"></li>
         <li><input name="Siguiente" id="btnSiguiente" type="button" value=">>"></li>
-        <label>0:00</label>
+        <label id="lblTiempoActual">00:00</label>
         <li><input name="Mute" id="btnMute" type="button" value="<)/"></li>
         <!--SLIDER-->
-        <label>0:00</label>
+        <label id="lblTiempoTotal">00:00</label>
         <li><input name="Repetir" id="btnRepetir" type="button" value="L"></li>
         <li><input name="Random" id="btnRandom" type="button" value="R"></li>
       </ul>
