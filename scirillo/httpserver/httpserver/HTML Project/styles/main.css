@@ -74,6 +74,9 @@
 		}
 		#song {
 		}
+		#tbl, th, td {
+   			border: 1px solid black;
+		}
 		#artist {
 			top: 52px;
 			left: 37px;
@@ -88,6 +91,7 @@
 		}
 
 		#thumb {
+			position:relative;
 			cursor: pointer;
 			background-image: url("../assets/mediaplayer/scrubberPlayhead.png");
 			width: 16px;
