@@ -9,15 +9,16 @@
 	<h1>Media Test</h1>
 	<table>
 		<tbody>
-			<tr>			
+			<tr>		
 				<td>
-					  <label id="lbl">0</label>	
-				</td>
+					<button onclick="readFile(event);">Read File</button>
+				</td>	
+				
 				<td>
 					<button id="bntEvent" onclick="showEventDetail(event);">Eventos</button>
 				</td>
 				<td>
-					<button onclick="readFile(event);">Read File</button>
+					  <label id="lbl">0</label>	
 				</td>
 			</tr>
 			<tr>
@@ -43,25 +44,45 @@
 					<div id="main"></div>
 				</td>
 			</tr>
-			<tr>		
-					<td>
- 						<div id="playNext" class="btn button lastBtn"></div>
-					</td>		
-					<td>
-						<div id="playBtn" class="btn button playBtn">p</div>
-					</td>	
-					<td>
-						<div id="playLast" class="btn button nextBtn"></div>
-						
-					</td>
-					<td>
-						<div id="track">
-							<div id="progress"></div>
-							<div id="thumb"></div>
-						</div>
-					</td>		
-			</tr>
+				
 		</tbody>	
+	</table>
+	<table>	
+		<tbody>
+			<tr>		
+				<td>
+					<div id="nextBtn" class="btn button lastBtn"></div>
+				</td>		
+				<td>
+					<div id="playBtn" class="btn button playBtn"></div>
+				</td>	
+				<td>
+					<div id="lastBtn" class="btn button nextBtn"></div>
+					
+				</td>
+				<td>
+					<label id="actualTime">0</label>
+				</td>
+				<td>
+					<div id="track">						
+						<div id="progress"></div>
+						<div id="thumb"></div>					
+					</div>
+				</td>		
+				<td>
+					<label id="totalTime"></label>	
+				</td>
+				<td>
+					<button id="muteBtn" class="btn">Mute</button>
+				</td>
+				<td>
+					<button id="repeatBtn" class="btn">L</button>
+				</td>
+				<td>
+					<button id="randomBtn" class="btn">R</button>
+				</td>
+			</tr>
+		</tbody>
 	</table>
 
 
