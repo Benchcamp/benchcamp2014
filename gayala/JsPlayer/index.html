@@ -3,34 +3,41 @@
 		<title>Js Player</title>
         <link rel="stylesheet" type="text/css" href="css/reproStyle.css">
         <link rel="stylesheet" type="text/css" href="css/button.css">
+        <link rel="stylesheet" type="text/css" href="css/popup.css">
         
 		<script src="js/soundjs-0.5.2.min.js"></script>
 
         <script type="text/javascript" src="js/utility.js" ></script>
         <script type="text/javascript" src="js/songLibrary.js" ></script>
         <script type="text/javascript" src="js/jsplayer.js" ></script>
+        <script type="text/javascript" src="js/sliderAnimation.js" ></script>        
 		<script type="text/javascript" src="js/main.Js" ></script>
+        <script type="text/javascript" src="js/popup.js" ></script>
 		
 
 		<script type="text/javascript">
 			init();
 		</script>
+                
 
 	</head>
 
 	<body>
-
 		<div class="reproductor" >
-			<div class="toolBox"></div>
-	
+
+			<div class="toolBox">                                
+                <button id="eventsButton"  class="buttonTop">
+                    <span>(</span><span id="eventCounter" >0</span><span>) Eventos</span>                    
+                </button>
+            </div>	
 
 			<div class="mainContent" >
 				<div class="filter">
 	
 				<ul>
-					<li id="songFilter" class="button" >Canciones</li>
-					<li id="albumFilter" class="button" >&Aacute;lbums</li>
-					<li id="artistFilter" class="button" >Artistas</li>
+					<li id="songFilter"  class="buttonLeft" >Canciones</li>
+					<li id="albumFilter" class="buttonLeft" >&Aacute;lbums</li>
+					<li id="artistFilter" class="buttonLeft" >Artistas</li>
 				</ul>			
 				</div>
                 
@@ -66,6 +73,27 @@
 		</div>
 
 
+        <!-- popup -->
+        <div id="popDiv" style="display: none;" >
+            <div class="ontop"></div>
+			<table border="0" id="popup">
+				<tr>
+					<td>
+						<h1>Eventos</h1>
+					</td>
+				</tr>
+				<tr>
+					<td>
+                        <div id="eventPlace"></div>
+					</td>
+				</tr>
+                <tr class="footer">
+                    <td>
+                        <a href="#" id="popupCloseButton" class="buttonTop" >Cerrar</a>
+                    </td>
+                </tr>
+			</table>
+		</div>
 
 
 	</body>

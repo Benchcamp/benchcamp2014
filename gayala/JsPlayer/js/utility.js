@@ -38,23 +38,32 @@ function createTable(data,columns, rowCallback){
         tr.rowId = i;
                 
         table.appendChild(tr);
-        for (var j = 0; j < columns.length; j++) {            
-            var td = document.createElement('td');            
+        for (var j = 0; j < columns.length; j++) {
+            var td = document.createElement('td');
             td.appendChild(document.createTextNode(data[i][columns[j]]));
-            tr.appendChild(td);            
-        }        
+            tr.appendChild(td);
+        }
     }
     
-    return table;    
+    return table;
 }
 
 
-function Eventlog() {
+function Eventlog(eventCounter) {
     var self = this;
     self.events = [];
+    
+    self.getEvents = function () {
+        return self.events;
+    };
     
     self.add = function (action, element) {
 		var now = (new Date()).toLocaleString();
 		self.events.push({action: action, element: element, time: now}); // use self by Closure
-	};
+        
+        if(eventCounter != null)
+            eventCounter.innerText = self.events.length;
+        
+	};    
+    
 }

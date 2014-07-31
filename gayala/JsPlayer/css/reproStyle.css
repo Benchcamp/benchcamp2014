@@ -4,22 +4,20 @@
 }
 
 
-
-
 .reproductor .mainContent{
 	overflow: none;
 	height: 70%;
 }
 
-.reproductor .mainContent .filter{
-	background-color : red;
+.reproductor .mainContent .filter{	
+    margin-top: 50px;
+    text-align: right;
 	width: 20%;	
 	height: 100%;
 	float: left;
 }
 
-.reproductor .control{
-	background-color : purple;
+.reproductor .control{	
 	height: 15%;
 }
 
@@ -45,8 +43,7 @@
 
 
 .reproductor .toolBox{
-	background-color : gray;
-	height: 30px;	
+    text-align: right;	
 }
 
 .mainContent #content {
@@ -67,17 +64,27 @@
     cursor: progress;
     color: #00496B;
     border-left: 1px solid #E1EEF4;
-    font-size: 12px;
-    font-weight: normal; 
+    font-size: 14px;
+    font-weight: bold; 
 }
 
 .mainContent #content table { border-collapse: collapse; text-align: left; width: 100%; } 
 
 
 .mainContent #content  td, .mainContent #content table th { padding: 3px 10px; }
-.mainContent #content  th {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; color:#FFFFFF; font-size: 15px; font-weight: bold; border-left: 1px solid #0070A8; } 
+.mainContent #content  th {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #79bbff), color-stop(1, #378de5) );
+	background:-moz-linear-gradient( center top, #79bbff 5%, #378de5 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#79bbff', endColorstr='#378de5');
+	background-color:#79bbff;
+
+    color:#FFFFFF; 
+    font-size: 15px; 
+    font-weight: bold; 
+    border-left: 1px solid #0070A8; 
+} 
 .mainContent #content  th:first-child { border: none; }
-.mainContent #content  td { cursor: pointer ; color: #00496B; border-left: 1px solid #E1EEF4;font-size: 12px;font-weight: normal; }
+.mainContent #content  td { cursor: pointer ; color: #00496B; border-left: 1px solid #0070A8;font-size: 12px;font-weight: normal; }
 .mainContent #content .sel td { cursor: default ;  background: #E1EEF4; color: #00496B; }
 .mainContent #content  td:first-child { border-left: none; }
 .mainContent #content  tr:last-child td { border-bottom: none; }
