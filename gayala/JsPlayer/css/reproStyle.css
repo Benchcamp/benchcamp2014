@@ -1,6 +1,10 @@
 .reproductor{	
 	width: 800px;
-	height: 300px;	
+	height: 400px;	
+    border: 1px solid #79bbff;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;    
+    border-radius: 8px;
 }
 
 
@@ -18,12 +22,18 @@
 }
 
 .reproductor .control{	
-	height: 15%;
+	height: 50px;
 }
 
 .reproductor #progressBar{
+    padding: 5px;
 	width: 50%;
-	background-color: orange;
+    background: #E1EEF4; 
+    color: #00496B;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;    
+    border-radius: 10px;
+    border: 1px solid #79bbff;
 }
 
 .reproductor .control div{		
@@ -77,7 +87,6 @@
 	background:-moz-linear-gradient( center top, #79bbff 5%, #378de5 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#79bbff', endColorstr='#378de5');
 	background-color:#79bbff;
-
     color:#FFFFFF; 
     font-size: 15px; 
     font-weight: bold; 
