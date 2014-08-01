@@ -1,4 +1,10 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
 body{
+    background: #FFF;
     width: 90%;
     height: 600px;
 }
@@ -60,6 +66,18 @@ body{
 
 .track{ width: 45%; } artist{ width: 15%; }  time{ width: 15%; } album{ width: 25%; }
 
+#listOfMusic tr{
+    background: #DDD;
+}
+
+#listOfMusic tr:hover{
+    background: #A72;
+}
+
+.songSelected{
+    background: blue !important;
+}
+
 .buttonsPlayers{
     
     width: 100%;
@@ -79,4 +97,27 @@ body{
 .shadowbox{
     display: none;
 }
+
+#track {
+    width: 262px;
+    height: 5px;
+    top: 78px;
+    left: 40px;
+    background-image: url("img/scubberBar.png");
+}
     
+#player DIV {
+    position: absolute;
+}
+
+#thumb {
+    cursor: pointer;
+    background-image: url("img/scrubberPlayhead.png");
+    width: 16px;
+    height: 16px;
+    top: -5px;
+}
+
+.select{
+    width: 300px;
+}

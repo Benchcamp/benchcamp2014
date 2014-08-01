@@ -4,6 +4,7 @@
         <title>Glober Player</title>
         <link rel="stylesheet" type="text/css" href="HomePlayer.css">
         <script type="text/javascript" src="soundjs-0.5.2.min.js"></script>
+        <script type="text/javascript" src="CountEvents.js" ></script>
         <script type="text/javascript" src="LogicPlayer.js" ></script>
     </head>
     <body>
@@ -18,6 +19,7 @@
                 document.getElementById("repeat").addEventListener('click', repeat, false);
                 document.getElementById("loop").addEventListener('click', loop, false);
                 loadSongs();
+                loadSound();
             }
         </script>
         
@@ -46,13 +48,9 @@
                         </tr>
                     </thead>
                     <tbody id="listOfMusic">
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                        
                     </tbody>
+                    
                 </table>
             </div>
         </div>
@@ -62,9 +60,10 @@
                 <input type="button" id="play" value="Play">
                 <input type="button" id="next" value="Next">
             </div>
-            <div>
-                
-            </div>
+            <div id="track" style="display: block;">
+				<div id="progress" style="display: none;"></div>
+				<div id="thumb" style="left: 0px;"></div>
+			</div>
             <div class="listOptions">
                 
                 <input type="button" id="repeat" value="R">
