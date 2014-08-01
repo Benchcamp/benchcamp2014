@@ -102,7 +102,7 @@ function ConvertJsonToTable(parsedJson, tableId, tableClassName, linkText)
             {
                 tbCon += tdRow.format(parsedJson[i]);
                 trCon += tr.format(tbCon);
-                tbCon = '';
+                tbCon = '';             
             }
         }
         else
@@ -124,7 +124,7 @@ function ConvertJsonToTable(parsedJson, tableId, tableClassName, linkText)
                         else
                         {
                             if(value){
-                            	if(typeof(value) == 'object'){
+                            	if(typeof(value) == 'object'){                                     
                             		//for supporting nested tables
                             		tbCon += tdRow.format(ConvertJsonToTable(eval(value.data), value.tableId, value.tableClassName, value.linkText));
                             	} else {
@@ -142,8 +142,7 @@ function ConvertJsonToTable(parsedJson, tableId, tableClassName, linkText)
             }
         }
         tb = tb.format(trCon);
-        tbl = tbl.format(th, tb);
-
+        tbl = tbl.format(th, tb);      
         return tbl;
     }
     return null;

@@ -59,21 +59,7 @@ function handleLoad(event) {
 
  document.addEventListener("DOMContentLoaded", function(event) {
     console.log("DOM fully loaded and parsed");
-     var tbl = document.getElementById('tbl');
-         var jsonHtmlTable = ConvertJsonToTable(data, 'tbl', null);
-         tbl.innerHTML = jsonHtmlTable;
-         var rows = tbl.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-         for (i = 0; i < rows.length; i++) {
-            rows[i].onclick = function() {
-                alert(this.rowIndex + 1);
-            }
-            rows[i].onmouseover = function(){
-                 this.style.backgroundColor = '#f3f8aa';
-             };
-               rows[i].onmouseout = function() {
-                 this.style.backgroundColor = 'transparent';
-            };
-    }
+     loadInitialData();
    // readTextFile("C:\src\Files\Artist.txt");
     document.getElementById("parent-list").addEventListener("click",function(e) {
 	// e.target is the clicked element!
@@ -132,16 +118,41 @@ function handleLoad(event) {
 		}	
   });
 
-
-    function showEventDetail(event){        
-        var tbl = document.getElementById('tbl');
-        var jsonHtmlTable = ConvertJsonToTable(eventList, 'tbl', null);
-        if(showEvents){
-            tbl.innerHTML = "";
-            showEvents = false;
-        }else{
-            tbl.innerHTML = jsonHtmlTable;
-            showEvents = true;
-        }	
+function loadInitialData(){
+    var tbl = document.getElementById('tbl');
+         var jsonHtmlTable = ConvertJsonToTable(manifest, 'tbl', null);
+         tbl.innerHTML = jsonHtmlTable;
+         var rows = tbl.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+         for (i = 0; i < rows.length; i++) {
+            rows[i].onclick = function() {
+                songIndex = this.rowIndex -1;
+                playSong();
+            };
+            rows[i].onmouseover = function(){
+                 this.style.backgroundColor = '#f3f8aa';
+             };
+               rows[i].onmouseout = function() {
+                 this.style.backgroundColor = 'transparent';
+            };
     }
+}
+
+function setCurrentRow(){
+    var jsonHtmlTable = ConvertJsonToTable(manifest, 'tbl', null);
+     tbl.innerHTML = jsonHtmlTable;
+     var rows = tbl.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+     rows[songIndex].style.backgroundColor = '#f3f8aa';         
+}
+
+function showEventDetail(event){        
+    var tbl = document.getElementById('tbl');
+    var jsonHtmlTable = ConvertJsonToTable(eventList, 'tbl', null);
+    if(showEvents){
+        loadInitialData();
+        showEvents = false;
+    }else{
+        tbl.innerHTML = jsonHtmlTable;
+        showEvents = true;
+    }	
+}
 
