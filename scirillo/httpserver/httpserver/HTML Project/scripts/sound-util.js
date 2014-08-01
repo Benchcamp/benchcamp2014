@@ -3,6 +3,7 @@ var playButton, nextButton, lastButton, randomButton, repeatButton;
 var instance;
 var currentSong;
 var songIndex = 0;
+var repeat = false;
 var manifest = [
     {id:"Music", src:"18-machinae_supremacy-lord_krutors_dominion.ogg"},
     {id:"Thunder", src:"Thunder1.ogg"},
@@ -23,8 +24,13 @@ var manifest = [
     createjs.Sound.alternateExtensions = ["mp3"];
     createjs.Sound.addEventListener("fileload", handleLoad);
     createjs.Sound.registerManifest(manifest, audioPath);
- //   instance = createjs.Sound.play("Music");
+    var bar = document.getElementById('bar');
+    var slider = document.getElementById('slider');
+    bar.addEventListener('mousedown', clickSlider, false);
+    bar.addEventListener('mouseup', finDeslizar, false);
 }
+
+
 
 function handleLoad(event) {
     playButton.addEventListener("click", playClick, false);
@@ -52,24 +58,15 @@ function lastClick(event){
 }
 
 function rapeatClick(event){
-    var repeat = false;
-    if(this.style.backgroundColor != '#f3f8aa'){      
+    if(!repeat){      
         this.style.backgroundColor = '#f3f8aa';
-        repeat = true;
-        repeatSong(repeat);        
+        repeat = true;       
     }else{
-        this.style.backgroundColor = '#transparent';    
+        this.style.backgroundColor = 'buttonface';    
         repeat = false;
     }
 }
 
-function repeatSong(repeat){
-    //while(repeat){
-        if(instance.getPosition() == instance.getDuration()){
-            playSong();
-      //  }   
-    } 
-}
 
 function randomClick(event){
     songIndex = getRandomInt(0, manifest.length);
@@ -80,14 +77,23 @@ function randomClick(event){
 function playSong(){
     playButton.className = "btn button stopBtn"
     instance = createjs.Sound.play(manifest[songIndex].id);    
+    instance.addEventListener("complete", handleComplete);
     currentSong = manifest[songIndex].id;    
     document.getElementById("totalTime").textContent = parseTime(instance.getDuration());
     setCurrentRow();
 }
 
+function handleComplete(event){
+    if(repeat){
+        playSong();
+    }else{
+        playButton.className  = "btn button playBtn"
+    }
+}
+
 function stopSong(){
    playButton.className  = "btn button playBtn"
-   createjs.Sound.stop(manifest[songIndex].id);
+   createjs.Sound.stop(manifest[songIndex].id);   
 }
 
 function parseTime(tmeMs){
@@ -99,10 +105,11 @@ function parseTime(tmeMs){
 function playClick(event) {
     if(playButton.className == "btn button playBtn"){
        playSong();
+       trackTime();
     }else{
         stopSong();
     }
-    trackTime();
+   
 }
 
 var positionInterval;
@@ -112,6 +119,7 @@ function trackTime() {
     positionInterval = setInterval(function(event) {
         if(seeking) { return; }
             document.getElementById("actualTime").textContent = parseTime(instance.getPosition());
-
+           // document.getElementById("thumb").style.left = parseTime(instance.getPosition())+'px;';
+            slider.style.width = ((instance.getPosition()*100)/instance.getDuration()) + '%';
     }, 30);
 }
