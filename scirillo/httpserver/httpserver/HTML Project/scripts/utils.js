@@ -58,4 +58,10 @@ var albumUrl = "http://localhost:8080/assets/resources/albums/albmus.txt";
 	    AJAX_req.send();
 	}
 
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+
+
     

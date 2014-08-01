@@ -4,6 +4,34 @@
 		"selected_items":
 		[
 			[
+				"tex",
+				"textContent"
+			],
+			[
+				"pl",
+				"play"
+			],
+			[
+				"artista",
+				"Artista"
+			],
+			[
+				"s",
+				"songUrl"
+			],
+			[
+				"album",
+				"albumUrl"
+			],
+			[
+				"ur",
+				"artistUrl"
+			],
+			[
+				"pla",
+				"playButton"
+			],
+			[
 				"eve",
 				"event"
 			],
@@ -39,7 +67,7 @@
 			"file": "scripts/main.js",
 			"settings":
 			{
-				"buffer_size": 2576,
+				"buffer_size": 5323,
 				"line_ending": "Windows"
 			}
 		},
@@ -47,7 +75,7 @@
 			"file": "scripts/utils.js",
 			"settings":
 			{
-				"buffer_size": 457,
+				"buffer_size": 1756,
 				"line_ending": "Windows"
 			}
 		},
@@ -55,8 +83,24 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 1492,
-				"line_ending": "Unix"
+				"buffer_size": 2511,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "scripts/sound-util.js",
+			"settings":
+			{
+				"buffer_size": 2255,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "styles/main.css",
+			"settings":
+			{
+				"buffer_size": 1977,
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -84,6 +128,7 @@
 	},
 	"file_history":
 	[
+		"/C/Users/santiago.cirillo/Documents/benchcamp2014/scirillo/httpserver/httpserver/HTML Project/scripts/json-to-table.js",
 		"/C/httpserver/HTML Project/scripts/main.js",
 		"/C/httpserver/HTML Project/index.html",
 		"/C/httpserver/HTML Project/scripts/flashplugin-0.5.2.min.js",
@@ -97,7 +142,7 @@
 	],
 	"find":
 	{
-		"height": 0.0
+		"height": 34.0
 	},
 	"find_in_files":
 	{
@@ -111,6 +156,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"readFile"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -128,7 +174,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -136,15 +182,15 @@
 					"file": "scripts/main.js",
 					"settings":
 					{
-						"buffer_size": 2576,
+						"buffer_size": 5323,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1321,
-								1335
+								511,
+								511
 							]
 						],
 						"settings":
@@ -154,7 +200,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 225.0,
+						"translation.y": 990.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -164,15 +210,15 @@
 					"file": "scripts/utils.js",
 					"settings":
 					{
-						"buffer_size": 457,
+						"buffer_size": 1756,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								449,
-								449
+								1039,
+								1039
 							]
 						],
 						"settings":
@@ -180,7 +226,7 @@
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 225.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -190,15 +236,15 @@
 					"file": "index.html",
 					"settings":
 					{
-						"buffer_size": 1492,
+						"buffer_size": 2511,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1275,
-								1275
+								518,
+								518
 							]
 						],
 						"settings":
@@ -207,7 +253,62 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 675.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "scripts/sound-util.js",
+					"settings":
+					{
+						"buffer_size": 2255,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								760,
+								760
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 135.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "styles/main.css",
+					"settings":
+					{
+						"buffer_size": 1977,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								785,
+								785
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 225.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -260,6 +361,10 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"m",
+				"scripts/main.js"
+			],
 			[
 				"",
 				"_project_name_.sublime-project"
