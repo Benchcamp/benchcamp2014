@@ -88,6 +88,7 @@ function reproducirCancion () {
 		if (cancionSeleccionada[0] !== null) {
 			nombreCancion = cancionSeleccionada[0].innerHTML
 			//TODO: El formato... UPDATE: se arregla con el refactoring de la carga de canciones.
+			createjs.Sound.removeAllSounds();
 			createjs.Sound.registerSound(musicPath + nombreCancion + ".mp3", "playing", musicPath);
 		}
 	}
