@@ -78,11 +78,19 @@ function init() {
         document.getElementById("prev").onclick = function(){ 
             logger.add("click", "Previous Button");
             player.previous();
+//            if(player.isPlaying()){
+//                player.stop();
+//                player.play();
+//            } 
         };
         
         document.getElementById("next").onclick = function(){ 
             logger.add("click", "Next Button");
             player.next();
+//            if(player.isPlaying()){
+//                player.stop();
+//                player.play();
+//            }                
         };
                 
         document.body.onkeydown = function (e) {

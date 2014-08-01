@@ -21,10 +21,14 @@ function SliderAnimation(place){
         
         self.curent = document.createElement('div');
         self.curent.style.float = "left";
+        self.curent.style.borderRight = "1px solid #0070A8";
+        self.curent.style.textAlign = "right";
         
         self.end = document.createElement('div');
         self.end.style.float = "right";
-                
+        self.end.style.borderLeft = "1px solid #0070A8";
+        self.end.style.textAlign = "left";
+        
         self.pin.style.position="absolute";
         
         
@@ -47,8 +51,8 @@ function SliderAnimation(place){
         var data = self.callback()
         var percent = Math.round((data.current * 100) /data.max);        
         
-        var currentDate = getTimeFromMilisecond(data.current);                        
-        var maxDate =  getTimeFromMilisecond(data.max);
+        var currentTime = getTimeFromMilisecond(data.current);                        
+        var maxTime =  getTimeFromMilisecond(data.max);
         
         var leftPosition = self.curent.offsetLeft - self.curent.scrollLeft + self.curent.offsetWidth + self.pin.offsetWidth;
         var rightPosition = self.end.offsetLeft - self.end.scrollLeft + self.pin.offsetWidth;
@@ -61,7 +65,7 @@ function SliderAnimation(place){
         self.pin.style.left = newPosition;        
         //self.pin.innerText = percent + " %";        
         
-        self.curent.innerText = currentDate;
-        self.end.innerText = maxDate;
+        self.curent.innerText = currentTime;
+        self.end.innerText = maxTime;
     };
 }
