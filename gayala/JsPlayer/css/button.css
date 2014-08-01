@@ -1,4 +1,5 @@
 .button {
+    cursor: pointer;
 	-moz-box-shadow:inset 0px 1px 0px 0px #bbdaf7;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #bbdaf7;
 	box-shadow:inset 0px 1px 0px 0px #bbdaf7;
@@ -93,7 +94,7 @@
 
 
 .buttonLeft {
-    
+    cursor: pointer;
 	-moz-box-shadow:inset 0px 1px 0px 0px #bbdaf7;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #bbdaf7;
 	box-shadow:inset 0px 1px 0px 0px #bbdaf7;
@@ -222,8 +223,8 @@
 	font-size:15px;
 	font-weight:bold;
 	font-style:normal;
-	height:50px;
-	line-height:50px;
+	height:30px;
+	line-height:30px;
 	width:100px;
 	text-decoration:none;
 	text-align:center;

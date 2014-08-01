@@ -1,19 +1,41 @@
 function JSPlayer(config) {
     var _states = {playing: "Playing", stopped: "Stopped"};
     var self = this;
-    
+    self._currentState;
+    self._loop = false;
+    self._random = false;            
     self.playerInstance = null;    
 	self.library = new SongLibrary();
     self.selectedRow = null;
     self.table = null;
     self.currentSong = null;    
     self.changeStateCallback = config.changeStateCallback;	
+    self.changeConfigCallback = config.changeConfigCallback;	
     self.selectRowCallback = config.selectRowCallback;
     self.contentPlace = config.contentPlace;
     self.nowPlayPlace = config.nowPlayPlace;
     self.progressBarPlace = config.progressBarPlace;
     self.slider = new SliderAnimation(self.progressBarPlace);        
 
+    self.loop = function(value){
+        if(arguments.length == 0)
+            return self._loop;
+        
+        self._loop = value;
+        self.notifyChangeConfig();
+        return self;
+    }
+    
+    self.random = function(value){        
+        if(arguments.length == 0)
+            return self._random;
+        
+        self._random = value;
+        self.notifyChangeConfig();
+        return self;
+    }
+    
+    
 	self.init = function () {
 	    if (!createjs.Sound.initializeDefaultPlugins()) {
             alert("Error trying initialize sound plugin");
@@ -75,8 +97,15 @@ function JSPlayer(config) {
     };
     
     self.notifyChangeState = function (newState){
+        self._currentState = newState;
+        
         if(self.changeStateCallback != null) 
             self.changeStateCallback(newState);
+    };
+    
+    self.notifyChangeConfig = function (){
+        if(self.changeConfigCallback != null) 
+            self.changeConfigCallback(self);
     };
     
     self.play = function () {
@@ -117,11 +146,11 @@ function JSPlayer(config) {
     };
     
     self.isPlaying = function () {
-        return self.playerInstance == null || self.playerInstance.playState != "playSucceeded";
+        return self._currentState != null && self._currentState == _states.playing;
     };
     
     self.playStop = function () {        
-        if (self.isPlaying()) {
+        if (!self.isPlaying()) {
             self.play();
         }else{
             self.stop()
@@ -130,10 +159,14 @@ function JSPlayer(config) {
 
 
 	self.onPlayerComplete = function () {
-        self.stop();
+        
+        if(self._loop)
+            self.next();
+        else
+            self.stop();        
 	};
     
-    self.slide = function (positions) {        
+    self.slide = function (positions) {
         if(self.table != null){
             var length = self.table.rows.length;
             
@@ -152,10 +185,34 @@ function JSPlayer(config) {
     };
     
     self.next = function () {        
-        self.slide(1);
+        if(self._random)
+             self._nextRandom();
+        else
+            self.slide(1);
+        
+        if(self.isPlaying())
+            self.play();
+        
     };
     
     self.previous = function () {
-        self.slide(-1);
-    };    
+        if(self._random)
+             self._nextRandom();
+        else
+            self.slide(-1);
+        
+        if(self.isPlaying())
+            self.play();
+    };
+    
+    self._nextRandom = function () {        
+        var length = self.table.rows.length;        
+        var next = Math.floor(Math.random() * length) - 1;        
+        
+        if(next == 0) next++;// grant change sound
+        
+        self.slide(next);
+    };
+    
+    self.notifyChangeConfig();
 }

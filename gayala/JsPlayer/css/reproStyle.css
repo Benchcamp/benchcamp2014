@@ -25,9 +25,10 @@
 	height: 50px;
 }
 
-.reproductor #progressBar{
+.reproductor .display{
     padding: 5px;
 	width: 50%;
+    height: 100%;
     background: #E1EEF4; 
     color: #00496B;
     -webkit-border-radius: 10px;
@@ -35,6 +36,16 @@
     border-radius: 10px;
     border: 1px solid #79bbff;
 }
+
+.reproductor .display .config#right{
+    height: 1px;
+    width: 100%;
+    display: inline-block;
+    font: normal 8px Arial, Helvetica, sans-serif;    
+    vertical-align: top;
+    text-align: right;
+}
+
 
 .reproductor #progressBar div{
 	width: 50px;

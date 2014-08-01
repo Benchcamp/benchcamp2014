@@ -20,6 +20,21 @@ function init() {
         logger.add("click", "Selected Row");
     };
     
+    
+    self.onChangeConfig = function(sender){
+        
+        var confDisplay = document.querySelector(".display .config");
+        confDisplay.innerText = "";
+        
+        
+        if(sender.loop())
+            confDisplay.innerText += " L ";
+                
+        if(sender.random())
+            confDisplay.innerText += " R ";
+        
+    };
+    
 	window.onload = function () {
         
         // add logger and popup in document
@@ -31,11 +46,12 @@ function init() {
             nowPlayPlace: document.querySelector("#nowPlay"),
             progressBarPlace: document.querySelector("#progressBar"),
             selectRowCallback: self.selectRowCallback,
-            changeStateCallback: self.onChangeState
+            changeStateCallback: self.onChangeState,
+            changeConfigCallback: self.onChangeConfig
         });           
 
         document.getElementById("eventsButton").onclick = function(){
-            logger.add("click", "Events Button");
+            //logger.add("click", "Events Button");
             
             var events = logger.getEvents();            
             var table = createTable(events, ["action", "element", "time"], null);
@@ -78,20 +94,23 @@ function init() {
         document.getElementById("prev").onclick = function(){ 
             logger.add("click", "Previous Button");
             player.previous();
-//            if(player.isPlaying()){
-//                player.stop();
-//                player.play();
-//            } 
         };
         
         document.getElementById("next").onclick = function(){ 
             logger.add("click", "Next Button");
             player.next();
-//            if(player.isPlaying()){
-//                player.stop();
-//                player.play();
-//            }                
+              
         };
+        
+        document.getElementById("LButton").onclick = function(){ 
+            player.loop(!player.loop());
+        };
+        
+        document.getElementById("RButton").onclick = function(){ 
+            player.random(!player.random());
+        };
+        
+        
                 
         document.body.onkeydown = function (e) {
             switch(e.keyCode){
