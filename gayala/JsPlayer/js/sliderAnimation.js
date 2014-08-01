@@ -8,33 +8,53 @@ function SliderAnimation(place){
     self.curent;
     self.end;
 	
-	
+
     self.start = function (callback) {
         self.stop();
         self.callback = callback;
         self.interval = window.setInterval(self._refresh, 100);
         
+
         
+        var table = document.createElement('div');
+        table.style.display = "table";
+        table.style.width = "100%";
+        self.place.appendChild(table);
         
-        self.pin = document.createElement('span');        
+        var tableRow = document.createElement('div');
+        tableRow.style.display = "table-row";
+        table.appendChild(tableRow);
+        
+        var content = document.createElement('div');
+        content.style.display = "table-cell";      
+        content.style.paddingRight = 5;
+        content.style.paddingTop = "5%";
+        content.style.paddingBottom = "5%";
+        
+        var bar = document.createElement('div');        
+        bar.classList.add("bar");
+        
+        self.pin = document.createElement('span');
         self.pin.classList.add("buttonProgress");
         
+        bar.appendChild(self.pin);        
+        content.appendChild(bar);
+        
+        
         self.curent = document.createElement('div');
-        self.curent.style.float = "left";
-        self.curent.style.borderRight = "1px solid #0070A8";
-        self.curent.style.textAlign = "right";
+        self.curent.style.display = "table-cell";
+        self.curent.style.width = 50;
+        
         
         self.end = document.createElement('div');
-        self.end.style.float = "right";
-        self.end.style.borderLeft = "1px solid #0070A8";
-        self.end.style.textAlign = "left";
+        self.end.style.width = 50;
+        self.end.style.display = "table-cell";     
         
-        self.pin.style.position="absolute";
+                  
         
-        
-        self.place.appendChild(self.curent); 
-        self.place.appendChild(self.pin); 
-        self.place.appendChild(self.end);        
+        tableRow.appendChild(self.curent); 
+        tableRow.appendChild(content); 
+        tableRow.appendChild(self.end);        
         
     };
     
@@ -53,17 +73,10 @@ function SliderAnimation(place){
         
         var currentTime = getTimeFromMilisecond(data.current);                        
         var maxTime =  getTimeFromMilisecond(data.max);
+              
         
-        var leftPosition = self.curent.offsetLeft - self.curent.scrollLeft + self.curent.offsetWidth + self.pin.offsetWidth;
-        var rightPosition = self.end.offsetLeft - self.end.scrollLeft + self.pin.offsetWidth;
-        
-        var distance = rightPosition - leftPosition;        
-        var newPosition = (percent * distance) / 100;        
-        newPosition += leftPosition;
-        
-        
-        self.pin.style.left = newPosition;        
-        //self.pin.innerText = percent + " %";        
+        self.pin.style.marginLeft = percent + "%";
+        self.pin.style.marginRight ="10px";
         
         self.curent.innerText = currentTime;
         self.end.innerText = maxTime;

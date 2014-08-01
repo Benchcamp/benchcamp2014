@@ -17,7 +17,7 @@ function init() {
     }; 
     
     self.selectRowCallback = function (sender){
-        logger.add("click", "Selected Row");
+            logger.add("click", "Selected Row");
     };
     
     
@@ -94,12 +94,17 @@ function init() {
         document.getElementById("prev").onclick = function(){ 
             logger.add("click", "Previous Button");
             player.previous();
+            
+            if(player.isPlaying())
+                player.play();
         };
         
         document.getElementById("next").onclick = function(){ 
             logger.add("click", "Next Button");
             player.next();
-              
+            
+            if(player.isPlaying())
+                player.play();              
         };
         
         document.getElementById("LButton").onclick = function(){ 
@@ -126,8 +131,8 @@ function init() {
                         player.play();
                         logger.add("KeyDown", "Enter");
                     break;
-                    case 27:
-                        hide('popDiv');
+                    case 27:                    
+                        popupEvents.hide();
                     break;
 
             }            

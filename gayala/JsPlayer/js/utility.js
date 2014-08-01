@@ -14,10 +14,10 @@ function fetchJSONFile(path, callback) {
 
 function getTimeFromMilisecond(miliseconds){    
     var date = new Date(0, 0, 0, 0, 0, 0, miliseconds);    
-    return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    return ("0" + date.getMinutes()).slice (-2) + ":" + ("0" +  date.getSeconds()).slice (-2);
 };
 
-function createTable(data,columns, rowCallback){   
+function createTable(data,columns, rowCallback){
     var table = document.createElement('table');
     
     // add headers

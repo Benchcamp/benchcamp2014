@@ -73,6 +73,7 @@ function JSPlayer(config) {
 	};
     
     self.onSelectedRow = function () {
+        
         if(self.selectRowCallback != null)
             self.selectRowCallback(this);
             
@@ -160,10 +161,13 @@ function JSPlayer(config) {
 
 	self.onPlayerComplete = function () {
         
-        if(self._loop)
+        if(self._loop){
             self.next();
+            self.play();
+        }
         else
-            self.stop();        
+            self.stop();            
+        
 	};
     
     self.slide = function (positions) {
@@ -188,10 +192,7 @@ function JSPlayer(config) {
         if(self._random)
              self._nextRandom();
         else
-            self.slide(1);
-        
-        if(self.isPlaying())
-            self.play();
+            self.slide(1);    
         
     };
     
@@ -199,10 +200,7 @@ function JSPlayer(config) {
         if(self._random)
              self._nextRandom();
         else
-            self.slide(-1);
-        
-        if(self.isPlaying())
-            self.play();
+            self.slide(-1);        
     };
     
     self._nextRandom = function () {        
