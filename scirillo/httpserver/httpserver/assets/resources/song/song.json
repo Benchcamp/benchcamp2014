@@ -1,0 +1,11 @@
+{"item": {
+    "items": [
+        {"Pista": "Bicho de ciudad", "Artista":"Los pijos", "Duracion":"5.20", "Album":"Folers"},
+        {"Pista": "El juicio del ganzo", "Artista":"La renga","Duracion":"4.10", "Album":"Bailando en una pata"},
+        {"Pista": "Nothing else matters", "Artista":"Metallica", "Duracion":"5.40", "Album":"Black album"},
+        {"Pista": "One", "Artista":"Metallica", "Duracion":"7.00 ", "Album":"Black album"},
+        {"Pista": "gil trabajador", "Artista":"Hermetica", "Duracion":"4.10", "Album":"Acido argentino"},
+        {"Pista": "Mariposas", "Artista":"Enanitos verdes", "Duracion":"4.50", "Album":"xxx"}
+    ]
+}}
+

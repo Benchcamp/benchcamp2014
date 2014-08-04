@@ -15,11 +15,9 @@ var manifest = [
     lastButton = document.getElementById("lastBtn");
     randomButton = document.getElementById("randomBtn");
     repeatButton = document.getElementById("repeatBtn");
-    // if initializeDefaultPlugins returns false, we cannot play sound in this browser
+
     if (!createjs.Sound.initializeDefaultPlugins()) {return;}
-
     var audioPath = "http://localhost:8080/assets/audio/";
-
 
     createjs.Sound.alternateExtensions = ["mp3"];
     createjs.Sound.addEventListener("fileload", handleLoad);
@@ -29,8 +27,6 @@ var manifest = [
     bar.addEventListener('mousedown', clickSlider, false);
     bar.addEventListener('mouseup', finDeslizar, false);
 }
-
-
 
 function handleLoad(event) {
     playButton.addEventListener("click", playClick, false);
@@ -67,20 +63,19 @@ function rapeatClick(event){
     }
 }
 
-
 function randomClick(event){
     songIndex = getRandomInt(0, manifest.length);
     playSong();
 }
 
-
 function playSong(){
+    setCurrentRow();
     playButton.className = "btn button stopBtn"
     instance = createjs.Sound.play(manifest[songIndex].id);    
     instance.addEventListener("complete", handleComplete);
     currentSong = manifest[songIndex].id;    
-    document.getElementById("totalTime").textContent = parseTime(instance.getDuration());
-    setCurrentRow();
+    document.getElementById("totalTime").textContent = parseTime(instance.getDuration());   
+    trackTime();
 }
 
 function handleComplete(event){
@@ -105,11 +100,9 @@ function parseTime(tmeMs){
 function playClick(event) {
     if(playButton.className == "btn button playBtn"){
        playSong();
-       trackTime();
     }else{
         stopSong();
-    }
-   
+    }   
 }
 
 var positionInterval;
@@ -119,7 +112,6 @@ function trackTime() {
     positionInterval = setInterval(function(event) {
         if(seeking) { return; }
             document.getElementById("actualTime").textContent = parseTime(instance.getPosition());
-           // document.getElementById("thumb").style.left = parseTime(instance.getPosition())+'px;';
             slider.style.width = ((instance.getPosition()*100)/instance.getDuration()) + '%';
     }, 30);
 }
