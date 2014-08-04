@@ -17,7 +17,7 @@ var manifest = [
     repeatButton = document.getElementById("repeatBtn");
 
     if (!createjs.Sound.initializeDefaultPlugins()) {return;}
-    var audioPath = "http://localhost:8080/assets/audio/";
+    var audioPath = "http://localhost:8080/httpserver/httpserver/assets/audio/";
 
     createjs.Sound.alternateExtensions = ["mp3"];
     createjs.Sound.addEventListener("fileload", handleLoad);
