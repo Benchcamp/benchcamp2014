@@ -15,11 +15,9 @@ var manifest = [
     lastButton = document.getElementById("lastBtn");
     randomButton = document.getElementById("randomBtn");
     repeatButton = document.getElementById("repeatBtn");
-    // if initializeDefaultPlugins returns false, we cannot play sound in this browser
+
     if (!createjs.Sound.initializeDefaultPlugins()) {return;}
-
-    var audioPath = "http://localhost:8080/assets/audio/";
-
+    var audioPath = "http://localhost:8080/httpserver/httpserver/assets/audio/";
 
     createjs.Sound.alternateExtensions = ["mp3"];
     createjs.Sound.addEventListener("fileload", handleLoad);
@@ -30,15 +28,13 @@ var manifest = [
     bar.addEventListener('mouseup', finDeslizar, false);
 }
 
-
-
 function handleLoad(event) {
     playButton.addEventListener("click", playClick, false);
     nextButton.addEventListener("click", nextClick, false);
     lastButton.addEventListener("click", lastClick, false);
     randomButton.addEventListener("click", randomClick, false);
     repeatButton.addEventListener("click", rapeatClick, false);
-    playButton.className = "btn button playBtn";
+    playButton.className = "btn icon-play";
 }
 
 function nextClick(event){
@@ -67,32 +63,31 @@ function rapeatClick(event){
     }
 }
 
-
 function randomClick(event){
     songIndex = getRandomInt(0, manifest.length);
     playSong();
 }
 
-
 function playSong(){
-    playButton.className = "btn button stopBtn"
+    setCurrentRow();
+    playButton.className = "btn icon-stop"
     instance = createjs.Sound.play(manifest[songIndex].id);    
     instance.addEventListener("complete", handleComplete);
     currentSong = manifest[songIndex].id;    
-    document.getElementById("totalTime").textContent = parseTime(instance.getDuration());
-    setCurrentRow();
+    document.getElementById("totalTime").textContent = parseTime(instance.getDuration());   
+    trackTime();
 }
 
 function handleComplete(event){
     if(repeat){
         playSong();
     }else{
-        playButton.className  = "btn button playBtn"
+        playButton.className  = "btn icon-play"
     }
 }
 
 function stopSong(){
-   playButton.className  = "btn button playBtn"
+   playButton.className  = "btn icon-play"
    createjs.Sound.stop(manifest[songIndex].id);   
 }
 
@@ -103,13 +98,11 @@ function parseTime(tmeMs){
 }
 
 function playClick(event) {
-    if(playButton.className == "btn button playBtn"){
+    if(playButton.className == "btn icon-play"){
        playSong();
-       trackTime();
     }else{
         stopSong();
-    }
-   
+    }   
 }
 
 var positionInterval;
@@ -119,7 +112,6 @@ function trackTime() {
     positionInterval = setInterval(function(event) {
         if(seeking) { return; }
             document.getElementById("actualTime").textContent = parseTime(instance.getPosition());
-           // document.getElementById("thumb").style.left = parseTime(instance.getPosition())+'px;';
             slider.style.width = ((instance.getPosition()*100)/instance.getDuration()) + '%';
     }, 30);
 }

@@ -7,11 +7,12 @@
 <body onload="init()">
 
 	<h1>Media Test</h1>
-	<table>
+	<div id="wrapper">
+		<table>
 		<tbody>
 			<tr>		
 				<td>
-					<button onclick="readFile(event);">Read File</button>
+					<button onclick="loadInitialData();">Inicio</button>
 				</td>	
 				
 				<td>
@@ -27,10 +28,10 @@
 						<li class="btn" id="artista">Artista</li>
 						<li class="btn" id="album">Album</li>
 						<li class="btn" id="cancion">Cancion</li>
-					<ul>
+					</ul>
 				</td>
 				<td>
-					<table id="tbl" class="tbl">
+					<table id="content" class="tbl">
 						<tbody>
 						</tbody>
 					</table>	
@@ -47,7 +48,7 @@
 				
 		</tbody>	
 	</table>
-	<table>	
+	<!-- <table>	
 		<tbody>
 			<tr>		
 				<td>
@@ -64,10 +65,6 @@
 					<label id="actualTime">0</label>
 				</td>
 				<td>
-					<!--<div id="track">						
-						<div id="progress"></div>
-						<div id="thumb"></div>					
-					</div>-->
 				<div id='bar' style="width: 200px;">
 					<div id='slider'></div>
 				</div>
@@ -87,8 +84,26 @@
 			</tr>
 		</tbody>
 	</table>
+ -->
+<div id="mediaBar">
 
+<ul >
+	<li><span id="lastBtn" class="btn icon-previous"></span></li>
+	<li><span id="playBtn" class="btn icon-play"></span></li>
+	<li><span id="nextBtn" class="btn icon-next"></span>	</li>
+	<li><label id="actualTime">0</label></li>
+	<li><div id='bar' style="width: 200px;">
+		<div id='slider'></div>
+	</div>
+	</li>
+	<li><label id="totalTime"></label>	</li>
+	<li><button id="muteBtn" class="btn">Mute</button></li>
+	<li><button id="repeatBtn" class="btn">L</button></li>
+	<li><button id="randomBtn" class="btn">R</button></li>
+</ul>
+</div>
 
+<link rel="stylesheet" type="text/css" href="styles/style.css">
 <script type="text/javascript" src="scripts/main.js"></script>
 <script type="text/javascript" src="scripts/json-to-table.js"></script>
 <script type="text/javascript" src="scripts/utils.js"></script>
@@ -102,6 +117,10 @@
 <script type="text/javascript" src="scripts/src/soundjs/Sound.js"></script>
 <script type="text/javascript" src="scripts/src/soundjs/WebAudioPlugin.js"></script>
 <script type="text/javascript" src="scripts/src/soundjs/HTMLAudioPlugin.js"></script>
+
+
+</div>
+	
 
 </body>
 </html>

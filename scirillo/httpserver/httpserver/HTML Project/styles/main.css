@@ -1,4 +1,7 @@
-
+li {
+	display: inline;
+	list-style: none;
+}
 
 	#player {
 			width: 451px;
@@ -20,8 +23,8 @@
 			position: absolute;
 		}
 		.button {
-			width: 64px;
-			height: 64px;
+			width: 32px;
+			height: 32px;
 			top: 31px;
 		}
 		#playBtn {
@@ -74,9 +77,30 @@
 		}
 		#song {
 		}
-		#tbl, th, td {
-   			border: 1px solid black;
+
+		.tbl {
+			font-family: verdana,arial,sans-serif;
+			font-size:11px;
+			color:#333333;
+			border-width: 1px;
+			border-color: #666666;
+			border-collapse: collapse;
 		}
+
+		.tbl th {
+			border-width: 1px;
+			padding: 8px;
+			border-style: solid;
+			border-color: #666666;
+			background-color: #dedede;
+		}
+		.tbl td {
+			border-width: 1px;
+			padding: 8px;
+			border-style: solid;
+			border-color: #666666;			
+		}
+		
 		#artist {
 			top: 52px;
 			left: 37px;
@@ -101,17 +125,18 @@
 		.disabled {
 			opacity: 0.5;
 		}
-#bar {
-  width: 40%;
-  height: 5px;
-  border: 1px solid black;
-  position: relative;
-}
- 
-#slider {
-  width: 0%;
-  height: 100%;
-  background-color: green;
-  position: absolute;
-}
+
+		#bar {
+		  width: 40%;
+		  height: 5px;		  
+		  border: 1px solid black;
+		  position: relative;
+		}
+		 
+		#slider {
+		  width: 0%;
+		  height: 100%;
+		  background-color: green;
+		  position: absolute;
+		}
 
