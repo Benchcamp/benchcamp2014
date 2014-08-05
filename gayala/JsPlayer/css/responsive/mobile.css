@@ -1,0 +1,23 @@
+/* mobile style */
+
+.reproductor{
+    
+    
+}
+
+.nav-bar{
+    height: 32px;
+}
+
+.nav-bar #eventsButton{
+    display: none;
+}
+
+
+.mainContent .filter{
+    display: none;
+}
+
+.mainContent #content{
+    display: none;
+}

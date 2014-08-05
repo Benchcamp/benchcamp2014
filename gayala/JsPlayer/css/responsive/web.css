@@ -1,0 +1,27 @@
+/* web style */
+
+.reproductor{    
+    height: 100%;
+}
+
+.nav-bar{
+    height: 80px;
+}
+
+.toggle-button-list{
+    display: none;
+}
+
+.nav-bar #eventsButton,
+.mainContent .filter{
+    display: inline-block;
+}
+
+.mainContent #content{
+    display: block;
+}
+
+
+.mobile-display{
+    display: block;
+}

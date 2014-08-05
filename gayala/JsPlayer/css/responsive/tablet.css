@@ -1,0 +1,21 @@
+/* tablet style */
+
+.reproductor{
+    
+}
+
+.nav-bar{
+    height: 32px;
+}
+
+.mainContent #content{
+    display: block;
+}
+
+.nav-bar #eventsButton{
+    display: none;
+}
+
+.control .display{
+    display: none;
+}

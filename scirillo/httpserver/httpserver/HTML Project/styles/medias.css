@@ -1,0 +1,24 @@
+/* Smartphones (portrait and landscape) ----------- */
+@media screen and (max-width : 480px) {
+	.eventBar{
+		display: none;
+	}
+	.parent-list{
+		display: none;
+	}
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen and (max-device-width : 1024px) {
+/* Styles */
+}
+
+/* Desktops and laptops ----------- */
+@media only screen and (min-width : 1224px) {
+/* Styles */
+}
+
+/* Large screens ----------- */
+@media only screen and (min-width : 1824px) {
+/* Styles */
+}

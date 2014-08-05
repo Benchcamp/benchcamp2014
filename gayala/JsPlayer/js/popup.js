@@ -11,10 +11,10 @@ function Popup(div){
         self.div.querySelector("#popupCloseButton").onclick = self.hide;
         self.div.querySelector(".ontop").onclick = self.hide;
         
-        self.div.style.display = 'block';                
+        self.div.classList.remove("hidden");
     }
     
-    self.hide = function () {        
-        self.div.style.display = 'none';
+    self.hide = function () {
+        self.div.classList.add("hidden");        
     }
 };

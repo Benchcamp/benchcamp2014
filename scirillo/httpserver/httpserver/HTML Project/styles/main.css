@@ -140,3 +140,20 @@ li {
 		  position: absolute;
 		}
 
+		ul#parent-list li {
+			float: left;
+			clear: both;
+			width: 100%;
+			padding: 5px;
+		}
+
+		.table-content{
+			display: inline-block;
+		}
+
+		.table-content li{
+			float: left;
+		}
+
+		
+

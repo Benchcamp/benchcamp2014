@@ -3,90 +3,52 @@
 <head>
 	<title>${project_name}</title>
 	<link rel="stylesheet" type="text/css" href="styles/main.css">	
+	<meta name="viewport" content="width=device-width, user-scalable=no">
 </head>
 <body onload="init()">
-
 	<h1>Media Test</h1>
 	<div id="wrapper">
-		<table>
-		<tbody>
-			<tr>		
-				<td>
-					<button onclick="loadInitialData();">Inicio</button>
-				</td>	
-				
-				<td>
-					<button id="bntEvent" onclick="showEventDetail(event);">Eventos</button>
-				</td>
-				<td>
-					  <label id="lbl">0</label>	
-				</td>
-			</tr>
-			<tr>
-				<td>
+	<div class="eventBar">
+		<ul>
+			<li>
+				<button onclick="loadInitialData();">Inicio</button>
+			</li>
+			<li>
+				<button id="bntEvent" onclick="showEventDetail(event);">Eventos</button>
+			</li>
+			<li>
+				<label id="lbl">0</label>		
+			</li>
+		</ul>
+	</div>
+	<div class="toggleContent">
+		<span>Toggle</span>
+	</div>
+	<div>
+		<ul class="table-content">
+			<li>
 					<ul id="parent-list">
 						<li class="btn" id="artista">Artista</li>
 						<li class="btn" id="album">Album</li>
 						<li class="btn" id="cancion">Cancion</li>
 					</ul>
-				</td>
-				<td>
-					<table id="content" class="tbl">
-						<tbody>
-						</tbody>
-					</table>	
-				</td>
-			</tr>
-			<tr>
-				<td>						
-					
-				</td>
-				<td>
-					<div id="main"></div>
-				</td>
-			</tr>
-				
-		</tbody>	
-	</table>
-	<!-- <table>	
-		<tbody>
-			<tr>		
-				<td>
-					<div id="lastBtn" class="btn button lastBtn"></div>
-				</td>		
-				<td>
-					<div id="playBtn" class="btn button playBtn"></div>
-				</td>	
-				<td>
-					<div id="nextBtn" class="btn button nextBtn"></div>
-					
-				</td>
-				<td>
-					<label id="actualTime">0</label>
-				</td>
-				<td>
-				<div id='bar' style="width: 200px;">
-					<div id='slider'></div>
-				</div>
-				</td>		
-				<td>
-					<label id="totalTime"></label>	
-				</td>
-				<td>
-					<button id="muteBtn" class="btn">Mute</button>
-				</td>
-				<td>
-					<button id="repeatBtn" class="btn">L</button>
-				</td>
-				<td>
-					<button id="randomBtn" class="btn">R</button>
-				</td>
-			</tr>
-		</tbody>
-	</table>
- -->
+			</li>
+			<li>
+				<table id="content" class="tbl">
+					<tbody>
+					</tbody>
+				</table>	
+			</li>
+		</ul>
+	</div>
+	<div>
+		<ul>
+			<li>
+				<div id="main"></div>
+			</li>
+		</ul>
+	</div>
 <div id="mediaBar">
-
 <ul >
 	<li><span id="lastBtn" class="btn icon-previous"></span></li>
 	<li><span id="playBtn" class="btn icon-play"></span></li>
@@ -102,8 +64,10 @@
 	<li><button id="randomBtn" class="btn">R</button></li>
 </ul>
 </div>
-
+</div>
+	
 <link rel="stylesheet" type="text/css" href="styles/style.css">
+<link rel="stylesheet" type="text/css" href="styles/medias.css">
 <script type="text/javascript" src="scripts/main.js"></script>
 <script type="text/javascript" src="scripts/json-to-table.js"></script>
 <script type="text/javascript" src="scripts/utils.js"></script>
@@ -117,10 +81,6 @@
 <script type="text/javascript" src="scripts/src/soundjs/Sound.js"></script>
 <script type="text/javascript" src="scripts/src/soundjs/WebAudioPlugin.js"></script>
 <script type="text/javascript" src="scripts/src/soundjs/HTMLAudioPlugin.js"></script>
-
-
-</div>
-	
 
 </body>
 </html>
