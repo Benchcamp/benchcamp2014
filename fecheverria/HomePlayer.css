@@ -15,9 +15,9 @@ body{
 }
 
 .toolBar{
+    display: block;
     width: 100%;
     height: 10%;
-    position: relative;
 }
 
 .toolBar .numberOfEvents{
@@ -29,15 +29,16 @@ body{
 }
 
 .Traks{
-    position: relative;
+    display: block;
     width: 100%;
     height: 70%;
 }
 
 .sortMusicByType{
+    display: inline;
+    float:left;
     width: 20%;
     height: 100%;
-    position: absolute;
 }
 
 .sortMusicByType spam{
@@ -50,13 +51,9 @@ body{
 }
 
 .listOfThemes{
-    width: 80%;
-    height: 100%;
-    float: right;
-    left: 5px;
-    position: absolute;
-    position: relative;
-    display: inline-table;
+    display: inline;
+    float:left;
+    width: 60%;
 }
 
 .tableOfTraks{
@@ -79,7 +76,7 @@ body{
 }
 
 .buttonsPlayers{
-    
+    display: block;
     width: 100%;
     height: 20%;
 }
@@ -98,25 +95,6 @@ body{
     display: none;
 }
 
-#track {
-    width: 262px;
-    height: 5px;
-    top: 78px;
-    left: 40px;
-    background-image: url("img/scubberBar.png");
-}
-    
-#player DIV {
-    position: absolute;
-}
-
-#thumb {
-    cursor: pointer;
-    background-image: url("img/scrubberPlayhead.png");
-    width: 16px;
-    height: 16px;
-    top: -5px;
-}
 
 .select{
     width: 300px;

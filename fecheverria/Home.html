@@ -2,27 +2,16 @@
 <html>
     <head>
         <title>Glober Player</title>
-        <link rel="stylesheet" type="text/css" href="HomePlayer.css">
+        
         <script type="text/javascript" src="soundjs-0.5.2.min.js"></script>
-        <script type="text/javascript" src="CountEvents.js" ></script>
+        
+        <script type="text/javascript" src="LoadPlayer.js"></script>
         <script type="text/javascript" src="LogicPlayer.js" ></script>
+        <script type="text/javascript" src="CountEvents.js" ></script>
+        <script type="text/javascript" src="Init.js"></script>
+        <link rel="stylesheet" type="text/css" href="HomePlayer.css">
     </head>
     <body>
-        <script language="javascript">
-            window.onload = function(){
-                document.getElementById("showEvents").addEventListener('click', showEvents, false);
-                
-                document.getElementById("back").addEventListener('click', back, false);
-                document.getElementById("play").addEventListener('click', playStop, false);
-                document.getElementById("next").addEventListener('click', next, false);
-                
-                document.getElementById("repeat").addEventListener('click', repeat, false);
-                document.getElementById("loop").addEventListener('click', loop, false);
-                loadSongs();
-                loadSound();
-            }
-        </script>
-        
         <div class="box toolBar">
             <input class="buttonOfEvents" id="showEvents" type="button" value="Eventos">
             <label class="numberOfEvents" id="cantOfEvents">0</label>
@@ -60,9 +49,8 @@
                 <input type="button" id="play" value="Play">
                 <input type="button" id="next" value="Next">
             </div>
-            <div id="track" style="display: block;">
-				<div id="progress" style="display: none;"></div>
-				<div id="thumb" style="left: 0px;"></div>
+            <div>
+				
 			</div>
             <div class="listOptions">
                 
