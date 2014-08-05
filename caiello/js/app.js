@@ -8,6 +8,7 @@ var currentsong=1;
 var totalsongs=0;
 var repeat=false;
 var random=false;
+var registered=false;
 
 
 /*
@@ -166,7 +167,13 @@ function displaySounds(content, filterid){/*in json*/
 	rowstr+="</tr>";
 	var aresongs=(filterid=="songs");
 	for (var i=0; i<content.structure.length; i++){
-		if (aresongs) registerSong(content.structure[i].id);
+		//if songs are not registered then register the songs and set the flag to true
+		if (aresongs && !registered){
+			registerSong(content.structure[i].id);
+			registered=true;
+		} 
+			
+
 		//creating the content of the table
 		if (i%2==0)
 			rowstr+="<tr class=\"even\"";
