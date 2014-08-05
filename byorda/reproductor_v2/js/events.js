@@ -4,9 +4,9 @@ contadorEventos = 0;
 controlesAuditables = ["btnFiltroCanciones", "btnFiltroAlbumes", "btnFiltroArtistas", "btnMute", "btnPlayPausa", "btnAtras", "btnSiguiente", "btnRepetir", "btnRandom"];
 logEventos = [];
 
-jsonCanciones = "http://localhost:8080/assets/resources/canciones.json";
-jsonAlbumes = "http://localhost:8080/assets/resources/albumes.json";
-jsonArtistas = "http://localhost:8080/assets/resources/artistas.json";
+jsonCanciones = "../assets/resources/canciones.json";
+jsonAlbumes = "../assets/resources/albumes.json";
+jsonArtistas = "../assets/resources/artistas.json";
 
 document.addEventListener("DOMContentLoaded", function(e) {
   for (var i = 0; i < controlesAuditables.length; i++) {
