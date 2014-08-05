@@ -164,21 +164,24 @@ function displaySounds(content, filterid){/*in json*/
     		rowstr+="<th>Pista</th><th>Artista</th><th>Tiempo</th><th>Album</th>";
 	}
 	rowstr+="</tr>";
+	var aresongs=(filterid=="songs");
 	for (var i=0; i<content.structure.length; i++){
-		registerSong(content.structure[i].id);
+		if (aresongs) registerSong(content.structure[i].id);
 		//creating the content of the table
 		if (i%2==0)
 			rowstr+="<tr class=\"even\"";
 		else
 			rowstr+="<tr class=\"odd\"";
-		rowstr+=" onclick=\"playSongHandler(" +content.structure[i].id+")\">";
+		rowstr+=(filterid=="songs") ? " onclick=\"playSongHandler(" +content.structure[i].id+")\">" : ">";
 		rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].songs+"</td>" : "";
 		rowstr+="<td>"+ content.structure[i].artists+"</td>";
 		rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].time +"</td>" : "";
 		rowstr+= (filterid!="artists") ? "<td>"+ content.structure[i].albums+"</td>" : "";
 		rowstr+="</tr>"
 	}
-	totalsongs=content.structure.length;
+
+	if (aresongs) totalsongs = content.structure.length;
+	
 	document.getElementById("content").innerHTML = rowstr;
 };
 
