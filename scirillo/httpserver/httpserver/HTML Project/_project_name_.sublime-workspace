@@ -4,12 +4,40 @@
 		"selected_items":
 		[
 			[
-				"tex",
-				"textContent"
+				"pla",
+				"playSong"
+			],
+			[
+				"p",
+				"porcentaje"
 			],
 			[
 				"pl",
-				"play"
+				"playSong"
+			],
+			[
+				"in",
+				"instance"
+			],
+			[
+				"load",
+				"loadInitialData"
+			],
+			[
+				"play",
+				"playSong"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"soun",
+				"soundDur"
+			],
+			[
+				"tex",
+				"textContent"
 			],
 			[
 				"artista",
@@ -28,16 +56,8 @@
 				"artistUrl"
 			],
 			[
-				"pla",
-				"playButton"
-			],
-			[
 				"eve",
 				"event"
-			],
-			[
-				"p",
-				"play"
 			],
 			[
 				"e",
@@ -67,15 +87,7 @@
 			"file": "scripts/main.js",
 			"settings":
 			{
-				"buffer_size": 5323,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "scripts/utils.js",
-			"settings":
-			{
-				"buffer_size": 1756,
+				"buffer_size": 3050,
 				"line_ending": "Windows"
 			}
 		},
@@ -83,7 +95,7 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 2511,
+				"buffer_size": 3219,
 				"line_ending": "Windows"
 			}
 		},
@@ -91,7 +103,7 @@
 			"file": "scripts/sound-util.js",
 			"settings":
 			{
-				"buffer_size": 2255,
+				"buffer_size": 3413,
 				"line_ending": "Windows"
 			}
 		},
@@ -99,8 +111,32 @@
 			"file": "styles/main.css",
 			"settings":
 			{
-				"buffer_size": 1977,
+				"buffer_size": 2596,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "scripts/utils.js",
+			"settings":
+			{
+				"buffer_size": 1215,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "scripts/slider.js",
+			"settings":
+			{
+				"buffer_size": 628,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "styles/style.css",
+			"settings":
+			{
+				"buffer_size": 1055,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -128,14 +164,16 @@
 	},
 	"file_history":
 	[
+		"/C/Users/santiago.cirillo/Documents/benchcamp2014/byorda/reproductor_v2/css/style.css",
 		"/C/Users/santiago.cirillo/Documents/benchcamp2014/scirillo/httpserver/httpserver/HTML Project/scripts/json-to-table.js",
+		"/C/Users/santiago.cirillo/Documents/benchcamp2014/scirillo/httpserver/httpserver/HTML Project/scripts/utils.js",
+		"/C/Users/santiago.cirillo/Downloads/SoundJS-release_v0.5.2/SoundJS-release_v0.5.2/examples/TestSuite.html",
 		"/C/httpserver/HTML Project/scripts/main.js",
 		"/C/httpserver/HTML Project/index.html",
 		"/C/httpserver/HTML Project/scripts/flashplugin-0.5.2.min.js",
 		"/C/Users/santiago.cirillo/Downloads/STProjectMaker-master/STProjectMaker-master/Sample-Templates/HTML Project/scripts/main.js",
 		"/C/Users/santiago.cirillo/Downloads/STProjectMaker-master/STProjectMaker-master/Sample-Templates/HTML Project/index.html",
 		"/C/Users/santiago.cirillo/Downloads/STProjectMaker-master/STProjectMaker-master/Sample-Templates/HTML Project/styles/main.css",
-		"/C/Users/santiago.cirillo/Downloads/SoundJS-release_v0.5.2/SoundJS-release_v0.5.2/examples/TestSuite.html",
 		"/C/Users/santiago.cirillo/Downloads/STProjectMaker-master/STProjectMaker-master/Sample-Templates/HTML Project/_project_name_.sublime-project",
 		"/C/Users/santiago.cirillo/AppData/Roaming/Sublime Text 2/Packages/User/mediatest.sublime-snippet",
 		"/C/Users/santiago.cirillo/AppData/Roaming/Sublime Text 2/Packages/User/mediajs.js"
@@ -149,6 +187,7 @@
 		"height": 0.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
@@ -156,6 +195,17 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"assets",
+			"background",
+			"repeat",
+			"events",
+			"var i",
+			"Humm",
+			"      \n",
+			"					\n",
+			";\n",
+			"getDu",
+			"getDura",
 			"readFile"
 		],
 		"highlight": true,
@@ -174,7 +224,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -182,69 +232,43 @@
 					"file": "scripts/main.js",
 					"settings":
 					{
-						"buffer_size": 5323,
+						"buffer_size": 3050,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								511,
-								511
+								2534,
+								2534
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 990.0,
+						"translation.y": 720.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "scripts/utils.js",
-					"settings":
-					{
-						"buffer_size": 1756,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1039,
-								1039
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 225.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "index.html",
 					"settings":
 					{
-						"buffer_size": 2511,
+						"buffer_size": 3219,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								518,
-								518
+								1614,
+								1614
 							]
 						],
 						"settings":
@@ -253,25 +277,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 855.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 2,
 					"file": "scripts/sound-util.js",
 					"settings":
 					{
-						"buffer_size": 2255,
+						"buffer_size": 3413,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								760,
-								760
+								1506,
+								1506
 							]
 						],
 						"settings":
@@ -287,19 +311,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 3,
 					"file": "styles/main.css",
 					"settings":
 					{
-						"buffer_size": 1977,
+						"buffer_size": 2596,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								785,
-								785
+								41,
+								41
 							]
 						],
 						"settings":
@@ -308,7 +332,104 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 225.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "scripts/utils.js",
+					"settings":
+					{
+						"buffer_size": 1215,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1145,
+								1145
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "scripts/slider.js",
+					"settings":
+					{
+						"buffer_size": 628,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "styles/style.css",
+					"settings":
+					{
+						"buffer_size": 1055,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								51,
+								51
+							],
+							[
+								100,
+								100
+							],
+							[
+								180,
+								180
+							],
+							[
+								242,
+								242
+							],
+							[
+								307,
+								307
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -361,6 +482,18 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"i",
+				"index.html"
+			],
+			[
+				"j",
+				"scripts/json-to-table.js"
+			],
+			[
+				"in",
+				"index.html"
+			],
 			[
 				"m",
 				"scripts/main.js"

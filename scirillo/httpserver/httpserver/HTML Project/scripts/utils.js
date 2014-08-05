@@ -1,6 +1,6 @@
-var artistUrl ="http://localhost:8080/assets/resources/artists/artist.json";
-var  songUrl = "http://localhost:8080/assets/resources/song/song.json";
-var albumUrl = "http://localhost:8080/assets/resources/albums/albmus.json";
+var artistUrl ="http://localhost:8080/httpserver/httpserver/assets/resources/artists/artist.json";
+var  songUrl = "http://localhost:8080/httpserver/httpserver/assets/resources/song/song.json";
+var albumUrl = "http://localhost:8080/httpserver/httpserver/assets/resources/albums/albmus.json";
 
 function readFile(type){    	
 	var url = "";

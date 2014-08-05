@@ -1,4 +1,7 @@
-
+li {
+	display: inline;
+	list-style: none;
+}
 
 	#player {
 			width: 451px;
@@ -95,8 +98,7 @@
 			border-width: 1px;
 			padding: 8px;
 			border-style: solid;
-			border-color: #666666;
-			background-color: #ffffff;
+			border-color: #666666;			
 		}
 		
 		#artist {
@@ -137,4 +139,21 @@
 		  background-color: green;
 		  position: absolute;
 		}
+
+		ul#parent-list li {
+			float: left;
+			clear: both;
+			width: 100%;
+			padding: 5px;
+		}
+
+		.table-content{
+			display: inline-block;
+		}
+
+		.table-content li{
+			float: left;
+		}
+
+		
 
