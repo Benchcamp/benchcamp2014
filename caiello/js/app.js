@@ -230,7 +230,7 @@ function setRepeat(){
 }
 
 
-var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists;
+var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists, toggler;
 
 // when site is loaded, loads the listeners and +
 window.onload=function(){
@@ -255,6 +255,7 @@ window.onload=function(){
 	filtersongs = document.getElementById("filter-songs");
 	filteralbums = document.getElementById("filter-albums");
 	filterartists = document.getElementById("filter-artists");
+	toggler= document.getElementById("btn-hide-show-side");
 
 	playbtn.addEventListener("click", function(){playSongHandler(currentsong)} );
 	pausebtn.addEventListener("click", pauseSong );
@@ -270,4 +271,5 @@ window.onload=function(){
 	filtersongs.addEventListener("click", function(){filter("songs")} );
 	filteralbums.addEventListener("click", function(){filter("albums")} );
 	filterartists.addEventListener("click", function(){filter("artists")} );
+	toggler.addEventListener("click", function(){showHideElement("filters")} );
 }
