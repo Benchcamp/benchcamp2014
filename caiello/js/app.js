@@ -265,7 +265,15 @@ function unmodal(){
 	modalThis(actualmod);
 }
 
-var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,modal;
+function toggleMenu(){
+	var elem =document.getElementById("filters");
+	if (hasClass(elem,"on"))
+		removeClass(elem,"on");
+	else
+		addClass(elem,"on");
+}
+
+var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal;
 
 // when site is loaded, loads the listeners and +
 window.onload=function(){
@@ -290,6 +298,7 @@ window.onload=function(){
 	filtersongs = document.getElementById("filter-songs");
 	filteralbums = document.getElementById("filter-albums");
 	filterartists = document.getElementById("filter-artists");
+	toggler= document.getElementById("btn-hide-show-side");
 	modal=  document.querySelector(".modal");
 
 	playbtn.addEventListener("click", function(){playSongHandler(currentsong)} );
@@ -306,7 +315,8 @@ window.onload=function(){
 	filtersongs.addEventListener("click", function(){filter("songs")} );
 	filteralbums.addEventListener("click", function(){filter("albums")} );
 	filterartists.addEventListener("click", function(){filter("artists")} );
-	modal.addEventListener("click", function(){unmodal(actualmod)} );
+	toggler.addEventListener("click", function(){toggleMenu()} );
+	modal.addEventListener("click", function(){unmodal()} );
 	
 
 
