@@ -1,3 +1,7 @@
+.hidden {
+    display: none;
+}
+
 .reproductor{	
 	width: 800px;
 	height: 400px;	
