@@ -1,12 +1,12 @@
+<!DOCTYPE html>
 <html>
 	<head>		
 		<title>Js Player</title>
-        <link rel="stylesheet" type="text/css" href="css/reproStyle.css">
-        <link rel="stylesheet" type="text/css" href="css/button.css">
-        <link rel="stylesheet" type="text/css" href="css/popup.css">
+    
+        <link rel="stylesheet" type="text/css" href="css/responsive/responsiveStyle.css">
         
+                
 		<script src="js/soundjs-0.5.2.min.js"></script>
-
         <script type="text/javascript" src="js/utility.js" ></script>
         <script type="text/javascript" src="js/songLibrary.js" ></script>
         <script type="text/javascript" src="js/jsplayer.js" ></script>
@@ -18,17 +18,16 @@
 		<script type="text/javascript">
 			init();
 		</script>
-                
-
 	</head>
 
-	<body>        
+	<body>
 		<div class="reproductor" >
 
 			<div class="toolBox">                                
+                <div class="logo" ></div>
                 <button id="eventsButton"  class="buttonTop">
                     <span>(</span><span id="eventCounter" >0</span><span>) Eventos</span>                    
-                </button>
+                </button>                
             </div>	
 
 			<div class="mainContent" >
@@ -71,7 +70,7 @@
 
 
         <!-- popup -->
-        <div id="popDiv" style="display: none;" >
+        <div id="popDiv" class="hidden" >
             <div class="ontop"></div>
 			<table border="0" id="popup">
 				<tr>

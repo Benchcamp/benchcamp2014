@@ -51,7 +51,6 @@ function init() {
         });           
 
         document.getElementById("eventsButton").onclick = function(){
-            //logger.add("click", "Events Button");
             
             var events = logger.getEvents();            
             var table = createTable(events, ["action", "element", "time"], null);
