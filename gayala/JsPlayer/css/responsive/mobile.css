@@ -1,23 +1,23 @@
 /* mobile style */
-
 .reproductor{
-    
-    
 }
 
 .nav-bar{
     height: 32px;
 }
 
-.nav-bar #eventsButton{
-    display: none;
-}
-
-
-.mainContent .filter{
-    display: none;
-}
-
+.logo,
+.nav-bar #eventsButton,
+.mainContent .filter,
 .mainContent #content{
     display: none;
+}
+
+
+.mainContent {
+    height: calc(100 - 32px);
+}
+
+.favorites {
+    height: 100%;
 }

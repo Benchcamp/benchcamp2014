@@ -1,9 +1,4 @@
 /* web style */
-
-.reproductor{    
-    height: 100%;
-}
-
 .nav-bar{
     height: 80px;
 }
@@ -12,16 +7,11 @@
     display: none;
 }
 
-.nav-bar #eventsButton,
-.mainContent .filter{
-    display: inline-block;
+.logo,
+.nav-bar #eventsButton{
+    display: inline;
 }
 
-.mainContent #content{
-    display: block;
-}
-
-
-.mobile-display{
-    display: block;
+.nav-bar #eventsButton{
+    text-align: right;
 }
