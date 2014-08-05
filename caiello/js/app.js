@@ -202,6 +202,23 @@ function showHideElement(element){
 
 
 /*
+utilities
+*/
+//hasclass, addclass and remove class taken from http://jaketrent.com/post/addremove-classes-raw-javascript/
+function hasClass(ele,cls) {
+  return ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
+}
+function addClass(ele,cls) {
+  if (!hasClass(ele,cls)) ele.className += " "+cls;
+}
+function removeClass(ele,cls) {
+  if (hasClass(ele,cls)) {
+    var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+    ele.className=ele.className.replace(reg,' ');
+  }
+}
+
+/*
 maths
 */
 //miliseconds to seconds
@@ -229,6 +246,13 @@ function setRepeat(){
 	repeat=!repeat;
 }
 
+function toggleMenu(){
+	var elem =document.getElementById("filters");
+	if (hasClass(elem,"on"))
+		removeClass(elem,"on");
+	else
+		addClass(elem,"on");
+}
 
 var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists, toggler;
 
@@ -271,5 +295,12 @@ window.onload=function(){
 	filtersongs.addEventListener("click", function(){filter("songs")} );
 	filteralbums.addEventListener("click", function(){filter("albums")} );
 	filterartists.addEventListener("click", function(){filter("artists")} );
-	toggler.addEventListener("click", function(){showHideElement("filters")} );
+	toggler.addEventListener("click", function(){toggleMenu()} );
+
+
+
+	
+
+
+
 }
