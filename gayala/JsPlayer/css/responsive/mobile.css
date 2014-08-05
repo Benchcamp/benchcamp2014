@@ -1,4 +1,23 @@
-/* cell style */
+/* mobile style */
+
 .reproductor{
-    background-color: red;
+    
+    
+}
+
+.nav-bar{
+    height: 32px;
+}
+
+.nav-bar #eventsButton{
+    display: none;
+}
+
+
+.mainContent .filter{
+    display: none;
+}
+
+.mainContent #content{
+    display: none;
 }

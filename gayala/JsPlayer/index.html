@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>		
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        
 		<title>Js Player</title>
     
         <link rel="stylesheet" type="text/css" href="css/responsive/responsiveStyle.css">
@@ -23,22 +25,28 @@
 	<body>
 		<div class="reproductor" >
 
-			<div class="toolBox">                                
-                <div class="logo" ></div>
+            <div class="toggle-button-list">
+            </div>        
+            
+			<div class="nav-bar">                                
+                <div class="logo"></div>
                 <button id="eventsButton"  class="buttonTop">
                     <span>(</span><span id="eventCounter" >0</span><span>) Eventos</span>                    
                 </button>                
             </div>	
 
 			<div class="mainContent" >
-				<div class="filter">
-	
-				<ul>
-					<li id="songFilter"  class="buttonLeft" >Canciones</li>
-					<li id="albumFilter" class="buttonLeft" >&Aacute;lbums</li>
-					<li id="artistFilter" class="buttonLeft" >Artistas</li>
-				</ul>			
+				<div class="filter">	
+                    <ul>
+                        <li id="songFilter"  class="buttonLeft" >Canciones</li>
+                        <li id="albumFilter" class="buttonLeft" >&Aacute;lbums</li>
+                        <li id="artistFilter" class="buttonLeft" >Artistas</li>
+                    </ul>			
 				</div>
+                
+                <div class="favorites">
+                    !! favorites !!
+                </div>
                 
 				<div id="content">
 				</div>
