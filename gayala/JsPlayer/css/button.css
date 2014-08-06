@@ -7,29 +7,31 @@
 	background:-moz-linear-gradient( center top, #79bbff 5%, #378de5 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#79bbff', endColorstr='#378de5');
 	background-color:#79bbff;
-	-webkit-border-top-left-radius:42px;
-	-moz-border-radius-topleft:42px;
-	border-top-left-radius:42px;
-	-webkit-border-top-right-radius:42px;
-	-moz-border-radius-topright:42px;
-	border-top-right-radius:42px;
-	-webkit-border-bottom-right-radius:42px;
-	-moz-border-radius-bottomright:42px;
-	border-bottom-right-radius:42px;
-	-webkit-border-bottom-left-radius:42px;
-	-moz-border-radius-bottomleft:42px;
-	border-bottom-left-radius:42px;
+	-webkit-border-top-left-radius:32px;
+	-moz-border-radius-topleft:32px;
+	border-top-left-radius:32px;
+	-webkit-border-top-right-radius:32px;
+	-moz-border-radius-topright:32px;
+	border-top-right-radius:32px;
+	-webkit-border-bottom-right-radius:32px;
+	-moz-border-radius-bottomright:32px;
+	border-bottom-right-radius:32px;
+	-webkit-border-bottom-left-radius:32px;
+	-moz-border-radius-bottomleft:32px;
+	border-bottom-left-radius:32px;
 	text-indent:-2.58px;
 	border:1px solid #84bbf3;
 	display:inline-block;
 	color:#ffffff;
-	font-family:Arial;
+    
+    font-family: 'icomoon';
 	font-size:17px;
-	font-weight:bold;
-	font-style:normal;
-	height:50px;
-	line-height:50px;
-	width:50px;
+/*	font-weight:bold;*/
+	font-style:normal;         
+   
+	height:30px;
+	line-height:30px;
+	width:30px;
 	text-decoration:none;
 	text-align:center;
 	text-shadow:1px 0px 0px #528ecc;
@@ -129,7 +131,8 @@
 	text-align:center;
 	text-shadow:1px 1px 0px #528ecc;
 }
-.buttonLeft:hover {
+.buttonLeft:hover,
+.buttonLeft.sel{
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #378de5), color-stop(1, #79bbff) );
 	background:-moz-linear-gradient( center top, #378de5 5%, #79bbff 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#378de5', endColorstr='#79bbff');
@@ -139,9 +142,6 @@
 	top:1px;
 }
 
-.buttonLeft.sel {
-    width: 120px;
-}
 /* This button was generated using CSSButtonGenerator.com */
 
 
