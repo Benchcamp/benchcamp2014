@@ -1,13 +1,5 @@
 /* tablet style */
 
-.reproductor{
-    
-}
-
-.nav-bar{
-    height: 32px;
-}
-
 .mainContent #content{
     display: block;
 }
@@ -19,3 +11,10 @@
 .control .display{
     display: none;
 }
+
+
+.favorites {
+    height: 100px;
+}
+
+

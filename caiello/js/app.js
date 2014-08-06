@@ -9,6 +9,7 @@ var totalsongs=0;
 var repeat=false;
 var random=false;
 var registered=false;
+var actualmod;
 
 
 /*
@@ -81,17 +82,29 @@ function stopSong() {
 	instance.setPosition(0);
 };
 
+//taken from http://www.kirupa.com/html5/getting_mouse_click_position.htm
+function getPosition(element) {
+	var xPosition = 0;
+	var yPosition = 0;
+	while (element) {
+		xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+		yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+		element = element.offsetParent;
+	}
+	return { x: xPosition, y: yPosition };
+};
+
 // moves the player to a position given by an event
 function moveToPosition(e){//gets the position from event
 	if (instance){
-		var posx = e.clientX;
-		console.log("posx "+posx);
-
+		var parentpos = getPosition(e.currentTarget);
+		var posx = e.clientX - parentpos.x;
 		var pbwidth = document.getElementById("playing").clientWidth;
-	    
-	    console.log("getdur "+instance.getDuration());
-	    console.log("posicion "+(posx/pbwidth) * instance.getDuration() );
-	    instance.setPosition( (posx/pbwidth) * instance.getDuration() );		
+		console.log(pbwidth);
+		console.log(posx-parentpos);
+
+	    instance.setPosition( (posx/pbwidth) * instance.getDuration() );
+	    update();
 	}
 };
 
@@ -168,10 +181,10 @@ function displaySounds(content, filterid){/*in json*/
 	var aresongs=(filterid=="songs");
 	for (var i=0; i<content.structure.length; i++){
 		//if songs are not registered then register the songs and set the flag to true
-		if (aresongs && !registered){
+		if (aresongs && !registered)
 			registerSong(content.structure[i].id);
-			registered=true;
-		} 
+			
+		
 			
 
 		//creating the content of the table
@@ -186,7 +199,7 @@ function displaySounds(content, filterid){/*in json*/
 		rowstr+= (filterid!="artists") ? "<td>"+ content.structure[i].albums+"</td>" : "";
 		rowstr+="</tr>"
 	}
-
+	registered=true;
 	if (aresongs) totalsongs = content.structure.length;
 	
 	document.getElementById("content").innerHTML = rowstr;
@@ -200,6 +213,23 @@ function showHideElement(element){
 		document.getElementById(element).style.display = "none";
 }
 
+
+/*
+utilities
+*/
+//hasclass, addclass and remove class taken from http://jaketrent.com/post/addremove-classes-raw-javascript/
+function hasClass(ele,cls) {
+  return ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
+}
+function addClass(ele,cls) {
+  if (!hasClass(ele,cls)) ele.className += " "+cls;
+}
+function removeClass(ele,cls) {
+  if (hasClass(ele,cls)) {
+    var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+    ele.className=ele.className.replace(reg,' ');
+  }
+}
 
 /*
 maths
@@ -229,8 +259,33 @@ function setRepeat(){
 	repeat=!repeat;
 }
 
+function toggleMenu(){
+	var elem =document.getElementById("filters");
+	if (hasClass(elem,"on"))
+		removeClass(elem,"on");
+	else
+		addClass(elem,"on");
+}
 
-var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists, toggler;
+function modalThis(idtomod) {
+	actualmod=idtomod;
+	elem = document.getElementById(idtomod);
+	elem.style.visibility = (elem.style.visibility == "visible") ? "hidden" : "visible";
+}
+
+function unmodal(){
+	modalThis(actualmod);
+}
+
+function toggleMenu(){
+	var elem =document.getElementById("filters");
+	if (hasClass(elem,"on"))
+		removeClass(elem,"on");
+	else
+		addClass(elem,"on");
+}
+
+var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal;
 
 // when site is loaded, loads the listeners and +
 window.onload=function(){
@@ -256,6 +311,7 @@ window.onload=function(){
 	filteralbums = document.getElementById("filter-albums");
 	filterartists = document.getElementById("filter-artists");
 	toggler= document.getElementById("btn-hide-show-side");
+	modal=  document.querySelector(".modal");
 
 	playbtn.addEventListener("click", function(){playSongHandler(currentsong)} );
 	pausebtn.addEventListener("click", pauseSong );
@@ -264,12 +320,22 @@ window.onload=function(){
 	playing.addEventListener("click", moveToPosition);
 	lbtn.addEventListener("click", setRepeat );
 	rbtn.addEventListener("click", setRandom );
-	eventbtn.addEventListener("click",  function(){ showHideElement("eventlog")} );
+	eventbtn.addEventListener("click", function(){ modalThis("event-log-box")} );
 	volumebtn.addEventListener("click", muteSound );
 	volumebtn.addEventListener("mouseover", function(){ showHideElement("volume")} );
 	volumebtn.addEventListener("mouseout", function(){ showHideElement("volume")} );
 	filtersongs.addEventListener("click", function(){filter("songs")} );
 	filteralbums.addEventListener("click", function(){filter("albums")} );
 	filterartists.addEventListener("click", function(){filter("artists")} );
-	toggler.addEventListener("click", function(){showHideElement("filters")} );
+	toggler.addEventListener("click", function(){toggleMenu()} );
+	modal.addEventListener("click", function(){unmodal()} );
+	
+
+
+
+
+	
+
+
+
 }

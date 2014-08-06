@@ -3,7 +3,19 @@
 	.eventBar{
 		display: none;
 	}
-	.parent-list{
+	#parent-list{
+		display: none;
+	}
+	#actualTime{
+		display: none;
+	}
+	#bar{
+		display: none;
+	}
+	#slider{
+		display:none;
+	}
+	#muteBtn{
 		display: none;
 	}
 }
