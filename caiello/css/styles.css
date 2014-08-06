@@ -5,6 +5,7 @@ body{
 	color:#333;
 	margin:0px 0 0 0;
 	font-family: Helvetica, Arial, sans-serif;
+	overflow-x: hidden;
 }
 
 #container{
@@ -64,6 +65,10 @@ table{
 	background-color: #13c4a5;
 }
 
+.events p{
+	display:inline;
+}
+
 ul{
 	list-style-type: none;
 }
@@ -85,7 +90,9 @@ ul{
 .left{
 	float:left;
 }
-
+.center{
+	text-align:center;
+}
 
 
 /*Lists*/
@@ -105,10 +112,7 @@ ul{
 
 /*Player*/
 #playing{
-	
-
 	background-color: #95a5a6;
-	width: 100%;
 }
 #circle{
 	float:right;
@@ -142,6 +146,10 @@ ul{
 }
 
 
+.song-time-vol, #transcurredtime, #btn-volume, #playing{
+	display:inline-block;
+}
+
 
 /*media widths taken from http://stackoverflow.com/a/16727073 */
 @media (max-width:320px) { 
@@ -152,6 +160,7 @@ ul{
 	#currently-playing{
 		width:100%;
 	}
+
 
 
 	
@@ -177,9 +186,37 @@ ul{
 }
 
 .modal div {
-	width:30%;
+	display:inline-block;/* automatic width depending on content :) */
 	margin: 100px auto;
 	background-color: #fff;
-	padding:10px;
+	padding:20px;
 	text-align:center;
+}
+
+.left-player, .center-player, .right-player {
+    float: left;
+}
+.left-player{
+	width:160px;
+}
+.center-player{
+	text-align:center;
+}
+.right-player{
+	float:right;
+	width:100px;
+	text-align: right;
+}
+
+#playing {
+
+    width: calc(100% - 180px) !important;
+}
+.center-player {
+    width: calc(100% - 220px) !important;
+}
+#player {
+	vertical-align: middle;
+    width: 100%;
+    overflow: hidden;
 }

@@ -82,11 +82,27 @@ function stopSong() {
 	instance.setPosition(0);
 };
 
+//taken from http://www.kirupa.com/html5/getting_mouse_click_position.htm
+function getPosition(element) {
+	var xPosition = 0;
+	var yPosition = 0;
+	while (element) {
+		xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+		yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+		element = element.offsetParent;
+	}
+	return { x: xPosition, y: yPosition };
+};
+
 // moves the player to a position given by an event
 function moveToPosition(e){//gets the position from event
 	if (instance){
-		var posx = e.clientX;
+		var parentpos = getPosition(e.currentTarget);
+		var posx = e.clientX - parentpos.x;
 		var pbwidth = document.getElementById("playing").clientWidth;
+		console.log(pbwidth);
+		console.log(posx-parentpos);
+
 	    instance.setPosition( (posx/pbwidth) * instance.getDuration() );
 	    update();
 	}
@@ -165,10 +181,10 @@ function displaySounds(content, filterid){/*in json*/
 	var aresongs=(filterid=="songs");
 	for (var i=0; i<content.structure.length; i++){
 		//if songs are not registered then register the songs and set the flag to true
-		if (aresongs && !registered){
+		if (aresongs && !registered)
 			registerSong(content.structure[i].id);
-			registered=true;
-		} 
+			
+		
 			
 
 		//creating the content of the table
@@ -183,7 +199,7 @@ function displaySounds(content, filterid){/*in json*/
 		rowstr+= (filterid!="artists") ? "<td>"+ content.structure[i].albums+"</td>" : "";
 		rowstr+="</tr>"
 	}
-
+	registered=true;
 	if (aresongs) totalsongs = content.structure.length;
 	
 	document.getElementById("content").innerHTML = rowstr;
