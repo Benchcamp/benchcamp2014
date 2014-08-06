@@ -165,10 +165,10 @@ function displaySounds(content, filterid){/*in json*/
 	var aresongs=(filterid=="songs");
 	for (var i=0; i<content.structure.length; i++){
 		//if songs are not registered then register the songs and set the flag to true
-		if (aresongs && !registered){
+		if (aresongs && !registered)
 			registerSong(content.structure[i].id);
-			registered=true;
-		} 
+			
+		
 			
 
 		//creating the content of the table
@@ -183,7 +183,7 @@ function displaySounds(content, filterid){/*in json*/
 		rowstr+= (filterid!="artists") ? "<td>"+ content.structure[i].albums+"</td>" : "";
 		rowstr+="</tr>"
 	}
-
+	registered=true;
 	if (aresongs) totalsongs = content.structure.length;
 	
 	document.getElementById("content").innerHTML = rowstr;
