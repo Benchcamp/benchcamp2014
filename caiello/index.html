@@ -39,6 +39,7 @@
 
 		<div id="currently-playing">
 			Currently playing
+			<a href="#" id="rate">Rate it!</a>
 		</div>
 
 		<footer>
@@ -59,7 +60,9 @@
 
 				<div id="playing">
 
-					<div id="progressbar"><div id="circle"></div></div>
+					<div id="progressbar">
+						<div id="circle"></div>
+					</div>
 					
 				</div>
 				<ul>
@@ -87,15 +90,18 @@
 		</footer>
 
 
-
-		<table id="eventlog" class="list">
-			<tr class="theader">
-				<th>Acci&oacute;n</th>
-				<th>Elemento</th>
-				<th>Hora</th>
-			</tr>
-			<!--aca agrego el resto en el log -->
-		</table>
+		<div id="event-log-box" class="modal" >
+			<div>
+				<table id="eventlog" class="list">
+					<tr class="theader">
+						<th>Acci&oacute;n</th>
+						<th>Elemento</th>
+						<th>Hora</th>
+					</tr>
+				<!--aca agrego el resto en el log -->
+				</table>
+			</div>
+		</div>
 
 
 		<script src="http://code.createjs.com/soundjs-0.5.2.min.js"></script>

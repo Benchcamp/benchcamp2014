@@ -9,6 +9,7 @@ var totalsongs=0;
 var repeat=false;
 var random=false;
 var registered=false;
+var actualmod;
 
 
 /*
@@ -254,7 +255,25 @@ function toggleMenu(){
 		addClass(elem,"on");
 }
 
-var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists, toggler;
+function modalThis(idtomod) {
+	actualmod=idtomod;
+	elem = document.getElementById(idtomod);
+	elem.style.visibility = (elem.style.visibility == "visible") ? "hidden" : "visible";
+}
+
+function unmodal(){
+	modalThis(actualmod);
+}
+
+function toggleMenu(){
+	var elem =document.getElementById("filters");
+	if (hasClass(elem,"on"))
+		removeClass(elem,"on");
+	else
+		addClass(elem,"on");
+}
+
+var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal;
 
 // when site is loaded, loads the listeners and +
 window.onload=function(){
@@ -280,6 +299,7 @@ window.onload=function(){
 	filteralbums = document.getElementById("filter-albums");
 	filterartists = document.getElementById("filter-artists");
 	toggler= document.getElementById("btn-hide-show-side");
+	modal=  document.querySelector(".modal");
 
 	playbtn.addEventListener("click", function(){playSongHandler(currentsong)} );
 	pausebtn.addEventListener("click", pauseSong );
@@ -288,7 +308,7 @@ window.onload=function(){
 	playing.addEventListener("click", moveToPosition);
 	lbtn.addEventListener("click", setRepeat );
 	rbtn.addEventListener("click", setRandom );
-	eventbtn.addEventListener("click",  function(){ showHideElement("eventlog")} );
+	eventbtn.addEventListener("click", function(){ modalThis("event-log-box")} );
 	volumebtn.addEventListener("click", muteSound );
 	volumebtn.addEventListener("mouseover", function(){ showHideElement("volume")} );
 	volumebtn.addEventListener("mouseout", function(){ showHideElement("volume")} );
@@ -296,6 +316,9 @@ window.onload=function(){
 	filteralbums.addEventListener("click", function(){filter("albums")} );
 	filterartists.addEventListener("click", function(){filter("artists")} );
 	toggler.addEventListener("click", function(){toggleMenu()} );
+	modal.addEventListener("click", function(){unmodal()} );
+	
+
 
 
 
