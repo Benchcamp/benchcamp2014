@@ -51,36 +51,31 @@ function handleLoad(event) {
 		}	
   });
 
-
 function loadInitialData(){
     var tbl = document.getElementById('content');
-     var jsonHtmlTable = ConvertJsonToTable(manifest, 'content', null);
-     tbl.innerHTML = jsonHtmlTable;
-     var rows = tbl.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-     for (var i = 0; i < rows.length; i++) {
-        rows[i].onclick = function() {
-            songIndex = this.rowIndex -1;
-            playSong();
-        };
-        rows[i].onmouseover = function(){
-             this.style.background = 'blue';
-        };
-        rows[i].onmouseout = function() {
-             this.style.background = 'transparent';
-        };
+         var jsonHtmlTable = ConvertJsonToTable(manifest, 'content', null);
+         tbl.innerHTML = jsonHtmlTable;
+         var rows = tbl.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+         for (i = 0; i < rows.length; i++) {
+            rows[i].onclick = function() {
+                songIndex = this.rowIndex -1;
+                playSong();
+            };
+            rows[i].onmouseover = function(){
+                 this.style.backgroundColor = '#f3f8aa';
+            };
+            rows[i].onmouseout = function() {
+                 this.style.backgroundColor = 'transparent';
+            };
     }
 }
 
 function setCurrentRow(){
     var tbl = document.getElementById('content');
+    var jsonHtmlTable = ConvertJsonToTable(manifest, 'content', null);
+    tbl.innerHTML = jsonHtmlTable;
     var rows = tbl.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-     for (var i = 0; i < rows.length; i++) {
-        if(i == songIndex){
-          rows[songIndex].style.background = 'blue';
-        }else{
-          rows[songIndex].style.background = 'transparent';        
-        }
-    }       
+    rows[songIndex].style.backgroundColor = '#f3f8aa';         
 }
 
 function showEventDetail(event){        
