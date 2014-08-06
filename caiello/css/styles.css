@@ -114,6 +114,7 @@ ul{
 }
 
 #progressbar{
+	width:20px;/*same as circle width, have to improve it..*/
 	left:0px;
 	height:20px;
 	background-color: #2980b9;

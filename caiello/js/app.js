@@ -86,13 +86,9 @@ function stopSong() {
 function moveToPosition(e){//gets the position from event
 	if (instance){
 		var posx = e.clientX;
-		console.log("posx "+posx);
-
 		var pbwidth = document.getElementById("playing").clientWidth;
-	    
-	    console.log("getdur "+instance.getDuration());
-	    console.log("posicion "+(posx/pbwidth) * instance.getDuration() );
-	    instance.setPosition( (posx/pbwidth) * instance.getDuration() );		
+	    instance.setPosition( (posx/pbwidth) * instance.getDuration() );
+	    update();
 	}
 };
 
