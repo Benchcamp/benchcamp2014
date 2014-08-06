@@ -44,7 +44,7 @@
 
 			<footer>
 				<div id="player">
-					<div class="left">
+					<div class="left" class="left-player">
 						<a href="#" id="btn-back" class="button">
 							<span class="icon-backward"></span>
 						</a>
@@ -60,30 +60,29 @@
 						</a>
 					</div>
 
-					<div class="play-data center">
+					<div class="play-data center-player">
+
+						<div class="song-time-vol">
+							<p id="transcurredtime">0:0</p>
+							
+							<a href="#" id="btn-volume" class="button">
+								<span class="icon-volume-high"></span>
+							</a>
+
+							<div id="volume" style="display: none;">
+								<div id="volumebar">bar</div>
+							</div>
+							
+						</div>
+
 						<div id="playing">
 							<div id="progressbar">
 								<div id="circle"></div>
 							</div>
-							
 						</div>
-						<ul class="song-time-vol">
-							<li id="transcurredtime">0:0</li>
-							<li>
-								<a href="#" id="btn-volume" class="button">
-									<span class="icon-volume-high"></span>
-								</a>
-
-							</li>
-							<li>
-								<div id="volume" style="display: none;">
-									<div id="volumebar">bar</div>
-								</div>
-							</li>
-						</ul>
 					</div>
 
-					<div class="right">
+					<div class="right-player">
 						<a href="#" id="btn-l" class="button">
 							<span class="icon-loop"></span>
 						</a>

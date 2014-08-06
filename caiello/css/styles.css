@@ -112,10 +112,7 @@ ul{
 
 /*Player*/
 #playing{
-	
-
 	background-color: #95a5a6;
-	width: 100%;
 }
 #circle{
 	float:right;
@@ -148,6 +145,10 @@ ul{
 	transform: translate3d(-100%,0,0);
 }
 
+
+.song-time-vol, #transcurredtime, #btn-volume, #playing{
+	display:inline-block;
+}
 
 
 /*media widths taken from http://stackoverflow.com/a/16727073 */
@@ -188,6 +189,34 @@ ul{
 	display:inline-block;/* automatic width depending on content :) */
 	margin: 100px auto;
 	background-color: #fff;
-	padding:10px;
+	padding:20px;
 	text-align:center;
+}
+
+.left-player, .center-player, .right-player {
+    float: left;
+}
+.left-player{
+	width:160px;
+}
+.center-player{
+	text-align:center;
+}
+.right-player{
+	float:right;
+	width:100px;
+	text-align: right;
+}
+
+#playing {
+
+    width: calc(100% - 180px) !important;
+}
+.center-player {
+    width: calc(100% - 220px) !important;
+}
+#player {
+	vertical-align: middle;
+    width: 100%;
+    overflow: hidden;
 }
