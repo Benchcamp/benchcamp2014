@@ -5,7 +5,13 @@ body{
 	color:#333;
 	margin:0px 0 0 0;
 	font-family: Helvetica, Arial, sans-serif;
+	overflow-x: hidden;
 }
+
+#container{
+	height:100%;
+}
+
 a{
 
 	text-decoration:none;
@@ -20,7 +26,7 @@ section{
 	float:right;
 }
 footer{
-	clear:both;
+	
 }
 
 nav, footer{
@@ -31,9 +37,15 @@ nav, footer{
 nav{
 	height: 80px;
 }
+footer{
+	clear:both;
+	position: absolute;
+	width:90%; /*old browsers?*/
+	width: calc(100% - 2em);
+	bottom:0;
+}
 
 table{
-	overflow: auto;
 }
 
 .btn{
@@ -53,23 +65,21 @@ table{
 	background-color: #13c4a5;
 }
 
+.events p{
+	display:inline;
+}
+
 ul{
 	list-style-type: none;
 }
 
 [class^="icon-"], [class*=" icon-"] {
-	font-family: 'icomoon';
-	speak: none;
 	font-style: normal;
 	color:#2ecc71;
 	font-size: 2em;
 	font-variant: normal;
 	text-transform: none;
 	line-height: 1;
-
-	/* Better Font Rendering =========== */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 }
 
 
@@ -80,7 +90,9 @@ ul{
 .left{
 	float:left;
 }
-
+.center{
+	text-align:center;
+}
 
 
 /*Lists*/
@@ -100,10 +112,7 @@ ul{
 
 /*Player*/
 #playing{
-	
-
 	background-color: #95a5a6;
-	width: 100%;
 }
 #circle{
 	float:right;
@@ -114,6 +123,7 @@ ul{
 }
 
 #progressbar{
+	width:20px;/*same as circle width, have to improve it..*/
 	left:0px;
 	height:20px;
 	background-color: #2980b9;
@@ -136,16 +146,21 @@ ul{
 }
 
 
+.song-time-vol, #transcurredtime, #btn-volume, #playing{
+	display:inline-block;
+}
+
 
 /*media widths taken from http://stackoverflow.com/a/16727073 */
 @media (max-width:320px) { 
 	/* smartphones, iPhone, portrait 480x320 phones */ 
-	.events, #filters, #transcurredtime, #playing{
+	.events, .song-time-vol, #filters, #transcurredtime, #playing{
 		display:none;
 	}
 	#currently-playing{
 		width:100%;
 	}
+
 
 
 	
@@ -171,9 +186,37 @@ ul{
 }
 
 .modal div {
-	width:30%;
+	display:inline-block;/* automatic width depending on content :) */
 	margin: 100px auto;
 	background-color: #fff;
-	padding:10px;
+	padding:20px;
 	text-align:center;
+}
+
+.left-player, .center-player, .right-player {
+    float: left;
+}
+.left-player{
+	width:160px;
+}
+.center-player{
+	text-align:center;
+}
+.right-player{
+	float:right;
+	width:100px;
+	text-align: right;
+}
+
+#playing {
+
+    width: calc(100% - 180px) !important;
+}
+.center-player {
+    width: calc(100% - 220px) !important;
+}
+#player {
+	vertical-align: middle;
+    width: 100%;
+    overflow: hidden;
 }
