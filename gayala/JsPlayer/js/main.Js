@@ -58,6 +58,25 @@ function init() {
             popupEvents.show(table);            
         };
         
+        document.querySelector("#lateralPannelButton").onclick = function(){            
+            var button = this;        
+        };
+        
+        document.querySelector("#toggleButton").onclick = function(){            
+            var button = this;        
+            var fav = document.querySelector("#fav");            
+            var content = document.querySelector("#content");
+            
+            if(fav.style.display == "none"){
+                fav.style.display = "block";
+                content.style.display = "none";
+            }else{
+                fav.style.display = "none";
+                content.style.display = "block";
+            }
+        };
+        
+        
         document.getElementById("play").onclick = function(){
             logger.add("click", "Play Button");
             player.onPlayerPlayStop();
