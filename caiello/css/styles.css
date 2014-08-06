@@ -5,6 +5,7 @@ body{
 	color:#333;
 	margin:0px 0 0 0;
 	font-family: Helvetica, Arial, sans-serif;
+	overflow-x: hidden;
 }
 
 #container{
@@ -64,6 +65,10 @@ table{
 	background-color: #13c4a5;
 }
 
+.events p{
+	display:inline;
+}
+
 ul{
 	list-style-type: none;
 }
@@ -85,7 +90,9 @@ ul{
 .left{
 	float:left;
 }
-
+.center{
+	text-align:center;
+}
 
 
 /*Lists*/
@@ -154,6 +161,7 @@ ul{
 	}
 
 
+
 	
 }
 @media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */ }
@@ -177,7 +185,7 @@ ul{
 }
 
 .modal div {
-	width:30%;
+	display:inline-block;/* automatic width depending on content :) */
 	margin: 100px auto;
 	background-color: #fff;
 	padding:10px;
