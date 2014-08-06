@@ -1,18 +1,35 @@
 /* web style */
+
 .nav-bar{
-    height: 80px;
+    height: 100px;
 }
 
-
-.toggle-button-list{
+#lateralPannelButton{
     display: none;
 }
 
-.logo,
-.nav-bar #eventsButton{
-    display: inline;
+.logo{
+    display: inline-block;
 }
+
 
 .nav-bar #eventsButton{
     text-align: right;
+}
+
+.mainContent{
+    height: calc(100% - 200px);
+}
+
+.slideMenu{
+    height: calc(100% - 200px);
+}
+
+.nowplay{
+    bottom: 100px;
+    margin-left: 0px;
+}
+
+.control{
+    margin-left: 0px; 
 }

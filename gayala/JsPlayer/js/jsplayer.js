@@ -3,12 +3,12 @@ function JSPlayer(config) {
     var self = this;
     self._currentState;
     self._loop = false;
-    self._random = false;            
-    self.playerInstance = null;    
+    self._random = false;
+    self.playerInstance = null;
 	self.library = new SongLibrary();
     self.selectedRow = null;
     self.table = null;
-    self.currentSong = null;    
+    self.currentSong = null;
     self.changeStateCallback = config.changeStateCallback;	
     self.changeConfigCallback = config.changeConfigCallback;	
     self.selectRowCallback = config.selectRowCallback;

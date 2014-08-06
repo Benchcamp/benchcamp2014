@@ -1,42 +1,29 @@
 /* mobile style */
+
 .logo,
-.nav-bar #eventsButton,
-.mainContent .filter,
-.mainContent #content,
+.slideMenu,
+.mainContent,
 #lateralPannelButton,
 .mobileHidden{
     display: none;
 }
 
-.toggle-button-list{
-    background-image: url('../../icon/list.svg');
-    width: 20px;
-    height: 15px;
-    background-size: 20px;
-}
-
-
-
-body{
+#toggleButton{
+    display: block;
 }
 
 
 .reproductor{
+    width: 100%;
     height: 100%;
-    display: table;
 }
 
-.nav-bar{
-    height: 20px;
-    display: table-row;
+.control > div{    
+    width: 280px;
+    margin: auto auto;
 }
 
-.control{    
-    height: 40px;
-    display: table-row;
-}
-
-.control div{    
+.control > div div{    
     display: inline;
 }
 
@@ -44,24 +31,24 @@ body{
     vertical-align:middle;
 }
 
-.favorites {
-    height: 100%;
+.control .display{
+    display: none;
 }
 
-
-.mainContent{    
-    display: table-row;
+.nav-bar{
+    top: 0px;
+    width: 100%;
+    height: 20px;
 }
 
-
-
-
-/*
-
-.mainContent {
-    display: block;
-    background-color: green;
-    height: calc(100% - 20px); 
+.control{        
+    height: 60px;
 }
-*/
+
+.mainContent,
+.nowplay {    
+    height: calc(100% - 80px);
+    text-align: center;
+}
+
 
