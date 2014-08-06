@@ -6,6 +6,11 @@ body{
 	margin:0px 0 0 0;
 	font-family: Helvetica, Arial, sans-serif;
 }
+
+#container{
+	height:100%;
+}
+
 a{
 
 	text-decoration:none;
@@ -20,7 +25,7 @@ section{
 	float:right;
 }
 footer{
-	clear:both;
+	
 }
 
 nav, footer{
@@ -31,9 +36,15 @@ nav, footer{
 nav{
 	height: 80px;
 }
+footer{
+	clear:both;
+	position: absolute;
+	width:90%; /*old browsers?*/
+	width: calc(100% - 2em);
+	bottom:0;
+}
 
 table{
-	overflow: auto;
 }
 
 .btn{
@@ -58,18 +69,12 @@ ul{
 }
 
 [class^="icon-"], [class*=" icon-"] {
-	font-family: 'icomoon';
-	speak: none;
 	font-style: normal;
 	color:#2ecc71;
 	font-size: 2em;
 	font-variant: normal;
 	text-transform: none;
 	line-height: 1;
-
-	/* Better Font Rendering =========== */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 }
 
 
@@ -141,7 +146,7 @@ ul{
 /*media widths taken from http://stackoverflow.com/a/16727073 */
 @media (max-width:320px) { 
 	/* smartphones, iPhone, portrait 480x320 phones */ 
-	.events, #filters, #transcurredtime, #playing{
+	.events, .song-time-vol, #filters, #transcurredtime, #playing{
 		display:none;
 	}
 	#currently-playing{
