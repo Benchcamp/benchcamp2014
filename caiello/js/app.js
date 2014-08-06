@@ -100,9 +100,6 @@ function moveToPosition(e){//gets the position from event
 		var parentpos = getPosition(e.currentTarget);
 		var posx = e.clientX - parentpos.x;
 		var pbwidth = document.getElementById("playing").clientWidth;
-		console.log(pbwidth);
-		console.log(posx-parentpos);
-
 	    instance.setPosition( (posx/pbwidth) * instance.getDuration() );
 	    update();
 	}
@@ -285,7 +282,15 @@ function toggleMenu(){
 		addClass(elem,"on");
 }
 
-var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal;
+
+function showstars(selectedstar){
+	removeClass(selectedstar,"icon-star");
+	addClass(document.getElementById("star1"), "icon-star2");
+}
+
+
+
+var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit, stars;
 
 // when site is loaded, loads the listeners and +
 window.onload=function(){
@@ -311,7 +316,9 @@ window.onload=function(){
 	filteralbums = document.getElementById("filter-albums");
 	filterartists = document.getElementById("filter-artists");
 	toggler= document.getElementById("btn-hide-show-side");
-	modal=  document.querySelector(".modal");
+	modal=  document.getElementsByClassName("modal");
+	ratebtn = document.getElementById("rate");
+	stars=document.getElementsByClassName("icon-star");
 
 	playbtn.addEventListener("click", function(){playSongHandler(currentsong)} );
 	pausebtn.addEventListener("click", pauseSong );
@@ -320,7 +327,7 @@ window.onload=function(){
 	playing.addEventListener("click", moveToPosition);
 	lbtn.addEventListener("click", setRepeat );
 	rbtn.addEventListener("click", setRandom );
-	eventbtn.addEventListener("click", function(){ modalThis("event-log-box")} );
+
 	volumebtn.addEventListener("click", muteSound );
 	volumebtn.addEventListener("mouseover", function(){ showHideElement("volume")} );
 	volumebtn.addEventListener("mouseout", function(){ showHideElement("volume")} );
@@ -328,14 +335,17 @@ window.onload=function(){
 	filteralbums.addEventListener("click", function(){filter("albums")} );
 	filterartists.addEventListener("click", function(){filter("artists")} );
 	toggler.addEventListener("click", function(){toggleMenu()} );
-	modal.addEventListener("click", function(){unmodal()} );
-	
+
+	eventbtn.addEventListener("click", function(){ modalThis("event-log-box")} );
+	ratebtn.addEventListener("click", function(){ modalThis("rate-it")} );
 
 
+	for (var i=0; i < stars.length; i++)
+		stars[i].addEventListener("mouseover", function(){showstars(i)} );
 
 
-	
-
+	for (var i=0; i < modal.length; i++)
+		modal[i].addEventListener("click", function(){unmodal()} );
 
 
 }

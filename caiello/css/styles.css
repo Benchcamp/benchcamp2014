@@ -151,10 +151,17 @@ ul{
 }
 
 
+.icon-star, .icon-star2{
+	color:#f1c40f ;
+}
+
+
+
+
 /*media widths taken from http://stackoverflow.com/a/16727073 */
 @media (max-width:320px) { 
 	/* smartphones, iPhone, portrait 480x320 phones */ 
-	.events, .song-time-vol, #filters, #transcurredtime, #playing{
+	.events, .play-data, #filters, #transcurredtime, #playing{
 		display:none;
 	}
 	#currently-playing{
@@ -162,10 +169,13 @@ ul{
 	}
 
 
-
-	
 }
-@media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */ }
+
+@media (max-width:481px) { 
+	.events, .play-data{
+		display:none;
+}
+/* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */ }
 @media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ }
 @media (min-width:961px) { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
 @media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ }
@@ -210,10 +220,10 @@ ul{
 
 #playing {
 
-    width: calc(100% - 180px) !important;
+    width: calc(100% - 180px);
 }
 .center-player {
-    width: calc(100% - 220px) !important;
+    width: calc(100% - 220px);
 }
 #player {
 	vertical-align: middle;
