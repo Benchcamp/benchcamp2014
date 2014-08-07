@@ -1,52 +1,60 @@
 <html>
-<head>
-    <title>BenchCamp Player</title>
-    <script type="text/javascript" src="js/events.js"></script>
-    <script type="text/javascript" src="js/util.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/icomoon.css">
-</head>
+    <head>
+        <title>BenchCamp Player</title>
+        <script type="text/javascript" src="js/events.js"></script>
+        <script type="text/javascript" src="js/util.js"></script>
 
-<body onload="init()">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/icomoon.css">
+        <link rel="stylesheet" href="css/smartphones.css"/>
+        <link rel="stylesheet" href="css/tablets.css"/>
+        <link rel="stylesheet" href="css/tops.css"/>
+    </head>
 
-<div class="wrapper">
-    <div id="toggle">
-        <span id="btnToggleFilters" class="icon-list visible-toggle"></span>
-        <span id="btnTogglePlaying" class="icon-list hidden-toggle"></span>
-    </div>
-    <div id="wrapper-top">
-        <div id="panel-filters" class="panel-visible">
-            <div id="btnFilterSongs">Canciones</div>
-            <div id="btnFilterAlbums">Albums</div>
-            <div id="btnFilterArtists">Artistas</div>
-            <br/>
-            <div id="btnFilterFavorites">Favoritos</div>
+    <body>
+        <div class="wrapper">
+            <div id="toggle">
+                <span id="btnToggleFilters" class="icon-list visible-toggle"></span>
+                <span id="btnTogglePlaying" class="icon-list hidden-toggle"></span>
+            </div>
+            <div id="wrapper-top">
+                <div id="panel-filters" class="panel-visible">
+                    <div id="btnFilterSongs">Canciones</div>
+                    <div id="btnFilterAlbums">Albums</div>
+                    <div id="btnFilterArtists">Artistas</div>
+                    <br/>
+                    <div id="btnFilterFavorites">Favoritos</div>
+                </div>
+
+                <div id="playing-smart" class="panel-visible">
+                    No suena nada... <span id="btnFavSmart" class="icon-star"></span>
+                </div>
+
+                <div id="content">
+                    <table id="table-content"></table>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div id="wrapper-bot">
+                <div id="playing-tab">
+                    No suena nada... <span id="btnFavTab" class="icon-star"></span>
+                </div>
+
+                <div id="controls-player">
+                    <span id="btnPrev" class="icon-backward"></span>
+                    <span id="btnPlayPause" class="icon-play"></span>
+                    <span id="btnNext" class="icon-forward"></span>
+                    <label id="lblElapsedTime">00:00</label>
+                    <span id="btnMute" class="icon-volume-mute"></span>
+                    <div id='bar'><div id='slider'></div></div>
+                    <label id="lblTotalTime">00:00</label>
+                    <span id="btnLoop" class="icon-loop"></span>
+                    <span id="btnRandom" class="icon-shuffle"></span>
+                </div>
+            </div>
         </div>
-
-        <div id="content">
-            <table id="table-content"></table>
-        </div>
-
-        <div id="playing" class="panel-visible">
-            No suena nada... <span id="btnFavorite" class="icon-star"></span>
-        </div>
-    </div>
-
-    <div class="clearfix"></div>
-
-    <div id="controls-player">
-        <span id="btnPrev" class="icon-backward"></span>
-        <span id="btnPlayPause" class="icon-play"></span>
-        <span id="btnNext" class="icon-forward"></span>
-        <label id="lblElapsedTime">00:00</label>
-        <span id="btnMute" class="icon-volume-mute"></span>
-        <div id='bar'><div id='slider'></div></div>
-        <label id="lblTotalTime">00:00</label>
-        <span id="btnLoop" class="icon-loop"></span>
-        <span id="btnRandom" class="icon-shuffle"></span>
-    </div>
-</div>
-<script type="text/javascript" src="js/soundJs.js"></script>
-<script src="http://code.createjs.com/soundjs-0.5.2.min.js"></script>
-</body>
+        <script type="text/javascript" src="js/soundJs.js"></script>
+        <script src="http://code.createjs.com/soundjs-0.5.2.min.js"></script>
+    </body>
 </html>

@@ -1,0 +1,84 @@
+@media only screen
+and (min-device-width: 768px)
+and (max-device-width: 1279px)
+and (orientation: landscape) {
+    body {
+        font-size: 20px;
+    }
+
+    /* * * * * * */
+    #toggle {
+        height: 2em;
+        font-size: 1em;
+    }
+
+    /* * * * * * */
+    #wrapper-top {
+        height: 70%;
+        padding-left: 132px;
+    }
+
+    /* * * * * * */
+    #panel-filters {
+        height: 100%;
+        width: 130px;
+    }
+
+    #panel-filters * {
+        padding: 5px;
+    }
+
+    .panel-hidden {
+        -webkit-transform: translate(-140px, 0);
+    }
+
+    #playing-smart {
+        display: none;
+    }
+
+    /* * * * * * */
+    #btnToggleFilters {
+        display: inline-block;
+    }
+
+    #btnTogglePlaying {
+        display: none;
+    }
+
+    /* * * * * * */
+    #wrapper-bot {
+        padding-left: 132px;
+    }
+
+    #playing-tab {
+        background-color: darkgray;
+        position: absolute;
+        width: 130px;
+        height: 100%;
+    }
+
+    #controls-player {
+        height: 100%;
+    }
+
+    /* * * * * * */
+    #content.full-size {
+        float: none;
+        width: calc(100%);
+    }
+
+    /* * * * * * */
+    #bar {
+        width: 40%;
+        height: 5px;
+        border: 1px solid black;
+        position: relative;
+        display: inline-block;
+    }
+
+    #slider {
+        width: 0;
+        height: 100%;
+        background-color: green;
+    }
+}

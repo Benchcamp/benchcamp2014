@@ -4,7 +4,7 @@ musicPath = "assets/resources/music/";
 playing = null;
 isMusicPlaying = false;
 
-document.addEventListener("DOMContentLoaded", function (e) {
+document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("btnMute").addEventListener("click", toggleMute, false);
     document.getElementById("btnLoop").addEventListener("click", toggleLoop, false);
     document.getElementById("btnRandom").addEventListener("click", toggleRandom, false);
@@ -13,23 +13,29 @@ document.addEventListener("DOMContentLoaded", function (e) {
     document.getElementById("btnNext").addEventListener("click", nextTrack, false);
 });
 
-function registrarManifest() {
-    var httpRequest = new XMLHttpRequest();
-    httpRequest.onreadystatechange = function () {
-        if (httpRequest.readyState === 4) { //DONE
-            if (httpRequest.status === 200) { //SUCCESS
-                procesarManifest(JSON.parse(httpRequest.responseText));
-            }
-        }
-    };
-    httpRequest.open('GET', jsonCanciones);
-    httpRequest.send();
+window.onload = function () {
+    init();
 }
 
-function procesarManifest(jsonManifest) {
-    var manifest = null;
-    createjs.Sound.registerManifest(manifest, musicPath);
-}
+/*
+ function registrarManifest() {
+ var httpRequest = new XMLHttpRequest();
+ httpRequest.onreadystatechange = function () {
+ if (httpRequest.readyState === 4) { //DONE
+ if (httpRequest.status === 200) { //SUCCESS
+ procesarManifest(JSON.parse(httpRequest.responseText));
+ }
+ }
+ };
+ httpRequest.open('GET', jsonSongs);
+ httpRequest.send();
+ }
+
+ function procesarManifest(jsonManifest) {
+ var manifest = null;
+ createjs.Sound.registerManifest(manifest, musicPath);
+ }
+ */
 
 function init() {
     if (createjs.Sound.initializeDefaultPlugins()) {
@@ -42,32 +48,32 @@ function init() {
 }
 
 // *** SLIDER *** //
-function sliderInit(argument) {
+function sliderInit() {
     bar = document.getElementById('bar');
     slider = document.getElementById('slider');
     bar.addEventListener('mousedown', clickSlider, false);
-    bar.addEventListener('mouseup', finDeslizar, false);
+    bar.addEventListener('mouseup', endSlide, false);
 }
 
 function clickSlider(event) {
     var percentage = ((((event.clientX - bar.offsetLeft) / bar.offsetWidth)).toFixed(2)) * 100;
-    bar.addEventListener('mousemove', deslizarSlider, false);
+    bar.addEventListener('mousemove', moveSlider, false);
     slider.style.width = (percentage) + '%';
 }
 
-function deslizarSlider(event) {
+function moveSlider(event) {
     var percentage = ((((event.clientX - bar.offsetLeft) / bar.offsetWidth)).toFixed(2)) * 100;
     slider.style.width = (percentage) + '%';
 }
 
-function finDeslizar(event) {
+function endSlide(event) {
     var percentage = ((((event.clientX - bar.offsetLeft) / bar.offsetWidth)).toFixed(2)) * 100;
-    bar.removeEventListener('mousemove', deslizarSlider, false);
+    bar.removeEventListener('mousemove', moveSlider, false);
     slider.style.width = (percentage) + '%';
-    moverPosicionCancion(percentage);
+    moveSongPosition(percentage);
 }
 
-function moverPosicionCancion(porcentaje) {
+function moveSongPosition(porcentaje) {
     if (playing !== null) {
         var positionMs = playing.getDuration() * porcentaje / 100;
         playing.setPosition(positionMs);
@@ -81,25 +87,32 @@ function playSong() {
         if (isMusicPlaying) pause(); else continuePlaying();
     } else {
         selectedSong = document.querySelectorAll("tr.selected td");
-        if (selectedSong[0] !== null) {
-            songName = selectedSong[0].innerHTML
-            document.getElementById("playing").innerHTML = "Suena: " + songName;
-            //TODO: El formato... UPDATE: se arregla con el refactoring de la carga de canciones.
+        if (selectedSong[0] !== undefined) {
+            songName = selectedSong[0].innerHTML;
+            displayPlaying(songName);
             createjs.Sound.removeAllSounds();
+            //TODO: Formato...
+            //UPDATE: se arregla con el refactoring de la carga de canciones
             createjs.Sound.registerSound(musicPath + songName + ".mp3", "playing", musicPath);
         }
     }
 }
 
+function displayPlaying(songName) {
+    //TODO: Meter algo adentro de la div para que quede bien...
+    document.getElementById("playing-smart").innerHTML = "Suena: " + songName;
+    document.getElementById("playing-tab").innerHTML = "Suena: " + songName;
+}
+
 function pause() {
     playing.pause();
-    btnPlayPause.className = "icon-play";
+    document.getElementById("btnPlayPause").className = "icon-play";
     isMusicPlaying = false;
 }
 
 function continuePlaying() {
     playing.resume();
-    btnPlayPause.className = "icon-pause";
+    document.getElementById("btnPlayPause").className = "icon-pause";
     isMusicPlaying = true;
 }
 
@@ -107,7 +120,7 @@ function loadHandler() {
     playing = createjs.Sound.play("playing");
     playing.addEventListener("complete", playingComplete);
     displayTimes();
-    btnPlayPause.className = "icon-pause";
+    document.getElementById("btnPlayPause").className = "icon-pause";
     isMusicPlaying = true;
 }
 
@@ -115,7 +128,7 @@ function playingComplete() {
     createjs.Sound.stop();
     createjs.Sound.removeAllSounds();
     playing = null;
-    btnPlayPause.className = "icon-play";
+    document.getElementById("btnPlayPause").className = "icon-play";
     isMusicPlaying = false;
 
     if (!isRandom)
@@ -132,7 +145,7 @@ function toggleMute() {
     btnMute = document.getElementById("btnMute");
 
     createjs.Sound.setMute(!mute);
-    btnMute.style.color = mute ? "black" : "red";
+    btnMute.style.color = mute ? "#000000" : "#CC0000";
 }
 
 function toggleLoop() {
@@ -167,7 +180,7 @@ function changeSong() {
     playing = null;
     isMusicPlaying = false;
     resetTimes();
-    btnPlayPause.className = "icon-play";
+    document.getElementById("btnPlayPause").className = "icon-play";
     playSong();
 }
 

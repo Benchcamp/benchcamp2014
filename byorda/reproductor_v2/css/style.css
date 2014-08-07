@@ -1,7 +1,7 @@
 /* General */
 .wrapper {
     width: 50em;
-    height: 20em;
+    height: 25em;
     margin: 0 auto;
     overflow: hidden;
     background-color: lightgray;
@@ -9,6 +9,7 @@
 
 #wrapper-top {
     position: relative;
+    -webkit-transition: padding 0.5s;
 }
 
 #wrapper-top.full-size {
@@ -16,7 +17,6 @@
 }
 
 #toggle {
-    height: 5%;
     background-color: darkgray;
 }
 
@@ -26,11 +26,26 @@
     padding: 0.3em;
 }
 
+#panel-filters {
+    display: block;
+    background-color: #BEBEBE;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-transition: transform 0.5s;
+}
+
+#panel-filters * {
+background-color: dimgray;
+color: white;
+text-align: center;
+}
+
 .panel-visible {
     -webkit-transform: translate(0, 0);
 }
 
-#playing {
+.panel-hidden {
     display: none;
 }
 
@@ -41,7 +56,6 @@
 
 #content table {
     width: 100%;
-    height: 100%;
     border-collapse: collapse;
 }
 
@@ -50,186 +64,22 @@
 }
 
 .selected {
-    background-color: green;
+    background-color: dimgray;
     color: white;
 }
 
+#wrapper-bot {
+    background-color: #BEBEBE;
+}
+
 #controls-player {
-    text-align: center;
     background-color: darkgray;
+    text-align: center;
 }
 
-/* Desktops and laptops */
-@media only screen
-and (min-width: 1224px) {
-    /* Styles */
-    body {
-        font-size: 20px;
-    }
-
-    #controls-player {
-        height: 20%;
-    }
+#controls-player > * {
+    display: inline-block;
 }
-
-/* Tablets (landscape) ----------- */
-@media only screen
-and (min-device-width: 768px)
-and (max-device-width: 1024px)
-and (orientation: landscape) {
-    /* Styles */
-    body {
-        font-size: 20px;
-    }
-
-    /* * * * * * */
-    #wrapper-top {
-        height: 80%;
-        padding-left: 132px;
-        -webkit-transition: padding 0.5s;
-    }
-
-    /* * * * * * */
-    #panel-filters {
-        height: 100%;
-        width: 130px;
-        display: block;
-        border: 1px solid green;
-        position: absolute;
-        top: 0;
-        left: 0;
-        -webkit-transition: transform 0.5s;
-    }
-
-    #panel-filters * {
-        padding: 5px;
-        background-color: green;
-        color: white;
-        text-align: center;
-    }
-
-    #panel-filters div:hover {
-        background-color: darkgreen;
-        color: white;
-    }
-
-    .panel-hidden {
-        -webkit-transform: translate(-140px, 0);
-    }
-
-    /* * * * * * */
-    #controls-player {
-        padding-left: 132px;
-    }
-
-    /* * * * * * */
-    #content.full-size {
-        float: none;
-        width: calc(100%);
-    }
-
-    /* * * * * * */
-    #bar {
-        width: 40%;
-        height: 5px;
-        border: 1px solid black;
-        position: relative;
-        display: inline-block;
-    }
-
-    #slider {
-        width: 0;
-        height: 100%;
-        background-color: green;
-    }
-}
-
-/* Smartphones (portrait) */
-@media only screen
-and (max-device-width: 400px) {
-    /* Styles */
-    body {
-        font-size: 22px;
-    }
-
-    /* * * * * * */
-    .wrapper {
-        height: 25em;
-        width: 15em;
-    }
-
-    #wrapper-top {
-        height: 17em;
-        padding: 0;
-    }
-
-    /* * * * * * */
-    #toggle {
-        height: 2em;
-        font-size: 2em;
-    }
-
-    /* * * * * * */
-    .panel-hidden {
-        -webkit-transform: translate(-15em, 0);
-    }
-
-    /* * * * * * */
-    #content {
-        display: none;
-    }
-
-    #content.full-size {
-        display: block;
-        width: 100%;
-        height: 100%;
-    }
-
-    #playing {
-        display: inherit;
-        width: 100%;
-        height: 100%;
-    }
-
-    /* * * * * * */
-    #btnToggleFilters {
-        display: none;
-    }
-
-    #btnTogglePlaying {
-        display: inline-block;
-    }
-
-    /* * * * * * */
-    #controls-player {
-        height: 2em;
-        font-size: 2em;
-    }
-
-    #controls-player * {
-        display: inline-block;
-        margin: 0.35em 0.05em;
-    }
-
-    /* * * * * * */
-    #panel-filters {
-        display: none;
-    }
-
-    #controls-player label {
-        display: none;
-    }
-
-    #bar {
-        display: none;
-    }
-
-    #btnMute {
-        display: none;
-    }
-}
-
-/* * * * * * */
 
 .clearfix {
     clear: both;

@@ -1,29 +1,30 @@
-var jsonCanciones, jsonAlbumes, jsonArtistas;
+var jsonSongs, jsonAlbums, jsonArtists;
 
-jsonCanciones = "../assets/resources/canciones.json";
-jsonAlbumes = "../assets/resources/albumes.json";
-jsonArtistas = "../assets/resources/artistas.json";
+jsonSongs = "../assets/resources/songs.json";
+jsonAlbums = "../assets/resources/albums.json";
+jsonArtists = "../assets/resources/artists.json";
 
-document.addEventListener("DOMContentLoaded", function (e) {
+document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("btnFilterSongs").addEventListener("click", displaySongs, false);
     document.getElementById("btnFilterAlbums").addEventListener("click", displayAlbums, false);
     document.getElementById("btnFilterArtists").addEventListener("click", displayArtists, false);
     document.getElementById("btnToggleFilters").addEventListener("click", toggleFilters, false);
     document.getElementById("btnTogglePlaying").addEventListener("click", togglePlaying, false);
 
-    document.getElementById("btnFavorite").addEventListener("click", addFavorite, false);
+    document.getElementById("btnFavSmart").addEventListener("click", addFavorite, false);
+    document.getElementById("btnFavTab").addEventListener("click", addFavorite, false);
 });
 
 function displaySongs() {
-    displayJSONContent(jsonCanciones);
+    displayJSONContent(jsonSongs);
 }
 
 function displayAlbums() {
-    displayJSONContent(jsonAlbumes);
+    displayJSONContent(jsonAlbums);
 }
 
 function displayArtists() {
-    displayJSONContent(jsonArtistas);
+    displayJSONContent(jsonArtists);
 }
 
 function addFavorite() {
@@ -38,8 +39,8 @@ function toggleFilters() {
 
 function togglePlaying() {
     var divContent, tableContent;
-    document.getElementById("playing").classList.toggle("panel-hidden");
-    document.getElementById("playing").classList.toggle("panel-visible");
+    document.getElementById("playing-smart").classList.toggle("panel-hidden");
+    document.getElementById("playing-smart").classList.toggle("panel-visible");
 
     divContent = document.getElementById("content");
     tableContent = document.getElementById("table-content");
