@@ -283,11 +283,6 @@ function toggleMenu(){
 }
 
 
-function showstars(selectedstar){
-	removeClass(selectedstar,"icon-star");
-	addClass(document.getElementById("star1"), "icon-star2");
-}
-
 
 
 var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit, stars;
@@ -340,12 +335,42 @@ window.onload=function(){
 	ratebtn.addEventListener("click", function(){ modalThis("rate-it")} );
 
 
-	for (var i=0; i < stars.length; i++)
-		stars[i].addEventListener("mouseover", function(){showstars(i)} );
-
 
 	for (var i=0; i < modal.length; i++)
 		modal[i].addEventListener("click", function(){unmodal()} );
 
+	function chooseStar(size) {
+ 		return function() {
+ 			var elem;
+ 			console.log(size);
+ 			for (var xx=1; xx<=5; xx++){
+ 				if (xx<=size){
+		 			elem= document.getElementById("star"+xx);
+		 			removeClass(elem,"icon-star");
+	 				addClass(elem,"icon-star2");
+ 				}else{
+		 			elem= document.getElementById("star"+xx);
+		 			removeClass(elem,"icon-star2");
+	 				addClass(elem,"icon-star");
+ 				}
+ 				
+ 			}
+
+
+ 		};
+	}
+
+	// have to put all in only one var
+	var choose1 = chooseStar(1);
+	var choose2 = chooseStar(2);
+	var choose3 = chooseStar(3);
+	var choose4 = chooseStar(4);
+	var choose5 = chooseStar(5);
+
+	document.getElementById('star1').onmouseover = choose1;
+	document.getElementById('star2').onmouseover = choose2;
+	document.getElementById('star3').onmouseover = choose3;
+	document.getElementById('star4').onmouseover = choose4;
+	document.getElementById('star5').onmouseover = choose5;
 
 }
