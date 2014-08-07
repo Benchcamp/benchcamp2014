@@ -22,7 +22,33 @@
 		</script>
 	</head>
 
-	<body>        
+	<body>
+        
+        <div style="height:300px">
+
+          <script>
+            function allowDrop(ev) {
+                ev.preventDefault();
+            }
+
+            function drag(ev) {
+                ev.dataTransfer.setData("Text", ev.target.id);
+            }
+
+            function drop(ev) {
+                ev.preventDefault();
+                var data = ev.dataTransfer.getData("Text");
+                ev.target.appendChild(document.getElementById(data));
+            }
+            </script>
+
+            <div id="div1" style="background-color:red; height:100px; widht:100px; " ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+            <img id="drag1" src="img\d.jpg" draggable="true"
+            ondragstart="drag(event)" width="336" height="69">
+        
+        </div>
+        
 		<div class="reproductor" >            
 			<div class="nav-bar"> 
                 <div id="toggleButton" class="icon-menu"></div>
@@ -46,7 +72,7 @@
 			</div>
             
             
-            <div id="nowPlay" class="nowplay">
+            <div id="nowPlay" dropzone="copy file:image/png file:image/gif file:image/jpeg" class="nowplay">
                 now play !!!
             </div>
             

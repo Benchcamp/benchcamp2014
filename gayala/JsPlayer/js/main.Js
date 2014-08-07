@@ -78,8 +78,7 @@ function init() {
         document.querySelector("#lateralPannelButton").onclick = function(){            
             var button = this;        
         };
-                    
-        
+                
         document.querySelector("#toggleButton").onclick = function(){            
             
             var button = this;
