@@ -86,7 +86,7 @@ section.playlist ul li span.time{
 
 footer .buttons{
 	width: -webkit-calc(100% - 2em);
-	background: #efefef;
+	background: rgba(0,0,0,0.3);
 	border-top: 2px solid #000;
 	padding: 1em;
 	min-height: 30%;
@@ -102,7 +102,7 @@ footer .buttons span{
 	color: white;
 	text-align: center;
 	vertical-align: middle;
-	background: gray;
+	background: #666;
 	border-radius: 50%;
 	display: block;	
 	font-size: 100%;
