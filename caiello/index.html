@@ -8,14 +8,15 @@
 		<link rel="stylesheet" href="css/fonts.css">
 	</header>
 	<body>
+			<div id="draggable" style="background-color:red;"> canci&oacute;n </div>
+
 		<div id="container">
 			<nav>
 				<div class="left">
 					<a href="#" id="btn-hide-show-side" class="button">
 						<span class="icon-menu"></span>
 					</a>
-
-					logo
+			
 				</div>
 				<div class="right events">
 					<p><span id="eventlogcount">0</span></p>
@@ -28,7 +29,12 @@
 					<li><a href="#" id="filter-songs">Canciones</a></li>
 					<li><a href="#" id="filter-albums">&Aacute;lbums</a></li>
 					<li><a href="#" id="filter-artists">Artistas</a></li>
+					<li><hr/></li>
+					<li>Favoritos</li>
 				</ul>
+				<div class="drag-area">
+					drag items here
+				</div>
 			</aside>
 
 
@@ -90,7 +96,7 @@
 							<span id="i-shuffle" class="icon-shuffle inactive"></span>
 						</a>
 					</div>
-				</div>
+				</div><!--player-->
 			</footer>
 
 

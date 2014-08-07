@@ -6,6 +6,10 @@ body{
 	margin:0px 0 0 0;
 	font-family: Helvetica, Arial, sans-serif;
 	overflow-x: hidden;
+	/*disallow mouse selection*/
+	-webkit-user-select: none;  
+	-moz-user-select: none;         
+	user-select: none;
 }
 
 #container{
@@ -17,7 +21,8 @@ a{
 	text-decoration:none;
 }
 aside{
-	width:100px;
+	width:150px;
+
 	float:left;
 	background-color: #ecf0f1;
 	padding: 10px;
@@ -119,6 +124,7 @@ ul{
 
 #playing{
 	background-color: #95a5a6;
+	border-radius: 10px;
 }
 #circle{
 	float:right;
@@ -132,6 +138,7 @@ ul{
 	width:20px;/*same as circle width, have to improve it..*/
 	left:0px;
 	height:20px;
+	border-radius: 10px;
 	background-color: #2980b9;
 }
 
@@ -237,4 +244,22 @@ ul{
 	vertical-align: middle;
     width: 100%;
     overflow: hidden;
+}
+
+
+#draggable {
+	position:absolute;
+	width:100px;
+    height:10px;
+    overflow: hidden;
+    padding:10px;
+    z-index:1;
+}
+
+
+
+.drag-area {
+	padding:10px;
+	margin:10px;
+	border:#ccc 5px dashed;
 }

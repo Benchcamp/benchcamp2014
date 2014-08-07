@@ -306,6 +306,8 @@ function setRepeat(){
 
 
 
+
+
 var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit;
 
 // when site is loaded, loads the listeners and +
@@ -371,5 +373,71 @@ window.onload=function(){
 	document.getElementById('star3').onmouseover = choose3;
 	document.getElementById('star4').onmouseover = choose4;
 	document.getElementById('star5').onmouseover = choose5;
+
+
+
+
+var mouse = {x: 0, y: 0};
+
+
+//improve this (because is always running...)
+document.addEventListener('mousemove', function(e){ 
+    mouse.x = e.clientX || e.pageX; 
+    mouse.y = e.clientY || e.pageY 
+}, false);
+
+
+var draggable=document.getElementById("draggable");
+var isDragging = false;
+var posx=0;
+var posy=0;
+
+function updatedrag() { 
+  //draggable.style.display = "none";
+  	posx=mouse.x; posy=mouse.y;
+	//draggable.style.transform = "translate("+posx-10+"px,"+posy-10+"px)";
+	//transform: translate3d(150px, 0, 0);
+	draggable.style.transform="translate3d("+posx+"px, "+posy+"px, 0)";
+	//draggable.style.width = posx+"px";
+	
+	if (isDragging) {
+		console.log("raf");
+		requestAnimationFrame(updatedrag);   
+		
+	}
+}
+
+function mousedown(event) {
+	isDragging = true;
+	posx=event.clientX;
+	posy=event.clientY;
+	console.log(posx);
+	requestAnimationFrame(updatedrag); 
+}
+
+function mouseup() {
+	isDragging = false;
+}
+
+
+draggable.addEventListener("mousedown", mousedown);
+
+
+document.getElementById("draggable").addEventListener("mouseup",mouseup);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
