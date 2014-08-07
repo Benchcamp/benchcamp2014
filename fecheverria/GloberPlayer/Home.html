@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Glober Player</title>
+        
+        <script type="text/javascript" src="js/soundjs-0.5.2.min.js"></script>
+        <script type="text/javascript" src="js/RefreshView.js"></script>
+        <script type="text/javascript" src="js/LoadInfo.js"></script>
+        <script type="text/javascript" src="js/LoadPlayer.js"></script>
+        <script type="text/javascript" src="js/LogicPlayer.js" ></script>
+        <script type="text/javascript" src="js/CountEvents.js" ></script>
+        <script type="text/javascript" src="js/Init.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="css/HomePlayer.css">
+    </head>
+    <body>
+        <div class="box toolBar">
+            <input class="buttonOfEvents" id="showEvents" type="button" value="Events">
+            <label class="numberOfEvents" id="cantOfEvents">0</label>
+            
+        </div>
+        <div class="Traks">
+            <div id="itemTypes" class="box sortMusicByType">
+                
+                    <spam id="showSongs">Songs</spam>
+                    <spam id="showAlbums">Albums</spam>
+                    <spam id="showArtists">Artists</spam>
+                </ul>
+            </div>
+
+            <div id="boxSongs" class="box listOfItems">
+                <table class="tableOfTraks">
+                    <thead>
+                        <tr>
+                            <th class="track">Track</th>
+                            <th class="artist">Artist</th>
+                            <th class="time">Time</th>
+                            <th class="album">Album</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listOfMusic">
+                        
+                    </tbody>
+                    
+                </table>
+            </div>
+            <div id="boxAlbums" class="box listOfItems">Albums
+            </div>
+            <div id="boxArtists" class="box listOfItems">Atrists
+            </div>
+        </div>
+        <div class="box buttonsPlayers">
+            <div class="buttons">
+                <input type="button" id="back" value="Back">
+                <input type="button" id="play" value="Play">
+                <input type="button" id="next" value="Next">
+            </div>
+            <div>
+				
+			</div>
+            <div class="listOptions">
+                
+                <input type="button" id="repeat" value="R">
+                <input type="button" id="loop" value="L">
+            </div>
+        </div>
+        <div id="showEvents">
+        </div>
+    
+        <div class="shadowbox" id="historicalEvents">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Element</th>
+                        <th>Hour</th>
+                    </tr>
+                </thead>
+                <tbody id=listOfEvents>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
