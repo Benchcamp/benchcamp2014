@@ -289,10 +289,19 @@ function percent(part,total){
 // negate the random bool state
 function setRandom(){
 	random=!random;
+	if (random)
+		removeClass(document.getElementById("i-shuffle"),"inactive");
+	else
+		addClass(document.getElementById("i-shuffle"),"inactive");
 }
+
 // negates repeat (have to reuse the method setrandom..)
 function setRepeat(){
 	repeat=!repeat;
+	if (repeat)
+		removeClass(document.getElementById("i-loop"),"inactive");
+	else
+		addClass(document.getElementById("i-loop"),"inactive");
 }
 
 
