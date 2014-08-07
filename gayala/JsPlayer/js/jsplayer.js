@@ -9,6 +9,7 @@ function JSPlayer(config) {
     self.selectedRow = null;
     self.table = null;
     self.currentSong = null;
+    self.currentDragggedRow = null;
     self.changeStateCallback = config.changeStateCallback;	
     self.changeConfigCallback = config.changeConfigCallback;	
     self.selectRowCallback = config.selectRowCallback;
@@ -50,7 +51,19 @@ function JSPlayer(config) {
 		self.library.getSongs(function (data) {
             self.table = createTable(data,["artist", "track", "album", "time"], 
                                      {onSelectedRow: self.onSelectedRow, 
-                                      onDragStart: self.onDragStart});
+                                      onDragStart: self.onDragStart,
+                                      onDragEnd: self.onDragEnd});
+            
+            if(self.isPlaying()){
+                var allTR = self.table.querySelectorAll("tr");
+                for(var i=0; i<allTR.length; i++){
+                    var TR = allTR[i];
+                    if(TR.data != null && TR.data.url == self.currentSong.url){
+                         self.selectRow(TR);                        
+                    }
+                }
+            }
+            
             self.contentPlace.innerHTML = "";
             self.contentPlace.appendChild(self.table);
         }); 
@@ -75,17 +88,21 @@ function JSPlayer(config) {
 	};
     
     
-    self.onDragStart = function (event) {
-      
-
+    self.onDragStart = function (event) {        
         event.dataTransfer.effectAllowed = "move";
-//        event.target.getAttribute('id')
-        event.dataTransfer.setData("text/plain", "datos");
-
+        event.dataTransfer.setData("text/plain", "datos");        
+        self.currentDragggedRow = event.currentTarget;
+    }
+    
+    self.onDragEnd = function (event) {
+        self.currentDragggedRow = null;        
     }
     
     self.onDrop = function(event){
-        alert("drop"); 
+        if(self.currentDragggedRow != null){
+            self.selectRow(self.currentDragggedRow);
+            self.play();
+        }        
     }
     
     
@@ -202,7 +219,7 @@ function JSPlayer(config) {
                 index = 1;
             
             var row = self.table.rows[index];            
-            self.selectRow(row);            
+            self.selectRow(row);
         }
     };
     
@@ -230,15 +247,10 @@ function JSPlayer(config) {
         self.slide(next);
     };
         
-//    self.nowPlayPlace.addEventListener('drop', self.onDrop);
-
-    self.nowPlayPlace.addEventListener('drop', function(event){ self.display('drop')});
     
-    
-//    self.nowPlayPlace.addEventListener('dragenter', function(){ self.display('dragenter')});
-//    self.nowPlayPlace.addEventListener('dragleave', function(){ self.display('dragleave')});
-//    self.nowPlayPlace.addEventListener('dragover', function(){ self.display('dragover')});
-    
+    self.nowPlayPlace.setAttribute("ondrop", "event.preventDefault()");
+    self.nowPlayPlace.setAttribute("ondragover", "event.preventDefault()");    
+    self.nowPlayPlace.addEventListener('drop', self.onDrop);    
     
     
     self.notifyChangeConfig();

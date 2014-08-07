@@ -1,0 +1,110 @@
+body{
+	background: #fff;
+	font-size: 1em;
+	font-family: Arial, Sans-serif;
+	margin-top: 40px;
+}
+ul, li{
+	margin: 0;
+	list-style: none;
+	width: 100%;
+	padding: 0;
+}
+a{
+	text-decoration: none;
+}
+.wrapper{
+	margin: 0 auto;
+	max-width: 80%;
+}
+main{
+	overflow: hidden;
+	position: relative;
+}
+section.playlist{
+	height: 100%;
+	position: absolute;
+	overflow-y: auto;	
+}
+header h1{
+	font-size: 1em;
+	margin: 0;
+	padding: 0.5em 1em;
+	background: rgba(0,0,0,0.3);	
+	width: calc(100% - 2em);
+	color: white;
+	border-bottom: 2px solid black;
+}
+header span{
+	display: none;
+}
+aside{
+	background: #efefef;
+	padding: 0 10px 5%;
+	position: relative;
+	-webkit-transition: 0.5s linear all;
+	right: 0;
+}
+aside div.playing{
+	padding-top: 50px;
+}
+aside div.playing button{
+	font-size: 1em;
+	text-align: left;
+	width: 100%;
+	padding: 5px;
+	border-radius: 3px;
+	border: none;
+	cursor: pointer;
+	background: none;
+}
+aside div.playing button span{
+	float: left;
+	margin-right: 0.5em;
+}
+
+section.playlist li{
+	background: #ccc;
+	display: inline-block;
+	width: -webkit-calc(100% - 20px);
+	float: left;
+	padding: 1% 10px;
+}
+section.playlist li:nth-child(odd){
+	background: #aaa;
+}
+section.playlist ul li span{
+	float: left;
+	width: 30%;
+	text-shadow: 0px 2px 4px #444;
+	color: white;
+	font-size: 0.9em;
+}
+section.playlist ul li span.time{
+	width: 10%;
+}
+
+footer .buttons{
+	width: -webkit-calc(100% - 2em);
+	background: rgba(0,0,0,0.3);
+	border-top: 2px solid #000;
+	padding: 1em;
+	min-height: 30%;
+	overflow: auto;
+}
+footer .buttons li{
+	float: left;
+	clear: none;
+	width: auto;
+	margin-right: 1%;
+}
+footer .buttons span{
+	color: white;
+	text-align: center;
+	vertical-align: middle;
+	background: #666;
+	border-radius: 50%;
+	display: block;	
+	font-size: 100%;
+	text-indent: 0.1%;
+}
