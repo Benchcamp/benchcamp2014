@@ -1,17 +1,34 @@
 
+function animation(){
+    var self = this;
+    
+    self.loop = function () {
+        window.requestAnimationFrame( self.loop );
+        self.draw();
+    }
+    
+    self.draw = function(){        
+        //document.write("X");
+    }
+    
+    self.loop();
+}
+
 
 function init() {
     var self = this;
     self.player = null;
-
+        
+    var anim = new animation();    
+    
     
     self.onChangeState = function (newState) {
         switch(newState){
                 case "Stopped":
-                    document.getElementById("play").innerText = "Play";
+                    document.getElementById("play").innerHTML = "&#xE602;"; // play
                 break;
                 case "Playing":
-                    document.getElementById("play").innerText = "Stop";
+                    document.getElementById("play").innerHTML = "&#xE603;";//stop
                 break;
         };
     }; 
@@ -57,6 +74,29 @@ function init() {
             
             popupEvents.show(table);            
         };
+        
+        document.querySelector("#lateralPannelButton").onclick = function(){            
+            var button = this;        
+        };
+                    
+        
+        document.querySelector("#toggleButton").onclick = function(){            
+            
+            var button = this;
+            var nowPlay = document.querySelector("#nowPlay");            
+            var content = document.querySelector("#content");
+            
+            player.onSongFilter();
+            
+            if(nowPlay.style.display == "none"){
+                nowPlay.style.display = "block";
+                content.style.display = "none";
+            }else{
+                nowPlay.style.display = "none";
+                content.style.display = "block";
+            }
+        };
+        
         
         document.getElementById("play").onclick = function(){
             logger.add("click", "Play Button");

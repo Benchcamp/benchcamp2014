@@ -1,23 +1,54 @@
 /* mobile style */
 
+.logo,
+.slideMenu,
+.mainContent,
+#lateralPannelButton,
+.mobileHidden{
+    display: none;
+}
+
+#toggleButton{
+    display: block;
+}
+
+
 .reproductor{
-    
-    
+    width: 100%;
+    height: 100%;
+}
+
+.control > div{    
+    width: 280px;
+    margin: auto auto;
+}
+
+.control > div div{    
+    display: inline;
+}
+
+.control span{
+    vertical-align:middle;
+}
+
+.control .display{
+    display: none;
 }
 
 .nav-bar{
-    height: 32px;
+    top: 0px;
+    width: 100%;
+    height: 20px;
 }
 
-.nav-bar #eventsButton{
-    display: none;
+.control{        
+    height: 60px;
+}
+
+.mainContent,
+.nowplay {    
+    height: calc(100% - 80px);
+    text-align: center;
 }
 
 
-.mainContent .filter{
-    display: none;
-}
-
-.mainContent #content{
-    display: none;
-}

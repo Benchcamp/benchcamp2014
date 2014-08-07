@@ -22,58 +22,58 @@
 		</script>
 	</head>
 
-	<body>
-		<div class="reproductor" >
-
-            <div class="toggle-button-list">
-            </div>        
-            
-			<div class="nav-bar">                                
-                <div class="logo"></div>
+	<body>        
+		<div class="reproductor" >            
+			<div class="nav-bar"> 
+                <div id="toggleButton" class="icon-menu"></div>
+                <div id="lateralPannelButton" class="icon-menu"></div>
+                
+                <div class="logo">
+                    LOGO !!!
+                </div>
+                
                 <button id="eventsButton"  class="buttonTop">
                     <span>(</span><span id="eventCounter" >0</span><span>) Eventos</span>                    
                 </button>                
             </div>	
 
-			<div class="mainContent" >
-				<div class="filter">	
-                    <ul>
-                        <li id="songFilter"  class="buttonLeft" >Canciones</li>
-                        <li id="albumFilter" class="buttonLeft" >&Aacute;lbums</li>
-                        <li id="artistFilter" class="buttonLeft" >Artistas</li>
-                    </ul>			
-				</div>
-                
-                <div class="favorites">
-                    !! favorites !!
-                </div>
-                
-				<div id="content">
-				</div>
+            <div class="slideMenu">
+                <ul>
+                    <li id="songFilter"  class="buttonLeft" >Canciones</li>
+                    <li id="albumFilter" class="buttonLeft" >&Aacute;lbums</li>
+                    <li id="artistFilter" class="buttonLeft" >Artistas</li>
+                </ul>			
 			</div>
             
             
-			<div class="control">                                
-
-				<div>
-					<span id="prev"  class="button">Pre</span>
-					<span id="play"  class="button">Play</span>
-					<span id="next"  class="button">next</span>
-				</div>
+            <div id="nowPlay" class="nowplay">
+                now play !!!
+            </div>
+            
+            <div id="content" class="mainContent">
                 
-                <div class="display" >
-                    <div class="config" id="right">
+			</div>
+                        
+			<div class="control">
+                <div>
+                    <div>
+                        <span id="prev"  class="button">&#xe604;</span>
+                        <span id="play"  class="button">&#xe602;</span>
+                        <span id="next"  class="button">&#xe605;</span>
                     </div>
-                    <div id="progressBar"></div>
-                    
-                    <div id="nowPlay"></div>
+
+                    <div class="display" >
+                        <div class="config" id="right">
+                        </div>
+                        <div id="progressBar"></div>                                        
+                    </div>
+
+                    <div>
+                        <a  id="LButton" class="button">&#xe606;</a >
+                        <a  id="RButton" class="button">&#xe607;</a >
+                    </div>
                 </div>
-                                
-				<div>
-					<a  id="LButton" class="button">L</a >
-					<a  id="RButton" class="button">R</a >
-				</div>
-			</div>
+            </div>
 		</div>
 
 

@@ -1,21 +1,49 @@
 /* tablet style */
 
-.reproductor{
-    
-}
 
-.nav-bar{
-    height: 32px;
-}
-
-.mainContent #content{
+#lateralPannelButton{
     display: block;
 }
 
+#toggleButton,
 .nav-bar #eventsButton{
     display: none;
 }
 
-.control .display{
-    display: none;
+.control{        
+    height: 100px;
+    height: 100px;
+    width: calc(100% - 200px);
+    position: absolute;
+    bottom: 0px;
+    margin-left: 200px;        
 }
+
+.mainContent{
+    display: inline-block;    
+    width: calc(100% - 100px);    
+    height: calc(100% - 120px);
+}
+
+.nowplay {
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    bottom: 0px;
+    margin-left: 100px;
+}
+
+.slideMenu{    
+    float: left;
+    width: 100px;
+    height: calc(100% - 20px);
+    display: block;    
+}
+
+.slideMenu > ul{
+    padding-left: 0px;
+    padding-top: 6px;
+}
+
+
+

@@ -1,27 +1,35 @@
 /* web style */
 
-.reproductor{    
-    height: 100%;
-}
-
 .nav-bar{
-    height: 80px;
+    height: 100px;
 }
 
-.toggle-button-list{
+#lateralPannelButton{
     display: none;
 }
 
-.nav-bar #eventsButton,
-.mainContent .filter{
+.logo{
     display: inline-block;
 }
 
-.mainContent #content{
-    display: block;
+
+.nav-bar #eventsButton{
+    text-align: right;
 }
 
+.mainContent{
+    height: calc(100% - 200px);
+}
 
-.mobile-display{
-    display: block;
+.slideMenu{
+    height: calc(100% - 200px);
+}
+
+.nowplay{
+    bottom: 100px;
+    margin-left: 0px;
+}
+
+.control{
+    margin-left: 0px; 
 }

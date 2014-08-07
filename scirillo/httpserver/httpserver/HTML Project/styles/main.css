@@ -2,16 +2,13 @@ li {
 	display: inline;
 	list-style: none;
 }
+ul{
+	-webkit-padding-start: 10px;
+}
 
-	#player {
-			width: 451px;
-			height: 101px;
-			background-image: url('assets/mediaplayer/player.png');
-
-			user-select: none;
-			-moz-user-select: none;
-			-webkit-user-select: none;
-		}
+#wrapper{
+	text-align: center;
+}
 		#blocker {
 			background-color: #f00;
 			opacity: 0;
@@ -27,46 +24,6 @@ li {
 			height: 32px;
 			top: 31px;
 		}
-		#playBtn {
-			left: 324px;
-		}
-		.playBtn {
-			background-image: url('../assets/mediaplayer/buttonPlay.png');
-		}
-		.playBtn:hover {
-			background-image: url('../assets/mediaplayer/buttonPlayHover.png');
-		}
-		#nextBtn {
-			left: 324px;
-		}
-		.nextBtn {
-			background-image: url('../assets/mediaplayer/buttonNext.png');
-		}
-		.nextBtn:hover {
-			background-image: url('../assets/mediaplayer/buttonNextHover.png');
-		}
-		.lastBtn {
-			background-image: url('../assets/mediaplayer/buttonLast.png');
-		}
-		.lastBtn:hover {
-			background-image: url('../assets/mediaplayer/buttonLastHover.png');
-		}
-		.pauseBtn {
-			background-image: url('../assets/mediaplayer/buttonPause.png');
-		}
-		.pauseBtn:hover {
-			background-image: url('../assets/mediaplayer/buttonPauseHover.png');
-		}
-		#stopBtn {
-			left: 387px;
-		}
-		.stopBtn {
-			background-image: url('../assets/mediaplayer/buttonStop.png');
-		}
-		.stopBtn:hover {
-			background-image: url('../assets/mediaplayer/buttonStopHover.png');
-		}
-
 		#labels {
 			top: 35px;
 			left: 37px;
@@ -131,6 +88,7 @@ li {
 		  height: 5px;		  
 		  border: 1px solid black;
 		  position: relative;
+		  display: inline-block;
 		}
 		 
 		#slider {
@@ -154,6 +112,72 @@ li {
 		.table-content li{
 			float: left;
 		}
+
+		button {
+		   -webkit-border-radius: 20px;
+		   -moz-border-radius: 20px;
+		   border-radius: 20px;
+		   color: white;
+			background: green;
+			border-color: green;
+		}
+
+		.navBar{
+			background: gainsboro;
+		}
+		.navBar>button{
+			margin-left: 10px;
+		
+		}
+
+
+/*TOGGLE*/ 	
+		.onoffswitch {
+    position: relative; width: 90px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 20px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "ON";
+    padding-left: 10px;
+    background-color: #2FCCFF; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "OFF";
+    padding-right: 10px;
+    background-color: #EEEEEE; color: #999999;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 18px; margin: 6px;
+    background: #FFFFFF;
+    border: 2px solid #999999; border-radius: 20px;
+    position: absolute; top: 0; bottom: 0; right: 56px;
+    -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}
 
 		
 
