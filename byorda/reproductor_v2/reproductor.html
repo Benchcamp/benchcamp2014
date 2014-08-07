@@ -1,47 +1,52 @@
 <html>
 <head>
-  <title>Reproductor BenchCamp</title>
-  <script type="text/javascript" src="js/events.js"></script>
-  <script type="text/javascript" src="js/util.js"></script>
-  <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" type="text/css" href="css/icomoon.css">
+    <title>BenchCamp Player</title>
+    <script type="text/javascript" src="js/events.js"></script>
+    <script type="text/javascript" src="js/util.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/icomoon.css">
 </head>
 
 <body onload="init()">
-  <div id="wrapper">
-    <div id="barra-herramientas">
-      <label id="lblContadorEventos" value="">0</label>
-      <input name="Eventos" id="btnEventos" type="button" value="Eventos">
+
+<div class="wrapper">
+    <div id="toggle">
+        <span id="btnToggleFilters" class="icon-list visible-toggle"></span>
+        <span id="btnTogglePlaying" class="icon-list hidden-toggle"></span>
     </div>
-    <div id="wrapper-contenido">
-      <div id="panel-filtros">
-        <ul>
-          <li><input name="Canciones" id="btnFiltroCanciones" type="button" value="Canciones"></li>
-          <li><input name="Albumes" id="btnFiltroAlbumes" type="button" value="Albums"></li>
-          <li><input name="Artistas" id="btnFiltroArtistas" type="button" value="Artistas"></li>
-        </ul>
-      </div>
-      <div id="contenido">
-        <table id="tabla-contenido">
-        </table>
-      </div>
+    <div id="wrapper-top">
+        <div id="panel-filters" class="panel-visible">
+            <div id="btnFilterSongs">Canciones</div>
+            <div id="btnFilterAlbums">Albums</div>
+            <div id="btnFilterArtists">Artistas</div>
+            <br/>
+            <div id="btnFilterFavorites">Favoritos</div>
+        </div>
+
+        <div id="content">
+            <table id="table-content"></table>
+        </div>
+
+        <div id="playing" class="panel-visible">
+            No suena nada... <span id="btnFavorite" class="icon-star"></span>
+        </div>
     </div>
 
-    <div id="controles-reproductor">
-      <ul>
-        <li><span id="btnAtras" name="Atras" class="icon-backward"></span></li>
-        <li><span id="btnPlayPausa" name="Play/Pausa" class="icon-play"></span></li>
-        <li><span id="btnSiguiente" name="Siguiente" class="icon-forward"></span></li>
-        <li><label id="lblTiempoActual">00:00</label></li>
-        <li><span id="btnMute" name="Mute" class="icon-volume-mute"></span></li>
-        <li><div id='bar'><div id='slider'></div></div></li>
-        <li><label id="lblTiempoTotal">00:00</label></li>
-        <li><span id="btnRepetir" name="Repetir" class="icon-loop"></span></li>
-        <li><span id="btnRandom" name="Random" class="icon-shuffle"></span></li>
-      </ul>
+    <div class="clearfix"></div>
+
+    <div id="controls-player">
+        <span id="btnPrev" class="icon-backward"></span>
+        <span id="btnPlayPause" class="icon-play"></span>
+        <span id="btnNext" class="icon-forward"></span>
+        <label id="lblElapsedTime">00:00</label>
+        <span id="btnMute" class="icon-volume-mute"></span>
+        <div id='bar'><div id='slider'></div></div>
+        <label id="lblTotalTime">00:00</label>
+        <span id="btnLoop" class="icon-loop"></span>
+        <span id="btnRandom" class="icon-shuffle"></span>
     </div>
-  </div>
-  <script type="text/javascript" src="js/soundJs.js"></script>
-  <script src="http://code.createjs.com/soundjs-0.5.2.min.js"></script>
+</div>
+<script type="text/javascript" src="js/soundJs.js"></script>
+<script src="http://code.createjs.com/soundjs-0.5.2.min.js"></script>
 </body>
 </html>
