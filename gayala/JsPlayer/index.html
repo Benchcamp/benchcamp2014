@@ -24,30 +24,25 @@
 
 	<body>
         
-        <div style="height:300px">
+        <div>
 
+<!--
           <script>
-            function allowDrop(ev) {
-                ev.preventDefault();
-            }
-
-            function drag(ev) {
-                ev.dataTransfer.setData("Text", ev.target.id);
-            }
+            function allowDrop(ev) {ev.preventDefault();}
+            function drag(ev) {ev.dataTransfer.setData("Text", ev.target.id);}
 
             function drop(ev) {
                 ev.preventDefault();
                 var data = ev.dataTransfer.getData("Text");
-                ev.target.appendChild(document.getElementById(data));
+                
+                alert(data);
             }
             </script>
 
-            <div id="div1" style="background-color:red; height:100px; widht:100px; " ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-
-            <img id="drag1" src="img\d.jpg" draggable="true"
-            ondragstart="drag(event)" width="336" height="69">
+            <div id="div2" style="background-color:yellow; height:100px; widht:100px; " ondrop="drop(event)" ondragover="allowDrop(event)"></div>
         
         </div>
+-->
         
 		<div class="reproductor" >            
 			<div class="nav-bar"> 
@@ -70,11 +65,10 @@
                     <li id="artistFilter" class="buttonLeft" >Artistas</li>
                 </ul>			
 			</div>
+                        
+<!--        ondrop="drop(event)" ondragover="allowDrop(event)" -->
             
-            
-            <div id="nowPlay" dropzone="copy file:image/png file:image/gif file:image/jpeg" class="nowplay">
-                now play !!!
-            </div>
+            <div id="nowPlayContent" class="nowplay" ></div>
             
             <div id="content" class="mainContent">
                 

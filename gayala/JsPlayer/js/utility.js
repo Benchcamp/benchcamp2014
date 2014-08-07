@@ -47,6 +47,7 @@ function createTable(data,columns, rowCallbacks){
             draggableAttribute.value = "true";
             tr.setAttributeNode(draggableAttribute);
             tr.ondragstart = rowCallbacks.onDragStart;
+            tr.ondragend = rowCallbacks.onDragEnd;
         }
                 
         table.appendChild(tr);
