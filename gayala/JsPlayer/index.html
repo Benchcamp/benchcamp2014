@@ -23,60 +23,83 @@
 	</head>
 
 	<body>
+        
+        <div style="height:300px">
+
+          <script>
+            function allowDrop(ev) {
+                ev.preventDefault();
+            }
+
+            function drag(ev) {
+                ev.dataTransfer.setData("Text", ev.target.id);
+            }
+
+            function drop(ev) {
+                ev.preventDefault();
+                var data = ev.dataTransfer.getData("Text");
+                ev.target.appendChild(document.getElementById(data));
+            }
+            </script>
+
+            <div id="div1" style="background-color:red; height:100px; widht:100px; " ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+            <img id="drag1" src="img\d.jpg" draggable="true"
+            ondragstart="drag(event)" width="336" height="69">
+        
+        </div>
+        
 		<div class="reproductor" >            
 			<div class="nav-bar"> 
-                <div id="toggleButton" class="toggle-button-list"></div>
-                <div id="lateralPannelButton" class="toggle-button-list"></div>
+                <div id="toggleButton" class="icon-menu"></div>
+                <div id="lateralPannelButton" class="icon-menu"></div>
                 
                 <div class="logo">
-                
                     LOGO !!!
-                
                 </div>
+                
                 <button id="eventsButton"  class="buttonTop">
                     <span>(</span><span id="eventCounter" >0</span><span>) Eventos</span>                    
                 </button>                
             </div>	
 
-			<div class="mainContent" >
-				<div class="filter">	
-                    <ul>
-                        <li id="songFilter"  class="buttonLeft" >Canciones</li>
-                        <li id="albumFilter" class="buttonLeft" >&Aacute;lbums</li>
-                        <li id="artistFilter" class="buttonLeft" >Artistas</li>
-                    </ul>			
-				</div>
-                
-                <div id="fav" class="favorites">
-                    !! favorites !!
-                </div>
-                
-				<div id="content">
-				</div>
+            <div class="slideMenu">
+                <ul>
+                    <li id="songFilter"  class="buttonLeft" >Canciones</li>
+                    <li id="albumFilter" class="buttonLeft" >&Aacute;lbums</li>
+                    <li id="artistFilter" class="buttonLeft" >Artistas</li>
+                </ul>			
 			</div>
             
             
-			<div class="control">                                
-
-				<div>
-					<span id="prev"  class="button">Pre</span>
-					<span id="play"  class="button">Play</span>
-					<span id="next"  class="button">next</span>
-				</div>
+            <div id="nowPlay" dropzone="copy file:image/png file:image/gif file:image/jpeg" class="nowplay">
+                now play !!!
+            </div>
+            
+            <div id="content" class="mainContent">
                 
-                <div class="display" >
-                    <div class="config" id="right">
+			</div>
+                        
+			<div class="control">
+                <div>
+                    <div>
+                        <span id="prev"  class="button">&#xe604;</span>
+                        <span id="play"  class="button">&#xe602;</span>
+                        <span id="next"  class="button">&#xe605;</span>
                     </div>
-                    <div id="progressBar"></div>
-                    
-                    <div id="nowPlay"></div>
+
+                    <div class="display" >
+                        <div class="config" id="right">
+                        </div>
+                        <div id="progressBar"></div>                                        
+                    </div>
+
+                    <div>
+                        <a  id="LButton" class="button">&#xe606;</a >
+                        <a  id="RButton" class="button">&#xe607;</a >
+                    </div>
                 </div>
-                                
-				<div>
-					<a  id="LButton" class="button">L</a >
-					<a  id="RButton" class="button">R</a >
-				</div>
-			</div>
+            </div>
 		</div>
 
 
