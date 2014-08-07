@@ -49,7 +49,7 @@ function songEnds() {
 		playSongHandler(Math.floor((Math.random() * totalsongs) + 1));
 	else
 		if (repeat){
-			(currentsong+1 < totalsongs) ? playSongHandler(++currentsong) : currentsong=1; playSongHandler(currentsong);
+			(currentsong+1 <= totalsongs) ? playSongHandler(++currentsong) : currentsong=1; playSongHandler(currentsong);
 		}else{
 			stopSong();
 		}
@@ -206,6 +206,50 @@ function showHideElement(element){
 }
 
 
+
+
+//puts a modal to a given id
+function modalThis(idtomod) {
+	actualmod=idtomod;
+	elem = document.getElementById(idtomod);
+	elem.style.visibility = (elem.style.visibility == "visible") ? "hidden" : "visible";
+}
+
+//unmodal if something is modaled
+function unmodal(){
+	modalThis(actualmod);
+}
+
+//toggles the sidebar
+function toggleMenu(){
+	var elem =document.getElementById("filters");
+	if (hasClass(elem,"on"))
+		removeClass(elem,"on");
+	else
+		addClass(elem,"on");
+}
+
+function chooseStar(size) {
+	return function() {
+		var elem;
+		for (var xx=1; xx<=5; xx++){
+			if (xx<=size){
+	 			elem= document.getElementById("star"+xx);
+	 			removeClass(elem,"icon-star");
+ 				addClass(elem,"icon-star2");
+			}else{
+	 			elem= document.getElementById("star"+xx);
+	 			removeClass(elem,"icon-star2");
+ 				addClass(elem,"icon-star");
+			}
+			
+		}
+	};
+}
+
+
+
+
 /*
 utilities
 */
@@ -251,46 +295,6 @@ function setRepeat(){
 	repeat=!repeat;
 }
 
-//puts a modal to a given id
-function modalThis(idtomod) {
-	actualmod=idtomod;
-	elem = document.getElementById(idtomod);
-	elem.style.visibility = (elem.style.visibility == "visible") ? "hidden" : "visible";
-}
-
-//unmodal if something is modaled
-function unmodal(){
-	modalThis(actualmod);
-}
-
-//toggles the sidebar
-function toggleMenu(){
-	var elem =document.getElementById("filters");
-	if (hasClass(elem,"on"))
-		removeClass(elem,"on");
-	else
-		addClass(elem,"on");
-}
-
-function chooseStar(size) {
-		return function() {
-			var elem;
-			for (var xx=1; xx<=5; xx++){
-				if (xx<=size){
-		 			elem= document.getElementById("star"+xx);
-		 			removeClass(elem,"icon-star");
-	 				addClass(elem,"icon-star2");
-				}else{
-		 			elem= document.getElementById("star"+xx);
-		 			removeClass(elem,"icon-star2");
-	 				addClass(elem,"icon-star");
-				}
-				
-			}
-
-
-		};
-}
 
 
 var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit;
@@ -326,7 +330,7 @@ window.onload=function(){
 	playbtn.addEventListener("click", function(){playSongHandler(currentsong)} );
 	pausebtn.addEventListener("click", pauseSong );
 	backbtn.addEventListener("click", function(){ currentsong-1 > 0 ? playSongHandler(--currentsong) : currentsong=totalsongs; playSongHandler(currentsong); } );
-	nextbtn.addEventListener("click", function(){currentsong+1 < totalsongs ? playSongHandler(++currentsong) : currentsong=1; playSongHandler(currentsong);} );
+	nextbtn.addEventListener("click", function(){currentsong+1 <= totalsongs ? playSongHandler(++currentsong) : currentsong=1; playSongHandler(currentsong);} );
 	playing.addEventListener("click", moveToPosition);
 	lbtn.addEventListener("click", setRepeat );
 	rbtn.addEventListener("click", setRandom );

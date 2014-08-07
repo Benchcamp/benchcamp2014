@@ -93,6 +93,9 @@ ul{
 .center{
 	text-align:center;
 }
+.icon-star, .icon-star2{
+	color:#f1c40f ;
+}
 
 
 /*Lists*/
@@ -107,10 +110,13 @@ ul{
 	background-color:#ccc;
 }
 
+
+
 /*Header*/
 
 
 /*Player*/
+
 #playing{
 	background-color: #95a5a6;
 }
@@ -150,11 +156,9 @@ ul{
 	display:inline-block;
 }
 
-
-.icon-star, .icon-star2{
-	color:#f1c40f ;
+.timing{
+	width:60px;
 }
-
 
 .inactive{
 	color:#95a5a6;
