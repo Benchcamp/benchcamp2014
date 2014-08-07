@@ -28,7 +28,7 @@ function init() {
                     document.getElementById("play").innerHTML = "&#xE602;"; // play
                 break;
                 case "Playing":
-                    document.getElementById("play").innerHTML = "&#xE603;";//stop
+                    document.getElementById("play").innerHTML = "&#xE603;"; //stop
                 break;
         };
     }; 
@@ -60,7 +60,7 @@ function init() {
         
 		self.player = new JSPlayer({            
             contentPlace: document.querySelector("#content"),
-            nowPlayPlace: document.querySelector("#nowPlay"),
+            nowPlayPlace: document.querySelector("#nowPlayContent"),
             progressBarPlace: document.querySelector("#progressBar"),
             selectRowCallback: self.selectRowCallback,
             changeStateCallback: self.onChangeState,
@@ -78,12 +78,11 @@ function init() {
         document.querySelector("#lateralPannelButton").onclick = function(){            
             var button = this;        
         };
-                    
-        
+                
         document.querySelector("#toggleButton").onclick = function(){            
             
             var button = this;
-            var nowPlay = document.querySelector("#nowPlay");            
+            var nowPlay = document.querySelector("#nowPlayContent");            
             var content = document.querySelector("#content");
             
             player.onSongFilter();

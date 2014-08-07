@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+	<title>Player Globo</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" href="css/styles.css" />
+	<link rel="stylesheet" href="css/fonts.css" />
+	<link rel="stylesheet" href="css/max768.css" media="all and (max-width: 768px)"/>	
+	<link rel="stylesheet" href="css/min768.css" media="all and (min-width: 768px)"/>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body>
+	<header class="wrapper">
+		<h1><span class="icon-menu"></span><div class="logo">Winamp</div></h1>
+	</header>
+	<main class="wrapper">
+		<aside>
+			<div class="categories">
+				<ul>
+					<li><a href="#">Albums</a></li>
+					<li><a href="#">Canciones</a></li>
+					<li><a href="#">Artistas</a></li>
+				</ul>
+				<div class="faved"></div>
+			</div>
+			<div class="playing">
+				<button type="button"><span class="icon-star2"></span>Rate it</button>
+			</div>
+		</aside>
+		<section class="playlist">
+			<ul>
+				<li><span class="track">Nothing Else Matters</span><span class="artist">Metallica</span><span class="time">4:25</span><span class="album">Black Album</span></li>
+				<li><span class="track">Turn the Page</span><span class="artist">Metallica</span><span class="time">4:15</span><span class="album">Garage Inc.</span></li>
+				<li><span class="track">The Unforgiven II</span><span class="artist">Metallica</span><span class="time">3:25</span><span class="album">Reload</span></li>
+				<li><span class="track">The Memory Remains</span><span class="artist">Metallica</span><span class="time">4:25</span><span class="album">Reload</span></li>
+				<li><span class="track">Nothing Else Matters</span><span class="artist">Metallica</span><span class="time">4:25</span><span class="album">Black Album</span></li>
+				<li><span class="track">Turn the Page</span><span class="artist">Metallica</span><span class="time">4:15</span><span class="album">Garage Inc.</span></li>
+				<li><span class="track">The Unforgiven II</span><span class="artist">Metallica</span><span class="time">3:25</span><span class="album">Reload</span></li>
+				<li><span class="track">The Memory Remains</span><span class="artist">Metallica</span><span class="time">4:25</span><span class="album">Reload</span></li>
+			</ul>
+		</section>
+	</main>
+	<footer class="wrapper">
+		<ul class="buttons">
+			<li><a href=""><span class="icon-backward"></span></a></li>
+			<li><a href=""><span class="icon-play"></span></a></li>
+			<li><a href=""><span class="icon-forward"></span></a></li>
+		</ul>
+	</footer>
+	<script>
+		$("header h1").click(function(){
+			$("body").toggleClass("show-playlist")
+		})
+	</script>
+</body>
+</html>

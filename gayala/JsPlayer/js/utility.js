@@ -17,8 +17,10 @@ function getTimeFromMilisecond(miliseconds){
     return ("0" + date.getMinutes()).slice (-2) + ":" + ("0" +  date.getSeconds()).slice (-2);
 };
 
-function createTable(data,columns, rowCallback){
+function createTable(data,columns, rowCallbacks){
     var table = document.createElement('table');
+        
+    var draggable = rowCallbacks != null && rowCallbacks.onDragStart != null;
     
     // add headers
     var tr = document.createElement('tr');
@@ -33,9 +35,20 @@ function createTable(data,columns, rowCallback){
     for (var i = 0; i < data.length; i++) {   
         var row = data[i];
         var tr = document.createElement('tr');
-        tr.onclick = rowCallback;
+        
+        if(rowCallbacks != null)
+            tr.onclick = rowCallbacks.onSelectedRow;
+        
         tr.data = data[i];
         tr.rowId = i;
+        
+        if(draggable){
+            var draggableAttribute = document.createAttribute("draggable");
+            draggableAttribute.value = "true";
+            tr.setAttributeNode(draggableAttribute);
+            tr.ondragstart = rowCallbacks.onDragStart;
+            tr.ondragend = rowCallbacks.onDragEnd;
+        }
                 
         table.appendChild(tr);
         for (var j = 0; j < columns.length; j++) {

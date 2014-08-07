@@ -63,7 +63,7 @@
 					<div class="play-data center-player">
 
 						<div class="song-time-vol">
-							<p id="transcurredtime">0:0</p>
+							<p id="transcurredtime" class="timing">0:0</p>
 							
 							<a href="#" id="btn-volume" class="button">
 								<span class="icon-volume-high"></span>
@@ -84,15 +84,26 @@
 
 					<div class="right-player">
 						<a href="#" id="btn-l" class="button">
-							<span class="icon-loop"></span>
+							<span id="i-loop" class="icon-loop inactive"></span>
 						</a>
 						<a href="#" id="btn-r" class="button">
-							<span class="icon-shuffle"></span>
+							<span id="i-shuffle" class="icon-shuffle inactive"></span>
 						</a>
 					</div>
 				</div>
 			</footer>
 
+
+			<div id="rate-it" class="modal rating">
+				<div>
+						
+						<a href="#" class="icon-star star1" id="star1"></a>
+						<a href="#" class="icon-star star2" id="star2"></a>
+						<a href="#" class="icon-star star3" id="star3"></a>
+						<a href="#" class="icon-star star4" id="star4"></a>
+						<a href="#" class="icon-star star5" id="star5"></a>
+				</div>
+			</div>
 
 			<div id="event-log-box" class="modal" >
 				<div>
@@ -106,6 +117,9 @@
 					</table>
 				</div>
 			</div><!--event-log-box-->
+
+
+
 		</div><!--container-->
 
 		<script src="http://code.createjs.com/soundjs-0.5.2.min.js"></script>
