@@ -21,7 +21,9 @@ function logEvent(e){
 	var actualtime=new Date(e.timeStamp);
 	var timetolog=actualtime.getHours()+":"+actualtime.getMinutes()+":"+actualtime.getSeconds();
 	var eventaction=e.type;
-	var eventelement=e.innerText;
+	var eventelement=e.target.innerText;
+	if (eventelement=="")
+		eventelement=e.target.className;
 	addToEventLog(eventaction,eventelement,timetolog);
 	console.log(e);
 }
@@ -285,7 +287,7 @@ function toggleMenu(){
 
 
 
-var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit, stars;
+var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit;
 
 // when site is loaded, loads the listeners and +
 window.onload=function(){
@@ -313,7 +315,7 @@ window.onload=function(){
 	toggler= document.getElementById("btn-hide-show-side");
 	modal=  document.getElementsByClassName("modal");
 	ratebtn = document.getElementById("rate");
-	stars=document.getElementsByClassName("icon-star");
+	//stars=document.getElementsByClassName("icon-star");
 
 	playbtn.addEventListener("click", function(){playSongHandler(currentsong)} );
 	pausebtn.addEventListener("click", pauseSong );
@@ -342,7 +344,6 @@ window.onload=function(){
 	function chooseStar(size) {
  		return function() {
  			var elem;
- 			console.log(size);
  			for (var xx=1; xx<=5; xx++){
  				if (xx<=size){
 		 			elem= document.getElementById("star"+xx);
