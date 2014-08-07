@@ -4,6 +4,7 @@
         <title>Glober Player</title>
         
         <script type="text/javascript" src="js/soundjs-0.5.2.min.js"></script>
+        <script type="text/javascript" src="js/RefreshView.js"></script>
         <script type="text/javascript" src="js/LoadInfo.js"></script>
         <script type="text/javascript" src="js/LoadPlayer.js"></script>
         <script type="text/javascript" src="js/LogicPlayer.js" ></script>
@@ -19,15 +20,15 @@
             
         </div>
         <div class="Traks">
-            <div class="box sortMusicByType">
+            <div id="itemTypes" class="box sortMusicByType">
                 
-                    <spam id="sortBySongs">Songs</spam>
-                    <spam id="sortByAlbums">Albums</spam>
-                    <spam id="sortByArtists">Artists</spam>
+                    <spam id="showSongs">Songs</spam>
+                    <spam id="showAlbums">Albums</spam>
+                    <spam id="showArtists">Artists</spam>
                 </ul>
             </div>
 
-            <div class="box listOfThemes">
+            <div id="boxSongs" class="box listOfItems">
                 <table class="tableOfTraks">
                     <thead>
                         <tr>
@@ -42,6 +43,10 @@
                     </tbody>
                     
                 </table>
+            </div>
+            <div id="boxAlbums" class="box listOfItems">Albums
+            </div>
+            <div id="boxArtists" class="box listOfItems">Atrists
             </div>
         </div>
         <div class="box buttonsPlayers">

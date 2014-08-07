@@ -3,18 +3,23 @@ var LoadPlayer = function () {
     
     var self = this;
     
+    var refreshView = new RefreshView();
+    
+    self.listOfArtists = [];
+    self.listOfAlbums = [];
+    
     self.listOfSongs = [];
     self.listOfTracks = [];
+    
     self.musicPath = "";
 
-
-    self.loadSongs = function () {
-        
-        var loadInfo = new LoadInfo();
-        loadInfo.artists();
-        loadInfo.albums();
+    self.firstloadInfo = function (loadInfo) {
         
         var listSongs = loadInfo.songs();
+        var listAlbums = loadInfo.albums();
+        var listartists = loadInfo.artists();
+        
+        refreshView.selectedItem( "itemTypes", "showSongs");
         
         self.musicPath = "music/";
         
@@ -27,9 +32,16 @@ var LoadPlayer = function () {
                                     artist: listSongs[i].artist,
                                     album: listSongs[i].album,
                                     song: listSongs[i].song
-                                   } );
+            } );
+            self.listOfAlbums.push( { 
+                                        artist: listSongs[i].artist,
+                                        album: listSongs[i].album
+            } );
+            self.listOfArtists.push( { 
+                                        artist: listSongs[i].artist
+            } );
         }
-
+        
     };
     
 
@@ -46,21 +58,14 @@ var LoadPlayer = function () {
     };
 
     self.handleLoad = function (event) {
+        
+        
         console.log("Preloaded:", event.id, event.src);
         
-        var name = "";
-        var tbodySongs = document.getElementById("listOfMusic");
-        var rowSong = document.createElement("tr");
         var track = self.dataTrack(event.id);
         
-        rowSong.id = track.id;
-        rowSong.onclick = function () { self.selectedSong(rowSong.id); };
-        //name = (event.src.split("/"))[1];
-        rowSong.innerHTML = "<td>" + track.song + "</td>" + "<td>"+ track.artist +
-                            "</td><td>"+ "00:00" + "</td><td>"+ track.album + "</td>";
+        refreshView.showSong(track);
 
-        tbodySongs.appendChild(rowSong);
-        
     };
     
     self.dataTrack = function(id){
@@ -74,14 +79,4 @@ var LoadPlayer = function () {
     };
     
     
-    self.selectedSong = function (id) {
-        //Clean
-        var unselectSong = document.querySelector(".songSelected");
-        if(unselectSong != null){
-            unselectSong.className = "";
-        }
-        //Mark
-        var selectedSong = document.getElementById(id);
-        selectedSong.className = "songSelected";
-    };
 };

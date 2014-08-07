@@ -15,7 +15,7 @@ var LogicPlayer = function(counterEvents){
             self.selectedSong.onPlay = false;
             
         } else {
-            self.selectedSong.id = document.querySelector(".songSelected").id;
+            self.selectedSong.id = document.querySelector(".selectedItem").id;
             self.selectedSong.onPlay = true;
         
             createjs.Sound.play(self.selectedSong.id);

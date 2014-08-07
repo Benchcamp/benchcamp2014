@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", function() {
     var counterEvents = new CounterOfEvents();
     var logicPlayer = new LogicPlayer(counterEvents);
     var loadPlayer = new LoadPlayer();
+    var refreshView = new RefreshView();
+    var loadInfo = new LoadInfo();
     
     document.getElementById("showEvents").addEventListener('click', counterEvents.showEvents, false);
 
@@ -12,9 +14,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("repeat").addEventListener('click', logicPlayer.repeat, false);
     document.getElementById("loop").addEventListener('click', logicPlayer.loop, false);
-                    
     
-    loadPlayer.loadSongs();
+    
+    loadPlayer.firstloadInfo(loadInfo);
     loadPlayer.loadSound();
-
+    refreshView.init();
+    
+    document.getElementById("showSongs").addEventListener('click', refreshView.loadSongs, false);
+    document.getElementById("showAlbums").addEventListener('click', refreshView.loadAlbums, false);
+    document.getElementById("showArtists").addEventListener('click', refreshView.loadArtists, false);
+    
+    /*loadInfo.artists();
+    loadInfo.albums();*/
 });

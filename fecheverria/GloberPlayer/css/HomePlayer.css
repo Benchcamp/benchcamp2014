@@ -9,11 +9,6 @@ body{
     height: 600px;
 }
 
-.box{
-    border: 2px solid;
-    border-color: #334455;
-}
-
 .toolBar{
     display: block;
     width: 100%;
@@ -50,10 +45,15 @@ body{
 
 }
 
-.listOfThemes{
-    display: inline;
+.listOfItems{
+    display: none;
     float:left;
     width: 60%;
+}
+
+.box{
+    border: 2px solid;
+    border-color: #334455;
 }
 
 .tableOfTraks{
@@ -72,7 +72,7 @@ body{
     background: #38eacd;
 }
 
-.songSelected{
+.selectedItem{
     background: #4ecfe3 !important;
 }
 
