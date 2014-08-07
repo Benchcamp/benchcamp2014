@@ -1,6 +1,10 @@
 
+html{
+	height:100%;
+}
 
 body{
+	height:100%;
 	font-size:1em;
 	color:#333;
 	margin:0px 0 0 0;
@@ -139,7 +143,7 @@ ul{
 	left:0px;
 	height:20px;
 	border-radius: 10px;
-	background-color: #2980b9;
+	background-color: #e74c3c;
 }
 
 #btn-play, #btn-pause{
@@ -150,6 +154,7 @@ ul{
 	-webkit-transition:all 0.3s linear;
 	-moz-transition:all 0.3s linear;
 	transition:all 0.3s linear;
+	height:100%;
 }
 
 .toggle-menu.on {
@@ -163,6 +168,9 @@ ul{
 	display:inline-block;
 }
 
+#volume{
+	position:absolute;
+}
 .timing{
 	width:60px;
 }
@@ -248,18 +256,25 @@ ul{
 
 
 #draggable {
+	background-color: #7f8c8d;
+	color:#ecf0f1;
 	position:absolute;
 	width:100px;
-    height:10px;
+    height:18px;
     overflow: hidden;
     padding:10px;
     z-index:1;
+    border-radius:2px;
+    text-align:center;
 }
 
-
-
 .drag-area {
+	text-align: center;
 	padding:10px;
 	margin:10px;
 	border:#ccc 5px dashed;
+}
+
+.drag-area:hover {
+	border:#2ecc71 5px dashed;
 }

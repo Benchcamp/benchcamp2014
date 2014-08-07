@@ -10,6 +10,7 @@ var repeat=false;
 var random=false;
 var registered=false;
 var actualmod;
+var currentlyplayingname="";
 
 
 /*
@@ -180,11 +181,15 @@ function displaySounds(content, filterid){/*in json*/
 		if (aresongs && !registered)
 			registerSong(content.structure[i].id);
 		//creating the content of the table
+		//used even and odd, in the future i have to use only css...
 		if (i%2==0)
 			rowstr+="<tr class=\"even\"";
 		else
 			rowstr+="<tr class=\"odd\"";
-		rowstr+=(filterid=="songs") ? " onclick=\"playSongHandler(" +content.structure[i].id+")\">" : ">";
+
+		//have to sanitize all this:
+		//i have to change playsonghandler and maybe data- here :(
+		rowstr+=(filterid=="songs") ? " data-name=\""+content.structure[i].songs+"\" data-id=\""+content.structure[i].id+"\" onclick=\"playSongHandler(" +content.structure[i].id+")\">" : ">";
 		rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].songs+"</td>" : "";
 		rowstr+="<td>"+ content.structure[i].artists+"</td>";
 		rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].time +"</td>" : "";
@@ -309,7 +314,7 @@ function setRepeat(){
 
 
 var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit;
-
+var mouse = {x: 0, y: 0};
 // when site is loaded, loads the listeners and +
 window.onload=function(){
 	// show songs as default
@@ -377,10 +382,10 @@ window.onload=function(){
 
 
 
-var mouse = {x: 0, y: 0};
 
 
-//improve this (because is always running...)
+
+//improve this (because is always running when mouse is moving...)
 document.addEventListener('mousemove', function(e){ 
     mouse.x = e.clientX || e.pageX; 
     mouse.y = e.clientY || e.pageY 
@@ -389,22 +394,12 @@ document.addEventListener('mousemove', function(e){
 
 var draggable=document.getElementById("draggable");
 var isDragging = false;
-var posx=0;
-var posy=0;
+
 
 function updatedrag() { 
-  //draggable.style.display = "none";
-  	posx=mouse.x; posy=mouse.y;
-	//draggable.style.transform = "translate("+posx-10+"px,"+posy-10+"px)";
-	//transform: translate3d(150px, 0, 0);
-	draggable.style.transform="translate3d("+posx+"px, "+posy+"px, 0)";
-	//draggable.style.width = posx+"px";
-	
-	if (isDragging) {
-		console.log("raf");
-		requestAnimationFrame(updatedrag);   
-		
-	}
+	draggable.style.transform="translate3d("+mouse.x+"px, "+mouse.y+"px, 0)";
+	if (isDragging) 
+		requestAnimationFrame(updatedrag);
 }
 
 function mousedown(event) {
