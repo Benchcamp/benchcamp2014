@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var counterEvents = new CounterOfEvents();
     var logicPlayer = new LogicPlayer(counterEvents);
     var loadPlayer = new LoadPlayer();
-    var refreshView = new RefreshView();
+    var refreshView = new RefreshView(counterEvents);
     var loadInfo = new LoadInfo();
     
     document.getElementById("showEvents").addEventListener('click', counterEvents.showEvents, false);

@@ -15,11 +15,16 @@ var LogicPlayer = function(counterEvents){
             self.selectedSong.onPlay = false;
             
         } else {
-            self.selectedSong.id = document.querySelector(".selectedItem").id;
-            self.selectedSong.onPlay = true;
-        
-            createjs.Sound.play(self.selectedSong.id);
-            document.getElementById("play").value = "Stop";    
+            var selectedSong = document.querySelector("#boxSongs.selectedItem");
+            if(selectedSong != null){
+                self.selectedSong.id = selectedSong.id;
+                
+                self.selectedSong.onPlay = true;
+
+                createjs.Sound.play(self.selectedSong.id);
+                document.getElementById("play").value = "Stop";    
+            }
+                
         }
 
     };

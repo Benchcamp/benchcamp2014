@@ -1,4 +1,4 @@
-var RefreshView = function () {
+var RefreshView = function (counterEvents) {
 
     var self = this;
     
@@ -8,16 +8,19 @@ var RefreshView = function () {
     };
     
     self.loadAlbums = function () {
+        counterEvents.countEvents();
         self.selectedItem( "itemTypes", "showAlbums");
         self.switchItems("Albums");
     };
     
     self.loadArtists = function () {
+        counterEvents.countEvents();
         self.selectedItem( "itemTypes", "showArtists");
         self.switchItems("Artists");
     };
     
     self.loadSongs = function () {
+        counterEvents.countEvents();
         self.selectedItem( "itemTypes", "showSongs");
         self.switchItems("Songs");
     };
