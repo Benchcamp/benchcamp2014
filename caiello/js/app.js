@@ -112,12 +112,9 @@ function update(){
 	var playedms = instance.getPosition();
 
 	document.getElementById("transcurredtime").innerHTML=parseInt(msToMinutes(playedms))+":"+parseInt(msToSecondsWithoutMinutes(playedms));
-
 	var percentplayed=percent(playedms,instance.getDuration());
 	//document.getElementById("progressbar").innerHTML=percentplayed;
-
 	document.getElementById("progressbar").style.width=percentplayed+"%";
-
 };
 
 // register a song
@@ -182,10 +179,6 @@ function displaySounds(content, filterid){/*in json*/
 		//if songs are not registered then register the songs and set the flag to true
 		if (aresongs && !registered)
 			registerSong(content.structure[i].id);
-			
-		
-			
-
 		//creating the content of the table
 		if (i%2==0)
 			rowstr+="<tr class=\"even\"";
@@ -258,24 +251,19 @@ function setRepeat(){
 	repeat=!repeat;
 }
 
-function toggleMenu(){
-	var elem =document.getElementById("filters");
-	if (hasClass(elem,"on"))
-		removeClass(elem,"on");
-	else
-		addClass(elem,"on");
-}
-
+//puts a modal to a given id
 function modalThis(idtomod) {
 	actualmod=idtomod;
 	elem = document.getElementById(idtomod);
 	elem.style.visibility = (elem.style.visibility == "visible") ? "hidden" : "visible";
 }
 
+//unmodal if something is modaled
 function unmodal(){
 	modalThis(actualmod);
 }
 
+//toggles the sidebar
 function toggleMenu(){
 	var elem =document.getElementById("filters");
 	if (hasClass(elem,"on"))
@@ -284,7 +272,25 @@ function toggleMenu(){
 		addClass(elem,"on");
 }
 
+function chooseStar(size) {
+		return function() {
+			var elem;
+			for (var xx=1; xx<=5; xx++){
+				if (xx<=size){
+		 			elem= document.getElementById("star"+xx);
+		 			removeClass(elem,"icon-star");
+	 				addClass(elem,"icon-star2");
+				}else{
+		 			elem= document.getElementById("star"+xx);
+		 			removeClass(elem,"icon-star2");
+	 				addClass(elem,"icon-star");
+				}
+				
+			}
 
+
+		};
+}
 
 
 var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit;
@@ -341,33 +347,12 @@ window.onload=function(){
 	for (var i=0; i < modal.length; i++)
 		modal[i].addEventListener("click", function(){unmodal()} );
 
-	function chooseStar(size) {
- 		return function() {
- 			var elem;
- 			for (var xx=1; xx<=5; xx++){
- 				if (xx<=size){
-		 			elem= document.getElementById("star"+xx);
-		 			removeClass(elem,"icon-star");
-	 				addClass(elem,"icon-star2");
- 				}else{
-		 			elem= document.getElementById("star"+xx);
-		 			removeClass(elem,"icon-star2");
-	 				addClass(elem,"icon-star");
- 				}
- 				
- 			}
-
-
- 		};
-	}
-
 	// have to put all in only one var
 	var choose1 = chooseStar(1);
 	var choose2 = chooseStar(2);
 	var choose3 = chooseStar(3);
 	var choose4 = chooseStar(4);
 	var choose5 = chooseStar(5);
-
 	document.getElementById('star1').onmouseover = choose1;
 	document.getElementById('star2').onmouseover = choose2;
 	document.getElementById('star3').onmouseover = choose3;
