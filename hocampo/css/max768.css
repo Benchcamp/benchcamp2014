@@ -1,4 +1,10 @@
-
+header div.logo{
+	display: none;
+}
+header span{
+	display: inline-block;
+	cursor: pointer;
+}
 aside{
 	z-index: 3;
 }

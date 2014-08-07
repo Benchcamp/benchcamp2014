@@ -1,3 +1,14 @@
+header h1{
+	overflow: auto;
+}
+header div.logo{
+	float: left;
+	border-radius: 0.5em;
+	background: #fff;
+	margin: 0.5em 0;
+	color: black;
+	padding: 1em;
+}
 aside{
 	float: left;
 	width: calc(20% - 20px);
