@@ -1,6 +1,7 @@
 
 html{
 	height:100%;
+	overflow: hidden;
 }
 
 body{
@@ -9,7 +10,7 @@ body{
 	color:#2c3e50;
 	margin:0px 0 0 0;
 	font-family: Helvetica, Arial, sans-serif;
-	overflow-x: hidden;
+	overflow: hidden;
 	/*disallow mouse selection*/
 	-webkit-user-select: none;  
 	-moz-user-select: none;         
@@ -32,10 +33,11 @@ a{
 	padding: 10px;
 	width:150px;
 }
-section{
+.section{
 	float:right;
+	width:100%;
+	overflow-y:auto;
 }
-
 
 aside{
 	height:100% ;
@@ -122,9 +124,6 @@ ul{
 	background-color:#ccc;
 }
 
-
-
-/*Header*/
 
 
 /*Player*/
@@ -228,9 +227,6 @@ ul{
     width: 100%;
     overflow: hidden;
 }
-.section{
-	width:100%;
-}
 
 #draggable {
 	background-color: #7f8c8d;
@@ -255,8 +251,12 @@ ul{
 .drag-area:hover {
 	border:#2ecc71 5px dashed;
 }
-
-
+.section-with-sidebar{
+	width: calc(100% - 170px);
+}
+.section-without-sidebar{
+	width: 100%;
+}
 
 /*media widths taken from http://stackoverflow.com/a/16727073 */
 @media (max-width:320px) { 
@@ -316,5 +316,12 @@ ul{
 	position:absolute;
 	bottom:71px;
 	height:calc(100% - 203px);
+	color: #ecf0f1;
+	text-align: center;
+}
+
+.currently-playing a{
+	color: #ecf0f1;
+	font-weight:bold;
 }
 

@@ -227,7 +227,20 @@ function unmodal(){
 
 //toggles the sidebar
 function toggleMenu(){
-	var elem =document.getElementById("filters");
+	//have to reuse here..
+
+	var elem =document.getElementById("section");
+	if (hasClass(elem,"on"))
+		removeClass(elem,"on");
+	else
+		addClass(elem,"on");
+
+	elem =document.getElementById("filters");
+	if (hasClass(elem,"on"))
+		removeClass(elem,"on");
+	else
+		addClass(elem,"on");
+	elem =document.getElementById("currently-playing");
 	if (hasClass(elem,"on"))
 		removeClass(elem,"on");
 	else
@@ -236,7 +249,6 @@ function toggleMenu(){
 
 //toggles the sidebar
 function toggleMenuMob(){
-	console.log("toggleando");
 	var elem =document.getElementById("currently-playing");
 	if (hasClass(elem,"on"))
 		removeClass(elem,"on");
@@ -391,48 +403,23 @@ window.onload=function(){
 	document.getElementById('star4').onmouseover = choose4;
 	document.getElementById('star5').onmouseover = choose5;
 
-
-
-
-
-
-
-//improve this (because is always running when mouse is moving...)
-document.addEventListener('mousemove', function(e){ 
-    mouse.x = e.clientX || e.pageX; 
-    mouse.y = e.clientY || e.pageY 
-}, false);
-
-
 var draggable=document.getElementById("draggable");
 var isDragging = false;
+document.addEventListener('mousemove', function(e){ 
+	mouse.x = e.clientX || e.pageX; 
+	mouse.y = e.clientY || e.pageY;
+	if (!isDragging) {
+
+		isDragging = true;
+		requestAnimationFrame(updatedrag);
+	}
+}, false);
 
 
 function updatedrag() { 
 	draggable.style.transform="translate3d("+mouse.x+"px, "+mouse.y+"px, 0)";
-	if (isDragging) 
-		requestAnimationFrame(updatedrag);
-}
-
-function mousedown(event) {
-	isDragging = true;
-	posx=event.clientX;
-	posy=event.clientY;
-	console.log(posx);
-	requestAnimationFrame(updatedrag); 
-}
-
-function mouseup() {
 	isDragging = false;
 }
-
-
-draggable.addEventListener("mousedown", mousedown);
-
-
-document.getElementById("draggable").addEventListener("mouseup",mouseup);
-
-
 
 
 
