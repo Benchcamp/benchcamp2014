@@ -79,11 +79,14 @@ function init() {
 	self.div = null;
 	
     self.oncontextmenu = function (e){        
-        
+		e.preventDefault();
+		
 		if(self.div != null){self.close();}
 		
+		if(e.toElement.tagName != "TD")
+			return;
 		
-		e.preventDefault();        		
+				
         var td = e.toElement;
         var tr = td.parentNode;  
 		var data = td.data;
