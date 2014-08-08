@@ -36,12 +36,14 @@ function createTable(data,columns, rowCallbacks){
         var row = data[i];
         var tr = document.createElement('tr');
         
-        if(rowCallbacks != null)
+        if(rowCallbacks != null){
             tr.onclick = rowCallbacks.onSelectedRow;
+            tr.oncontextmenu = rowCallbacks.oncontextmenu;            
+        }
         
         tr.data = data[i];
         tr.rowId = i;
-        
+                
         if(draggable){
             var draggableAttribute = document.createAttribute("draggable");
             draggableAttribute.value = "true";

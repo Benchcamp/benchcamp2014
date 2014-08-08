@@ -8,6 +8,13 @@
     display: none;
 }
 
+.repoductor{
+    
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;    
+    border-radius: 8px; 
+}
+
 #toggleButton{
     display: block;
 }
@@ -19,14 +26,12 @@
 }
 
 .control > div{    
-    width: 280px;
+    width: 176px;
     margin: auto auto;
 }
 
-.control > div div{    
-    display: inline;
-}
 
+/*
 .control span{
     vertical-align:middle;
 }
@@ -34,6 +39,7 @@
 .control .display{
     display: none;
 }
+*/
 
 .nav-bar{
     top: 0px;
@@ -42,13 +48,20 @@
 }
 
 .control{        
-    height: 60px;
+    height: 37px;
 }
 
 .mainContent,
-.nowplay {    
-    height: calc(100% - 80px);
-    text-align: center;
+.nowplay {
+    height: calc(100% - 61px);
+}
+
+.mobile-playlist #nowPlayContent{    
+    display: none;
+}
+
+.mobile-playlist #content{
+    display: block;
 }
 
 

@@ -16,8 +16,10 @@ function JSPlayer(config) {
     self.contentPlace = config.contentPlace;
     self.nowPlayPlace = config.nowPlayPlace;
     self.progressBarPlace = config.progressBarPlace;
-    self.slider = new SliderAnimation(self.progressBarPlace);        
-        
+    self.slider = new SliderAnimation(self.progressBarPlace);
+    self.oncontextmenu = config.oncontextmenu;
+     
+    
     self.loop = function(value){
         if(arguments.length == 0)
             return self._loop;
@@ -52,7 +54,9 @@ function JSPlayer(config) {
             self.table = createTable(data,["artist", "track", "album", "time"], 
                                      {onSelectedRow: self.onSelectedRow, 
                                       onDragStart: self.onDragStart,
-                                      onDragEnd: self.onDragEnd});
+                                      onDragEnd: self.onDragEnd,
+                                      oncontextmenu: self.oncontextmenu
+                                     });
             
             if(self.isPlaying()){
                 var allTR = self.table.querySelectorAll("tr");
@@ -89,8 +93,7 @@ function JSPlayer(config) {
     
     
     self.onDragStart = function (event) {        
-        event.dataTransfer.effectAllowed = "move";
-        event.dataTransfer.setData("text/plain", "datos");        
+        event.dataTransfer.effectAllowed = "move"; 
         self.currentDragggedRow = event.currentTarget;
     }
     
