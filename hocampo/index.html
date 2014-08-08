@@ -10,9 +10,9 @@
 	<link rel="stylesheet" href="css/tablet.css" media="all and (min-device-width: 640px)"/>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
-<body  class="wrapper">
+<body id="body" class="wrapper">
 	<header>
-		<h1><span class="icon-menu"></span><div class="logo">Globamp</div></h1>
+		<h1><span class="icon-menu" id="toggle"></span><div class="logo">Globamp</div></h1>
 	</header>
 	<main>
 		<aside>
@@ -56,9 +56,34 @@
 		</ul>
 	</footer>
 	<script>
-		$("header h1").click(function(){
+
+	function toggleClass(element, className){
+	    if (!element || !className){
+	        return;
+	    }
+	    
+	    var classString = element.className, nameIndex = classString.indexOf(className);
+	    if (nameIndex == -1) {
+	        classString += ' ' + className;
+	    }
+	    else {
+	        classString = classString.substr(0, nameIndex) + classString.substr(nameIndex+className.length);
+	    }
+	    element.className = classString;
+	}	
+
+	document.getElementById('toggle').addEventListener('click', function() {
+
+		toggleClass(document.getElementById('body'), 'show-playlist')
+
+	});
+
+		/* $("header h1").click(function(){
 			$("body").toggleClass("show-playlist")
-		})
+		})*/	
+
+		// document.getElementById("body").className += " show-playlist";
+
 	</script>
 </body>
 </html>
