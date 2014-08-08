@@ -34,7 +34,10 @@ function addFavorite() {
 function toggleFilters() {
     document.getElementById("panel-filters").classList.toggle("panel-hidden");
     document.getElementById("panel-filters").classList.toggle("panel-visible");
+    document.getElementById("playing-smart").classList.toggle("panel-visible");
+    document.getElementById("playing-smart").classList.toggle("panel-hidden");
     document.getElementById("wrapper-top").classList.toggle("full-size");
+    document.getElementById("wrapper-bot").classList.toggle("full-size");
 }
 
 function togglePlaying() {

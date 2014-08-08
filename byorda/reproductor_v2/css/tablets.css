@@ -47,21 +47,24 @@ and (orientation: landscape) {
 
     /* * * * * * */
     #wrapper-bot {
+        height: 7rem;
         padding-left: 132px;
+    }
+
+    #wrapper-bot.full-size {
+        padding-left: 0;
     }
 
     #playing-tab {
         background-color: darkgray;
-        position: absolute;
-        width: 130px;
         height: 100%;
+        text-align: center;
     }
 
     #controls-player {
-        height: 100%;
+        font-size: 1.3em;
     }
 
-    /* * * * * * */
     #content.full-size {
         float: none;
         width: calc(100%);
@@ -70,15 +73,15 @@ and (orientation: landscape) {
     /* * * * * * */
     #bar {
         width: 40%;
-        height: 5px;
-        border: 1px solid black;
+        height: 8px;
         position: relative;
         display: inline-block;
+        background-color: darkgray;
     }
 
     #slider {
         width: 0;
         height: 100%;
-        background-color: green;
+        background-color: dimgray;
     }
 }
