@@ -26,7 +26,7 @@ function logEvent(e){
 	if (eventelement=="")
 		eventelement=e.target.className;
 	addToEventLog(eventaction,eventelement,timetolog);
-	console.log(e);
+	//console.log(e);
 }
 
 // adds an item to the log
@@ -135,6 +135,7 @@ function filter(tofilterid){
          function(data) { console.log(data); },
          function(xhr) { console.error(xhr); },
          tofilterid);
+	console.log("antes");
 };
 
 // loads a json
@@ -183,9 +184,9 @@ function displaySounds(content, filterid){/*in json*/
 		//creating the content of the table
 		//used even and odd, in the future i have to use only css...
 		if (i%2==0)
-			rowstr+="<tr class=\"even\"";
+			rowstr+="<tr class=\"songp even\"";
 		else
-			rowstr+="<tr class=\"odd\"";
+			rowstr+="<tr class=\"songp odd\"";
 
 		//have to sanitize all this:
 		//i have to change playsonghandler and maybe data- here :(
@@ -228,23 +229,21 @@ function unmodal(){
 //toggles the sidebar
 function toggleMenu(){
 	//have to reuse here..
+	var elemsec =document.getElementById("section");
+	var elemcpl =document.getElementById("currently-playing");
+	var elemfil =document.getElementById("filters");
 
-	var elem =document.getElementById("section");
-	if (hasClass(elem,"on"))
-		removeClass(elem,"on");
-	else
-		addClass(elem,"on");
+	if (hasClass(elemcpl,"on")){
+		removeClass(elemcpl,"on");
+		removeClass(elemfil,"on");
+		removeClass(elemsec,"full-width");
+	}else{
+		addClass(elemcpl,"on");
+		addClass(elemfil,"on");
+		addClass(elemsec,"full-width");
+	}
 
-	elem =document.getElementById("filters");
-	if (hasClass(elem,"on"))
-		removeClass(elem,"on");
-	else
-		addClass(elem,"on");
-	elem =document.getElementById("currently-playing");
-	if (hasClass(elem,"on"))
-		removeClass(elem,"on");
-	else
-		addClass(elem,"on");
+
 }
 
 //toggles the sidebar
@@ -332,19 +331,49 @@ function setRepeat(){
 }
 
 
+function func(event,data){
+	console.log(data);
+}
 
+function eventListenerMaker(data) {
+  return function(event) {
+    func(event, data);
+  }
+}
 
 
 var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit;
+
 var mouse = {x: 0, y: 0};
 // when site is loaded, loads the listeners and +
-window.onload=function(){
+
+
+
+window.onload=function()
+{
+
+
+	setTimeout(filter("songs"),0); //WTF
+	console.log("despues");
+
+
+	//closure del orto:
+
+
+
+	var songss = document.getElementsByClassName("songp");
+	console.log(songss.length);
+	for (ll=0; ll<songss.length; ll++)
+	{
+	  songss[ll].addEventListener("mousedown", eventListenerMaker(songss[ll].getAttribute('data-name')));
+	}
+
 	// show songs as default
-	filter("songs");
+	
 	// event is triggered (for logs)
 	document.onclick = function (e) { return logEvent(e); };
-	document.ondblclick = function (e) { return logEvent(e); }; 
-	document.onkeyup = function (e) { return logEvent(e); }; 
+	document.ondblclick = function (e) { return logEvent(e); };
+	document.onkeyup = function (e) { return logEvent(e); };
 	/*
 	Other vars and Listeners
 	*/
@@ -373,7 +402,6 @@ window.onload=function(){
 	playing.addEventListener("click", moveToPosition);
 	lbtn.addEventListener("click", setRepeat );
 	rbtn.addEventListener("click", setRandom );
-
 	volumebtn.addEventListener("click", muteSound );
 	volumebtn.addEventListener("mouseover", function(){ showHideElement("volume")} );
 	volumebtn.addEventListener("mouseout", function(){ showHideElement("volume")} );
@@ -403,34 +431,38 @@ window.onload=function(){
 	document.getElementById('star4').onmouseover = choose4;
 	document.getElementById('star5').onmouseover = choose5;
 
-var draggable=document.getElementById("draggable");
-var isDragging = false;
-document.addEventListener('mousemove', function(e){ 
-	mouse.x = e.clientX || e.pageX; 
-	mouse.y = e.clientY || e.pageY;
-	if (!isDragging) {
+	var draggable=document.getElementById("draggable");
+	var isDragging = false;
 
-		isDragging = true;
-		requestAnimationFrame(updatedrag);
+
+	document.addEventListener('mousemove', function(e){ 
+		mouse.x = e.clientX || e.pageX; 
+		mouse.y = e.clientY || e.pageY;
+		if (!isDragging) {
+
+			isDragging = true;
+			requestAnimationFrame(updatedrag);
+		}
+	}, false);
+
+
+	function updatedrag() { 
+		draggable.style.transform="translate3d("+(mouse.x-10)+"px, "+(mouse.y-10)+"px, 0)";
+		isDragging = false;
 	}
-}, false);
 
 
-function updatedrag() { 
-	draggable.style.transform="translate3d("+mouse.x+"px, "+mouse.y+"px, 0)";
-	isDragging = false;
-}
+	function mousedown(event) {
+		//removeClass(draggable,"not-dragging");
+	}
+
+	function mouseup() {
+		addClass(draggable,"not-dragging");
+	}
 
 
-
-
-
-
-
-
-
-
-
+	document.addEventListener("mousedown", mousedown);
+	document.addEventListener("mouseup", mouseup);
 
 
 
