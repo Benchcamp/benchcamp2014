@@ -1,0 +1,20 @@
+[
+    {   
+        "artist": "Dire Straits",
+        "album": "Brothers in Arms",
+        "song": "Money for nothing",
+        "name": "Dire Straits - Money For Nothing.mp3"
+    },
+    { 
+        "artist": "Peter Tosh",
+        "album": "Mama Africa",
+        "song": "Johnny be good",
+        "name": "Peter Tosh - Johnny Be Good.mp3"
+    },
+    { 
+        "artist": "One Republic",
+        "album": "Native",
+        "song": "Counting Stars",
+        "name": "One Republic - Counting Stars.mp3"
+    }
+]

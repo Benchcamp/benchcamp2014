@@ -1,0 +1,74 @@
+header div.logo{
+	display: none;
+}
+header span{
+	display: inline-block;
+	cursor: pointer;
+}
+aside{
+	z-index: 3;
+}
+aside div.categories{
+	display: none;
+}
+aside{
+	float: none;
+	width: 100%;
+}
+.show-playlist aside{
+	right: 110%;
+}
+section.playlist{
+	z-index: 2;
+	top: 0;
+	width: 100%;
+	left: 100%;
+	-webkit-transition: 0.5s linear all;
+}
+.show-playlist section.playlist{
+	left: 0%;	
+}
+section.playlist ul li span{
+	font-size: 0.7em;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+section.playlist ul li span:not(.time){
+	width: 25%;
+	padding-right: 5%;	
+}
+footer{
+	clear: both;
+}
+footer .buttons li.button-player span{
+	width: 1.5em;
+	height: 1.5em;
+	line-height: 1.5em;
+	font-size: 1em;
+}
+footer .buttons li.button-player{
+	width: 35%;
+}
+footer .buttons li.button-player.left-right{
+	padding-left: 5%;
+	width: 20%;
+}
+footer .buttons li.volume-control{
+	width: 40%;
+	margin-left: -2%;
+	margin-right: 2%;
+}
+footer .buttons li.volume-control input{
+	width: 80%;
+	float: left;
+	margin: -0.4em 0 0 10%;
+}
+footer .buttons li.volume-control span{
+	float: left;
+	width: 10%;
+	text-align: center;
+	font-size: 0.9em;
+	height: 1em;
+	line-height: 0.9em;
+}

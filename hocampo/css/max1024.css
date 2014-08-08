@@ -1,0 +1,13 @@
+body{
+	background:white;
+}
+aside{
+	display: block;
+}
+aside .playing{
+	position: relative;
+	left: calc(100% + 20px);
+}
+footer{
+	
+}

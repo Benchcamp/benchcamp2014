@@ -1,0 +1,15 @@
+@media only screen
+and (min-width: 1224px) {
+    body {
+        font-size: 20px;
+    }
+
+    #controls-player {
+        height: 20%;
+    }
+
+    #panel-filters div:hover {
+        background-color: lightgray;
+        color: black;
+    }
+}

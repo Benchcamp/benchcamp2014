@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html>
-	<header>
+	<head>
 		<title>Reproductor de m&uacute;sica - tarea 1</title>
 		<meta name="viewport" content="width=device-width, user-scalable=no">
 		<link rel="stylesheet" href="css/reset.min.css">
 		<link rel="stylesheet" href="css/styles.css">
 		<link rel="stylesheet" href="css/fonts.css">
-	</header>
+	</head>
 	<body>
+		<div id="draggable" class="not-dragging"> canci&oacute;n </div>
+
 		<div id="container">
 			<nav>
 				<div class="left">
-					<a href="#" id="btn-hide-show-side" class="button">
+					<a href="#" id="btn-hide-show-side" class="button btn-desk-tablet">
 						<span class="icon-menu"></span>
 					</a>
-
-					logo
+					<a href="#" id="btn-hide-show-side-mobile" class="button btn-mobile">
+						<span class="icon-menu"></span>
+					</a>					
+					<!--<h1>logo</h1>-->
 				</div>
 				<div class="right events">
 					<p><span id="eventlogcount">0</span></p>
@@ -23,22 +27,33 @@
 				</div>
 			</nav>
 
-			<aside id="filters" class="toggle-menu">
+			<aside id="filters" class="toggle-menu side-bar">
 				<ul>
 					<li><a href="#" id="filter-songs">Canciones</a></li>
 					<li><a href="#" id="filter-albums">&Aacute;lbums</a></li>
 					<li><a href="#" id="filter-artists">Artistas</a></li>
+					<li><hr/></li>
+					<li>Favoritos</li>
 				</ul>
+				<div class="drag-area" data-name="nombre">
+					dropeate ac&aacute;!
+				</div>
+
+				<div class="drag-area" data-name="nombre2">
+					dropeate ac&aacute;!
+				</div>
+
 			</aside>
 
 
-			<section>
+			<section id="section" class="section toggle-menu">
 				<table id="content" class="list">
 				</table>
 			</section>
 
-			<div id="currently-playing">
-				Currently playing
+			<div id="currently-playing" class="toggle-menu currently-playing side-bar">
+				<h2>Currently playing</h2>
+				<p>nothing :(</p>
 				<a href="#" id="rate">Rate it!</a>
 			</div>
 
@@ -70,7 +85,7 @@
 							</a>
 
 							<div id="volume" style="display: none;">
-								<div id="volumebar">bar</div>
+								<div id="volumebar">foo.bar proximamente..</div>
 							</div>
 							
 						</div>
@@ -90,13 +105,13 @@
 							<span id="i-shuffle" class="icon-shuffle inactive"></span>
 						</a>
 					</div>
-				</div>
+				</div><!--player-->
 			</footer>
 
 
 			<div id="rate-it" class="modal rating">
 				<div>
-						
+						<p>no seas taca&ntilde;o</p>
 						<a href="#" class="icon-star star1" id="star1"></a>
 						<a href="#" class="icon-star star2" id="star2"></a>
 						<a href="#" class="icon-star star3" id="star3"></a>

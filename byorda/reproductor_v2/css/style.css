@@ -1,83 +1,86 @@
-#wrapper {
-  width: 50%;
-  margin: 0 auto;
-  overflow: hidden;
-  border: 1px solid black;
+/* General */
+.wrapper {
+    width: 50em;
+    height: 25em;
+    margin: 0 auto;
+    overflow: hidden;
+    background-color: lightgray;
 }
 
-#wrapper-contenido {
-  overflow: hidden;
+#wrapper-top {
+    position: relative;
+    -webkit-transition: padding 0.5s;
 }
 
-/* * * * * * */
-
-#contenido {
-  overflow: hidden;
-  width: auto;
-  text-align: center;
-  border: 1px solid green;
+#wrapper-top.full-size {
+    padding-left: 0;
 }
 
-#contenido table {
-  width: 100%;
-  border-collapse: collapse;
+#toggle {
+    background-color: darkgray;
 }
 
-#contenido table tr * {
-  text-align: center;
+#toggle span {
+    font-size: 1.2em;
+    height: 100%;
+    padding: 0.3em;
+}
+
+#panel-filters {
+    display: block;
+    background-color: #BEBEBE;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-transition: transform 0.5s;
+}
+
+#panel-filters * {
+background-color: dimgray;
+color: white;
+text-align: center;
+}
+
+.panel-visible {
+    -webkit-transform: translate(0, 0);
+}
+
+.panel-hidden {
+    display: none;
+}
+
+#content {
+    height: 100%;
+    width: 100%;
+}
+
+#content table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#content table tr * {
+    text-align: center;
 }
 
 .selected {
-  background-color: green;
-  color: white;
+    background-color: dimgray;
+    color: white;
 }
 
-/* * * * * * */
-
-#barra-herramientas {
-  text-align: right;
-  border: 1px solid blue;
+#wrapper-bot {
+    background-color: #BEBEBE;
 }
 
-/* * * * * * */
-
-#panel-filtros {
-  float: left;
-  width: 19%;
-  border: 1px solid red;
+#controls-player {
+    background-color: darkgray;
+    text-align: center;
 }
 
-#panel-filtros ul {
-  list-style-type: none;
-  list-style-position: outside;
+#controls-player > * {
+    display: inline-block;
 }
 
-#panel-filtros ul input {
-  width: 100%;
-}
-
-/* * * * * * */
-
-#controles-reproductor {
-  border: 1px solid orange;
-  text-align: center;
-}
-
-#controles-reproductor ul li {
-  display: inline;
-  list-style-type: none;
-}
-
-#bar {
-  width: 40%;
-  height: 5px;
-  border: 1px solid black;
-  position: relative;
-}
- 
-#slider {
-  width: 0%;
-  height: 100%;
-  background-color: green;
-  position: absolute;
+.clearfix {
+    clear: both;
 }

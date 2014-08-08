@@ -1,10 +1,10 @@
-function mostrarContenidoJSON(path) {
+function displayJSONContent(path) {
     var httpRequest = new XMLHttpRequest();
     var retorno;
-    httpRequest.onreadystatechange = function() {
+    httpRequest.onreadystatechange = function () {
         if (httpRequest.readyState === 4) { //DONE
             if (httpRequest.status === 200) { //SUCCESS
-                mostrarContenido(JSON.parse(httpRequest.responseText));
+                displayContent(JSON.parse(httpRequest.responseText));
             }
         }
     };
@@ -12,86 +12,86 @@ function mostrarContenidoJSON(path) {
     httpRequest.send();
 }
 
-function mostrarContenido(jsonDatos) {
-  var divContenido, tablaContenido;
-  
-  tablaContenido = crearTabla(jsonDatos);
-  divContenido = document.getElementById("contenido");
+function displayContent(jsonData) {
+    var divContent, tableContent;
 
-  tablaContenido.id = "tabla-contenido";
-  divContenido.innerHTML = "";
-  divContenido.appendChild(tablaContenido);
+    tableContent = createTable(jsonData);
+    divContent = document.getElementById("content");
+
+    tableContent.id = "table-content";
+    divContent.innerHTML = "";
+    divContent.appendChild(tableContent);
 }
 
-function crearTabla(jsonDatos) {
-    var tabla, tr;
-    
-    tabla = document.createElement("table");
+function createTable(jsonData) {
+    var table, thead, tbody, tr;
+
+    table = document.createElement("table");
+    thead = document.createElement("thead");
+    tbody = document.createElement("tbody");
     tr = document.createElement("tr");
 
-    for (var name in jsonDatos.items[0]) {
+    for (var name in jsonData.items[0]) {
         var th = document.createElement("th");
         th.innerHTML = name;
         tr.appendChild(th);
     }
 
-    tabla.appendChild(tr);
+    thead.appendChild(tr);
+    table.appendChild(thead);
 
-    for (var i = 0; i < jsonDatos.items.length; ++i) {
+    for (var i = 0; i < jsonData.items.length; ++i) {
         tr = document.createElement("tr");
-        tr.addEventListener("click", seleccionarFila, false);
+        tr.addEventListener("click", selectRow, false);
         tr.id = i + 1;
 
-        for (var name in jsonDatos.items[i]) {
+        for (var name in jsonData.items[i]) {
             var td = document.createElement("td");
-            td.innerHTML = jsonDatos.items[i][name];
+            td.innerHTML = jsonData.items[i][name];
             tr.appendChild(td);
         }
-        tabla.appendChild(tr);
+        tbody.appendChild(tr);
     }
-    return tabla;
+    table.appendChild(tbody)
+
+    return table;
 }
 
 // *** SELECCION *** //
-function seleccionarFila() {
-    deseleccionarTodo();
+function selectRow() {
+    deselectAll();
     this.className = "selected";
 }
 
-function seleccionarFilaPorID(id) {
-    deseleccionarTodo();
+function selectRowByID(id) {
+    deselectAll();
     document.getElementById(id).className = "selected";
 }
 
-function deseleccionarTodo() {
-    var rows = document.querySelectorAll("#tabla-contenido tr");
+function deselectAll() {
+    var rows = document.querySelectorAll("#table-content tr");
     for (var i = 1; i < rows.length; i++) {
         rows[i].className = "";
     }
 }
 
 // *** FORMATEOS *** //
-function formatearHora(milis) {
-    var inDate = new Date(milis);
-    return dosDigitos(inDate.getHours()) + ":" + dosDigitos(inDate.getMinutes()) + ":" + dosDigitos(inDate.getSeconds());
-}
-
-function dosDigitos(numero) {
+function twoDigits(numero) {
     return numero > 9 ? numero : "0" + numero;
 }
 
-function msASegundos(milis) {
+function msToSeconds(milis) {
     return Math.floor(milis / 1000);
 }
 
-function msAMinutos(milis) {
-    return Math.floor(msASegundos(milis) / 60);
+function msToMinutes(milis) {
+    return Math.floor(msToSeconds(milis) / 60);
 }
 
-function segundosRestantes(milis) {
-    return msASegundos(milis) % 60
+function remainingSeconds(milis) {
+    return msToSeconds(milis) % 60
 }
 
-function formatearTiempoReproduccion(milis) {
-    return dosDigitos(msAMinutos(milis)) + ":" + dosDigitos(segundosRestantes(milis));
+function formatPlayingTime(milis) {
+    return twoDigits(msToMinutes(milis)) + ":" + twoDigits(remainingSeconds(milis));
 }
