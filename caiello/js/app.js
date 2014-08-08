@@ -234,6 +234,16 @@ function toggleMenu(){
 		addClass(elem,"on");
 }
 
+//toggles the sidebar
+function toggleMenuMob(){
+	console.log("toggleando");
+	var elem =document.getElementById("currently-playing");
+	if (hasClass(elem,"on"))
+		removeClass(elem,"on");
+	else
+		addClass(elem,"on");
+}
+
 function chooseStar(size) {
 	return function() {
 		var elem;
@@ -339,6 +349,7 @@ window.onload=function(){
 	filteralbums = document.getElementById("filter-albums");
 	filterartists = document.getElementById("filter-artists");
 	toggler= document.getElementById("btn-hide-show-side");
+	togglermob= document.getElementById("btn-hide-show-side-mobile");
 	modal=  document.getElementsByClassName("modal");
 	ratebtn = document.getElementById("rate");
 	//stars=document.getElementsByClassName("icon-star");
@@ -358,6 +369,7 @@ window.onload=function(){
 	filteralbums.addEventListener("click", function(){filter("albums")} );
 	filterartists.addEventListener("click", function(){filter("artists")} );
 	toggler.addEventListener("click", function(){toggleMenu()} );
+	togglermob.addEventListener("click", function(){toggleMenuMob()} );
 
 	eventbtn.addEventListener("click", function(){ modalThis("event-log-box")} );
 	ratebtn.addEventListener("click", function(){ modalThis("rate-it")} );
