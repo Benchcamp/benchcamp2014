@@ -353,20 +353,23 @@ window.onload=function()
 {
 
 
-	setTimeout(filter("songs"),0); //WTF
+	setTimeout(filter("songs"),1); //WTF
 	console.log("despues");
 
 
 	//closure del orto:
 
+	setTimeout(dalemierda,0); //WTF
 
-
-	var songss = document.getElementsByClassName("songp");
-	console.log(songss.length);
-	for (ll=0; ll<songss.length; ll++)
-	{
-	  songss[ll].addEventListener("mousedown", eventListenerMaker(songss[ll].getAttribute('data-name')));
+	function dalemierda(){
+		var songss = document.getElementsByClassName("songp");
+		console.log(songss.length);
+		for (ll=0; ll<songss.length; ll++)
+		{
+		  songss[ll].addEventListener("mousedown", eventListenerMaker(songss[ll].getAttribute('data-name')));
+		}
 	}
+
 
 	// show songs as default
 	
