@@ -15,7 +15,6 @@ a{
 }
 .wrapper{
 	margin: 0 auto;
-	max-width: 80%;
 }
 main{
 	overflow: hidden;
@@ -96,9 +95,31 @@ footer .buttons li{
 	float: left;
 	clear: none;
 	width: auto;
-	margin-right: 1%;
 }
-footer .buttons span{
+footer .buttons li:last-child{
+	margin-right: 0;
+}
+footer .buttons li.volume-control{
+	width: 70%;
+	padding-top: 0.5em;
+}
+footer .buttons li.volume-control input{
+	width: 90%;
+	float: left;
+	margin: 0;
+}
+footer .buttons li.volume-control span{
+	float: left;
+	width: 10%;
+	text-align: center;
+	font-size: 1.4em;
+	height: 1em;
+	line-height: 0.9em;
+}
+footer .buttons li.button-player{
+	width: 15%;
+}
+footer .buttons li.button-player span{
 	color: white;
 	text-align: center;
 	vertical-align: middle;
@@ -107,4 +128,10 @@ footer .buttons span{
 	display: block;	
 	font-size: 100%;
 	text-indent: 0.1%;
+	float: left;
+	margin-right: 4%;
+}
+footer .buttons li.button-player.left-right{	
+	padding-left: 5%;
+	width: 10%;
 }
