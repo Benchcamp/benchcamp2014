@@ -136,7 +136,8 @@ function filter(tofilterid){
          function(xhr) { console.error(xhr); },
          tofilterid);
 	console.log("antes");
-};
+	return true;
+}
 
 // loads a json
 // method taken from http://stackoverflow.com/questions/9838812/how-can-i-open-a-json-file-in-javascript-without-jquery
@@ -342,36 +343,29 @@ function eventListenerMaker(data) {
 }
 
 
-var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit;
-
+var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit, songss;
+var dragging;
 var mouse = {x: 0, y: 0};
+
+
 // when site is loaded, loads the listeners and +
+window.onload = function(){
 
+	dragging=false;
+	//have to fix this race condition in a nicer way:
+	filter("songs");
 
-
-window.onload=function()
-{
-
-
-	setTimeout(filter("songs"),1); //WTF
-	console.log("despues");
-
-
-	//closure del orto:
-
-	setTimeout(dalemierda,0); //WTF
-
-	function dalemierda(){
-		var songss = document.getElementsByClassName("songp");
-		console.log(songss.length);
-		for (ll=0; ll<songss.length; ll++)
-		{
-		  songss[ll].addEventListener("mousedown", eventListenerMaker(songss[ll].getAttribute('data-name')));
+	setTimeout(
+		function(){
+			songss = document.getElementsByClassName("songp");
+			for (ll=0; ll<songss.length; ll++)
+			{
+				songss[ll].addEventListener("mousedown", eventListenerMaker(songss[ll].getAttribute('data-name')));
+			}	
 		}
-	}
+	,100);
 
 
-	// show songs as default
 	
 	// event is triggered (for logs)
 	document.onclick = function (e) { return logEvent(e); };
@@ -441,32 +435,39 @@ window.onload=function()
 	document.addEventListener('mousemove', function(e){ 
 		mouse.x = e.clientX || e.pageX; 
 		mouse.y = e.clientY || e.pageY;
+		//console.log(mouse.x);
 		if (!isDragging) {
-
+			if (dragging){
+				removeClass(draggable,"not-dragging");
+			}
 			isDragging = true;
 			requestAnimationFrame(updatedrag);
 		}
 	}, false);
 
 
+
 	function updatedrag() { 
 		draggable.style.transform="translate3d("+(mouse.x-10)+"px, "+(mouse.y-10)+"px, 0)";
+		
+		
 		isDragging = false;
 	}
 
 
 	function mousedown(event) {
-		//removeClass(draggable,"not-dragging");
+		dragging=true;
+		
 	}
 
 	function mouseup() {
+		dragging=false;
 		addClass(draggable,"not-dragging");
+		
 	}
 
 
 	document.addEventListener("mousedown", mousedown);
 	document.addEventListener("mouseup", mouseup);
-
-
-
 }
+
