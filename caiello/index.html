@@ -11,7 +11,7 @@
 		<div id="draggable" class="not-dragging"> 
 			<div id="drag-song">canci&oacute;n</div>
 			<div id="context-menu">
-				reproducir
+				
 			</div>
 		</div>
 
@@ -33,14 +33,14 @@
 			</nav>
 
 			<aside id="filters" class="toggle-menu side-bar">
-				<ul>
+				<ul id="sidebar-list">
 					<li><a href="#" id="filter-songs">Canciones</a></li>
 					<li><a href="#" id="filter-albums">&Aacute;lbums</a></li>
 					<li><a href="#" id="filter-artists">Artistas</a></li>
 					<li><hr/></li>
-					<li>Favoritos</li>
+					<li><b>Favoritos</b></li>
 				</ul>
-				<div id="drop-zone" class="drop-zone hide" data-name="nombre">
+				<div id="drop-zone-fav" class="drop-zone hide" data-name="nombre">
 					dropeate ac&aacute;!
 				</div>
 			</aside>
@@ -58,7 +58,8 @@
 			</div>
 
 			<footer>
-				<div id="player">
+				<div id="player" class="player">
+
 					<div class="left">
 						<a href="#" id="btn-back" class="button">
 							<span class="icon-backward"></span>

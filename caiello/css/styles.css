@@ -213,13 +213,12 @@ ul{
 }
 
 #playing {
-
     width: calc(100% - 180px);
 }
 .center-player {
     width: calc(100% - 220px);
 }
-#player {
+.player {
 	vertical-align: middle;
     width: 100%;
     overflow: hidden;

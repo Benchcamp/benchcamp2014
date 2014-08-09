@@ -358,22 +358,38 @@ function updatedrag() {
 
 function mousedown(event) {
 	dragging=true;
-	console.log("niacate");
-	removeClass(document.getElementById("drop-zone"),"hide");
+	removeClass(document.getElementById("drop-zone-fav"),"hide");
+	addClass(document.getElementById("player"),"drop-zone");
 }
 
 function mouseup() {
 	
 	dragging=false;
 	addClass(draggable,"not-dragging");
-	
+	//if nothing to play it will not play nothing
+	//playDraggedSong();
+
 }
+
+
+function addSongToFavorites(){
+	console.log("niagatee");
+	if (draggedsong!=0){
+		document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"playSongHandler("+draggedsong+")\">"+playlist[draggedsong-1]+"</a></li>"
+	}
+	draggedsong=0;
+	addClass(document.getElementById("drop-zone-fav"),"hide");
+	removeClass(document.getElementById("player"),"drop-zone");
+}
+
 
 function playDraggedSong(){
 	if (draggedsong!=0){
 		playSongHandler(draggedsong);
 	}
-	addClass(document.getElementById("drop-zone"),"hide");
+	draggedsong=0;
+	addClass(document.getElementById("drop-zone-fav"),"hide");
+	removeClass(document.getElementById("player"),"drop-zone");
 }
 
 
@@ -430,7 +446,9 @@ window.onload = function(){
 	togglermob= document.getElementById("btn-hide-show-side-mobile");
 	modal=  document.getElementsByClassName("modal");
 	ratebtn = document.getElementById("rate");
-	dropzone=document.getElementById("drop-zone");
+	dropzone=document.getElementById("drop-zone-fav");
+	dropzoneplay=document.getElementById("player");
+	songtables=document.getElementById("content");
 	//stars=document.getElementsByClassName("icon-star");
 
 	playbtn.addEventListener("click", function(){playSongHandler(currentsong)} );
@@ -451,10 +469,11 @@ window.onload = function(){
 
 	eventbtn.addEventListener("click", function(){ modalThis("event-log-box")} );
 	ratebtn.addEventListener("click", function(){ modalThis("rate-it")} );
-	document.addEventListener("mousedown", mousedown);
+	songtables.addEventListener("mousedown", mousedown);
 	document.addEventListener("mouseup", mouseup);
 
-	dropzone.addEventListener("mouseover", playDraggedSong );
+	dropzone.addEventListener("mouseover", addSongToFavorites );
+	dropzoneplay.addEventListener("mouseover", playDraggedSong );
 	for (var i=0; i < modal.length; i++)
 		modal[i].addEventListener("click", function(){unmodal()} );
 
