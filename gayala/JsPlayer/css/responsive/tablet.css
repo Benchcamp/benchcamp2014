@@ -13,16 +13,16 @@
 .control{        
     height: 100px;
     height: 100px;
-    width: calc(100% - 200px);
+    width: calc(100% - 202px);
     position: absolute;
     bottom: 0px;
-    margin-left: 200px;        
+    margin-left: 200px;             
 }
 
 .mainContent{
     display: inline-block;    
-    width: calc(100% - 100px);    
-    height: calc(100% - 120px);
+    width: calc(100% - 102px);    
+    height: calc(100% - 124px);
 }
 
 .nowplay {
@@ -30,14 +30,7 @@
     width: 100px;
     position: absolute;
     bottom: 0px;
-    margin-left: 100px;
-}
-
-.slideMenu{    
-    float: left;
-    width: 100px;
-    height: calc(100% - 20px);
-    display: block;    
+    margin-left: 100px;    
 }
 
 .slideMenu > ul{
@@ -46,4 +39,48 @@
 }
 
 
+.slideMenu{    
+    float: left;
+    width: 100px;
+    height: calc(100% - 20px);
+    display: block;            
+}
+
+.slideMenu,
+.control,
+.mainContent,
+.nowplay{
+    transition: width 2s, margin-left 2s;
+}
+
+
+.tablet-slideMenuCollapse .slideMenu{
+    margin-left: -100px;
+    transition:margin-left 2s;
+}
+
+.tablet-slideMenuCollapse .nowplay{
+    margin-left: 0px;
+    transition:margin-left 2s;
+}
+
+.tablet-slideMenuCollapse .mainContent{
+    width: calc(100% - 2px);
+}
+
+.tablet-slideMenuCollapse .control{
+    margin-left: 100px;
+    width: calc(100% - 102px);
+    transition:margin-left 2s, width 2s;
+}
+
+
+.control .display{
+	display: inline;
+}
+
+.display-content{
+	display: inline;
+	width:  200px;
+}
 

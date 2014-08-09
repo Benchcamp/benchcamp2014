@@ -10,6 +10,7 @@ var repeat=false;
 var random=false;
 var registered=false;
 var actualmod;
+var currentlyplayingname="";
 
 
 /*
@@ -21,9 +22,11 @@ function logEvent(e){
 	var actualtime=new Date(e.timeStamp);
 	var timetolog=actualtime.getHours()+":"+actualtime.getMinutes()+":"+actualtime.getSeconds();
 	var eventaction=e.type;
-	var eventelement=e.innerText;
+	var eventelement=e.target.innerText;
+	if (eventelement=="")
+		eventelement=e.target.className;
 	addToEventLog(eventaction,eventelement,timetolog);
-	console.log(e);
+	//console.log(e);
 }
 
 // adds an item to the log
@@ -47,7 +50,7 @@ function songEnds() {
 		playSongHandler(Math.floor((Math.random() * totalsongs) + 1));
 	else
 		if (repeat){
-			(currentsong+1 < totalsongs) ? playSongHandler(++currentsong) : currentsong=1; playSongHandler(currentsong);
+			(currentsong+1 <= totalsongs) ? playSongHandler(++currentsong) : currentsong=1; playSongHandler(currentsong);
 		}else{
 			stopSong();
 		}
@@ -100,9 +103,6 @@ function moveToPosition(e){//gets the position from event
 		var parentpos = getPosition(e.currentTarget);
 		var posx = e.clientX - parentpos.x;
 		var pbwidth = document.getElementById("playing").clientWidth;
-		console.log(pbwidth);
-		console.log(posx-parentpos);
-
 	    instance.setPosition( (posx/pbwidth) * instance.getDuration() );
 	    update();
 	}
@@ -113,12 +113,9 @@ function update(){
 	var playedms = instance.getPosition();
 
 	document.getElementById("transcurredtime").innerHTML=parseInt(msToMinutes(playedms))+":"+parseInt(msToSecondsWithoutMinutes(playedms));
-
 	var percentplayed=percent(playedms,instance.getDuration());
 	//document.getElementById("progressbar").innerHTML=percentplayed;
-
 	document.getElementById("progressbar").style.width=percentplayed+"%";
-
 };
 
 // register a song
@@ -138,6 +135,7 @@ function filter(tofilterid){
          function(data) { console.log(data); },
          function(xhr) { console.error(xhr); },
          tofilterid);
+	console.log("antes");
 };
 
 // loads a json
@@ -183,16 +181,16 @@ function displaySounds(content, filterid){/*in json*/
 		//if songs are not registered then register the songs and set the flag to true
 		if (aresongs && !registered)
 			registerSong(content.structure[i].id);
-			
-		
-			
-
 		//creating the content of the table
+		//used even and odd, in the future i have to use only css...
 		if (i%2==0)
-			rowstr+="<tr class=\"even\"";
+			rowstr+="<tr class=\"songp even\"";
 		else
-			rowstr+="<tr class=\"odd\"";
-		rowstr+=(filterid=="songs") ? " onclick=\"playSongHandler(" +content.structure[i].id+")\">" : ">";
+			rowstr+="<tr class=\"songp odd\"";
+
+		//have to sanitize all this:
+		//i have to change playsonghandler and maybe data- here :(
+		rowstr+=(filterid=="songs") ? " data-name=\""+content.structure[i].songs+"\" data-id=\""+content.structure[i].id+"\" onclick=\"playSongHandler(" +content.structure[i].id+")\">" : ">";
 		rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].songs+"</td>" : "";
 		rowstr+="<td>"+ content.structure[i].artists+"</td>";
 		rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].time +"</td>" : "";
@@ -212,6 +210,70 @@ function showHideElement(element){
 	else 
 		document.getElementById(element).style.display = "none";
 }
+
+
+
+
+//puts a modal to a given id
+function modalThis(idtomod) {
+	actualmod=idtomod;
+	elem = document.getElementById(idtomod);
+	elem.style.visibility = (elem.style.visibility == "visible") ? "hidden" : "visible";
+}
+
+//unmodal if something is modaled
+function unmodal(){
+	modalThis(actualmod);
+}
+
+//toggles the sidebar
+function toggleMenu(){
+	//have to reuse here..
+	var elemsec =document.getElementById("section");
+	var elemcpl =document.getElementById("currently-playing");
+	var elemfil =document.getElementById("filters");
+
+	if (hasClass(elemcpl,"on")){
+		removeClass(elemcpl,"on");
+		removeClass(elemfil,"on");
+		removeClass(elemsec,"full-width");
+	}else{
+		addClass(elemcpl,"on");
+		addClass(elemfil,"on");
+		addClass(elemsec,"full-width");
+	}
+
+
+}
+
+//toggles the sidebar
+function toggleMenuMob(){
+	var elem =document.getElementById("currently-playing");
+	if (hasClass(elem,"on"))
+		removeClass(elem,"on");
+	else
+		addClass(elem,"on");
+}
+
+function chooseStar(size) {
+	return function() {
+		var elem;
+		for (var xx=1; xx<=5; xx++){
+			if (xx<=size){
+	 			elem= document.getElementById("star"+xx);
+	 			removeClass(elem,"icon-star");
+ 				addClass(elem,"icon-star2");
+			}else{
+	 			elem= document.getElementById("star"+xx);
+	 			removeClass(elem,"icon-star2");
+ 				addClass(elem,"icon-star");
+			}
+			
+		}
+	};
+}
+
+
 
 
 /*
@@ -253,48 +315,68 @@ function percent(part,total){
 // negate the random bool state
 function setRandom(){
 	random=!random;
+	if (random)
+		removeClass(document.getElementById("i-shuffle"),"inactive");
+	else
+		addClass(document.getElementById("i-shuffle"),"inactive");
 }
+
 // negates repeat (have to reuse the method setrandom..)
 function setRepeat(){
 	repeat=!repeat;
-}
-
-function toggleMenu(){
-	var elem =document.getElementById("filters");
-	if (hasClass(elem,"on"))
-		removeClass(elem,"on");
+	if (repeat)
+		removeClass(document.getElementById("i-loop"),"inactive");
 	else
-		addClass(elem,"on");
+		addClass(document.getElementById("i-loop"),"inactive");
 }
 
-function modalThis(idtomod) {
-	actualmod=idtomod;
-	elem = document.getElementById(idtomod);
-	elem.style.visibility = (elem.style.visibility == "visible") ? "hidden" : "visible";
+
+function func(event,data){
+	console.log(data);
 }
 
-function unmodal(){
-	modalThis(actualmod);
+function eventListenerMaker(data) {
+  return function(event) {
+    func(event, data);
+  }
 }
 
-function toggleMenu(){
-	var elem =document.getElementById("filters");
-	if (hasClass(elem,"on"))
-		removeClass(elem,"on");
-	else
-		addClass(elem,"on");
-}
 
-var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal;
+var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit;
 
+var mouse = {x: 0, y: 0};
 // when site is loaded, loads the listeners and +
-window.onload=function(){
+
+
+
+window.onload=function()
+{
+
+
+	setTimeout(filter("songs"),1); //WTF
+	console.log("despues");
+
+
+	//closure del orto:
+
+	setTimeout(dalemierda,0); //WTF
+
+	function dalemierda(){
+		var songss = document.getElementsByClassName("songp");
+		console.log(songss.length);
+		for (ll=0; ll<songss.length; ll++)
+		{
+		  songss[ll].addEventListener("mousedown", eventListenerMaker(songss[ll].getAttribute('data-name')));
+		}
+	}
+
+
 	// show songs as default
-	filter("songs");
+	
 	// event is triggered (for logs)
 	document.onclick = function (e) { return logEvent(e); };
-	document.ondblclick = function (e) { return logEvent(e); }; 
-	document.onkeyup = function (e) { return logEvent(e); }; 
+	document.ondblclick = function (e) { return logEvent(e); };
+	document.onkeyup = function (e) { return logEvent(e); };
 	/*
 	Other vars and Listeners
 	*/
@@ -311,16 +393,18 @@ window.onload=function(){
 	filteralbums = document.getElementById("filter-albums");
 	filterartists = document.getElementById("filter-artists");
 	toggler= document.getElementById("btn-hide-show-side");
-	modal=  document.querySelector(".modal");
+	togglermob= document.getElementById("btn-hide-show-side-mobile");
+	modal=  document.getElementsByClassName("modal");
+	ratebtn = document.getElementById("rate");
+	//stars=document.getElementsByClassName("icon-star");
 
 	playbtn.addEventListener("click", function(){playSongHandler(currentsong)} );
 	pausebtn.addEventListener("click", pauseSong );
 	backbtn.addEventListener("click", function(){ currentsong-1 > 0 ? playSongHandler(--currentsong) : currentsong=totalsongs; playSongHandler(currentsong); } );
-	nextbtn.addEventListener("click", function(){currentsong+1 < totalsongs ? playSongHandler(++currentsong) : currentsong=1; playSongHandler(currentsong);} );
+	nextbtn.addEventListener("click", function(){currentsong+1 <= totalsongs ? playSongHandler(++currentsong) : currentsong=1; playSongHandler(currentsong);} );
 	playing.addEventListener("click", moveToPosition);
 	lbtn.addEventListener("click", setRepeat );
 	rbtn.addEventListener("click", setRandom );
-	eventbtn.addEventListener("click", function(){ modalThis("event-log-box")} );
 	volumebtn.addEventListener("click", muteSound );
 	volumebtn.addEventListener("mouseover", function(){ showHideElement("volume")} );
 	volumebtn.addEventListener("mouseout", function(){ showHideElement("volume")} );
@@ -328,13 +412,60 @@ window.onload=function(){
 	filteralbums.addEventListener("click", function(){filter("albums")} );
 	filterartists.addEventListener("click", function(){filter("artists")} );
 	toggler.addEventListener("click", function(){toggleMenu()} );
-	modal.addEventListener("click", function(){unmodal()} );
-	
+	togglermob.addEventListener("click", function(){toggleMenuMob()} );
+
+	eventbtn.addEventListener("click", function(){ modalThis("event-log-box")} );
+	ratebtn.addEventListener("click", function(){ modalThis("rate-it")} );
 
 
 
+	for (var i=0; i < modal.length; i++)
+		modal[i].addEventListener("click", function(){unmodal()} );
 
-	
+	// have to put all in only one var
+	var choose1 = chooseStar(1);
+	var choose2 = chooseStar(2);
+	var choose3 = chooseStar(3);
+	var choose4 = chooseStar(4);
+	var choose5 = chooseStar(5);
+	document.getElementById('star1').onmouseover = choose1;
+	document.getElementById('star2').onmouseover = choose2;
+	document.getElementById('star3').onmouseover = choose3;
+	document.getElementById('star4').onmouseover = choose4;
+	document.getElementById('star5').onmouseover = choose5;
+
+	var draggable=document.getElementById("draggable");
+	var isDragging = false;
+
+
+	document.addEventListener('mousemove', function(e){ 
+		mouse.x = e.clientX || e.pageX; 
+		mouse.y = e.clientY || e.pageY;
+		if (!isDragging) {
+
+			isDragging = true;
+			requestAnimationFrame(updatedrag);
+		}
+	}, false);
+
+
+	function updatedrag() { 
+		draggable.style.transform="translate3d("+(mouse.x-10)+"px, "+(mouse.y-10)+"px, 0)";
+		isDragging = false;
+	}
+
+
+	function mousedown(event) {
+		//removeClass(draggable,"not-dragging");
+	}
+
+	function mouseup() {
+		addClass(draggable,"not-dragging");
+	}
+
+
+	document.addEventListener("mousedown", mousedown);
+	document.addEventListener("mouseup", mouseup);
 
 
 

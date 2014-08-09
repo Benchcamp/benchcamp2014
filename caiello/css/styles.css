@@ -1,33 +1,48 @@
 
+html{
+	height:100%;
+	overflow: hidden;
+}
 
 body{
+	height:100%;
 	font-size:1em;
-	color:#333;
+	color:#2c3e50;
 	margin:0px 0 0 0;
 	font-family: Helvetica, Arial, sans-serif;
-	overflow-x: hidden;
+	overflow: hidden;
+	/*disallow mouse selection*/
+	-webkit-user-select: none;  
+	-moz-user-select: none;         
+	user-select: none;
 }
 
 #container{
+	position:relative; /*nice tip*/
 	height:100%;
 }
 
 a{
-
+	color:#2c3e50;
 	text-decoration:none;
 }
-aside{
-	width:100px;
+
+.side-bar{
 	float:left;
 	background-color: #ecf0f1;
 	padding: 10px;
+	width:150px;
 }
-section{
+.section{
 	float:right;
+	width:100%;
+	overflow-y:auto;
 }
-footer{
-	
+
+aside{
+	height:100% ;
 }
+
 
 nav, footer{
 	background-color: #2c3e50;
@@ -45,18 +60,14 @@ footer{
 	bottom:0;
 }
 
-table{
-}
 
 .btn{
 	background: #a7b2be;
 	position: relative;
 	border-width: 0;
-
 	padding: 10px 14px;
 	width:200px;
 	height:30px;
-	transition: background .3s ease-in-out 0s;
 	display: inline-block;
 }
 
@@ -93,6 +104,9 @@ ul{
 .center{
 	text-align:center;
 }
+.icon-star, .icon-star2{
+	color:#f1c40f ;
+}
 
 
 /*Lists*/
@@ -107,12 +121,12 @@ ul{
 	background-color:#ccc;
 }
 
-/*Header*/
 
 
 /*Player*/
 #playing{
 	background-color: #95a5a6;
+	border-radius: 10px;
 }
 #circle{
 	float:right;
@@ -126,17 +140,19 @@ ul{
 	width:20px;/*same as circle width, have to improve it..*/
 	left:0px;
 	height:20px;
-	background-color: #2980b9;
+	border-radius: 10px;
+	background-color: #e74c3c;
 }
 
-#btnplay{
-
+#btn-play, #btn-pause{
+	font-size: 1.2em;
 }
 
 .toggle-menu{
 	-webkit-transition:all 0.3s linear;
 	-moz-transition:all 0.3s linear;
 	transition:all 0.3s linear;
+	/*height:100%;*/
 }
 
 .toggle-menu.on {
@@ -150,29 +166,17 @@ ul{
 	display:inline-block;
 }
 
-
-/*media widths taken from http://stackoverflow.com/a/16727073 */
-@media (max-width:320px) { 
-	/* smartphones, iPhone, portrait 480x320 phones */ 
-	.events, .song-time-vol, #filters, #transcurredtime, #playing{
-		display:none;
-	}
-	#currently-playing{
-		width:100%;
-	}
-
-
-
-	
+#volume{
+	position:absolute;
 }
-@media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */ }
-@media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ }
-@media (min-width:961px) { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
-@media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ }
-@media (min-width:1281px) { /* hi-res laptops and desktops */ }
 
+.timing{
+	width:60px;
+}
 
-
+.inactive{
+	color:#95a5a6;
+}
 
 .modal {
 	visibility: hidden;
@@ -210,13 +214,130 @@ ul{
 
 #playing {
 
-    width: calc(100% - 180px) !important;
+    width: calc(100% - 180px);
 }
 .center-player {
-    width: calc(100% - 220px) !important;
+    width: calc(100% - 220px);
 }
 #player {
 	vertical-align: middle;
     width: 100%;
     overflow: hidden;
 }
+
+#draggable {
+	background-color: #7f8c8d;
+	color:#ecf0f1;
+	position:absolute;
+	width:100px;
+    height:18px;
+    overflow: hidden;
+    padding:10px;
+    z-index:1;
+    border-radius:2px;
+    text-align:center;
+	cursor: move;
+ 	cursor: -webkit-grabbing;
+ 	cursor: -moz-grabbing;
+ 
+
+}
+
+
+.not-dragging {
+	display:none;
+}
+
+
+.drag-area {
+	text-align: center;
+	padding:10px;
+	margin:10px;
+	border:#ccc 5px dashed;
+	-webkit-transition:all 0.3s linear;
+	-moz-transition:all 0.3s linear;
+	transition:all 0.3s linear;	
+}
+
+.drag-area:hover {
+	border:#2ecc71 5px dashed;
+}
+.section-with-sidebar{
+	width: calc(100% - 170px);
+}
+.section-without-sidebar{
+	width: 100%;
+}
+
+/*media widths taken from http://stackoverflow.com/a/16727073 */
+@media (max-width:320px) { 
+	/* smartphones, iPhone, portrait 480x320 phones */ 
+	.events, .play-data, aside .toggle-menu, .btn-desk-tablet, #filters, #transcurredtime, #playing{
+		display:none;
+	}
+	.currently-playing{
+		width:100%;
+		height:100%;
+		bottom:0;
+	}
+
+}
+
+@media (min-width:320px) { 
+	/* smartphones, iPhone, portrait 480x320 phones */ 
+	.btn-mobile{
+		display:none;
+	}
+
+	.currently-playing{
+		bottom:0;
+		height:25% !important; /*have to try to solve it */
+	}
+
+	aside .side-bar{
+		height:100% !important;/*have to try to solve it */
+	}
+	.section{
+		width: calc(100% - 170px);	
+	}
+	.section .list{
+		width: 100%;	
+	}
+
+
+}
+
+@media (max-width:481px) { 
+	.events, .play-data{
+		display:none;
+	}
+}
+
+/* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */ }
+@media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ }
+@media (min-width:961px) { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
+@media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ }
+@media (min-width:1281px) { /* hi-res laptops and desktops */ }
+
+
+
+
+.currently-playing{
+	background-color:#95a5a6;
+	position:absolute;
+	bottom:71px;
+	height:calc(100% - 203px);
+	color: #ecf0f1;
+	text-align: center;
+}
+
+.currently-playing a{
+	color: #ecf0f1;
+	font-weight:bold;
+}
+
+.full-width{
+	width:100%;
+	position:absolute;
+}
+

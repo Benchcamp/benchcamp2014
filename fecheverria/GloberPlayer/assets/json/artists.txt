@@ -1,0 +1,5 @@
+[
+    { "artist": "Dire Straits" },
+    { "artist": "Peter Tosh" },
+    { "artist": "One Republic" }
+]

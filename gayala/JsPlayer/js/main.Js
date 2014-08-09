@@ -2,40 +2,128 @@
 function animation(){
     var self = this;
     
+    self.tick = 0;
+    
     self.loop = function () {
         window.requestAnimationFrame( self.loop );
         self.draw();
     }
     
-    self.draw = function(){        
-        //document.write("X");
+    self.draw = function(){
+                    
+        
+        self.tick = (self.tick + 1) % 1500;        
+
+        if(self.tick % 5 == 0){
+            var eqs =  document.querySelectorAll("#eq>*");        
+            for(var i=0;  i<eqs.length ; i++){
+                var eq = eqs[i];            
+                var delta = (Math.floor(Math.random() * 3) -1);
+
+                
+                if(player.isPlaying()){
+                    eq.pathSegList[1].y += delta;
+                }else{
+                    eq.pathSegList[1].y = -50;
+                    
+                    if(eq.pathSegList[1].y < -50)
+                        eq.pathSegList[1].y += 5;
+                    else if(eq.pathSegList[1].y > 0)
+                        eq.pathSegList[1].y -= 5;
+                }
+                
+            }
+        }
+
+        if(self.tick < 360){
+            var logoPlayer = document.getElementById("logoPlayer");        
+            logoPlayer.style.webkitTransform =  " rotateX(" + self.tick + "deg)";
+            logoPlayer.style.webkitTransform += " rotateY(" + self.tick + "deg)";
+        }
+                
+            
     }
     
     self.loop();
 }
 
 
+
 function init() {
-    var self = this;
+    var self = window; // se crea globalmente el player
     self.player = null;
-        
-    var anim = new animation();    
-    
-    
+            
     self.onChangeState = function (newState) {
         switch(newState){
                 case "Stopped":
                     document.getElementById("play").innerHTML = "&#xE602;"; // play
                 break;
                 case "Playing":
-                    document.getElementById("play").innerHTML = "&#xE603;";//stop
+                    document.getElementById("play").innerHTML = "&#xE603;"; //stop
                 break;
         };
     }; 
     
-    self.selectRowCallback = function (sender){
-            logger.add("click", "Selected Row");
+    self.selectRowCallback = function (sender){        
+      logger.add("click", "Selected Row");
     };
+    
+	self.onRate = function(tr){		
+		
+		var table = document.createElement('table');		
+		table.appendChild(tr.cloneNode(true));
+		
+		popupEvents.show(table);		
+	}
+	
+	self.div = null;
+	
+    self.oncontextmenu = function (e){        
+		e.preventDefault();
+		
+		if(self.div != null){self.close();}
+		
+		if(e.toElement.tagName != "TD")
+			return;
+		
+				
+        var td = e.toElement;
+        var tr = td.parentNode;  
+		var data = td.data;
+        self.div = document.createElement('div');
+		var contextMenu_play = document.createElement('div');
+        var contextMenu_rate = document.createElement('div');
+		
+		contextMenu_play.onclick = function(){tr.click(); self.player.play(); self.close(); };
+		contextMenu_rate.onclick = function(){self.onRate(tr); self.close(); };
+					
+        contextMenu_play.innerText = "Play";
+        contextMenu_rate.innerText = "Rate";        		
+		
+		self.div.classList.add("contextMenu");		
+		self.div.style.top = e.y - 15 + "px";
+        self.div.style.left = e.x - 15 + "px";
+		
+        self.div.appendChild(contextMenu_play);
+		self.div.appendChild(contextMenu_rate);
+		
+		self.div.onmouseout = function(e){
+		   	if (div.contains(e.toElement))
+			   return;						
+			
+			self.close();
+		};
+		        
+		self.close = function (){
+				self.div.parentNode.removeChild(self.div);
+				self.div.style.display = "none";
+				self.div=null;
+		};
+		
+        document.body.appendChild(div);
+    };
+        
+
     
     
     self.onChangeConfig = function(sender){
@@ -58,13 +146,16 @@ function init() {
         logger = new Eventlog(document.querySelector("#eventCounter")); 
         popupEvents = new Popup(document.querySelector("#popDiv"));
         
+        var anim = new animation();
+        
 		self.player = new JSPlayer({            
             contentPlace: document.querySelector("#content"),
-            nowPlayPlace: document.querySelector("#nowPlay"),
+            nowPlayPlace: document.querySelector("#nowPlayContent"),
             progressBarPlace: document.querySelector("#progressBar"),
             selectRowCallback: self.selectRowCallback,
             changeStateCallback: self.onChangeState,
-            changeConfigCallback: self.onChangeConfig
+            changeConfigCallback: self.onChangeConfig,
+            oncontextmenu: self.oncontextmenu
         });           
 
         document.getElementById("eventsButton").onclick = function(){
@@ -74,27 +165,26 @@ function init() {
             
             popupEvents.show(table);            
         };
+                
         
-        document.querySelector("#lateralPannelButton").onclick = function(){            
-            var button = this;        
+        document.querySelector("#lateralPannelButton").onclick = function(){
+            if(document.body.classList.contains("tablet-slideMenuCollapse")){
+                document.body.classList.remove("tablet-slideMenuCollapse");                
+            }else{            
+                document.body.classList.add("tablet-slideMenuCollapse");
+            }
+            
         };
-                    
-        
+                
         document.querySelector("#toggleButton").onclick = function(){            
-            
-            var button = this;
-            var nowPlay = document.querySelector("#nowPlay");            
-            var content = document.querySelector("#content");
-            
             player.onSongFilter();
             
-            if(nowPlay.style.display == "none"){
-                nowPlay.style.display = "block";
-                content.style.display = "none";
-            }else{
-                nowPlay.style.display = "none";
-                content.style.display = "block";
+            if(document.body.classList.contains("mobile-playlist")){
+                document.body.classList.remove("mobile-playlist");                
+            }else{            
+                document.body.classList.add("mobile-playlist");
             }
+            
         };
         
         
@@ -148,10 +238,21 @@ function init() {
         
         document.getElementById("LButton").onclick = function(){ 
             player.loop(!player.loop());
+            
+            if(player.loop())
+                document.getElementById("LButton").classList.add("sel");
+            else
+                document.getElementById("LButton").classList.remove("sel");
         };
         
         document.getElementById("RButton").onclick = function(){ 
             player.random(!player.random());
+            
+            if(player.random())
+                document.getElementById("RButton").classList.add("sel");
+            else
+                document.getElementById("RButton").classList.remove("sel");
+                        
         };
         
         

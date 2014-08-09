@@ -9,14 +9,17 @@ function JSPlayer(config) {
     self.selectedRow = null;
     self.table = null;
     self.currentSong = null;
+    self.currentDragggedRow = null;
     self.changeStateCallback = config.changeStateCallback;	
     self.changeConfigCallback = config.changeConfigCallback;	
     self.selectRowCallback = config.selectRowCallback;
     self.contentPlace = config.contentPlace;
     self.nowPlayPlace = config.nowPlayPlace;
     self.progressBarPlace = config.progressBarPlace;
-    self.slider = new SliderAnimation(self.progressBarPlace);        
-
+    self.slider = new SliderAnimation(self.progressBarPlace);
+    self.oncontextmenu = config.oncontextmenu;
+     
+    
     self.loop = function(value){
         if(arguments.length == 0)
             return self._loop;
@@ -48,7 +51,23 @@ function JSPlayer(config) {
 	self.onSongFilter = function () {
         self.table = null;
 		self.library.getSongs(function (data) {
-            self.table = createTable(data,["artist", "track", "album", "time"], self.onSelectedRow);
+            self.table = createTable(data,["artist", "track", "album", "time"], 
+                                     {onSelectedRow: self.onSelectedRow, 
+                                      onDragStart: self.onDragStart,
+                                      onDragEnd: self.onDragEnd,
+                                      oncontextmenu: self.oncontextmenu
+                                     });
+            
+            if(self.isPlaying()){
+                var allTR = self.table.querySelectorAll("tr");
+                for(var i=0; i<allTR.length; i++){
+                    var TR = allTR[i];
+                    if(TR.data != null && TR.data.url == self.currentSong.url){
+                         self.selectRow(TR);                        
+                    }
+                }
+            }
+            
             self.contentPlace.innerHTML = "";
             self.contentPlace.appendChild(self.table);
         }); 
@@ -72,6 +91,24 @@ function JSPlayer(config) {
         });
 	};
     
+    
+    self.onDragStart = function (event) {        
+        event.dataTransfer.effectAllowed = "move"; 
+        self.currentDragggedRow = event.currentTarget;
+    }
+    
+    self.onDragEnd = function (event) {
+        self.currentDragggedRow = null;        
+    }
+    
+    self.onDrop = function(event){
+        if(self.currentDragggedRow != null){
+            self.selectRow(self.currentDragggedRow);
+            self.play();
+        }        
+    }
+    
+    
     self.onSelectedRow = function () {
         
         if(self.selectRowCallback != null)
@@ -93,8 +130,9 @@ function JSPlayer(config) {
 	};
     
     self.display = function (data) {
-        if(self.nowPlayPlace != null)
+        if(self.nowPlayPlace != null){
             self.nowPlayPlace.innerText = data;
+        }
     };
     
     self.notifyChangeState = function (newState){
@@ -184,7 +222,7 @@ function JSPlayer(config) {
                 index = 1;
             
             var row = self.table.rows[index];            
-            self.selectRow(row);            
+            self.selectRow(row);
         }
     };
     
@@ -211,6 +249,12 @@ function JSPlayer(config) {
         
         self.slide(next);
     };
+        
+    
+    self.nowPlayPlace.setAttribute("ondrop", "event.preventDefault()");
+    self.nowPlayPlace.setAttribute("ondragover", "event.preventDefault()");    
+    self.nowPlayPlace.addEventListener('drop', self.onDrop);    
+    
     
     self.notifyChangeConfig();
 }

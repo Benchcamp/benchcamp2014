@@ -18,11 +18,11 @@
 }
 
 .mainContent{
-    height: calc(100% - 200px);
+    height: calc(100% - 204px);
 }
 
 .slideMenu{
-    height: calc(100% - 200px);
+    height: calc(100% - 202px);
 }
 
 .nowplay{
@@ -31,5 +31,6 @@
 }
 
 .control{
+    width: calc(100% - 2px);
     margin-left: 0px; 
 }

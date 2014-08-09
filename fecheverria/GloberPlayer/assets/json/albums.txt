@@ -1,0 +1,14 @@
+[
+    { 
+        "album": "Brothers in Arms" ,
+        "artist": "Dire Straits"
+    },
+    { 
+        "album": "Mama Africa" ,
+        "artist": "Peter Tosh"
+    },
+    { 
+        "album": "Native" ,
+        "artist": "One Republic"
+    }
+]

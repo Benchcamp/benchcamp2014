@@ -1,58 +1,53 @@
-var contadorEventos, controlesAuditables, logEventos, jsonCanciones, jsonAlbumes, jsonArtistas, filtroSeleccionado;
+var jsonSongs, jsonAlbums, jsonArtists;
 
-contadorEventos = 0;
-controlesAuditables = ["btnFiltroCanciones", "btnFiltroAlbumes", "btnFiltroArtistas", "btnMute", "btnPlayPausa", "btnAtras", "btnSiguiente", "btnRepetir", "btnRandom"];
-logEventos = [];
+jsonSongs = "../assets/resources/songs.json";
+jsonAlbums = "../assets/resources/albums.json";
+jsonArtists = "../assets/resources/artists.json";
 
-jsonCanciones = "../assets/resources/canciones.json";
-jsonAlbumes = "../assets/resources/albumes.json";
-jsonArtistas = "../assets/resources/artistas.json";
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("btnFilterSongs").addEventListener("click", displaySongs, false);
+    document.getElementById("btnFilterAlbums").addEventListener("click", displayAlbums, false);
+    document.getElementById("btnFilterArtists").addEventListener("click", displayArtists, false);
+    document.getElementById("btnToggleFilters").addEventListener("click", toggleFilters, false);
+    document.getElementById("btnTogglePlaying").addEventListener("click", togglePlaying, false);
 
-document.addEventListener("DOMContentLoaded", function(e) {
-  for (var i = 0; i < controlesAuditables.length; i++) {
-    document.getElementById(controlesAuditables[i]).addEventListener("click", registrarEvento, false);
-  };
-  
-  document.getElementById("btnEventos").addEventListener("click", mostrarLogEventos, false);
-  document.getElementById("btnFiltroCanciones").addEventListener("click", mostrarCanciones, false);
-  document.getElementById("btnFiltroAlbumes").addEventListener("click", mostrarAlbumes, false);
-  document.getElementById("btnFiltroArtistas").addEventListener("click", mostrarArtistas, false);
+    document.getElementById("btnFavSmart").addEventListener("click", addFavorite, false);
+    document.getElementById("btnFavTab").addEventListener("click", addFavorite, false);
 });
 
-function registrarEvento(e) {
-  var evento = {
-    accion: e.type,
-    elemento: e.target.name,
-    hora: new Date().getTime()
-  };
-  logEventos.push(evento);
-  incrementarCantEventos();
+function displaySongs() {
+    displayJSONContent(jsonSongs);
 }
 
-function incrementarCantEventos() {
-  contadorEventos++;
-  document.getElementById("lblContadorEventos").innerHTML = contadorEventos;
+function displayAlbums() {
+    displayJSONContent(jsonAlbums);
 }
 
-function mostrarLogEventos() {
-  var tablaContenido = document.getElementById("tabla-contenido");
-
-  tablaContenido.innerHTML = "";
-  tablaContenido.innerHTML += "<tr id=\"cabezal-contenido\"><th>Acci&oacute;n</th><th>Elemento</th><th>Hora</th></tr>";
-
-  for (var i = 0; i < logEventos.length; i++) {
-    tablaContenido.innerHTML += "<tr><td>" + logEventos[i].accion + "</td><td>" + logEventos[i].elemento + "</td><td>" + formatearHora(logEventos[i].hora) + "</td></tr>";
-  }
+function displayArtists() {
+    displayJSONContent(jsonArtists);
 }
 
-function mostrarCanciones() {
-  mostrarContenidoJSON(jsonCanciones);
+function addFavorite() {
+
 }
 
-function mostrarAlbumes() {
-  mostrarContenidoJSON(jsonAlbumes);
+function toggleFilters() {
+    document.getElementById("panel-filters").classList.toggle("panel-hidden");
+    document.getElementById("panel-filters").classList.toggle("panel-visible");
+    document.getElementById("wrapper-top").classList.toggle("full-size");
 }
 
-function mostrarArtistas() {
-  mostrarContenidoJSON(jsonArtistas);
+function togglePlaying() {
+    var divContent, tableContent;
+    document.getElementById("playing-smart").classList.toggle("panel-hidden");
+    document.getElementById("playing-smart").classList.toggle("panel-visible");
+
+    divContent = document.getElementById("content");
+    tableContent = document.getElementById("table-content");
+
+    divContent.classList.toggle("full-size");
+
+    if (divContent.classList.contains("full-size") && tableContent.childNodes.length === 0) {
+        displaySongs();
+    }
 }

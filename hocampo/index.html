@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+	<title>Player Globo</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" href="css/styles.css" />
+	<link rel="stylesheet" href="css/fonts.css" />
+	<link rel="stylesheet" href="css/mobile.css" media="all and (max-device-width: 640px)"/>	
+	<link rel="stylesheet" href="css/tablet.css" media="all and (min-device-width: 640px)"/>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body id="body" class="wrapper">
+	<header>
+		<h1><span class="icon-menu" id="toggle"></span><div class="logo">Globamp</div></h1>
+	</header>
+	<main>
+		<aside>
+			<div class="categories">
+				<ul>
+					<li><a href="#">Albums</a></li>
+					<li><a href="#">Canciones</a></li>
+					<li><a href="#">Artistas</a></li>
+				</ul>
+				<div class="faved"></div>
+			</div>
+			<div class="playing">
+				<button type="button"><span class="icon-star2"></span>Rate it</button>
+			</div>
+		</aside>
+		<section class="playlist">
+			<ul>
+				<li><span class="track">Nothing Else Matters</span><span class="artist">Metallica</span><span class="time">4:25</span><span class="album">Black Album</span></li>
+				<li><span class="track">Turn the Page</span><span class="artist">Metallica</span><span class="time">4:15</span><span class="album">Garage Inc.</span></li>
+				<li><span class="track">Give it away</span><span class="artist">Red Hot Chilli Peppers</span><span class="time">3:25</span><span class="album">Blood Sugar Sex Magik</span></li>
+				<li><span class="track">El dia que Artigas se emborracho</span><span class="artist">El Cuarteto de Nos</span><span class="time">4:25</span><span class="album">Alguno del Cuarteto</span></li>
+				<li><span class="track">Nothing Else Matters</span><span class="artist">Metallica</span><span class="time">4:25</span><span class="album">Black Album</span></li>
+				<li><span class="track">Turn the Page</span><span class="artist">Metallica</span><span class="time">4:15</span><span class="album">Garage Inc.</span></li>
+				<li><span class="track">The Unforgiven II</span><span class="artist">Metallica</span><span class="time">3:25</span><span class="album">Reload</span></li>
+				<li><span class="track">The Memory Remains</span><span class="artist">Metallica</span><span class="time">4:25</span><span class="album">Reload</span></li>
+			</ul>
+		</section>
+	</main>
+	<footer>
+		<ul class="buttons">
+			<li class="button-player">
+				<a href=""><span class="icon-backward"></span></a>
+				<a href=""><span class="icon-play"></span></a>
+				<a href=""><span class="icon-forward"></span></a>
+			</li>
+			<li class="volume-control"><span class="icon-volume-high"></span><input type="range" /></li>
+			<li class="button-player left-right">
+				<a href=""><span>L</span></a>
+				<a href=""><span>R</span></a>
+			</li>			
+		</ul>
+	</footer>
+	<script>
+
+	function toggleClass(element, className){
+	    if (!element || !className){
+	        return;
+	    }
+	    
+	    var classString = element.className, nameIndex = classString.indexOf(className);
+	    if (nameIndex == -1) {
+	        classString += ' ' + className;
+	    }
+	    else {
+	        classString = classString.substr(0, nameIndex) + classString.substr(nameIndex+className.length);
+	    }
+	    element.className = classString;
+	}	
+
+	document.getElementById('toggle').addEventListener('click', function() {
+
+		toggleClass(document.getElementById('body'), 'show-playlist')
+
+	});
+
+		/* $("header h1").click(function(){
+			$("body").toggleClass("show-playlist")
+		})*/	
+
+		// document.getElementById("body").className += " show-playlist";
+
+	</script>
+</body>
+</html>
