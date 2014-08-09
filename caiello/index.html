@@ -8,7 +8,12 @@
 		<link rel="stylesheet" href="css/fonts.css">
 	</head>
 	<body>
-		<div id="draggable" class="not-dragging"> canci&oacute;n </div>
+		<div id="draggable" class="not-dragging"> 
+			<div id="drag-song">canci&oacute;n</div>
+			<div id="context-menu">
+				reproducir
+			</div>
+		</div>
 
 		<div id="container">
 			<nav>
@@ -35,14 +40,9 @@
 					<li><hr/></li>
 					<li>Favoritos</li>
 				</ul>
-				<div class="drag-area" data-name="nombre">
+				<div id="drop-zone" class="drop-zone hide" data-name="nombre">
 					dropeate ac&aacute;!
 				</div>
-
-				<div class="drag-area" data-name="nombre2">
-					dropeate ac&aacute;!
-				</div>
-
 			</aside>
 
 
@@ -53,7 +53,7 @@
 
 			<div id="currently-playing" class="toggle-menu currently-playing side-bar">
 				<h2>Currently playing</h2>
-				<p>nothing :(</p>
+				<p id="song-name">nothing :(</p>
 				<a href="#" id="rate">Rate it!</a>
 			</div>
 

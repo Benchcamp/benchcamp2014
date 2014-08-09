@@ -10,8 +10,9 @@ var repeat=false;
 var random=false;
 var registered=false;
 var actualmod;
+var playlist=[];
 var currentlyplayingname="";
-
+var draggedsong=0;
 
 /*
 Functions
@@ -59,6 +60,7 @@ function songEnds() {
 // plays a song
 function playSongHandler(songid) {
 	currentsong=songid;
+	document.getElementById("song-name").innerText=playlist[currentsong-1];
 	if (!(instance && instance.resume())){ //resume pause
 		if (instance) //stops current song
 			stopSong(); 
@@ -192,6 +194,7 @@ function displaySounds(content, filterid){/*in json*/
 		//have to sanitize all this:
 		//i have to change playsonghandler and maybe data- here :(
 		rowstr+=(filterid=="songs") ? " data-name=\""+content.structure[i].songs+"\" data-id=\""+content.structure[i].id+"\" onclick=\"playSongHandler(" +content.structure[i].id+")\">" : ">";
+		if (filterid=="songs") playlist.push(content.structure[i].songs);// adds the name of the song to the playlist... little ugly
 		rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].songs+"</td>" : "";
 		rowstr+="<td>"+ content.structure[i].artists+"</td>";
 		rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].time +"</td>" : "";
@@ -336,23 +339,57 @@ function func(event,data){
 	console.log(data);
 }
 
-function eventListenerMaker(data) {
+function draggingASong(data) {
   return function(event) {
-    func(event, data);
+    draggedsong=data;
+    console.log("dragging this shit:");
+    console.log(draggedsong);
   }
+}
+
+
+function updatedrag() { 
+
+	if (dragging)
+		draggable.style.transform="translate3d("+(mouse.x-10)+"px, "+(mouse.y-10)+"px, 0)";
+	moving = false;
+}
+
+
+function mousedown(event) {
+	dragging=true;
+	console.log("niacate");
+	removeClass(document.getElementById("drop-zone"),"hide");
+}
+
+function mouseup() {
+	
+	dragging=false;
+	addClass(draggable,"not-dragging");
+	
+}
+
+function playDraggedSong(){
+	if (draggedsong!=0){
+		playSongHandler(draggedsong);
+	}
+	addClass(document.getElementById("drop-zone"),"hide");
 }
 
 
 var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit, songss;
 var dragging;
+var draggable;
 var mouse = {x: 0, y: 0};
+
+var moving = false;
 
 
 // when site is loaded, loads the listeners and +
 window.onload = function(){
 
-	dragging=false;
 	//have to fix this race condition in a nicer way:
+
 	filter("songs");
 
 	setTimeout(
@@ -360,7 +397,7 @@ window.onload = function(){
 			songss = document.getElementsByClassName("songp");
 			for (ll=0; ll<songss.length; ll++)
 			{
-				songss[ll].addEventListener("mousedown", eventListenerMaker(songss[ll].getAttribute('data-name')));
+				songss[ll].addEventListener("mousedown", draggingASong(songss[ll].getAttribute('data-id')));
 			}	
 		}
 	,100);
@@ -374,6 +411,9 @@ window.onload = function(){
 	/*
 	Other vars and Listeners
 	*/
+	moving=false;
+	dragging=false;
+	draggable=document.getElementById("draggable");
 	playbtn = document.getElementById("btn-play");
 	pausebtn = document.getElementById("btn-pause");
 	backbtn = document.getElementById("btn-back");
@@ -390,6 +430,7 @@ window.onload = function(){
 	togglermob= document.getElementById("btn-hide-show-side-mobile");
 	modal=  document.getElementsByClassName("modal");
 	ratebtn = document.getElementById("rate");
+	dropzone=document.getElementById("drop-zone");
 	//stars=document.getElementsByClassName("icon-star");
 
 	playbtn.addEventListener("click", function(){playSongHandler(currentsong)} );
@@ -410,9 +451,10 @@ window.onload = function(){
 
 	eventbtn.addEventListener("click", function(){ modalThis("event-log-box")} );
 	ratebtn.addEventListener("click", function(){ modalThis("rate-it")} );
+	document.addEventListener("mousedown", mousedown);
+	document.addEventListener("mouseup", mouseup);
 
-
-
+	dropzone.addEventListener("mouseover", playDraggedSong );
 	for (var i=0; i < modal.length; i++)
 		modal[i].addEventListener("click", function(){unmodal()} );
 
@@ -428,46 +470,22 @@ window.onload = function(){
 	document.getElementById('star4').onmouseover = choose4;
 	document.getElementById('star5').onmouseover = choose5;
 
-	var draggable=document.getElementById("draggable");
-	var isDragging = false;
 
 
 	document.addEventListener('mousemove', function(e){ 
 		mouse.x = e.clientX || e.pageX; 
 		mouse.y = e.clientY || e.pageY;
 		//console.log(mouse.x);
-		if (!isDragging) {
+		if (!moving) {
 			if (dragging){
 				removeClass(draggable,"not-dragging");
 			}
-			isDragging = true;
+			moving = true;
 			requestAnimationFrame(updatedrag);
 		}
 	}, false);
 
 
-
-	function updatedrag() { 
-		draggable.style.transform="translate3d("+(mouse.x-10)+"px, "+(mouse.y-10)+"px, 0)";
-		
-		
-		isDragging = false;
-	}
-
-
-	function mousedown(event) {
-		dragging=true;
-		
-	}
-
-	function mouseup() {
-		dragging=false;
-		addClass(draggable,"not-dragging");
-		
-	}
-
-
-	document.addEventListener("mousedown", mousedown);
-	document.addEventListener("mouseup", mouseup);
+	
 }
 

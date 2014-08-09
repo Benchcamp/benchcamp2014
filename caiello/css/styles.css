@@ -249,7 +249,7 @@ ul{
 }
 
 
-.drag-area {
+.drop-zone {
 	text-align: center;
 	padding:10px;
 	margin:10px;
@@ -259,7 +259,7 @@ ul{
 	transition:all 0.3s linear;	
 }
 
-.drag-area:hover {
+.drop-zone:hover {
 	border:#2ecc71 5px dashed;
 }
 .section-with-sidebar{
@@ -339,5 +339,9 @@ ul{
 .full-width{
 	width:100%;
 	position:absolute;
+}
+
+.hide{
+	display:none;
 }
 
