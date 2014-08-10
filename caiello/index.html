@@ -8,7 +8,14 @@
 		<link rel="stylesheet" href="css/fonts.css">
 	</head>
 	<body>
-		<div id="draggable" class="not-dragging"> canci&oacute;n </div>
+		<div id="draggable" class="drag-item not-dragging"> 
+			<div id="drag-song">canci&oacute;n</div>
+		</div>
+
+		<div id="context-menu" class="context-menu hide"> 
+			<ul id="context-menu-list">
+			</ul>
+		</div>
 
 		<div id="container">
 			<nav>
@@ -28,21 +35,16 @@
 			</nav>
 
 			<aside id="filters" class="toggle-menu side-bar">
-				<ul>
+				<ul id="sidebar-list">
 					<li><a href="#" id="filter-songs">Canciones</a></li>
 					<li><a href="#" id="filter-albums">&Aacute;lbums</a></li>
 					<li><a href="#" id="filter-artists">Artistas</a></li>
 					<li><hr/></li>
-					<li>Favoritos</li>
+					<li><b>Favoritos</b></li>
 				</ul>
-				<div class="drag-area" data-name="nombre">
+				<div id="drop-zone-fav" class="drop-zone hide" data-name="nombre">
 					dropeate ac&aacute;!
 				</div>
-
-				<div class="drag-area" data-name="nombre2">
-					dropeate ac&aacute;!
-				</div>
-
 			</aside>
 
 
@@ -53,13 +55,14 @@
 
 			<div id="currently-playing" class="toggle-menu currently-playing side-bar">
 				<h2>Currently playing</h2>
-				<p>nothing :(</p>
+				<p id="song-name">nothing :(</p>
 				<a href="#" id="rate">Rate it!</a>
 			</div>
 
 			<footer>
-				<div id="player">
-					<div class="left" class="left-player">
+				<div id="player" class="player">
+
+					<div class="left">
 						<a href="#" id="btn-back" class="button">
 							<span class="icon-backward"></span>
 						</a>

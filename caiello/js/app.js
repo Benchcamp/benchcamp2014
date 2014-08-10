@@ -10,8 +10,9 @@ var repeat=false;
 var random=false;
 var registered=false;
 var actualmod;
+var playlist=[];
 var currentlyplayingname="";
-
+var draggedsong=0;
 
 /*
 Functions
@@ -59,6 +60,7 @@ function songEnds() {
 // plays a song
 function playSongHandler(songid) {
 	currentsong=songid;
+	document.getElementById("song-name").innerText=playlist[currentsong-1];
 	if (!(instance && instance.resume())){ //resume pause
 		if (instance) //stops current song
 			stopSong(); 
@@ -69,7 +71,11 @@ function playSongHandler(songid) {
     playbtn.style.display = "none";
     pausebtn.style.display="";
     timing = setInterval(update,3);//most fluid than 1000
+    //have to move this...
+    hideDragArea();
 };
+
+
 
 // pause the current song
 function pauseSong() {
@@ -135,8 +141,9 @@ function filter(tofilterid){
          function(data) { console.log(data); },
          function(xhr) { console.error(xhr); },
          tofilterid);
-	console.log("antes");
-};
+	songsListeners();
+	return true;
+}
 
 // loads a json
 // method taken from http://stackoverflow.com/questions/9838812/how-can-i-open-a-json-file-in-javascript-without-jquery
@@ -191,6 +198,7 @@ function displaySounds(content, filterid){/*in json*/
 		//have to sanitize all this:
 		//i have to change playsonghandler and maybe data- here :(
 		rowstr+=(filterid=="songs") ? " data-name=\""+content.structure[i].songs+"\" data-id=\""+content.structure[i].id+"\" onclick=\"playSongHandler(" +content.structure[i].id+")\">" : ">";
+		if (filterid=="songs") playlist.push(content.structure[i].songs);// adds the name of the song to the playlist... little ugly
 		rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].songs+"</td>" : "";
 		rowstr+="<td>"+ content.structure[i].artists+"</td>";
 		rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].time +"</td>" : "";
@@ -331,47 +339,154 @@ function setRepeat(){
 }
 
 
-function func(event,data){
-	console.log(data);
-}
-
-function eventListenerMaker(data) {
+//returns the song being dragged
+function draggingASong(data) {
   return function(event) {
-    func(event, data);
+    draggedsong=data;
   }
 }
 
 
-var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit;
+//updates the drag position
+function updatedrag() { 
+	if (dragging)
+		draggable.style.transform="translate3d("+(mouse.x-10)+"px, "+(mouse.y-10)+"px, 0)";
+	moving = false;
+}
 
-var mouse = {x: 0, y: 0};
-// when site is loaded, loads the listeners and +
+//start the dragging and drag areas
+function mousedown(event) {
+	dragging=true;
+	showDragArea();
+}
+//stop the dragging and hide dragging rectangle
+function mouseup() {
+	dragging=false;
+	addClass(draggable,"not-dragging");
+	hideDragArea();
 
+}
 
+//adds a song to favorites
+function addSongToFavorites(){
 
-window.onload=function()
-{
-
-
-	setTimeout(filter("songs"),1); //WTF
-	console.log("despues");
-
-
-	//closure del orto:
-
-	setTimeout(dalemierda,0); //WTF
-
-	function dalemierda(){
-		var songss = document.getElementsByClassName("songp");
-		console.log(songss.length);
-		for (ll=0; ll<songss.length; ll++)
-		{
-		  songss[ll].addEventListener("mousedown", eventListenerMaker(songss[ll].getAttribute('data-name')));
-		}
+	if (draggedsong!=0){
+		document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"playSongHandler("+draggedsong+")\">"+playlist[draggedsong-1]+"</a></li>"
 	}
+	draggedsong=0;
+	hideDragArea();
+}
+
+//adds a song to favorites
+function addSongToFavoritesContext(id){
+	hideContextMenu();
+	document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"playSongHandler("+id+")\">"+playlist[id-1]+"</a></li>"
+}
+//adds a song to favorites
+function playSongHandlerContext(id){
+	hideContextMenu();
+	playSongHandler(id);
+}
+
+//plays a dragged song
+function playDraggedSong(){
+	if (draggedsong!=0){
+		playSongHandler(draggedsong);
+	}
+	draggedsong=0;
+
+}
+
+//hides the dropzones
+function hideDragArea(){
+	//i have to hide with a time out, because if drop area disappears first
+	//i cant drop on the drop zone, race condition
+	setTimeout( function(){
+		addClass(document.getElementById("drop-zone-fav"),"hide");
+		removeClass(document.getElementById("player"),"drop-zone");
+	},200);
+}
+
+//shows the dropzones
+function showDragArea(){
+	removeClass(document.getElementById("drop-zone-fav"),"hide");
+	addClass(document.getElementById("player"),"drop-zone");
+}
 
 
-	// show songs as default
+
+//returns the song being dragged
+function draggingASong(data) {
+  return function(event) {
+    draggedsong=data;
+  }
+}
+
+
+
+//shows the dropzones
+function showContextMenu(data){
+	return function(event){
+		draggedsong=0;
+		var contextmenu=document.getElementById("context-menu");
+		var placetext=document.getElementById("context-menu-list");
+		placetext.innerHTML="<li><a href=\"#\" onclick=\"playSongHandlerContext("+data+")\">Play song</li>";
+		placetext.innerHTML+="<li><hr></li>";
+		placetext.innerHTML+="<li><a href=\"#\" onclick=\"addSongToFavoritesContext("+data+")\">Add to favorite</li>";
+		removeClass(contextmenu,"hide");
+		contextmenu.style.transform="translate3d("+(mouse.x)+"px, "+(mouse.y)+"px, 0)";
+		hideDragArea();	
+	}
+}
+
+//hide context menu (not inmediately)
+function hideContextMenu(){
+	setTimeout(
+		function(){
+			addClass(document.getElementById("context-menu"),"hide");		
+		}
+	,200);
+
+}
+
+
+
+function songsListeners(){
+
+	setTimeout(
+		function(){
+			songss = document.getElementsByClassName("songp");
+			for (ll=0; ll<songss.length; ll++)
+			{
+				songss[ll].addEventListener("mousedown", draggingASong(songss[ll].getAttribute('data-id')));
+				songss[ll].addEventListener("contextmenu", showContextMenu(songss[ll].getAttribute('data-id')));
+			}	
+		}
+	,100);
+
+
+}
+
+
+var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit, songss;
+var dragging;
+var draggable;
+var mouse = {x: 0, y: 0};
+
+var moving = false;
+
+
+// when site is loaded, loads the listeners and +
+window.onload = function(){
+
+	//have to fix this race condition in a nicer way:
+
+	filter("songs");
+
+	songsListeners();
+
+
+
 	
 	// event is triggered (for logs)
 	document.onclick = function (e) { return logEvent(e); };
@@ -380,6 +495,9 @@ window.onload=function()
 	/*
 	Other vars and Listeners
 	*/
+	moving=false;
+	dragging=false;
+	draggable=document.getElementById("draggable");
 	playbtn = document.getElementById("btn-play");
 	pausebtn = document.getElementById("btn-pause");
 	backbtn = document.getElementById("btn-back");
@@ -396,6 +514,10 @@ window.onload=function()
 	togglermob= document.getElementById("btn-hide-show-side-mobile");
 	modal=  document.getElementsByClassName("modal");
 	ratebtn = document.getElementById("rate");
+	dropzone=document.getElementById("drop-zone-fav");
+	dropzoneplay=document.getElementById("player");
+	songtables=document.getElementById("content");
+
 	//stars=document.getElementsByClassName("icon-star");
 
 	playbtn.addEventListener("click", function(){playSongHandler(currentsong)} );
@@ -416,12 +538,18 @@ window.onload=function()
 
 	eventbtn.addEventListener("click", function(){ modalThis("event-log-box")} );
 	ratebtn.addEventListener("click", function(){ modalThis("rate-it")} );
-
-
-
+	songtables.addEventListener("mousedown", mousedown);
+	document.addEventListener("mouseup", mouseup);
+	document.addEventListener("click",hideContextMenu);//hide the menu fix
+	dropzone.addEventListener("mouseover", addSongToFavorites );
+	dropzoneplay.addEventListener("mouseover", playDraggedSong );
 	for (var i=0; i < modal.length; i++)
 		modal[i].addEventListener("click", function(){unmodal()} );
 
+
+
+
+	//rating
 	// have to put all in only one var
 	var choose1 = chooseStar(1);
 	var choose2 = chooseStar(2);
@@ -434,39 +562,29 @@ window.onload=function()
 	document.getElementById('star4').onmouseover = choose4;
 	document.getElementById('star5').onmouseover = choose5;
 
-	var draggable=document.getElementById("draggable");
-	var isDragging = false;
+	
 
-
+	//drag listeners
 	document.addEventListener('mousemove', function(e){ 
 		mouse.x = e.clientX || e.pageX; 
 		mouse.y = e.clientY || e.pageY;
-		if (!isDragging) {
-
-			isDragging = true;
+		//console.log(mouse.x);
+		if (!moving) {
+			if (dragging){
+				removeClass(draggable,"not-dragging");
+			}
+			moving = true;
 			requestAnimationFrame(updatedrag);
 		}
 	}, false);
 
-
-	function updatedrag() { 
-		draggable.style.transform="translate3d("+(mouse.x-10)+"px, "+(mouse.y-10)+"px, 0)";
-		isDragging = false;
-	}
-
-
-	function mousedown(event) {
-		//removeClass(draggable,"not-dragging");
-	}
-
-	function mouseup() {
-		addClass(draggable,"not-dragging");
-	}
+	//hide the default menu
+	document.addEventListener('contextmenu', function(ev) {
+	    ev.preventDefault();
+	    return false;
+	}, false);
 
 
-	document.addEventListener("mousedown", mousedown);
-	document.addEventListener("mouseup", mouseup);
-
-
-
+	
 }
+

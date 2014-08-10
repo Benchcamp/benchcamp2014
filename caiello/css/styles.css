@@ -161,6 +161,10 @@ ul{
 	transform: translate3d(-100%,0,0);
 }
 
+.toggle-menu .side-bar {
+	overflow-y:scroll;
+}
+
 
 .song-time-vol, #transcurredtime, #btn-volume, #playing{
 	display:inline-block;
@@ -213,19 +217,18 @@ ul{
 }
 
 #playing {
-
     width: calc(100% - 180px);
 }
 .center-player {
     width: calc(100% - 220px);
 }
-#player {
+.player {
 	vertical-align: middle;
     width: 100%;
     overflow: hidden;
 }
 
-#draggable {
+.drag-item {
 	background-color: #7f8c8d;
 	color:#ecf0f1;
 	position:absolute;
@@ -239,27 +242,40 @@ ul{
 	cursor: move;
  	cursor: -webkit-grabbing;
  	cursor: -moz-grabbing;
- 
-
 }
 
+.context-menu {
+	background-color: #7f8c8d;
+	color:#ecf0f1;
+	position:absolute;
+	width:150px;
+    height:70px;
+    overflow: hidden;
+    padding:10px;
+    z-index:1;
+    border-radius:2px;
+    text-align:center;
+}
+.context-menu a {
+	color:#ecf0f1;
+}
 
 .not-dragging {
 	display:none;
 }
 
 
-.drag-area {
+.drop-zone {
 	text-align: center;
 	padding:10px;
-	margin:10px;
+	
 	border:#ccc 5px dashed;
 	-webkit-transition:all 0.3s linear;
 	-moz-transition:all 0.3s linear;
 	transition:all 0.3s linear;	
 }
 
-.drag-area:hover {
+.drop-zone:hover {
 	border:#2ecc71 5px dashed;
 }
 .section-with-sidebar{
@@ -270,7 +286,7 @@ ul{
 }
 
 /*media widths taken from http://stackoverflow.com/a/16727073 */
-@media (max-width:320px) { 
+@media (max-width:481px) { 
 	/* smartphones, iPhone, portrait 480x320 phones */ 
 	.events, .play-data, aside .toggle-menu, .btn-desk-tablet, #filters, #transcurredtime, #playing{
 		display:none;
@@ -280,10 +296,13 @@ ul{
 		height:100%;
 		bottom:0;
 	}
+	.section .list{
+		width: 100% !important;	
+	}	
 
 }
 
-@media (min-width:320px) { 
+@media (min-width:481px) { 
 	/* smartphones, iPhone, portrait 480x320 phones */ 
 	.btn-mobile{
 		display:none;
@@ -314,8 +333,10 @@ ul{
 }
 
 /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */ }
-@media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ }
-@media (min-width:961px) { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
+@media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ 
+}
+@media (min-width:961px) { 
+/* tablet, landscape iPad, lo-res laptops ands desktops */ }
 @media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ }
 @media (min-width:1281px) { /* hi-res laptops and desktops */ }
 
@@ -339,5 +360,12 @@ ul{
 .full-width{
 	width:100%;
 	position:absolute;
+}
+
+.hide{
+	-webkit-transition:all 0.3s linear;
+	-moz-transition:all 0.3s linear;
+	transition:all 0.3s linear;	
+	display:none;
 }
 
