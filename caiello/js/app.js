@@ -364,6 +364,7 @@ function mouseup() {
 	dragging=false;
 	addClass(draggable,"not-dragging");
 	hideDragArea();
+
 }
 
 //adds a song to favorites
@@ -439,11 +440,14 @@ function showContextMenu(data){
 	}
 }
 
-//shows the dropzones
+//hide context menu (not inmediately)
 function hideContextMenu(){
+	setTimeout(
+		function(){
+			addClass(document.getElementById("context-menu"),"hide");		
+		}
+	,200);
 
-	addClass(document.getElementById("context-menu"),"hide");
-	
 }
 
 
@@ -529,7 +533,7 @@ window.onload = function(){
 	ratebtn.addEventListener("click", function(){ modalThis("rate-it")} );
 	songtables.addEventListener("mousedown", mousedown);
 	document.addEventListener("mouseup", mouseup);
-
+	document.addEventListener("click",hideContextMenu);//hide the menu fix
 	dropzone.addEventListener("mouseover", addSongToFavorites );
 	dropzoneplay.addEventListener("mouseover", playDraggedSong );
 	for (var i=0; i < modal.length; i++)
@@ -538,7 +542,7 @@ window.onload = function(){
 
 
 
-
+	//rating
 	// have to put all in only one var
 	var choose1 = chooseStar(1);
 	var choose2 = chooseStar(2);
@@ -553,7 +557,7 @@ window.onload = function(){
 
 	
 
-
+	//drag listeners
 	document.addEventListener('mousemove', function(e){ 
 		mouse.x = e.clientX || e.pageX; 
 		mouse.y = e.clientY || e.pageY;
@@ -567,9 +571,9 @@ window.onload = function(){
 		}
 	}, false);
 
+	//hide the default menu
 	document.addEventListener('contextmenu', function(ev) {
 	    ev.preventDefault();
-	    console.log("nones");
 	    return false;
 	}, false);
 
