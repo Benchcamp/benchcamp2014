@@ -228,7 +228,7 @@ ul{
     overflow: hidden;
 }
 
-#draggable {
+.drag-item {
 	background-color: #7f8c8d;
 	color:#ecf0f1;
 	position:absolute;
@@ -242,10 +242,23 @@ ul{
 	cursor: move;
  	cursor: -webkit-grabbing;
  	cursor: -moz-grabbing;
- 
-
 }
 
+.context-menu {
+	background-color: #7f8c8d;
+	color:#ecf0f1;
+	position:absolute;
+	width:150px;
+    height:70px;
+    overflow: hidden;
+    padding:10px;
+    z-index:1;
+    border-radius:2px;
+    text-align:center;
+}
+.context-menu a {
+	color:#ecf0f1;
+}
 
 .not-dragging {
 	display:none;

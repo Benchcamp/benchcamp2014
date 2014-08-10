@@ -363,6 +363,7 @@ function mousedown(event) {
 function mouseup() {
 	dragging=false;
 	addClass(draggable,"not-dragging");
+	hideDragArea();
 }
 
 //adds a song to favorites
@@ -373,6 +374,17 @@ function addSongToFavorites(){
 	}
 	draggedsong=0;
 	hideDragArea();
+}
+
+//adds a song to favorites
+function addSongToFavoritesContext(id){
+	hideContextMenu();
+	document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"playSongHandler("+id+")\">"+playlist[id-1]+"</a></li>"
+}
+//adds a song to favorites
+function playSongHandlerContext(id){
+	hideContextMenu();
+	playSongHandler(id);
 }
 
 //plays a dragged song
@@ -386,8 +398,12 @@ function playDraggedSong(){
 
 //hides the dropzones
 function hideDragArea(){
-	addClass(document.getElementById("drop-zone-fav"),"hide");
-	removeClass(document.getElementById("player"),"drop-zone");
+	//i have to hide with a time out, because if drop area disappears first
+	//i cant drop on the drop zone, race condition
+	setTimeout( function(){
+		addClass(document.getElementById("drop-zone-fav"),"hide");
+		removeClass(document.getElementById("player"),"drop-zone");
+	},200);
 }
 
 //shows the dropzones
@@ -395,6 +411,41 @@ function showDragArea(){
 	removeClass(document.getElementById("drop-zone-fav"),"hide");
 	addClass(document.getElementById("player"),"drop-zone");
 }
+
+
+
+//returns the song being dragged
+function draggingASong(data) {
+  return function(event) {
+    draggedsong=data;
+  }
+}
+
+
+
+//shows the dropzones
+function showContextMenu(data){
+	return function(event){
+		draggedsong=0;
+		console.log("mierda");
+		var contextmenu=document.getElementById("context-menu");
+		var placetext=document.getElementById("context-menu-list");
+		placetext.innerHTML="<li><a href=\"#\" onclick=\"playSongHandlerContext("+data+")\">Play song</li>";
+		placetext.innerHTML+="<li><hr></li>";
+		placetext.innerHTML+="<li><a href=\"#\" onclick=\"addSongToFavoritesContext("+data+")\">Add to favorite</li>";
+		removeClass(contextmenu,"hide");
+		contextmenu.style.transform="translate3d("+(mouse.x)+"px, "+(mouse.y)+"px, 0)";
+		hideDragArea();	
+	}
+}
+
+//shows the dropzones
+function hideContextMenu(){
+
+	addClass(document.getElementById("context-menu"),"hide");
+	
+}
+
 
 var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit, songss;
 var dragging;
@@ -417,9 +468,12 @@ window.onload = function(){
 			for (ll=0; ll<songss.length; ll++)
 			{
 				songss[ll].addEventListener("mousedown", draggingASong(songss[ll].getAttribute('data-id')));
+				songss[ll].addEventListener("contextmenu", showContextMenu(songss[ll].getAttribute('data-id')));
 			}	
 		}
 	,100);
+
+
 
 
 	
@@ -482,6 +536,9 @@ window.onload = function(){
 		modal[i].addEventListener("click", function(){unmodal()} );
 
 
+
+
+
 	// have to put all in only one var
 	var choose1 = chooseStar(1);
 	var choose2 = chooseStar(2);
@@ -494,6 +551,7 @@ window.onload = function(){
 	document.getElementById('star4').onmouseover = choose4;
 	document.getElementById('star5').onmouseover = choose5;
 
+	
 
 
 	document.addEventListener('mousemove', function(e){ 
@@ -507,6 +565,12 @@ window.onload = function(){
 			moving = true;
 			requestAnimationFrame(updatedrag);
 		}
+	}, false);
+
+	document.addEventListener('contextmenu', function(ev) {
+	    ev.preventDefault();
+	    console.log("nones");
+	    return false;
 	}, false);
 
 
