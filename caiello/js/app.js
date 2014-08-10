@@ -71,7 +71,11 @@ function playSongHandler(songid) {
     playbtn.style.display = "none";
     pausebtn.style.display="";
     timing = setInterval(update,3);//most fluid than 1000
+    //have to move this...
+    hideDragArea();
 };
+
+
 
 // pause the current song
 function pauseSong() {
@@ -335,63 +339,62 @@ function setRepeat(){
 }
 
 
-function func(event,data){
-	console.log(data);
-}
-
+//returns the song being dragged
 function draggingASong(data) {
   return function(event) {
     draggedsong=data;
-    console.log("dragging this shit:");
-    console.log(draggedsong);
   }
 }
 
 
+//updates the drag position
 function updatedrag() { 
-
 	if (dragging)
 		draggable.style.transform="translate3d("+(mouse.x-10)+"px, "+(mouse.y-10)+"px, 0)";
 	moving = false;
 }
 
-
+//start the dragging and drag areas
 function mousedown(event) {
 	dragging=true;
-	removeClass(document.getElementById("drop-zone-fav"),"hide");
-	addClass(document.getElementById("player"),"drop-zone");
+	showDragArea();
 }
-
+//stop the dragging and hide dragging rectangle
 function mouseup() {
-	
 	dragging=false;
 	addClass(draggable,"not-dragging");
-	//if nothing to play it will not play nothing
-	//playDraggedSong();
-
 }
 
-
+//adds a song to favorites
 function addSongToFavorites(){
 
 	if (draggedsong!=0){
 		document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"playSongHandler("+draggedsong+")\">"+playlist[draggedsong-1]+"</a></li>"
 	}
 	draggedsong=0;
-	addClass(document.getElementById("drop-zone-fav"),"hide");
-	removeClass(document.getElementById("player"),"drop-zone");
+	hideDragArea();
 }
 
-
+//plays a dragged song
 function playDraggedSong(){
 	if (draggedsong!=0){
 		playSongHandler(draggedsong);
 	}
 	draggedsong=0;
+
+}
+
+//hides the dropzones
+function hideDragArea(){
 	addClass(document.getElementById("drop-zone-fav"),"hide");
 	removeClass(document.getElementById("player"),"drop-zone");
 }
 
+//shows the dropzones
+function showDragArea(){
+	removeClass(document.getElementById("drop-zone-fav"),"hide");
+	addClass(document.getElementById("player"),"drop-zone");
+}
 
 var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit, songss;
 var dragging;
@@ -449,6 +452,7 @@ window.onload = function(){
 	dropzone=document.getElementById("drop-zone-fav");
 	dropzoneplay=document.getElementById("player");
 	songtables=document.getElementById("content");
+
 	//stars=document.getElementsByClassName("icon-star");
 
 	playbtn.addEventListener("click", function(){playSongHandler(currentsong)} );
@@ -476,6 +480,7 @@ window.onload = function(){
 	dropzoneplay.addEventListener("mouseover", playDraggedSong );
 	for (var i=0; i < modal.length; i++)
 		modal[i].addEventListener("click", function(){unmodal()} );
+
 
 	// have to put all in only one var
 	var choose1 = chooseStar(1);

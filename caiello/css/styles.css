@@ -161,6 +161,10 @@ ul{
 	transform: translate3d(-100%,0,0);
 }
 
+.toggle-menu .side-bar {
+	overflow-y:scroll;
+}
+
 
 .song-time-vol, #transcurredtime, #btn-volume, #playing{
 	display:inline-block;
@@ -251,7 +255,7 @@ ul{
 .drop-zone {
 	text-align: center;
 	padding:10px;
-	margin:10px;
+	
 	border:#ccc 5px dashed;
 	-webkit-transition:all 0.3s linear;
 	-moz-transition:all 0.3s linear;
@@ -346,6 +350,9 @@ ul{
 }
 
 .hide{
+	-webkit-transition:all 0.3s linear;
+	-moz-transition:all 0.3s linear;
+	transition:all 0.3s linear;	
 	display:none;
 }
 
