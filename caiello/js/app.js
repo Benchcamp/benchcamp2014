@@ -373,7 +373,7 @@ function mouseup() {
 
 
 function addSongToFavorites(){
-	console.log("niagatee");
+
 	if (draggedsong!=0){
 		document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"playSongHandler("+draggedsong+")\">"+playlist[draggedsong-1]+"</a></li>"
 	}
