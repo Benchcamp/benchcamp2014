@@ -141,7 +141,7 @@ function filter(tofilterid){
          function(data) { console.log(data); },
          function(xhr) { console.error(xhr); },
          tofilterid);
-	console.log("antes");
+	songsListeners();
 	return true;
 }
 
@@ -428,7 +428,6 @@ function draggingASong(data) {
 function showContextMenu(data){
 	return function(event){
 		draggedsong=0;
-		console.log("mierda");
 		var contextmenu=document.getElementById("context-menu");
 		var placetext=document.getElementById("context-menu-list");
 		placetext.innerHTML="<li><a href=\"#\" onclick=\"playSongHandlerContext("+data+")\">Play song</li>";
@@ -451,6 +450,24 @@ function hideContextMenu(){
 }
 
 
+
+function songsListeners(){
+
+	setTimeout(
+		function(){
+			songss = document.getElementsByClassName("songp");
+			for (ll=0; ll<songss.length; ll++)
+			{
+				songss[ll].addEventListener("mousedown", draggingASong(songss[ll].getAttribute('data-id')));
+				songss[ll].addEventListener("contextmenu", showContextMenu(songss[ll].getAttribute('data-id')));
+			}	
+		}
+	,100);
+
+
+}
+
+
 var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit, songss;
 var dragging;
 var draggable;
@@ -466,17 +483,7 @@ window.onload = function(){
 
 	filter("songs");
 
-	setTimeout(
-		function(){
-			songss = document.getElementsByClassName("songp");
-			for (ll=0; ll<songss.length; ll++)
-			{
-				songss[ll].addEventListener("mousedown", draggingASong(songss[ll].getAttribute('data-id')));
-				songss[ll].addEventListener("contextmenu", showContextMenu(songss[ll].getAttribute('data-id')));
-			}	
-		}
-	,100);
-
+	songsListeners();
 
 
 
