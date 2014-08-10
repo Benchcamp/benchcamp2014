@@ -74,13 +74,19 @@
     transition:margin-left 2s, width 2s;
 }
 
+.control > div{
+    width: 100%;
+}
 
-.control .display{
-	display: inline;
+.control .display,
+.control .progressBar{
+	display: inline-block;
+    width: 100%;
 }
 
 .display-content{
-	display: inline;
-	width:  200px;
+	display: inline-block;
+	min-width: 98px;
+    width: calc(100% - 181px);
 }
 
