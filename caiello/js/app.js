@@ -43,6 +43,56 @@ var eventsLogger = (function (e) {
 })();
 
 
+//Utilities
+var utilities = (function () {
+   
+	//hasclass, addclass and remove class taken from http://jaketrent.com/post/addremove-classes-raw-javascript/
+	function _hasClass(ele,cls) {
+	  return ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
+	}
+	function _addClass(ele,cls) {
+	  if (!_hasClass(ele,cls)) ele.className += " "+cls;
+	}
+	function _removeClass(ele,cls) {
+	  if (_hasClass(ele,cls)) {
+	    var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+	    ele.className=ele.className.replace(reg,' ');
+	  }
+	}
+
+	/*
+	maths
+	*/
+	//miliseconds to seconds
+	function _msToSeconds(mscs){
+		return mscs/1000;
+	}
+	//miliseconds to minutes
+	function _msToMinutes(mscs){
+		return _msToSeconds(mscs)/60;
+	}
+	//miliseconds to seconds without minutes (ie: 127 ret 7)
+	function _msToSecondsWithoutMinutes(mscs){
+		return _msToSeconds(mscs)%60;
+	}
+	//percent of a part in a total
+	function _percent(part,total){
+		return part*100.0/total;
+	}
+
+    // Reveal
+    return {
+        hasClass: _hasClass,
+        addClass: _addClass,
+        removeClass: _removeClass,
+        msToSeconds: _msToSeconds,
+        msToMinutes: _msToMinutes,
+        msToSecondsWithoutMinutes: _msToSecondsWithoutMinutes,
+        percent: _percent
+    };
+})();
+
+
 
 //Player
 var player = (function () {
@@ -119,8 +169,8 @@ var player = (function () {
 	function _update(){
 		var playedms = _instance.getPosition();
 
-		document.getElementById("transcurredtime").innerHTML=parseInt(msToMinutes(playedms))+":"+parseInt(msToSecondsWithoutMinutes(playedms));
-		var percentplayed=percent(playedms,_instance.getDuration());
+		document.getElementById("transcurredtime").innerHTML=parseInt(utilities.msToMinutes(playedms))+":"+parseInt(utilities.msToSecondsWithoutMinutes(playedms));
+		var percentplayed=utilities.percent(playedms,_instance.getDuration());
 		//document.getElementById("progressbar").innerHTML=percentplayed;
 		document.getElementById("progressbar").style.width=percentplayed+"%";
 	}
@@ -172,18 +222,18 @@ var player = (function () {
 	function _setRandom(){
 		_random=!_random;
 		if (_random)
-			removeClass(document.getElementById("i-shuffle"),"inactive");
+			utilities.removeClass(document.getElementById("i-shuffle"),"inactive");
 		else
-			addClass(document.getElementById("i-shuffle"),"inactive");
+			utilities.addClass(document.getElementById("i-shuffle"),"inactive");
 	}
 
 	// negates repeat (have to reuse the method setrandom..)
 	function _setRepeat(){
 		_repeat=!_repeat;
 		if (_repeat)
-			removeClass(document.getElementById("i-loop"),"inactive");
+			utilities.removeClass(document.getElementById("i-loop"),"inactive");
 		else
-			addClass(document.getElementById("i-loop"),"inactive");
+			utilities.addClass(document.getElementById("i-loop"),"inactive");
 	}
 
     // Reveal
@@ -237,6 +287,7 @@ var modal = (function () {
         unmodal:   _unmodal
     };
 })();
+
 
 
 
@@ -336,14 +387,14 @@ function toggleMenu(){
 	var elemcpl =document.getElementById("currently-playing");
 	var elemfil =document.getElementById("filters");
 
-	if (hasClass(elemcpl,"on")){
-		removeClass(elemcpl,"on");
-		removeClass(elemfil,"on");
-		removeClass(elemsec,"full-width");
+	if (utilities.hasClass(elemcpl,"on")){
+		utilities.removeClass(elemcpl,"on");
+		utilities.removeClass(elemfil,"on");
+		utilities.removeClass(elemsec,"full-width");
 	}else{
-		addClass(elemcpl,"on");
-		addClass(elemfil,"on");
-		addClass(elemsec,"full-width");
+		utilities.addClass(elemcpl,"on");
+		utilities.addClass(elemfil,"on");
+		utilities.addClass(elemsec,"full-width");
 	}
 
 
@@ -352,10 +403,10 @@ function toggleMenu(){
 //toggles the sidebar
 function toggleMenuMob(){
 	var elem =document.getElementById("currently-playing");
-	if (hasClass(elem,"on"))
-		removeClass(elem,"on");
+	if (utilities.hasClass(elem,"on"))
+		utilities.removeClass(elem,"on");
 	else
-		addClass(elem,"on");
+		utilities.addClass(elem,"on");
 }
 
 function chooseStar(size) {
@@ -364,12 +415,12 @@ function chooseStar(size) {
 		for (var xx=1; xx<=5; xx++){
 			if (xx<=size){
 	 			elem= document.getElementById("star"+xx);
-	 			removeClass(elem,"icon-star");
- 				addClass(elem,"icon-star2");
+	 			utilities.removeClass(elem,"icon-star");
+ 				utilities.addClass(elem,"icon-star2");
 			}else{
 	 			elem= document.getElementById("star"+xx);
-	 			removeClass(elem,"icon-star2");
- 				addClass(elem,"icon-star");
+	 			utilities.removeClass(elem,"icon-star2");
+ 				utilities.addClass(elem,"icon-star");
 			}
 			
 		}
@@ -379,42 +430,6 @@ function chooseStar(size) {
 
 
 
-/*
-utilities
-*/
-//hasclass, addclass and remove class taken from http://jaketrent.com/post/addremove-classes-raw-javascript/
-function hasClass(ele,cls) {
-  return ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
-}
-function addClass(ele,cls) {
-  if (!hasClass(ele,cls)) ele.className += " "+cls;
-}
-function removeClass(ele,cls) {
-  if (hasClass(ele,cls)) {
-    var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
-    ele.className=ele.className.replace(reg,' ');
-  }
-}
-
-/*
-maths
-*/
-//miliseconds to seconds
-function msToSeconds(mscs){
-	return mscs/1000;
-}
-//miliseconds to minutes
-function msToMinutes(mscs){
-	return msToSeconds(mscs)/60;
-}
-//miliseconds to seconds without minutes (ie: 127 ret 7)
-function msToSecondsWithoutMinutes(mscs){
-	return msToSeconds(mscs)%60;
-}
-//percent of a part in a total
-function percent(part,total){
-	return part*100.0/total;
-}
 
 
 //returns the song being dragged
@@ -440,7 +455,7 @@ function mousedown(event) {
 //stop the dragging and hide dragging rectangle
 function mouseup() {
 	dragging=false;
-	addClass(draggable,"not-dragging");
+	utilities.addClass(draggable,"not-dragging");
 	hideDragArea();
 
 }
@@ -480,15 +495,15 @@ function hideDragArea(){
 	//i have to hide with a time out, because if drop area disappears first
 	//i cant drop on the drop zone, race condition
 	setTimeout( function(){
-		addClass(document.getElementById("drop-zone-fav"),"hide");
-		removeClass(document.getElementById("player"),"drop-zone");
+		utilities.addClass(document.getElementById("drop-zone-fav"),"hide");
+		utilities.removeClass(document.getElementById("player"),"drop-zone");
 	},200);
 }
 
 //shows the dropzones
 function showDragArea(){
-	removeClass(document.getElementById("drop-zone-fav"),"hide");
-	addClass(document.getElementById("player"),"drop-zone");
+	utilities.removeClass(document.getElementById("drop-zone-fav"),"hide");
+	utilities.addClass(document.getElementById("player"),"drop-zone");
 }
 
 
@@ -511,7 +526,7 @@ function showContextMenu(data){
 		placetext.innerHTML="<li><a href=\"#\" onclick=\"player.playSongContext("+data+")\">Play song</li>";
 		placetext.innerHTML+="<li><hr></li>";
 		placetext.innerHTML+="<li><a href=\"#\" onclick=\"addSongToFavoritesContext("+data+")\">Add to favorite</li>";
-		removeClass(contextmenu,"hide");
+		utilities.removeClass(contextmenu,"hide");
 		contextmenu.style.transform="translate3d("+(mouse.x)+"px, "+(mouse.y)+"px, 0)";
 		hideDragArea();	
 	}
@@ -521,7 +536,7 @@ function showContextMenu(data){
 function hideContextMenu(){
 	setTimeout(
 		function(){
-			addClass(document.getElementById("context-menu"),"hide");		
+			utilities.addClass(document.getElementById("context-menu"),"hide");		
 		}
 	,200);
 
@@ -649,7 +664,7 @@ window.onload = function(){
 		//console.log(mouse.x);
 		if (!moving) {
 			if (dragging){
-				removeClass(draggable,"not-dragging");
+				utilities.removeClass(draggable,"not-dragging");
 			}
 			moving = true;
 			requestAnimationFrame(updatedrag);
