@@ -128,15 +128,15 @@ function init() {
     
     self.onChangeConfig = function(sender){
         
-        var confDisplay = document.querySelector(".display .config");
-        confDisplay.innerText = "";
-        
-        
-        if(sender.loop())
-            confDisplay.innerText += " L ";
-                
-        if(sender.random())
-            confDisplay.innerText += " R ";
+//        var confDisplay = document.querySelector(".display .config");
+//        confDisplay.innerText = "";
+//        
+//        
+//        if(sender.loop())
+//            confDisplay.innerText += " L ";
+//                
+//        if(sender.random())
+//            confDisplay.innerText += " R ";
         
     };
     

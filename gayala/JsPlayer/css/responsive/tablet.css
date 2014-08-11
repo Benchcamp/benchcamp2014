@@ -78,8 +78,7 @@
     width: 100%;
 }
 
-.control .display,
-.control .progressBar{
+.control .display{
 	display: inline-block;
     width: 100%;
 }
@@ -88,5 +87,40 @@
 	display: inline-block;
 	min-width: 98px;
     width: calc(100% - 181px);
+    margin-top: 43px;
 }
+
+
+.control #progressBar{
+    display: inline-block;
+    width: 100%;
+}
+
+.control #progressBar .time{
+    width: 50px;
+}
+
+.control #progressBar > div > *{
+    display: inline-block;
+}
+
+.control #progressBar > div > div{
+    width: calc(100% - 120px );
+}
+
+#progressBar .bar {
+    width: 100%;
+    display: block;
+    height: 14px;
+    border: solid 1px #79bbff;
+    border-radius: 10px;
+    margin-right: 10px;
+    background-color: #ffffff;
+}
+
+#progressBar .buttonProgress{
+    display: block;
+}
+
+
 

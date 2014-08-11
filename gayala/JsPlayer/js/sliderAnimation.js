@@ -14,22 +14,11 @@ function SliderAnimation(place){
         self.callback = callback;
         self.interval = window.setInterval(self._refresh, 100);
         
-
-        
-        var table = document.createElement('div');
-        table.style.display = "table";
-        table.style.width = "100%";
-        self.place.appendChild(table);
         
         var tableRow = document.createElement('div');
-        tableRow.style.display = "table-row";
-        table.appendChild(tableRow);
+        self.place.appendChild(tableRow);        
         
         var content = document.createElement('div');
-        content.style.display = "table-cell";      
-        content.style.paddingRight = 5;
-        content.style.paddingTop = "5%";
-        content.style.paddingBottom = "5%";
         
         var bar = document.createElement('div');        
         bar.classList.add("bar");
@@ -41,16 +30,13 @@ function SliderAnimation(place){
         content.appendChild(bar);
         
         
-        self.curent = document.createElement('div');
-        self.curent.style.display = "table-cell";
-        self.curent.style.width = 50;
+        self.curent = document.createElement('span');
+        self.curent.classList.add("time");
         
         
-        self.end = document.createElement('div');
-        self.end.style.width = 50;
-        self.end.style.display = "table-cell";     
-        
-                  
+        self.end = document.createElement('span');
+        self.end.classList.add("time");
+                          
         
         tableRow.appendChild(self.curent); 
         tableRow.appendChild(content); 
@@ -75,8 +61,10 @@ function SliderAnimation(place){
         var maxTime =  getTimeFromMilisecond(data.max);
               
         
-        self.pin.style.marginLeft = percent + "%";
-        self.pin.style.marginRight ="10px";
+        if(percent > 50)
+            self.pin.style.marginLeft = "calc(" + percent + "% - 10px)";
+        else
+            self.pin.style.marginLeft =  percent + "%";
         
         self.curent.innerText = currentTime;
         self.end.innerText = maxTime;
