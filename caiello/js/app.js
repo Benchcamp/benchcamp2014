@@ -2,9 +2,7 @@
 Global vars
 */
 
-var actualmod;
 
-var currentlyplayingname="";
 var draggedsong=0;
 
 /*
@@ -159,6 +157,9 @@ var player = (function () {
 	function _getTotalSongs(){
 		 return _playlist.length;
 	}
+	function _getSongName(id){
+		 return _playlist[id];
+	}
 
 	function _playPrevSong(){
         _currentsong-1 > 0 ? _playSong(--_currentSong) : _currentsong = _getTotalSongs(); _playSong(_currentsong);
@@ -202,6 +203,7 @@ var player = (function () {
 		changeSong: 	_changeSong,
 		playlistPush: 	_playlistPush,
 		getTotalSongs:  _getTotalSongs,
+		getSongName:  _getSongName,
 		playPrevSong: 	_playPrevSong,
 		playNextSong: 	_playNextSong,
 		setRepeat: 		_setRepeat,
@@ -209,6 +211,33 @@ var player = (function () {
     };
 })();
  
+
+
+
+
+// Modal module
+var modal = (function () {
+    var _actualmod;
+	// adds a event to the log
+
+	//puts a modal to a given id
+	function _modalThis(idtomod) {
+		_actualmod=idtomod;
+		elem = document.getElementById(idtomod);
+		elem.style.visibility = (elem.style.visibility == "visible") ? "hidden" : "visible";
+	}
+
+	//unmodal if something is modaled
+	function _unmodal(){
+		_modalThis(_actualmod);
+	}
+    // Reveal
+    return {
+        modalThis: _modalThis,
+        unmodal:   _unmodal
+    };
+})();
+
 
 
 // filters the data "songs", "artists", "albums"
@@ -299,17 +328,6 @@ function showHideElement(element){
 
 
 
-//puts a modal to a given id
-function modalThis(idtomod) {
-	actualmod=idtomod;
-	elem = document.getElementById(idtomod);
-	elem.style.visibility = (elem.style.visibility == "visible") ? "hidden" : "visible";
-}
-
-//unmodal if something is modaled
-function unmodal(){
-	modalThis(actualmod);
-}
 
 //toggles the sidebar
 function toggleMenu(){
@@ -431,7 +449,7 @@ function mouseup() {
 function addSongToFavorites(){
 
 	if (draggedsong!=0){
-		document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"player.playSong("+draggedsong+")\">"+playlist[draggedsong-1]+"</a></li>"
+		document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"player.playSong("+draggedsong+")\">"+player.getSongName(draggedsong-1)+"</a></li>"
 	}
 	draggedsong=0;
 	hideDragArea();
@@ -528,7 +546,7 @@ function songsListeners(){
 }
 
 
-var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modal, rateit, songss;
+var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modalel, rateit, songss;
 var dragging;
 var draggable;
 var mouse = {x: 0, y: 0};
@@ -572,7 +590,7 @@ window.onload = function(){
 	filterartists = document.getElementById("filter-artists");
 	toggler= document.getElementById("btn-hide-show-side");
 	togglermob= document.getElementById("btn-hide-show-side-mobile");
-	modal=  document.getElementsByClassName("modal");
+	modalel=  document.getElementsByClassName("modal");
 	ratebtn = document.getElementById("rate");
 	dropzone=document.getElementById("drop-zone-fav");
 	dropzoneplay=document.getElementById("player");
@@ -596,15 +614,15 @@ window.onload = function(){
 	toggler.addEventListener("click", function(){toggleMenu()} );
 	togglermob.addEventListener("click", function(){toggleMenuMob()} );
 
-	eventbtn.addEventListener("click", function(){ modalThis("event-log-box")} );
-	ratebtn.addEventListener("click", function(){ modalThis("rate-it")} );
+	eventbtn.addEventListener("click", function(){ modal.modalThis("event-log-box")} );
+	ratebtn.addEventListener("click", function(){ modal.modalThis("rate-it")} );
 	songtables.addEventListener("mousedown", mousedown);
 	document.addEventListener("mouseup", mouseup);
 	songtables.addEventListener("click",hideContextMenu);//hide the menu fix
 	dropzone.addEventListener("mouseover", addSongToFavorites );
 	dropzoneplay.addEventListener("mouseover", playDraggedSong );
-	for (var i=0; i < modal.length; i++)
-		modal[i].addEventListener("click", unmodal );
+	for (var i=0; i < modalel.length; i++)
+		modalel[i].addEventListener("click", modal.unmodal );
 
 
 
