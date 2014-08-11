@@ -3,7 +3,6 @@ Global vars
 */
 var instance;
 var timing;
-var eventlogcount=0;
 var currentsong=1;
 var totalsongs=0;
 var repeat=false;
@@ -18,32 +17,40 @@ var draggedsong=0;
 Functions
 */
 
-// adds a event to the log
-function logEvent(e){
-	var actualtime=new Date(e.timeStamp);
-	var timetolog=actualtime.getHours()+":"+actualtime.getMinutes()+":"+actualtime.getSeconds();
-	var eventaction=e.type;
-	var eventelement=e.target.innerText;
-	if (eventelement=="")
-		eventelement=e.target.className;
-	addToEventLog(eventaction,eventelement,timetolog);
-	//console.log(e);
-}
+//Events Logger Module
+var eventsLogger = (function (e) {
+    var _eventlogcount=0
+	// adds a event to the log
+	function _logEvent(e){
+		var actualtime=new Date(e.timeStamp);
+		var timetolog=actualtime.getHours()+":"+actualtime.getMinutes()+":"+actualtime.getSeconds();
+		var eventaction=e.type;
+		var eventelement=e.target.innerText;
+		if (eventelement=="")
+			eventelement=e.target.className;
+		_addToEventLog(eventaction,eventelement,timetolog);
+	}
+	// adds an item to the log
+	function _addToEventLog(actionev,eventelement,eventtime){
+		document.getElementById("eventlogcount").innerHTML = ++_eventlogcount;
+	 	var rowstr="";
+		if (_eventlogcount%2==0)
+			rowstr+="<tr class=\"even\">";
+		else
+			rowstr+="<tr class=\"odd\">";
+		rowstr+="<td>"+ actionev +"</td>";
+		rowstr+="<td>"+ eventelement +"</td>";
+		rowstr+="<td>"+ eventtime +"</td>";
+		rowstr+="</tr>"
+		document.getElementById("eventlog").innerHTML += rowstr;
+	};
+    // Reveal
+    return {
+        logEvent: _logEvent
+    };
+})();
+ 
 
-// adds an item to the log
-function addToEventLog(actionev,eventelement,eventtime){
-	document.getElementById("eventlogcount").innerHTML = ++eventlogcount;
- 	var rowstr="";
-	if (eventlogcount%2==0)
-		rowstr+="<tr class=\"even\">";
-	else
-		rowstr+="<tr class=\"odd\">";
-	rowstr+="<td>"+ actionev +"</td>";
-	rowstr+="<td>"+ eventelement +"</td>";
-	rowstr+="<td>"+ eventtime +"</td>";
-	rowstr+="</tr>"
-	document.getElementById("eventlog").innerHTML += rowstr;
-};
 
 // a song ends
 function songEnds() {
@@ -131,7 +138,8 @@ function registerSong(songid) {
 
 // mute the sound
 function muteSound(){
-	instance.setMute(!instance.getMute());
+	if (instance)
+		instance.setMute(!instance.getMute());
 }
 
 // filters the data "songs", "artists", "albums"
@@ -489,9 +497,9 @@ window.onload = function(){
 
 	
 	// event is triggered (for logs)
-	document.onclick = function (e) { return logEvent(e); };
-	document.ondblclick = function (e) { return logEvent(e); };
-	document.onkeyup = function (e) { return logEvent(e); };
+	document.onclick = function (e) { return eventsLogger.logEvent(e); };
+	document.ondblclick = function (e) { return eventsLogger.logEvent(e); };
+	document.onkeyup = function (e) { return eventsLogger.logEvent(e); };
 	/*
 	Other vars and Listeners
 	*/
@@ -540,7 +548,7 @@ window.onload = function(){
 	ratebtn.addEventListener("click", function(){ modalThis("rate-it")} );
 	songtables.addEventListener("mousedown", mousedown);
 	document.addEventListener("mouseup", mouseup);
-	document.addEventListener("click",hideContextMenu);//hide the menu fix
+	songtables.addEventListener("click",hideContextMenu);//hide the menu fix
 	dropzone.addEventListener("mouseover", addSongToFavorites );
 	dropzoneplay.addEventListener("mouseover", playDraggedSong );
 	for (var i=0; i < modal.length; i++)
