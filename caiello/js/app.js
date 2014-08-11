@@ -1,15 +1,9 @@
 /*
 Global vars
 */
-var instance;
-var timing;
-var currentsong=1;
-var totalsongs=0;
-var repeat=false;
-var random=false;
-var registered=false;
+
 var actualmod;
-var playlist=[];
+
 var currentlyplayingname="";
 var draggedsong=0;
 
@@ -49,98 +43,173 @@ var eventsLogger = (function (e) {
         logEvent: _logEvent
     };
 })();
+
+
+
+//Player
+var player = (function () {
+	var _instance;
+	var _timing;
+	var _currentsong=1;
+	var _totalsongs=0;
+	var _repeat=false;
+	var _random=false;
+	var _registered=false;
+	var _playlist=[];
+	// a song ends
+	function _songEnds() {
+		if (_random)
+			_playSong(Math.floor((Math.random() * _getTotalSongs()) + 1));
+		else
+			if (_repeat){
+				(_currentsong+1 <= _totalsongs) ? _playSong(++_currentsong) : _currentsong=1; _playSong(_currentsong);
+			}else{
+				_stopSong();
+			}
+	}
+	// plays a song
+	function _playSong(songid) {
+		_currentsong=songid;
+		document.getElementById("song-name").innerText=_playlist[_currentsong-1];
+		if (!(_instance && _instance.resume())){ //resume pause
+			if (_instance) //stops current song
+				_stopSong(); 
+			_instance = createjs.Sound.play(songid); //plays selected
+		}
+	    _instance.addEventListener("complete", _songEnds);
+	    //change btn from play to pause
+	    playbtn.style.display = "none";
+	    pausebtn.style.display="";
+	    _timing = setInterval(_update,3);//most fluid than 1000
+	    //have to move this...
+	    hideDragArea();
+	}
+	// pause the current song
+	function _pauseSong() {
+		_instance.pause();
+		clearInterval(_timing);
+		pausebtn.style.display="none";
+		playbtn.style.display="";
+	}
+	// stop the song (another song selected)
+	function _stopSong() {
+		_pauseSong();
+		_instance.setPosition(0);
+	}
+	//taken from http://www.kirupa.com/html5/getting_mouse_click_position.htm
+	function _getPosition(element) {
+		var xPosition = 0;
+		var yPosition = 0;
+		while (element) {
+			xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+			yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+			element = element.offsetParent;
+		}
+		return { x: xPosition, y: yPosition };
+	}
+	// moves the player to a position given by an event
+	function _moveToPosition(e){//gets the position from event
+		if (_instance){
+			var parentpos = player.getPosition(e.currentTarget);
+			var posx = e.clientX - parentpos.x;
+			var pbwidth = document.getElementById("playing").clientWidth;
+		    _instance.setPosition( (posx/pbwidth) * _instance.getDuration() );
+		    _update();
+		}
+	}
+	// update all items (transcurred time, progressbar, circle)
+	function _update(){
+		var playedms = _instance.getPosition();
+
+		document.getElementById("transcurredtime").innerHTML=parseInt(msToMinutes(playedms))+":"+parseInt(msToSecondsWithoutMinutes(playedms));
+		var percentplayed=percent(playedms,_instance.getDuration());
+		//document.getElementById("progressbar").innerHTML=percentplayed;
+		document.getElementById("progressbar").style.width=percentplayed+"%";
+	}
+	// register a song
+	function _registerSong(songid) {
+		createjs.Sound.registerSound("assets/resources/songs/"+songid+".ogg",songid);
+	}
+	// mute the sound
+	function _muteSound(){
+		if (_instance)
+			_instance.setMute(!_instance.getMute());
+		if (_instance.getMute())
+			removeClass(document.getElementById("i-shuffle"),"inactive");
+		else
+			addClass(document.getElementById("i-shuffle"),"inactive");
+	}
+
+	function _getCurrentSong(){
+		return _currentsong;
+	}
+
+	function _setCurrentSong(currentsong){
+		this._currentsong=currentsong;
+	}
+	function _registered(){
+		return _currentsong;
+	}
+	function _changeSong(q){
+		_currentsong+=q;
+	}
+	function _playlistPush(songname){
+		 _playlist.push(songname);
+	}
+	function _getTotalSongs(){
+		 return _playlist.length;
+	}
+
+	function _playPrevSong(){
+        _currentsong-1 > 0 ? _playSong(--_currentSong) : _currentsong = _getTotalSongs(); _playSong(_currentsong);
+	}
+	function _playNextSong(){
+		_currentsong+1 <= _getTotalSongs() ? _playSong(++_currentsong) : _currentsong=1; _playSong(_currentsong);	
+
+	}
+	// negate the random bool state
+	function _setRandom(){
+		_random=!_random;
+		if (_random)
+			removeClass(document.getElementById("i-shuffle"),"inactive");
+		else
+			addClass(document.getElementById("i-shuffle"),"inactive");
+	}
+
+	// negates repeat (have to reuse the method setrandom..)
+	function _setRepeat(){
+		_repeat=!_repeat;
+		if (_repeat)
+			removeClass(document.getElementById("i-loop"),"inactive");
+		else
+			addClass(document.getElementById("i-loop"),"inactive");
+	}
+
+    // Reveal
+    return {
+        playSong:       _playSong,
+        songEnds:       _songEnds,
+		pauseSong:      _pauseSong,
+		stopSong:       _stopSong,
+		getPosition:    _getPosition,
+		moveToPosition: _moveToPosition,
+		update: 		_update,
+		registerSong: 	_registerSong,
+		muteSound: 		_muteSound,
+		getCurrentSong: _getCurrentSong,
+		setCurrentSong: _setCurrentSong,
+		registered: 	_registered,
+		changeSong: 	_changeSong,
+		playlistPush: 	_playlistPush,
+		getTotalSongs:  _getTotalSongs,
+		playPrevSong: 	_playPrevSong,
+		playNextSong: 	_playNextSong,
+		setRepeat: 		_setRepeat,
+		setRandom: 		_setRandom
+    };
+})();
  
 
-
-// a song ends
-function songEnds() {
-	if (random)
-		playSongHandler(Math.floor((Math.random() * totalsongs) + 1));
-	else
-		if (repeat){
-			(currentsong+1 <= totalsongs) ? playSongHandler(++currentsong) : currentsong=1; playSongHandler(currentsong);
-		}else{
-			stopSong();
-		}
-};
-
-// plays a song
-function playSongHandler(songid) {
-	currentsong=songid;
-	document.getElementById("song-name").innerText=playlist[currentsong-1];
-	if (!(instance && instance.resume())){ //resume pause
-		if (instance) //stops current song
-			stopSong(); 
-		instance = createjs.Sound.play(songid); //plays selected
-	}
-    instance.addEventListener("complete", songEnds);
-    //change btn from play to pause
-    playbtn.style.display = "none";
-    pausebtn.style.display="";
-    timing = setInterval(update,3);//most fluid than 1000
-    //have to move this...
-    hideDragArea();
-};
-
-
-
-// pause the current song
-function pauseSong() {
-	instance.pause();
-	clearInterval(timing);
-	pausebtn.style.display="none";
-	playbtn.style.display="";
-};
-
-// stop the song (another song selected)
-function stopSong() {
-	pauseSong();
-	instance.setPosition(0);
-};
-
-//taken from http://www.kirupa.com/html5/getting_mouse_click_position.htm
-function getPosition(element) {
-	var xPosition = 0;
-	var yPosition = 0;
-	while (element) {
-		xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
-		yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
-		element = element.offsetParent;
-	}
-	return { x: xPosition, y: yPosition };
-};
-
-// moves the player to a position given by an event
-function moveToPosition(e){//gets the position from event
-	if (instance){
-		var parentpos = getPosition(e.currentTarget);
-		var posx = e.clientX - parentpos.x;
-		var pbwidth = document.getElementById("playing").clientWidth;
-	    instance.setPosition( (posx/pbwidth) * instance.getDuration() );
-	    update();
-	}
-};
-
-// update all items (transcurred time, progressbar, circle)
-function update(){
-	var playedms = instance.getPosition();
-
-	document.getElementById("transcurredtime").innerHTML=parseInt(msToMinutes(playedms))+":"+parseInt(msToSecondsWithoutMinutes(playedms));
-	var percentplayed=percent(playedms,instance.getDuration());
-	//document.getElementById("progressbar").innerHTML=percentplayed;
-	document.getElementById("progressbar").style.width=percentplayed+"%";
-};
-
-// register a song
-function registerSong(songid) {
-	createjs.Sound.registerSound("assets/resources/songs/"+songid+".ogg",songid);
-};
-
-// mute the sound
-function muteSound(){
-	if (instance)
-		instance.setMute(!instance.getMute());
-}
 
 // filters the data "songs", "artists", "albums"
 function filter(tofilterid){
@@ -194,8 +263,8 @@ function displaySounds(content, filterid){/*in json*/
 	var aresongs=(filterid=="songs");
 	for (var i=0; i<content.structure.length; i++){
 		//if songs are not registered then register the songs and set the flag to true
-		if (aresongs && !registered)
-			registerSong(content.structure[i].id);
+		if (aresongs && !player.registered)
+			player.registerSong(content.structure[i].id);
 		//creating the content of the table
 		//used even and odd, in the future i have to use only css...
 		if (i%2==0)
@@ -204,9 +273,9 @@ function displaySounds(content, filterid){/*in json*/
 			rowstr+="<tr class=\"songp odd\"";
 
 		//have to sanitize all this:
-		//i have to change playsonghandler and maybe data- here :(
-		rowstr+=(filterid=="songs") ? " data-name=\""+content.structure[i].songs+"\" data-id=\""+content.structure[i].id+"\" onclick=\"playSongHandler(" +content.structure[i].id+")\">" : ">";
-		if (filterid=="songs") playlist.push(content.structure[i].songs);// adds the name of the song to the playlist... little ugly
+		//i have to change player.playSong and maybe data- here :(
+		rowstr+=(filterid=="songs") ? " data-name=\""+content.structure[i].songs+"\" data-id=\""+content.structure[i].id+"\" onclick=\"player.playSong(" +content.structure[i].id+")\">" : ">";
+		if (filterid=="songs") player.playlistPush(content.structure[i].songs);// adds the name of the song to the playlist... little ugly
 		rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].songs+"</td>" : "";
 		rowstr+="<td>"+ content.structure[i].artists+"</td>";
 		rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].time +"</td>" : "";
@@ -328,23 +397,6 @@ function msToSecondsWithoutMinutes(mscs){
 function percent(part,total){
 	return part*100.0/total;
 }
-// negate the random bool state
-function setRandom(){
-	random=!random;
-	if (random)
-		removeClass(document.getElementById("i-shuffle"),"inactive");
-	else
-		addClass(document.getElementById("i-shuffle"),"inactive");
-}
-
-// negates repeat (have to reuse the method setrandom..)
-function setRepeat(){
-	repeat=!repeat;
-	if (repeat)
-		removeClass(document.getElementById("i-loop"),"inactive");
-	else
-		addClass(document.getElementById("i-loop"),"inactive");
-}
 
 
 //returns the song being dragged
@@ -379,7 +431,7 @@ function mouseup() {
 function addSongToFavorites(){
 
 	if (draggedsong!=0){
-		document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"playSongHandler("+draggedsong+")\">"+playlist[draggedsong-1]+"</a></li>"
+		document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"player.playSong("+draggedsong+")\">"+playlist[draggedsong-1]+"</a></li>"
 	}
 	draggedsong=0;
 	hideDragArea();
@@ -388,18 +440,18 @@ function addSongToFavorites(){
 //adds a song to favorites
 function addSongToFavoritesContext(id){
 	hideContextMenu();
-	document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"playSongHandler("+id+")\">"+playlist[id-1]+"</a></li>"
+	document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"player.playSong("+id+")\">"+playlist[id-1]+"</a></li>"
 }
 //adds a song to favorites
-function playSongHandlerContext(id){
+function playSongContext(id){
 	hideContextMenu();
-	playSongHandler(id);
+	player.playSong(id);
 }
 
 //plays a dragged song
 function playDraggedSong(){
 	if (draggedsong!=0){
-		playSongHandler(draggedsong);
+		player.playSong(draggedsong);
 	}
 	draggedsong=0;
 
@@ -438,7 +490,7 @@ function showContextMenu(data){
 		draggedsong=0;
 		var contextmenu=document.getElementById("context-menu");
 		var placetext=document.getElementById("context-menu-list");
-		placetext.innerHTML="<li><a href=\"#\" onclick=\"playSongHandlerContext("+data+")\">Play song</li>";
+		placetext.innerHTML="<li><a href=\"#\" onclick=\"player.playSongContext("+data+")\">Play song</li>";
 		placetext.innerHTML+="<li><hr></li>";
 		placetext.innerHTML+="<li><a href=\"#\" onclick=\"addSongToFavoritesContext("+data+")\">Add to favorite</li>";
 		removeClass(contextmenu,"hide");
@@ -528,14 +580,14 @@ window.onload = function(){
 
 	//stars=document.getElementsByClassName("icon-star");
 
-	playbtn.addEventListener("click", function(){playSongHandler(currentsong)} );
-	pausebtn.addEventListener("click", pauseSong );
-	backbtn.addEventListener("click", function(){ currentsong-1 > 0 ? playSongHandler(--currentsong) : currentsong=totalsongs; playSongHandler(currentsong); } );
-	nextbtn.addEventListener("click", function(){currentsong+1 <= totalsongs ? playSongHandler(++currentsong) : currentsong=1; playSongHandler(currentsong);} );
-	playing.addEventListener("click", moveToPosition);
-	lbtn.addEventListener("click", setRepeat );
-	rbtn.addEventListener("click", setRandom );
-	volumebtn.addEventListener("click", muteSound );
+	playbtn.addEventListener("click", function(){player.playSong(player.getCurrentSong)} );
+	pausebtn.addEventListener("click", player.pauseSong );
+	backbtn.addEventListener("click", player.playPrevSong );
+	nextbtn.addEventListener("click", player.playNextSong );
+	playing.addEventListener("click", player.moveToPosition);
+	lbtn.addEventListener("click", player.setRepeat );
+	rbtn.addEventListener("click", player.setRandom );
+	volumebtn.addEventListener("click", player.muteSound );
 	volumebtn.addEventListener("mouseover", function(){ showHideElement("volume")} );
 	volumebtn.addEventListener("mouseout", function(){ showHideElement("volume")} );
 	filtersongs.addEventListener("click", function(){filter("songs")} );
@@ -552,7 +604,7 @@ window.onload = function(){
 	dropzone.addEventListener("mouseover", addSongToFavorites );
 	dropzoneplay.addEventListener("mouseover", playDraggedSong );
 	for (var i=0; i < modal.length; i++)
-		modal[i].addEventListener("click", function(){unmodal()} );
+		modal[i].addEventListener("click", unmodal );
 
 
 
