@@ -3,7 +3,6 @@ html{
 	height:100%;
 	overflow: hidden;
 }
-
 body{
 	height:100%;
 	font-size:1em;
@@ -15,28 +14,6 @@ body{
 	-webkit-user-select: none;  
 	-moz-user-select: none;         
 	user-select: none;
-}
-
-#container{
-	position:relative; /*nice tip*/
-	height:100%;
-}
-
-a{
-	color:#2c3e50;
-	text-decoration:none;
-}
-
-.side-bar{
-	float:left;
-	background-color: #ecf0f1;
-	padding: 10px;
-	width:150px;
-}
-.section{
-	float:right;
-	width:100%;
-	overflow-y:auto;
 }
 
 aside{
@@ -59,6 +36,28 @@ footer{
 	width: calc(100% - 2em);
 	bottom:0;
 }
+a{
+	color:#2c3e50;
+	text-decoration:none;
+}
+
+#container{
+	position:relative; /*nice tip*/
+	height:100%;
+}
+
+.side-bar{
+	float:left;
+	background-color: #ecf0f1;
+	padding: 10px;
+	width:150px;
+}
+.section{
+	float:right;
+	width:100%;
+	overflow-y:auto;
+}
+
 
 
 .btn{
@@ -259,12 +258,6 @@ ul{
 .context-menu a {
 	color:#ecf0f1;
 }
-
-.not-dragging {
-	display:none;
-}
-
-
 .drop-zone {
 	text-align: center;
 	padding:10px;
@@ -274,7 +267,6 @@ ul{
 	-moz-transition:all 0.3s linear;
 	transition:all 0.3s linear;	
 }
-
 .drop-zone:hover {
 	border:#2ecc71 5px dashed;
 }
@@ -284,7 +276,6 @@ ul{
 .section-without-sidebar{
 	width: 100%;
 }
-
 /*media widths taken from http://stackoverflow.com/a/16727073 */
 @media (max-width:481px) { 
 	/* smartphones, iPhone, portrait 480x320 phones */ 

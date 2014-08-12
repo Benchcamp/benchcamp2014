@@ -168,10 +168,8 @@ var player = (function () {
 	// update all items (transcurred time, progressbar, circle)
 	function _update(){
 		var playedms = _instance.getPosition();
-
 		document.getElementById("transcurredtime").innerHTML=parseInt(utilities.msToMinutes(playedms))+":"+parseInt(utilities.msToSecondsWithoutMinutes(playedms));
 		var percentplayed=utilities.percent(playedms,_instance.getDuration());
-		//document.getElementById("progressbar").innerHTML=percentplayed;
 		document.getElementById("progressbar").style.width=percentplayed+"%";
 	}
 	// register a song
@@ -443,7 +441,7 @@ function draggingASong(data) {
 //updates the drag position
 function updatedrag() { 
 	if (dragging)
-		draggable.style.transform="translate3d("+(mouse.x-10)+"px, "+(mouse.y-10)+"px, 0)";
+		draggable.style.transform="translate3d("+(mouse.x-60)+"px, "+(mouse.y-20)+"px, 0)";
 	moving = false;
 }
 
@@ -455,7 +453,7 @@ function mousedown(event) {
 //stop the dragging and hide dragging rectangle
 function mouseup() {
 	dragging=false;
-	utilities.addClass(draggable,"not-dragging");
+	utilities.addClass(draggable,"hide");
 	hideDragArea();
 
 }
@@ -613,7 +611,7 @@ window.onload = function(){
 
 	//stars=document.getElementsByClassName("icon-star");
 
-	playbtn.addEventListener("click", function(){player.playSong(player.getCurrentSong)} );
+	playbtn.addEventListener("click", function(){player.playSong(player.getCurrentSong())} );
 	pausebtn.addEventListener("click", player.pauseSong );
 	backbtn.addEventListener("click", player.playPrevSong );
 	nextbtn.addEventListener("click", player.playNextSong );
@@ -664,7 +662,7 @@ window.onload = function(){
 		//console.log(mouse.x);
 		if (!moving) {
 			if (dragging){
-				utilities.removeClass(draggable,"not-dragging");
+				utilities.removeClass(draggable,"hide");
 			}
 			moving = true;
 			requestAnimationFrame(updatedrag);
