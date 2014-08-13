@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+<head>
+	<title>Player Globo</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" href="css/styles.css" />
+	<link rel="stylesheet" href="css/fonts.css" />
+	<link rel="stylesheet" href="css/mobile.css" media="all and (max-device-width: 640px)"/>	
+	<link rel="stylesheet" href="css/tablet.css" media="all and (min-device-width: 640px)"/>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://code.createjs.com/easeljs-0.7.1.min.js"></script>
+	<script>
+
+
+/*	$(window).load(function(){
+
+
+	createjs.Sound.alternateExtensions = ["mp3"];
+	createjs.Sound.addEventListener("fileload", createjs.proxy(this.loadHandler, this));
+	createjs.Sound.registerSound("assets/music/Thunder1.mp3", "sound");
+	function loadHandler(event) {
+	 // This is fired for each sound that is registered.
+	 var instance = createjs.Sound.play("sound");  // play using id.  Could also use full sourcepath or event.src.
+	 instance.addEventListener("complete", createjs.proxy(this.handleComplete, this));
+	 instance.volume = 0.5;
+	}
+
+
+
+	}) */
+	
+	</script>
+</head>
+<body id="body" class="wrapper">
+	<header>
+		<h1><span class="icon-menu" id="toggle"></span><div class="logo">Globamp</div></h1>
+	</header>
+	<main>
+		<aside>
+			<div class="categories">
+				<ul>
+					<li><a href="#">Albums</a></li>
+					<li><a href="#">Canciones</a></li>
+					<li><a href="#">Artistas</a></li>
+				</ul>
+				<div class="faved"></div>
+			</div>
+			<div class="playing">
+				<h3 id="status"></h3>
+				<button type="button"><span class="icon-star2"></span>Rate it</button>
+			</div>
+		</aside>
+		<section class="playlist">
+			<ul id="list-songs">
+		<!--		<li><span class="track">Nothing Else Matters</span><span class="artist">Metallica</span><span class="time">4:25</span><span class="album">Black Album</span></li> -->
+			</ul>
+		</section>
+	</main>
+	<footer>
+		<ul class="buttons">
+			<li class="button-player">
+				<a href=""><span class="icon-backward"></span></a>
+				<a href=""><span class="icon-play"></span></a>
+				<a href=""><span class="icon-forward"></span></a>
+			</li>
+			<li class="volume-control"><span class="icon-volume-high"></span><input type="range" /></li>
+			<li class="button-player left-right">
+				<a href=""><span>L</span></a>
+				<a href=""><span>R</span></a>
+			</li>			
+		</ul>
+	</footer>
+	<script>
+
+	function toggleClass(element, className){
+	    if (!element || !className){
+	        return;
+	    }
+	    
+	    var classString = element.className, nameIndex = classString.indexOf(className);
+	    if (nameIndex == -1) {
+	        classString += ' ' + className;
+	    }
+	    else {
+	        classString = classString.substr(0, nameIndex) + classString.substr(nameIndex+className.length);
+	    }
+	    element.className = classString;
+	}	
+
+	document.getElementById('toggle').addEventListener('click', function() {
+
+		toggleClass(document.getElementById('body'), 'show-playlist')
+
+	});
+
+
+	</script>
+
+
+	<!-- Note: All SoundJS classes are listed here: -->
+	<script type="text/javascript" src="assets/js/createjs/utils/Proxy.js"></script>
+	<script type="text/javascript" src="assets/js/createjs/utils/IndexOf.js"></script>
+	<script type="text/javascript" src="assets/js/createjs/events/Event.js"></script>
+	<script type="text/javascript" src="assets/js/createjs/events/EventDispatcher.js"></script>
+    <script type="text/javascript" src="assets/js/soundjs/Sound.js"></script>
+    <script type="text/javascript" src="assets/js/soundjs/WebAudioPlugin.js"></script>
+    <script type="text/javascript" src="assets/js/soundjs/HTMLAudioPlugin.js"></script>
+
+    <script>
+	        var src;            // the audio src we are trying to play
+	        var soundInstance;  // the soundInstance returned by Sound when we create or play a src
+	        var displayStatus;  // the HTML element we use to display messages to the user
+
+            // store the DOM element so we do not have to keep looking it up
+            displayStatus = document.getElementById("status");
+
+            // Create a single item to load.
+            var manifest = [
+			     {src:"05-Binrpilot-Underground.mp3", artist:"Metallica", album:"Black Album", time: "4:35"},
+			     {src:"18-machinae_supremacy-lord_krutors_dominion.ogg", artist:"Red Hot Chilli Peppers", album:"Alguno de los Red hot Q no me acuerdo", time: "4:35"}
+			 ];
+
+			 var playlistLength = manifest.length;
+			 console.log(playlistLength);
+
+			 for( i = 0 ; i < playlistLength ; i++){
+			 	
+			 	document.getElementById("list-songs").innerHTML += "<li><span class='track'>" + manifest[i]["src"] + "</span><span class='artist'>" + manifest[i]["artist"] + "</span><span class='time'>" + manifest[i]["time"]  + "</span><span class='album'>" + manifest[i]["album"] + "</span>" + "</li>";
+			}
+			 
+			 createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.FlashPlugin]);
+			 createjs.Sound.alternateExtensions = ["mp3"];
+			 createjs.Sound.addEventListener("fileload", createjs.proxy(this.loadHandler,(this)));
+			 createjs.Sound.registerSound("assets/18-machinae_supremacy-lord_krutors_dominion.ogg", "sound");
+
+			 function loadHandler(event) {
+			     // This is fired for each sound that is registered.
+			     var instance = createjs.Sound.play("sound");  // play using id.  Could also use full source path or event.src.
+			     instance.addEventListener("complete", createjs.proxy(this.handleComplete, this));
+			     instance.volume = 0.5;
+			}
+
+    </script>
+</body>
+</html>
