@@ -59,7 +59,6 @@ var utilities = (function () {
 	    ele.className=ele.className.replace(reg,' ');
 	  }
 	}
-
 	/*
 	maths
 	*/
@@ -130,7 +129,7 @@ var player = (function () {
 	    pausebtn.style.display="";
 	    _timing = setInterval(_update,3);//most fluid than 1000
 	    //have to move this...
-	    hideDragArea();
+	    view.hideDragArea();
 	}
 	// pause the current song
 	function _pauseSong() {
@@ -181,9 +180,9 @@ var player = (function () {
 		if (_instance)
 			_instance.setMute(!_instance.getMute());
 		if (_instance.getMute())
-			removeClass(document.getElementById("i-shuffle"),"inactive");
+			utilities.removeClass(document.getElementById("i-shuffle"),"inactive");
 		else
-			addClass(document.getElementById("i-shuffle"),"inactive");
+			utilities.addClass(document.getElementById("i-shuffle"),"inactive");
 	}
 
 	function _getCurrentSong(){
@@ -251,7 +250,7 @@ var player = (function () {
 		changeSong: 	_changeSong,
 		playlistPush: 	_playlistPush,
 		getTotalSongs:  _getTotalSongs,
-		getSongName:  _getSongName,
+		getSongName:    _getSongName,
 		playPrevSong: 	_playPrevSong,
 		playNextSong: 	_playNextSong,
 		setRepeat: 		_setRepeat,
@@ -259,6 +258,129 @@ var player = (function () {
     };
 })();
  
+
+
+
+
+
+
+//View module
+var view = (function () {
+ 
+	//hide or show a element
+	function _showHideElement(element){
+		if (document.getElementById(element).style.display == "none")
+			document.getElementById(element).style.display = "";
+		else 
+			document.getElementById(element).style.display = "none";
+	}
+
+	//toggles the sidebar
+	function _toggleMenu(){
+		//have to reuse here..
+		var elemsec =document.getElementById("section");
+		var elemcpl =document.getElementById("currently-playing");
+		var elemfil =document.getElementById("filters");
+
+		if (utilities.hasClass(elemcpl,"on")){
+			utilities.removeClass(elemcpl,"on");
+			utilities.removeClass(elemfil,"on");
+			utilities.removeClass(elemsec,"full-width");
+		}else{
+			utilities.addClass(elemcpl,"on");
+			utilities.addClass(elemfil,"on");
+			utilities.addClass(elemsec,"full-width");
+		}
+
+
+	}
+
+	//toggles the sidebar
+	function _toggleMenuMob(){
+		var elem =document.getElementById("currently-playing");
+		if (utilities.hasClass(elem,"on"))
+			utilities.removeClass(elem,"on");
+		else
+			utilities.addClass(elem,"on");
+	}
+
+	function _chooseStar(size) {
+		return function() {
+			var elem;
+			for (var xx=1; xx<=5; xx++){
+				if (xx<=size){
+		 			elem= document.getElementById("star"+xx);
+		 			utilities.removeClass(elem,"icon-star");
+	 				utilities.addClass(elem,"icon-star2");
+				}else{
+		 			elem= document.getElementById("star"+xx);
+		 			utilities.removeClass(elem,"icon-star2");
+	 				utilities.addClass(elem,"icon-star");
+				}
+				
+			}
+		};
+	}
+
+	//hides the dropzones
+	function _hideDragArea(){
+		//i have to hide with a time out, because if drop area disappears first
+		//i cant drop on the drop zone, race condition
+		setTimeout( function(){
+			utilities.addClass(document.getElementById("drop-zone-fav"),"hide");
+			utilities.removeClass(document.getElementById("player"),"drop-zone");
+		},200);
+	}
+
+	//shows the dropzones
+	function _showDragArea(){
+		utilities.removeClass(document.getElementById("drop-zone-fav"),"hide");
+		utilities.addClass(document.getElementById("player"),"drop-zone");
+	}
+
+
+
+	//shows the context menu (play and addtofav)
+	function _showContextMenu(data){
+		return function(event){
+			draggedsong=0;
+			var contextmenu=document.getElementById("context-menu");
+			var placetext=document.getElementById("context-menu-list");
+			placetext.innerHTML="<li><a href=\"#\" onclick=\"playSongContext("+data+")\">Play song</li>";
+			placetext.innerHTML+="<li><hr></li>";
+			placetext.innerHTML+="<li><a href=\"#\" onclick=\"addSongToFavoritesContext("+data+")\">Add to favorite</li>";
+			utilities.removeClass(contextmenu,"hide");
+			contextmenu.style.transform="translate3d("+(mouse.x)+"px, "+(mouse.y)+"px, 0)";
+			hideDragArea();	
+		}
+	}
+
+	//hide context menu (not inmediately)
+	function _hideContextMenu(){
+		setTimeout(
+			function(){
+				utilities.addClass(document.getElementById("context-menu"),"hide");		
+			}
+		,200);
+
+	}
+
+
+    // Reveal
+    return {
+        showHideElement: _showHideElement,
+        toggleMenu: _toggleMenu,
+        toggleMenuMob: _toggleMenuMob,
+        chooseStar: _chooseStar,
+        hideDragArea: _hideDragArea,
+        showDragArea: _showDragArea,
+        showContextMenu: _showContextMenu,
+        hideContextMenu: _hideContextMenu
+    };
+})();
+
+
+
 
 
 
@@ -366,64 +488,8 @@ function displaySounds(content, filterid){/*in json*/
 	document.getElementById("content").innerHTML = rowstr;
 };
 
-//hide or show a element
-function showHideElement(element){
-	if (document.getElementById(element).style.display == "none")
-		document.getElementById(element).style.display = "";
-	else 
-		document.getElementById(element).style.display = "none";
-}
 
 
-
-
-
-//toggles the sidebar
-function toggleMenu(){
-	//have to reuse here..
-	var elemsec =document.getElementById("section");
-	var elemcpl =document.getElementById("currently-playing");
-	var elemfil =document.getElementById("filters");
-
-	if (utilities.hasClass(elemcpl,"on")){
-		utilities.removeClass(elemcpl,"on");
-		utilities.removeClass(elemfil,"on");
-		utilities.removeClass(elemsec,"full-width");
-	}else{
-		utilities.addClass(elemcpl,"on");
-		utilities.addClass(elemfil,"on");
-		utilities.addClass(elemsec,"full-width");
-	}
-
-
-}
-
-//toggles the sidebar
-function toggleMenuMob(){
-	var elem =document.getElementById("currently-playing");
-	if (utilities.hasClass(elem,"on"))
-		utilities.removeClass(elem,"on");
-	else
-		utilities.addClass(elem,"on");
-}
-
-function chooseStar(size) {
-	return function() {
-		var elem;
-		for (var xx=1; xx<=5; xx++){
-			if (xx<=size){
-	 			elem= document.getElementById("star"+xx);
-	 			utilities.removeClass(elem,"icon-star");
- 				utilities.addClass(elem,"icon-star2");
-			}else{
-	 			elem= document.getElementById("star"+xx);
-	 			utilities.removeClass(elem,"icon-star2");
- 				utilities.addClass(elem,"icon-star");
-			}
-			
-		}
-	};
-}
 
 
 
@@ -448,14 +514,13 @@ function updatedrag() {
 //start the dragging and drag areas
 function mousedown(event) {
 	dragging=true;
-	showDragArea();
+	view.showDragArea();
 }
 //stop the dragging and hide dragging rectangle
 function mouseup() {
 	dragging=false;
 	utilities.addClass(draggable,"hide");
-	hideDragArea();
-
+	view.hideDragArea();
 }
 
 //adds a song to favorites
@@ -465,17 +530,17 @@ function addSongToFavorites(){
 		document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"player.playSong("+draggedsong+")\">"+player.getSongName(draggedsong-1)+"</a></li>"
 	}
 	draggedsong=0;
-	hideDragArea();
+	view.hideDragArea();
 }
 
 //adds a song to favorites
 function addSongToFavoritesContext(id){
-	hideContextMenu();
-	document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"player.playSong("+id+")\">"+playlist[id-1]+"</a></li>"
+	view.hideContextMenu();
+	document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"player.playSong("+id+")\">"+player.getSongName(id-1)+"</a></li>"
 }
 //adds a song to favorites
 function playSongContext(id){
-	hideContextMenu();
+	view.hideContextMenu();
 	player.playSong(id);
 }
 
@@ -485,23 +550,6 @@ function playDraggedSong(){
 		player.playSong(draggedsong);
 	}
 	draggedsong=0;
-
-}
-
-//hides the dropzones
-function hideDragArea(){
-	//i have to hide with a time out, because if drop area disappears first
-	//i cant drop on the drop zone, race condition
-	setTimeout( function(){
-		utilities.addClass(document.getElementById("drop-zone-fav"),"hide");
-		utilities.removeClass(document.getElementById("player"),"drop-zone");
-	},200);
-}
-
-//shows the dropzones
-function showDragArea(){
-	utilities.removeClass(document.getElementById("drop-zone-fav"),"hide");
-	utilities.addClass(document.getElementById("player"),"drop-zone");
 }
 
 
@@ -515,31 +563,6 @@ function draggingASong(data) {
 
 
 
-//shows the dropzones
-function showContextMenu(data){
-	return function(event){
-		draggedsong=0;
-		var contextmenu=document.getElementById("context-menu");
-		var placetext=document.getElementById("context-menu-list");
-		placetext.innerHTML="<li><a href=\"#\" onclick=\"player.playSongContext("+data+")\">Play song</li>";
-		placetext.innerHTML+="<li><hr></li>";
-		placetext.innerHTML+="<li><a href=\"#\" onclick=\"addSongToFavoritesContext("+data+")\">Add to favorite</li>";
-		utilities.removeClass(contextmenu,"hide");
-		contextmenu.style.transform="translate3d("+(mouse.x)+"px, "+(mouse.y)+"px, 0)";
-		hideDragArea();	
-	}
-}
-
-//hide context menu (not inmediately)
-function hideContextMenu(){
-	setTimeout(
-		function(){
-			utilities.addClass(document.getElementById("context-menu"),"hide");		
-		}
-	,200);
-
-}
-
 
 
 function songsListeners(){
@@ -550,7 +573,7 @@ function songsListeners(){
 			for (ll=0; ll<songss.length; ll++)
 			{
 				songss[ll].addEventListener("mousedown", draggingASong(songss[ll].getAttribute('data-id')));
-				songss[ll].addEventListener("contextmenu", showContextMenu(songss[ll].getAttribute('data-id')));
+				songss[ll].addEventListener("contextmenu", view.showContextMenu(songss[ll].getAttribute('data-id')));
 			}	
 		}
 	,100);
@@ -619,19 +642,19 @@ window.onload = function(){
 	lbtn.addEventListener("click", player.setRepeat );
 	rbtn.addEventListener("click", player.setRandom );
 	volumebtn.addEventListener("click", player.muteSound );
-	volumebtn.addEventListener("mouseover", function(){ showHideElement("volume")} );
-	volumebtn.addEventListener("mouseout", function(){ showHideElement("volume")} );
+	volumebtn.addEventListener("mouseover", function(){ view.showHideElement("volume")} );
+	volumebtn.addEventListener("mouseout", function(){ view.showHideElement("volume")} );
 	filtersongs.addEventListener("click", function(){filter("songs")} );
 	filteralbums.addEventListener("click", function(){filter("albums")} );
 	filterartists.addEventListener("click", function(){filter("artists")} );
-	toggler.addEventListener("click", function(){toggleMenu()} );
-	togglermob.addEventListener("click", function(){toggleMenuMob()} );
+	toggler.addEventListener("click", function(){view.toggleMenu()} );
+	togglermob.addEventListener("click", function(){view.toggleMenuMob()} );
 
 	eventbtn.addEventListener("click", function(){ modal.modalThis("event-log-box")} );
 	ratebtn.addEventListener("click", function(){ modal.modalThis("rate-it")} );
 	songtables.addEventListener("mousedown", mousedown);
 	document.addEventListener("mouseup", mouseup);
-	songtables.addEventListener("click",hideContextMenu);//hide the menu fix
+	songtables.addEventListener("click",view.hideContextMenu);//hide the menu fix
 	dropzone.addEventListener("mouseover", addSongToFavorites );
 	dropzoneplay.addEventListener("mouseover", playDraggedSong );
 	for (var i=0; i < modalel.length; i++)
@@ -642,11 +665,11 @@ window.onload = function(){
 
 	//rating
 	// have to put all in only one var
-	var choose1 = chooseStar(1);
-	var choose2 = chooseStar(2);
-	var choose3 = chooseStar(3);
-	var choose4 = chooseStar(4);
-	var choose5 = chooseStar(5);
+	var choose1 = view.chooseStar(1);
+	var choose2 = view.chooseStar(2);
+	var choose3 = view.chooseStar(3);
+	var choose4 = view.chooseStar(4);
+	var choose5 = view.chooseStar(5);
 	document.getElementById('star1').onmouseover = choose1;
 	document.getElementById('star2').onmouseover = choose2;
 	document.getElementById('star3').onmouseover = choose3;

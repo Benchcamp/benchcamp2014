@@ -1,7 +1,9 @@
-{"structure":[
+{"albums":[
 	{
 	    "artist":"Scorpions",
-	    "album":"Acoustica"
+	    "album":"Acoustica",
+	    "year":"2000",
+	    "cover":""
 	},
 	{
 		"artist":"Scorpions",

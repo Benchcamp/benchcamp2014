@@ -276,6 +276,19 @@ ul{
 .section-without-sidebar{
 	width: 100%;
 }
+
+
+
+.hide{
+	-webkit-transition:all 0.3s linear;
+	-moz-transition:all 0.3s linear;
+	transition:all 0.3s linear;	
+	display:none;
+}
+
+
+
+
 /*media widths taken from http://stackoverflow.com/a/16727073 */
 @media (max-width:481px) { 
 	/* smartphones, iPhone, portrait 480x320 phones */ 
@@ -333,6 +346,10 @@ ul{
 
 
 
+.full-width{
+	width:100%;
+	position:absolute;
+}
 
 .currently-playing{
 	background-color:#95a5a6;
@@ -346,17 +363,5 @@ ul{
 .currently-playing a{
 	color: #ecf0f1;
 	font-weight:bold;
-}
-
-.full-width{
-	width:100%;
-	position:absolute;
-}
-
-.hide{
-	-webkit-transition:all 0.3s linear;
-	-moz-transition:all 0.3s linear;
-	transition:all 0.3s linear;	
-	display:none;
 }
 
