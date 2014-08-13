@@ -1,0 +1,25 @@
+{
+    "items": [
+        {
+            "Title": "Album 1",
+            "Year": 2000,
+            "Cover": "",
+            "Tracks": [
+                "Track 1",
+                "Track 2",
+                "Track 3",
+                "Track 4"
+            ]
+        },
+        {
+            "Title": "Album 2",
+            "Year": 1987,
+            "Cover": "",
+            "Tracks": [
+                "Track 5",
+                "Track 6",
+                "Track 7"
+            ]
+        }
+    ]
+}

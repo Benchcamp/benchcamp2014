@@ -1,0 +1,94 @@
+@media only screen
+and (min-width: 1224px) {
+    body {
+        font-size: 20px;
+    }
+
+    #panel-filters div:hover {
+        background-color: lightgray;
+        color: black;
+    }
+
+    /* * * * * * */
+    #toggle {
+        height: 2em;
+        font-size: 1em;
+    }
+
+    /* * * * * * */
+    #wrapper-top {
+        height: 70%;
+        padding-left: 132px;
+    }
+
+    /* * * * * * */
+    #panel-filters {
+        height: 100%;
+        width: 130px;
+    }
+
+    #panel-filters * {
+        padding: 5px;
+    }
+
+    .panel-hidden {
+        -webkit-transform: translate(-140px, 0);
+    }
+
+    #playing-smart {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 130px;
+        height: 30%;
+        -webkit-transition: transform 0.5s;
+    }
+
+    /* * * * * * */
+    #btnToggleFilters {
+        display: inline-block;
+    }
+
+    #btnTogglePlaying {
+        display: none;
+    }
+
+    /* * * * * * */
+    #wrapper-bot {
+        height: 7rem;
+        background-color: darkgray;
+    }
+
+    #wrapper-bot.full-size {
+        padding-left: 0;
+    }
+
+    #playing-tab {
+        display: none;
+    }
+
+    #controls-player {
+        background-color: darkgray;
+        font-size: 1.3em;
+    }
+
+    #content.full-size {
+        float: none;
+        width: calc(100%);
+    }
+
+    /* * * * * * */
+    #bar {
+        width: 40%;
+        height: 8px;
+        position: relative;
+        display: inline-block;
+        background-color: lightgray;
+    }
+
+    #slider {
+        width: 0;
+        height: 100%;
+        background-color: dimgray;
+    }
+}
