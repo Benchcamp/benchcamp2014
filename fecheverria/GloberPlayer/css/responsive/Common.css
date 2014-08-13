@@ -1,0 +1,29 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    background: #37F;
+    width: 100%;
+    max-height: 100%;
+}
+
+.toolBar{
+    width: 99%;
+    height: 20%;
+    border: 2px solid;
+}
+
+.selectedItem{
+    background: #4ecfe3;
+}
+
+#back, #play, #next{
+    cursor: pointer;
+}
+
+#showEvents, #historicalEvents{
+    display: none;
+}
+

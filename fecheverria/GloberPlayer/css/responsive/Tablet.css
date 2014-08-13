@@ -1,0 +1,139 @@
+body{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+nav{
+    position: relative;    
+    display: block;
+    width: 100%;
+    height: 10%;
+    background-color: #9ef495;
+}
+
+nav .logo{
+    position: relative;
+    display: inline;
+    width: 6%;
+    height: 30%;
+}
+
+nav h2{
+    position: relative;
+    display: inline;
+    padding-left: 30%;
+}
+
+div.menu{
+    position: relative;
+	display: block;
+    width: 100%;
+	height: 80%;
+}
+
+.menuOptions{
+    display: inline-block;
+    width: 20%;
+    height: 100%;
+    float: left;
+    overflow: hidden;
+}
+
+.menuOptionsClosed{
+    width: 0%;
+    transition: width 2s;
+}
+
+#currentlySong{
+    position: absolute;
+    display: inline;
+    bottom: 0px;
+}
+
+#currentlySong a{
+    display: none;
+}
+
+#listOfThemes{
+    display: inline-block;
+    width: 80%;
+    height: 100%;
+}
+
+#listOfThemes a{
+    display: none;
+}
+
+.tableOfTraks{
+    width: 90%;
+    margin-top: 2%;
+    margin-left: 2%;
+}
+
+.tableOfTraks thead{
+    border: 1px solid;
+}
+
+.tableOfTraks #listOfMusic tr{
+    border-top: 1px solid #FFF;
+    border-bottom: 1px solid #FFF;
+}
+
+.tableOfTraks #listOfMusic tr:hover{
+    background-color: #4ecfe3;
+}
+
+.menuOptions .menuItems:first-child{
+    position: relative;
+    display: inline-block;
+    height: 30%;
+    width: 100%;
+}
+
+.menuOptions .menuItems{
+    position: relative;
+    display: inline-block;
+    height: 70%;
+    width: 100%;
+}
+
+.menuOptions .menuItems spam{
+    display: block;
+    padding-top: 5%;
+    padding-left: 2%;
+    cursor: pointer;
+}
+
+/*#listOfThemes{ clear: both; }*/
+
+footer{
+    clear: both;
+    position: relative;
+    display:block;
+    width: 100%;
+	height: 10%;
+    background-color: #9ef495;
+    color: #fff;
+    font-size: 25px;
+}
+
+footer div{
+    position: relative;
+    display: inline;
+    width: 30%;
+    margin-top: 1%;
+    margin-left: 2%;
+    float: left;
+}
+
+footer div span{
+    display: inline;
+    margin: 0% 2% ;
+}
+
+footer div.listOptions span{
+    float:right;
+}
+
+

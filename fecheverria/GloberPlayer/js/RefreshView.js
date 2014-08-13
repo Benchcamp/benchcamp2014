@@ -66,4 +66,12 @@ var RefreshView = function (counterEvents) {
         itemsContainer.style.display = "inline";
         
     };
+    
+    self.playStop = function(onPlay){
+        if(onPlay){
+            document.getElementById("play").className = "icon-stop";
+        }else{
+            document.getElementById("play").className = "icon-play";    
+        }
+    }
 }

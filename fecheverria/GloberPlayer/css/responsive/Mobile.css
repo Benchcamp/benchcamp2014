@@ -1,0 +1,122 @@
+body{
+    background: #2ef;
+    width: 100%;
+    max-height: 100%;
+}
+.navMenu, .menuOptions, .buttonOfEvents, .numberOfEvents, .showEvents{
+    display: none;
+}
+
+/*************Menu currenty and list of traks***************/
+
+div.menu{
+    position: fixed;
+	display: block;
+    width: 100%;
+	height: 90%;
+}
+
+div.menu div{
+    position: absolute;
+	display: block;
+    background-color: #2ef;
+    overflow: hidden;
+    width: 100%;
+    height: 90%;
+    z-index: 0;
+}
+
+div.menu div:first-child
+{
+	z-index: 1;
+}
+
+div.menu div a{
+    position: absolute;
+    width: 100%;
+    height: 10%;
+    color: #fff;
+    font-size: 25px;
+	background-color: #9ef495;
+    z-index: 1;
+}
+
+div.menu div div{
+    padding-top: 10%;
+    color: #477243;
+}
+
+div.menu div:target,
+div.menu div:target div a{
+    color: #fff;
+	z-index: 2;
+}
+
+/**************************************************/
+
+.currentlySong span{
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.songOnPlay span{
+    position: relative;
+    margin: auto;
+    width: 10%;
+    text-align: center;
+}
+
+.songOnPlay span:first-child{
+    display: block;
+    width: 80%;
+    padding: 35% 0%;
+}
+
+.icon-star:hover {
+    color: #eff53e;
+}
+
+.tableOfTraks{
+    width: 95%;
+    margin: 0 auto;
+}
+
+.tableOfTraks thead{
+    border: 1px solid;
+}
+
+.tableOfTraks #listOfMusic tr{
+    border-top: 1px solid #FFF;
+    border-bottom: 1px solid #FFF;
+}
+
+.tableOfTraks #listOfMusic tr:hover{
+    background-color: #2ebbdd;
+}
+
+/**************************************************/
+
+footer{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 10%;
+    width: 100%;
+    background-color: #9ef495;
+    color: #fff;
+    font-size: 25px;
+}
+
+footer div{
+    position: relative;
+    display: inline;
+    width: 30%;
+    margin-top: 3%;
+    margin-left: 2%;
+    float: left;
+}
+
+footer div span{
+    display: inline;
+    margin: 0% 2% ;
+}

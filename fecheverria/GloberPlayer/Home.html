@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Glober Player</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
         
         <script type="text/javascript" src="js/soundjs-0.5.2.min.js"></script>
         <script type="text/javascript" src="js/RefreshView.js"></script>
@@ -11,63 +12,93 @@
         <script type="text/javascript" src="js/CountEvents.js" ></script>
         <script type="text/javascript" src="js/Init.js"></script>
         
-        <link rel="stylesheet" type="text/css" href="css/HomePlayer.css">
+        <link rel="stylesheet" type="text/css" href="css/normalize.css">
+        <link rel="stylesheet" type="text/css" href="css/styleIcons.css">
+        <link rel="stylesheet" type="text/css" href="css/responsive/Common.css">
+        <link rel="stylesheet" type="text/css" href="css/responsive/Mobile.css" media="(max-width: 480px)" >
+        <link rel="stylesheet" type="text/css" href="css/responsive/Tablet.css" media="(min-width : 481px) and (max-width : 1023px)" >
+        <link rel="stylesheet" type="text/css" href="css/responsive/Web.css" media="(min-width : 1024px)" >
+
     </head>
     <body>
-        <div class="box toolBar">
-            <input class="buttonOfEvents" id="showEvents" type="button" value="Events">
-            <label class="numberOfEvents" id="cantOfEvents">0</label>
-            
-        </div>
-        <div class="Traks">
-            <div id="itemTypes" class="box sortMusicByType">
+        <nav class="navMenu">
+            <img id="logoPlayer" src="img/logo.png" class="logo">
+            <h2>Navigation bar</h2>
+        </nav>
+        <div class="menu">
+            <div id="itemTypes" class="menuOptions">
+                <div id="menuItems" class="menuItems">
+                    <spam id="showSongs" class="selectedItem">Songs</spam>
+                    <spam id="showAlbums" class="">Albums</spam>
+                    <spam id="showArtists" class="">Artists</spam>
+                </div>
+                <div id="menuItems" class="menuItems">
+                    <spam class="favorites">Favorites</spam>
+                </div>
+            </div>
+            <div id="showEvents">
+            </div>
+            <div id="currentlySong">
                 
-                    <spam id="showSongs">Songs</spam>
-                    <spam id="showAlbums">Albums</spam>
-                    <spam id="showArtists">Artists</spam>
-                </ul>
+                <a href="#listOfThemes"  class="icon-indent-increase"></a>
+                <div class="songOnPlay">
+                        <span>Johnny be good</span>
+                    
+                        <span class="icon-star"></span>
+                        <span class="icon-star"></span>
+                        <span class="icon-star"></span>
+                        <span class="icon-star"></span>
+                        <span class="icon-star"></span>    
+                </div>
+            </div>
+            
+            <div id="listOfThemes">
+                <a href="#currentlySong" class="icon-onplay"></a>
+                <div  class="traks">
+                    <div id="boxSongs" class="listOfItems" style="display: inline;">
+                        <table class="tableOfTraks">
+                            <thead>
+                                <tr>
+                                    <th class="track">Track</th>
+                                    <th class="artist">Artist</th>
+                                    <th class="time">Time</th>
+                                    <th class="album">Album</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listOfMusic">
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div id="boxAlbums" class="listOfItems" style="display: none;">Albums
+                    </div>
+                    <div id="boxArtists" class="listOfItems" style="display: none;">Atrists
+                    </div>
+                </div>
             </div>
 
-            <div id="boxSongs" class="box listOfItems">
-                <table class="tableOfTraks">
-                    <thead>
-                        <tr>
-                            <th class="track">Track</th>
-                            <th class="artist">Artist</th>
-                            <th class="time">Time</th>
-                            <th class="album">Album</th>
-                        </tr>
-                    </thead>
-                    <tbody id="listOfMusic">
-                        
-                    </tbody>
-                    
-                </table>
-            </div>
-            <div id="boxAlbums" class="box listOfItems">Albums
-            </div>
-            <div id="boxArtists" class="box listOfItems">Atrists
-            </div>
         </div>
-        <div class="box buttonsPlayers">
-            <div class="buttons">
-                <input type="button" id="back" value="Back">
-                <input type="button" id="play" value="Play">
-                <input type="button" id="next" value="Next">
-            </div>
+        <footer>
+            <div class="buttonsReproductor">
+                <span id="back" class="icon-backward"></span>
+                <span id="play" class="icon-play"></span>
+                <span id="next" class="icon-forward"></span>
+            </div>  
             <div>
-				
-			</div>
+
+            </div>   
             <div class="listOptions">
-                
-                <input type="button" id="repeat" value="R">
-                <input type="button" id="loop" value="L">
-            </div>
-        </div>
+
+                <span id="repeat" class="icon-shuffle"></span>
+                <span id="loop" class="icon-loop"></span>
+            </div>   
+        </footer>
+        
         <div id="showEvents">
         </div>
     
-        <div class="shadowbox" id="historicalEvents">
+        <div id="historicalEvents" class="shadowbox">
             <table>
                 <thead>
                     <tr>
@@ -85,5 +116,6 @@
                 </tbody>
             </table>
         </div>
+        
     </body>
 </html>

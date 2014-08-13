@@ -33,7 +33,7 @@ var CounterOfEvents = function () {
             }
 
             self.listOfevents.push(newEvent);
-            document.getElementById("cantOfEvents").innerHTML = self.listOfevents.length;
+            //document.getElementById("cantOfEvents").innerHTML = self.listOfevents.length;
         }
     };
 

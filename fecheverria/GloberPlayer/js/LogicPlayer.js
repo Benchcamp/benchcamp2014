@@ -1,4 +1,4 @@
-var LogicPlayer = function(counterEvents){
+var LogicPlayer = function(counterEvents, refreshView){
     
     var self = this;
     self.selectedSong = { id: "", onPlay: false };
@@ -13,16 +13,17 @@ var LogicPlayer = function(counterEvents){
             document.getElementById("play").value = "Play";
             self.selectedSong.id = "";
             self.selectedSong.onPlay = false;
+            refreshView.playStop(false);
             
         } else {
-            var selectedSong = document.querySelector("#boxSongs.selectedItem");
+            var selectedSong = document.querySelector("#listOfMusic").querySelector(".selectedItem");
             if(selectedSong != null){
                 self.selectedSong.id = selectedSong.id;
                 
                 self.selectedSong.onPlay = true;
 
                 createjs.Sound.play(self.selectedSong.id);
-                document.getElementById("play").value = "Stop";    
+                refreshView.playStop(true);    
             }
                 
         }

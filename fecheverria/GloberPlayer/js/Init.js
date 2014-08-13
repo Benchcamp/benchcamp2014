@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
     
     var counterEvents = new CounterOfEvents();
-    var logicPlayer = new LogicPlayer(counterEvents);
-    var loadPlayer = new LoadPlayer();
     var refreshView = new RefreshView(counterEvents);
+    refreshView.init();
+    var logicPlayer = new LogicPlayer(counterEvents, refreshView);
+    var loadPlayer = new LoadPlayer();
     var loadInfo = new LoadInfo();
     
     document.getElementById("showEvents").addEventListener('click', counterEvents.showEvents, false);
@@ -18,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function() {
     
     loadPlayer.firstloadInfo(loadInfo);
     loadPlayer.loadSound();
-    refreshView.init();
     
     document.getElementById("showSongs").addEventListener('click', refreshView.loadSongs, false);
     document.getElementById("showAlbums").addEventListener('click', refreshView.loadAlbums, false);
