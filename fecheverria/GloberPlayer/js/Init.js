@@ -1,11 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() {
     
-    var counterEvents = new CounterOfEvents();
+    var counterEvents = CounterOfEvents;
     var refreshView = new RefreshView(counterEvents);
     refreshView.init();
+    
     var logicPlayer = new LogicPlayer(counterEvents, refreshView);
-    var loadPlayer = new LoadPlayer();
-    var loadInfo = new LoadInfo();
+    var loadPlayer = LoadPlayer;
+    //loadPlayer(refreshView);
+    var loadInfo = LoadInfo;
+    
+    loadPlayer.firstloadInfo(loadInfo);
+    loadPlayer.loadSound();
     
     document.getElementById("showEvents").addEventListener('click', counterEvents.showEvents, false);
 
@@ -16,14 +21,13 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("repeat").addEventListener('click', logicPlayer.repeat, false);
     document.getElementById("loop").addEventListener('click', logicPlayer.loop, false);
     
-    
-    loadPlayer.firstloadInfo(loadInfo);
-    loadPlayer.loadSound();
-    
     document.getElementById("showSongs").addEventListener('click', refreshView.loadSongs, false);
     document.getElementById("showAlbums").addEventListener('click', refreshView.loadAlbums, false);
     document.getElementById("showArtists").addEventListener('click', refreshView.loadArtists, false);
-    
-    /*loadInfo.artists();
-    loadInfo.albums();*/
+
 });
+
+
+//http://addyosmani.com/resources/essentialjsdesignpatterns/book/#mixinpatternjavascript
+//http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html
+

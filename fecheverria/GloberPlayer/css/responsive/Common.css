@@ -23,7 +23,10 @@ body{
     cursor: pointer;
 }
 
-#showEvents, #historicalEvents{
+.buttonOfEvents, .numberOfEvents{
     display: none;
 }
 
+#historicalEvents{
+    display: none;
+}

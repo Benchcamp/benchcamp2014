@@ -1,48 +1,16 @@
-var CounterOfEvents = function () {
+var CounterOfEvents = ( function () {
     
-    var self = this;
+    //Private vars
+    var listOfevents = [];
+    var count = 0;
+    var displayEvents = true;
     
-    self.listOfevents = [];
-    self.count = 0;
-    self.displayEvents = true;
-    
-    self.showEvents = function(){
-
-        var historicalEvents = document.getElementById("historicalEvents");
-        
-        if(self.displayEvents){
-            self.loadEvents();
-            historicalEvents.style.display = "inline-block";
-            historicalEvents.value = "Hide";
-        } else {
-            historicalEvents.style.display = "none";
-            historicalEvents.value = "Events";
-        }
-        self.displayEvents = !self.displayEvents;
-        
-
-    };
-
-    self.countEvents = function(){
-        if(window.event != null){
-            var moment = new Date(window.event.timeStamp);
-            var newEvent = {
-                hour: moment.getHours() + ":" + moment.getMinutes(),
-                type: window.event.type,
-                element: window.event.currentTarget.defaultValue
-            }
-
-            self.listOfevents.push(newEvent);
-            //document.getElementById("cantOfEvents").innerHTML = self.listOfevents.length;
-        }
-    };
-
-    self.loadEvents = function(){
+    var loadEvents = function(){
 
         var tableListEvents = document.getElementById("listOfEvents");
         tableListEvents.innerHTML = "";
-        for(var i=0; i < self.listOfevents.length; i++){
-            var historicalEvent = self.listOfevents[i];
+        for(var i=0; i < listOfevents.length; i++){
+            var historicalEvent = listOfevents[i];
             var tr = document.createElement("tr");
 
             tr.innerHTML = "<td>"+ historicalEvent.type +"</td>"+
@@ -52,6 +20,43 @@ var CounterOfEvents = function () {
             tableListEvents.appendChild(tr);
         }
     };
-};
+    
+    //Public vars
+    return{
+    
+        showEvents: function(){
+            var historicalEvents = document.getElementById("historicalEvents");
+            var showEvents = document.getElementById("showEvents");
+
+            if(displayEvents){
+                loadEvents();
+                historicalEvents.style.display = "inline-block";
+                showEvents.value = "Hide";
+            } else {
+                historicalEvents.style.display = "none";
+                showEvents.value = "Events";
+            }
+            displayEvents = !displayEvents;
+
+
+        },
+
+        countEvents: function(){
+            if(window.event != null){
+                var moment = new Date(window.event.timeStamp);
+                var newEvent = {
+                    hour: moment.getHours() + ":" + moment.getMinutes(),
+                    type: window.event.type,
+                    element: window.event.currentTarget.id
+                }
+
+                listOfevents.push(newEvent);
+                document.getElementById("cantOfEvents").innerHTML = listOfevents.length;
+            }
+        }
+
+    };
+      
+}) ();
 
 

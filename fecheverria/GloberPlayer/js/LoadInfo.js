@@ -1,37 +1,11 @@
-var LoadInfo = function () {
+var LoadInfo = ( function () {
 
-    var self = this;
+    //Private vars
     var urlArtists = "assets/json/artists.txt";
     var urlAlbums = "assets/json/albums.txt";
     var urlSongs = "assets/json/songs.txt";
     
-    
-    self.artists = function () {
-        
-        var artists;
-
-        artists = self.fetchJSONFile(urlArtists);
-        return artists;
-    };
-    
-    self.albums = function () {
-        
-        var albums;
- 
-        albums = self.fetchJSONFile(urlAlbums);
-        return albums;
-    };
-    
-    self.songs = function () {
-        
-        var songs;
-
-        songs = self.fetchJSONFile(urlSongs);
-        return songs;
-    };
-
-    
-    self.fetchJSONFile = function(theUrl){
+    var fetchJSONFile = function(theUrl){
         var xmlHttp = null;
 
         xmlHttp = new XMLHttpRequest();
@@ -39,5 +13,32 @@ var LoadInfo = function () {
         xmlHttp.send( null );
         return JSON.parse(xmlHttp.responseText);
     };
+    
+    //Public vars
+    return{
+        artists: function () {
 
-};
+            var artists;
+
+            artists = fetchJSONFile(urlArtists);
+            return artists;
+        },
+
+        albums: function () {
+
+            var albums;
+
+            albums = fetchJSONFile(urlAlbums);
+            return albums;
+        },
+
+        songs: function () {
+
+            var songs;
+
+            songs = fetchJSONFile(urlSongs);
+            return songs;
+        }
+    }; 
+
+}) ();
