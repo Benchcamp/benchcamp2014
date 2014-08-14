@@ -53,7 +53,6 @@
 		</aside>
 		<section class="playlist">
 			<ul id="list-songs">
-		<!--		<li><span class="track">Nothing Else Matters</span><span class="artist">Metallica</span><span class="time">4:25</span><span class="album">Black Album</span></li> -->
 			</ul>
 		</section>
 	</main>
@@ -108,6 +107,7 @@
     <script type="text/javascript" src="assets/js/soundjs/HTMLAudioPlugin.js"></script>
 
     <script>
+
 	        var src;            // the audio src we are trying to play
 	        var soundInstance;  // the soundInstance returned by Sound when we create or play a src
 	        var displayStatus;  // the HTML element we use to display messages to the user
@@ -117,28 +117,50 @@
 
             // Create a single item to load.
             var manifest = [
-			     {src:"05-Binrpilot-Underground.mp3", artist:"Metallica", album:"Black Album", time: "4:35"},
-			     {src:"18-machinae_supremacy-lord_krutors_dominion.ogg", artist:"Red Hot Chilli Peppers", album:"Alguno de los Red hot Q no me acuerdo", time: "4:35"}
+			     {src:"05-Binrpilot-Underground.mp3", artist:"Metallica", album:"Black Album", time: "4:35", id: 1},
+			     {src:"18-machinae_supremacy-lord_krutors_dominion.ogg", artist:"Red Hot Chilli Peppers", album:"Alguno de los Red hot Q no me acuerdo", time: "4:35", id: 2}
 			 ];
 
 			 var playlistLength = manifest.length;
-			 console.log(playlistLength);
 
+			
 			 for( i = 0 ; i < playlistLength ; i++){
-			 	
-			 	document.getElementById("list-songs").innerHTML += "<li><span class='track'>" + manifest[i]["src"] + "</span><span class='artist'>" + manifest[i]["artist"] + "</span><span class='time'>" + manifest[i]["time"]  + "</span><span class='album'>" + manifest[i]["album"] + "</span>" + "</li>";
+
+				document.getElementById("list-songs").innerHTML += "<li class='is-a-song' onclick='playSong("+ manifest[i]["id"] +")' id='id-"+ manifest[i]["id"] +"'><span class='track'>" + manifest[i]["src"] + "</span><span class='artist'>" + manifest[i]["artist"] + "</span><span class='time'>" + manifest[i]["time"]  + "</span><span class='album'>" + manifest[i]["album"] + "</span>" + "</li>";
 			}
-			 
-			 createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.FlashPlugin]);
-			 createjs.Sound.alternateExtensions = ["mp3"];
-			 createjs.Sound.addEventListener("fileload", createjs.proxy(this.loadHandler,(this)));
-			 createjs.Sound.registerSound("assets/18-machinae_supremacy-lord_krutors_dominion.ogg", "sound");
+
+			/* var cosos = document.getElementsByClassName("is-a-song");
+
+			function decimecual(v) {
+			   return function () {
+			       playSong(v);
+			   };
+			}
+
+			for (var i = 0; i < cosos.length; i++) {
+			   cosos[i].addEventListener("click", decimecual(i));
+			}
+*/
 
 			 function loadHandler(event) {
 			     // This is fired for each sound that is registered.
 			     var instance = createjs.Sound.play("sound");  // play using id.  Could also use full source path or event.src.
 			     instance.addEventListener("complete", createjs.proxy(this.handleComplete, this));
 			     instance.volume = 0.5;
+			}
+
+			function playSong(song){
+			
+				createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.FlashPlugin]);
+				createjs.Sound.removeAllSounds();
+
+				createjs.Sound.alternateExtensions = ["mp3"];
+				createjs.Sound.addEventListener("fileload", createjs.proxy(this.loadHandler,(this)));
+				createjs.Sound.registerSound("assets/"+manifest[song-1]["src"], "sound");
+				//createjs.Sound.stop(function(){
+					createjs.Sound.play("assets/"+manifest[song-1]["src"]);	
+				//});
+			
 			}
 
     </script>
