@@ -3,6 +3,55 @@ Global vars
 */
 
 
+
+/*
+Track
+*/
+function Track(title, lngth){
+	this.title 	= title  || "";
+	this.lngth = lngth   || 0;
+}
+Track.prototype.lyric_cache = '';
+Track.prototype.setLyricCache = function (lyric){
+	this.lyric_cache=lyric;
+}
+
+/*
+Album
+*/
+function Album(title, year, cover){
+	this.title	  = title || "";
+	this.year     = year  || "";
+  	this.cover    = cover || "nocover.png";
+  	this.tracks   = [];
+}
+Album.prototype.pushTrack = function (track){
+    this.albums.push(album);
+}
+Album.prototype.setTracks = function (tracks){
+    this.tracks=tracks;
+}
+
+/*
+Artist
+*/
+function Artist(name){
+	this.name  = name;
+  	this.albums=[];
+}
+//Artist.prototype.albums = [];
+Artist.prototype.pushAlbum = function (album){
+    this.albums.push(album);
+}
+Artist.prototype.setAlbums = function (albums){
+    this.albums=albums;
+}
+
+
+
+
+
+
 var draggedsong=0;
 
 /*
@@ -103,6 +152,8 @@ var player = (function () {
 	var _random=false;
 	var _registered=false;
 	var _playlist=[];
+	var _artists=[];
+
 	// a song ends
 	function _songEnds() {
 		if (_random)
@@ -233,6 +284,11 @@ var player = (function () {
 			utilities.addClass(document.getElementById("i-loop"),"inactive");
 	}
 
+	// set the array of artists with the albums and tracks
+	function _setArtists(artists){
+		_artists=artists;
+	}	
+
     // Reveal
     return {
         playSong:       _playSong,
@@ -254,7 +310,9 @@ var player = (function () {
 		playPrevSong: 	_playPrevSong,
 		playNextSong: 	_playNextSong,
 		setRepeat: 		_setRepeat,
-		setRandom: 		_setRandom
+		setRandom: 		_setRandom,
+		setArtists: 	_setArtists,
+		artists:        _artists
     };
 })();
  
@@ -266,6 +324,59 @@ var player = (function () {
 
 //View module
 var view = (function () {
+
+	// show a table
+	function _fillTables(){
+		var filterid="artists";
+		var rowstr="<tr class=\"theader\">";
+		switch(filterid) {
+	  		case "artists":
+	       		rowstr+="<th>Artista</th>";
+	       	break;
+	    	case "albums":
+	       		rowstr+="<th>Artista</th><th>Album</th>";
+	       	break;
+	    	default:
+	    		rowstr+="<th>Pista</th><th>Artista</th><th>Tiempo</th><th>Album</th>";
+		}
+		rowstr+="</tr>";
+		if (filterid=="artists")
+			for (var artist in player.artists)
+				rowstr += "<tr><td>"+player.artists[artist].name+"</td></tr>";
+		if 
+
+		document.getElementById("content").innerHTML = rowstr;
+		// var aresongs=(filterid=="songs");
+		// for (var i=0; i<content.structure.length; i++){
+		// 	//if songs are not registered then register the songs and set the flag to true
+		// 	if (aresongs && !player.registered)
+		// 		player.registerSong(content.structure[i].id);
+		// 	//creating the content of the table
+		// 	//used even and odd, in the future i have to use only css...
+		// 	if (i%2==0)
+		// 		rowstr+="<tr class=\"songp even\"";
+		// 	else
+		// 		rowstr+="<tr class=\"songp odd\"";
+
+		// 	//have to sanitize all this:
+		// 	//i have to change player.playSong and maybe data- here :(
+		// 	rowstr+=(filterid=="songs") ? " data-name=\""+content.structure[i].songs+"\" data-id=\""+content.structure[i].id+"\" onclick=\"player.playSong(" +content.structure[i].id+")\">" : ">";
+		// 	if (filterid=="songs") player.playlistPush(content.structure[i].songs);// adds the name of the song to the playlist... little ugly
+		// 	rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].songs+"</td>" : "";
+		// 	rowstr+="<td>"+ content.structure[i].artists+"</td>";
+		// 	rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].time +"</td>" : "";
+		// 	rowstr+= (filterid!="artists") ? "<td>"+ content.structure[i].albums+"</td>" : "";
+		// 	rowstr+="</tr>"
+		// }
+		// registered=true;
+		// if (aresongs) totalsongs = content.structure.length;
+		
+		// document.getElementById("content").innerHTML = rowstr;
+
+
+	}
+
+
  
 	//hide or show a element
 	function _showHideElement(element){
@@ -375,9 +486,93 @@ var view = (function () {
         hideDragArea: _hideDragArea,
         showDragArea: _showDragArea,
         showContextMenu: _showContextMenu,
-        hideContextMenu: _hideContextMenu
+        hideContextMenu: _hideContextMenu,
+        fillTables: _fillTables
     };
 })();
+
+
+
+
+
+
+
+
+//Events Logger Module
+var dataLoad = (function () {
+  // gets a url creating a promise
+  function _get(url) {
+    return new Promise(function(resolve, reject) {
+      var req = new XMLHttpRequest();
+      req.open('GET', url);
+      req.onload = function() {
+        if (req.status == 200)
+          resolve(JSON.parse(req.response));
+        else
+          reject(Error(req.statusText));
+      };
+      req.onerror = function() {
+        reject(Error("Network Error"));
+      };
+      req.send();
+    });
+  }
+
+  function _createObjects(art_path, alb_path, sng_path){
+    var _promises = [_get(art_path), _get(alb_path), _get(sng_path)];
+
+    Promise.all(_promises).then(function(resultados) {
+
+      return _jsonsToObjects(resultados);
+    }, function() {
+      console.log("error");
+    }).then(function(r){ view.fillTables();  });
+  }
+  // transforms a parsed json to an array of artists (artists have albums and albums have songs)
+  function _jsonsToObjects(jsons){
+    player.artists = [];
+    var artistsjs=jsons[0]["artists"];
+    var albumsjs=jsons[1]["albums"];
+    var songsjs=jsons[2]["tracks"];
+    // using hashtables for performance (3*n)..
+    // loading artists
+    for (var i=0; i<artistsjs.length; i++)
+      //uso una hashtable para mejorar performance
+      player.artists[artistsjs[i]["artist"]]= new Artist(artistsjs[i]["artist"]);
+
+    // loading albums
+    for (var i=0; i<albumsjs.length; i++)
+      player.artists[ albumsjs[i]["artist"] ].albums[ albumsjs[i]["album"] ] = new Album(albumsjs[i]["album"], albumsjs[i]["year"], albumsjs[i]["cover"]);
+    
+    // loading tracks
+    for (var i=0; i<songsjs.length; i++)
+      player.artists[ songsjs[i]["artist"] ].albums[ songsjs[i]["album"] ].tracks[ songsjs[i]["song"] ] = new Track(songsjs[i]["song"], songsjs[i]["song"] );
+
+    return player.artists;
+  }
+
+    // Reveal
+    return {
+        createObjects: _createObjects,
+        getPromiseJSON: _get
+    };
+})();
+
+
+
+
+
+dataLoad.createObjects("assets/json/artistsv2.json","assets/json/albumsv2.json","assets/json/songsv2.json");
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -601,7 +796,7 @@ window.onload = function(){
 
 	//have to fix this race condition in a nicer way:
 
-	filter("songs");
+	//filter("songs");
 
 	songsListeners();
 
