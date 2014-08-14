@@ -588,8 +588,14 @@ var draggable;
 var mouse = {x: 0, y: 0};
 
 var moving = false;
-
-
+function estrellas(num){
+	console.log(num);
+}
+function estrellasD(num){
+  return function(){
+      estrellas(num);
+  }
+}
 // when site is loaded, loads the listeners and +
 window.onload = function(){
 
@@ -627,6 +633,7 @@ window.onload = function(){
 	toggler= document.getElementById("btn-hide-show-side");
 	togglermob= document.getElementById("btn-hide-show-side-mobile");
 	modalel=  document.getElementsByClassName("modal");
+
 	ratebtn = document.getElementById("rate");
 	dropzone=document.getElementById("drop-zone-fav");
 	dropzoneplay=document.getElementById("player");
@@ -663,6 +670,19 @@ window.onload = function(){
 
 
 
+var cosos = document.getElementsByClassName("star");
+
+function decimecual(v) {
+    return function () {
+        console.log(v);
+    };
+}
+
+for (var i = 0; i < cosos.length; i++) {
+    cosos[i].addEventListener("mouseover", decimecual(i));
+}
+
+
 	//rating
 	// have to put all in only one var
 	var choose1 = view.chooseStar(1);
@@ -675,6 +695,7 @@ window.onload = function(){
 	document.getElementById('star3').onmouseover = choose3;
 	document.getElementById('star4').onmouseover = choose4;
 	document.getElementById('star5').onmouseover = choose5;
+
 
 	
 

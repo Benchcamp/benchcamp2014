@@ -2,24 +2,32 @@
 	{
 	    "artist":"Scorpions",
 	    "album":"Acoustica",
-	    "year":"2000",
-	    "cover":""
+	    "year":"2001",
+	    "cover":"acoustica.png"
 	},
 	{
 		"artist":"Scorpions",
-		"album":"Sting in the Tail"
+		"album":"Sting in the Tail",
+		"year":"2010",
+	    "cover":"stinginthetail.png"
 	},
 	{
 		"artist":"Metallica",
-		"album":"And Justice for All"
-	},
-	{
-		"artist":"Metallica",
-		"album":"Master of Puppets"
+		"album":"Master of Puppets",
+		"year":"1986",
+	    "cover":"masterofpuppets.png"
 	},
 	{
 		"artist":"Ayreon",
-		"album":"01011001"
+		"album":"Timeline",
+		"year":"2008",
+	    "cover":"timeline.png"
+	},
+	{
+		"artist":"Ayreon",
+		"album":"01011001",
+		"year":"2008",
+	    "cover":"01011001.png"
 	}
 
 ]}
