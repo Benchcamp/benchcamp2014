@@ -50,10 +50,17 @@ Artist.prototype.setAlbums = function (albums){
 
 
 
+//this class will represent the context to play
+function PlayContext(reproductiontype, artist, album, track){
+	this.reproductiontype = reproductiontype || "";
+	this.artist    	 	  = artist || "";
+  	this.album       	  = album  || "";
+  	this.track       	  = track  || "";
+}
 
 
 
-var draggedsong=0;
+var draggedthing;
 
 /*
 Functions
@@ -161,13 +168,6 @@ var player = (function () {
 	var _playing;
 
 
-	//this class will represent the context to play
-	function PlayContext(reproductiontype, artist, album, track){
-		this.reproductiontype = reproductiontype || "";
-		this.artist    	 	  = artist || "";
-	  	this.album       	  = album  || "";
-	  	this.track       	  = track  || "";
-	}
 
 	// instantiate the context to play and start playing it
 	function _play(reproductiontype, artist, album, track){
@@ -388,7 +388,7 @@ var view = (function () {
 		if (filterid=="artists")
 			for (var artist in player.artists)
 				if (player.artists.hasOwnProperty(artist)) // hasOwnProperty gets only custom prototyped :)
-					rowstr += "<tr class=\"artist-type dragme\" data-artist="+player.artists[artist].name+"><td>"+player.artists[artist].name+"</td></tr>";
+					rowstr += "<tr class=\"artist-type dragme\" data-type=\"album\" data-artist="+player.artists[artist].name+"><td>"+player.artists[artist].name+"</td></tr>";
 
 		//create the table of albums
 		if (filterid=="albums")
@@ -519,8 +519,11 @@ var view = (function () {
 
 	//shows the dropzones
 	function _showDragArea(){
+		
 		utilities.removeClass(document.getElementById("drop-zone-fav"),"hide");
 		utilities.addClass(document.getElementById("player"),"drop-zone");
+		
+	
 	}
 
 
@@ -528,7 +531,7 @@ var view = (function () {
 	//shows the context menu (play and addtofav)
 	function _showContextMenu(data){
 		return function(event){
-			draggedsong=0;
+			draggedthing=null;
 			var contextmenu=document.getElementById("context-menu");
 			var placetext=document.getElementById("context-menu-list");
 			placetext.innerHTML="<li><a href=\"#\" onclick=\"playSongContext("+data+")\">Play song</li>";
@@ -536,7 +539,7 @@ var view = (function () {
 			placetext.innerHTML+="<li><a href=\"#\" onclick=\"addSongToFavoritesContext("+data+")\">Add to favorite</li>";
 			utilities.removeClass(contextmenu,"hide");
 			contextmenu.style.transform="translate3d("+(mouse.x)+"px, "+(mouse.y)+"px, 0)";
-			hideDragArea();	
+			_hideDragArea();	
 		}
 	}
 
@@ -765,60 +768,33 @@ function displaySounds(content, filterid){/*in json*/
 
 
 
-//returns the song being dragged
-function draggingASong(data) {
-  return function(event) {
-    draggedsong=data;
-  }
-}
-
-
-//updates the drag position
-function updatedrag() { 
-	if (dragging)
-		draggable.style.transform="translate3d("+(mouse.x-60)+"px, "+(mouse.y-20)+"px, 0)";
-	moving = false;
-}
-
-//start the dragging and drag areas
-function mousedown(event) {
-	dragging=true;
-	view.showDragArea();
-}
-//stop the dragging and hide dragging rectangle
-function mouseup() {
-	dragging=false;
-	utilities.addClass(draggable,"hide");
-	view.hideDragArea();
-}
-
 //adds a song to favorites
 function addSongToFavorites(){
-
-	if (draggedsong!=0){
-		document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"player.playSong("+draggedsong+")\">"+player.getSongName(draggedsong-1)+"</a></li>"
+	if (draggedthing){
+		document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"player.play("+draggedthing+")\">"+draggedthing+"</a></li>"
 	}
-	draggedsong=0;
+	draggedthing=null;
 	view.hideDragArea();
 }
 
 //adds a song to favorites
 function addSongToFavoritesContext(id){
 	view.hideContextMenu();
-	document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"player.playSong("+id+")\">"+player.getSongName(id-1)+"</a></li>"
+	document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"player.play("+id+")\">"+id+"</a></li>"
 }
-//adds a song to favorites
+//plays a song from the context menu
 function playSongContext(id){
 	view.hideContextMenu();
 	player.playSong(id);
 }
 
 //plays a dragged song
-function playDraggedSong(){
-	if (draggedsong!=0){
-		player.playSong(draggedsong);
+function playdraggedthing(){
+	if (draggedthing){
+		console.log("draggd "+draggedthing);
+		player.play(draggedthing);
 	}
-	draggedsong=0;
+	draggedthing=null;
 }
 
 
@@ -827,7 +803,7 @@ function playDraggedSong(){
 function draggingASong(data) {
   return function(event) {
   	console.log(data);
-    draggedsong=data;
+    draggedthing=data;
   }
 }
 
@@ -842,8 +818,9 @@ function songsListeners(){
 			songss = document.getElementsByClassName("dragme");
 			for (ll=0; ll<songss.length; ll++)
 			{
+				songss[ll].addEventListener("mousedown", draggingASong(new PlayContext(songss[ll].getAttribute('data-type'), songss[ll].getAttribute('data-artist'))));
 
-				songss[ll].addEventListener("mousedown", draggingASong(songss[ll].getAttribute('data-artist')));
+				//VERR
 				songss[ll].addEventListener("contextmenu", view.showContextMenu(songss[ll].getAttribute('data-artist')));
 			}	
 		}
@@ -853,8 +830,42 @@ function songsListeners(){
 }
 
 
+
+
+
+//updates the drag position
+function updatedrag() { 
+	if (dragging)
+		draggable.style.transform="translate3d("+(mouse.x-60)+"px, "+(mouse.y-20)+"px, 0)";
+	moving = false;
+}
+
+//start the dragging and drag areas
+function mousedown(event) {
+	dragging=true;
+
+
+}
+//stop the dragging and hide dragging rectangle
+function mouseup() {
+	dragging=false;
+	utilities.addClass(draggable,"hide");
+	view.hideDragArea();
+}
+
+
+//stop the dragging and hide dragging rectangle
+function mousemove() {
+	if (dragging){
+		view.showDragArea();
+	}
+}
+
+
+
 var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modalel, rateit, songss;
 var dragging;
+var moving;
 var draggable;
 var mouse = {x: 0, y: 0};
 
@@ -888,6 +899,7 @@ window.onload = function(){
 	*/
 	moving=false;
 	dragging=false;
+	moving=false;
 	draggable=document.getElementById("draggable");
 	playbtn = document.getElementById("btn-play");
 	pausebtn = document.getElementById("btn-pause");
@@ -904,12 +916,11 @@ window.onload = function(){
 	toggler= document.getElementById("btn-hide-show-side");
 	togglermob= document.getElementById("btn-hide-show-side-mobile");
 	modalel=  document.getElementsByClassName("modal");
-
 	ratebtn = document.getElementById("rate");
 	dropzone=document.getElementById("drop-zone-fav");
 	dropzoneplay=document.getElementById("player");
 	songtables=document.getElementById("content");
-
+	
 	//stars=document.getElementsByClassName("icon-star");
 
 	playbtn.addEventListener("click", function(){player.playSong(player.getCurrentSong())} );
@@ -932,9 +943,11 @@ window.onload = function(){
 	ratebtn.addEventListener("click", function(){ modal.modalThis("rate-it")} );
 	songtables.addEventListener("mousedown", mousedown);
 	document.addEventListener("mouseup", mouseup);
+	document.addEventListener("mousemove", mousemove);
+
 	songtables.addEventListener("click",view.hideContextMenu);//hide the menu fix
 	dropzone.addEventListener("mouseover", addSongToFavorites );
-	dropzoneplay.addEventListener("mouseover", playDraggedSong );
+	dropzoneplay.addEventListener("mouseover", playdraggedthing );
 	for (var i=0; i < modalel.length; i++)
 		modalel[i].addEventListener("click", modal.unmodal );
 
