@@ -55,6 +55,10 @@
     border-collapse: collapse;
 }
 
+#table-content tbody tr:not(.selected):hover {
+    background-color: #BEBEBE;
+}
+
 #content table tr * {
     text-align: center;
 }

@@ -1,4 +1,4 @@
-var MusicLibrary = (new function () {
+var MusicLibrary = (function () {
     var _songs, _albums, _artists, _jsonSongs, _jsonAlbums, _jsonArtists;
 
     _songs = [];
@@ -55,6 +55,7 @@ var MusicLibrary = (new function () {
                 var song = getSongByTitle(albumSongs[j]);
                 if (song) album.getSongs().push(song);
             }
+            _albums.push(album);
         }
     }
 
@@ -71,17 +72,20 @@ var MusicLibrary = (new function () {
             artistAlbums = aux["Albums"];
 
             for (var j = 0; j < artistAlbums.length; j++) {
-                var album = getAlbumByTitle(artistAlbums[j]);
+                var album = _getAlbumByTitle(artistAlbums[j]);
                 if (album) artist.getAlbums().push(album);
             }
+            _artists.push(artist);
         }
     }
 
-    Utils.callbackJson(_jsonSongs, function () {
-        _loadSongs();
-        Utils.callbackJson(_jsonAlbums, function () {
-            _loadAlbums();
-            Utils.callbackJson(_jsonArtists, _loadArtists());
+    Utils.callbackJson(_jsonSongs, function (json) {
+        _loadSongs(json);
+        Utils.callbackJson(_jsonAlbums, function (json) {
+            _loadAlbums(json);
+            Utils.callbackJson(_jsonArtists, function (json) {
+                _loadArtists(json)
+            });
         });
     });
 
@@ -101,22 +105,56 @@ var MusicLibrary = (new function () {
 
     function _searchArtist(name) {
         for (var artist in _artists) {
-            if (artist.getSongTitle() === title) return artist;
+            if (artist.getName() === name) return artist;
         }
     }
 
     function _getAlbumCover(songTitle) {
-        var song = _searchSong(songTitle);
-        for (var album in _albums) {
-            if (album.getSongs().contains(song)) {
+        for (var i = 0; i < _albums.length; i++) {
+            var album = _albums[i];
+
+            if (album.getSongByTitle(songTitle)) {
                 return album.getCover();
             }
         }
+        return null;
     }
+
+    function _getSongByTitle(title) {
+        for (var i = 0; i < _songs.length; i++) {
+            if (_songs[i].getSongTitle() === title) {
+                return _songs[i];
+            }
+        }
+        return null;
+    }
+
+    function _getAlbumByTitle(title) {
+        for (var i = 0; i < _albums.length; i++) {
+            if (_albums[i].getAlbumTitle() === title) {
+                return _albums[i];
+            }
+        }
+        return null;
+    }
+
+    function _getArtistByName(name) {
+        for (var i = 0; i < _artists.length; i++) {
+            if (_artists[i].getName() === name) {
+                return _artists[i];
+            }
+        }
+        return null;
+    }
+
+    // *** RETURN *** //
 
     return {
         songs: _songs,
         albums: _albums,
-        artists: _artists
+        artists: _artists,
+        getSongByTitle: _getSongByTitle,
+        getAlbumByTitle: _getAlbumByTitle,
+        getArtistByName: _getArtistByName
     };
 })();

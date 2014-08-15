@@ -65,6 +65,14 @@ Album.prototype.setCover = function (cover) {
     this._cover = cover;
 };
 
+Album.prototype.getSongByTitle = function(title) {
+    for (var i = 0; i < this.getSongs().length; i++) {
+        var song = this.getSongs()[i];
+        if (song.getSongTitle() === title) return song;
+    }
+    return null;
+};
+
 // *** ARTIST *** //
 var Artist = function (name) {
     this._name = name;
@@ -81,4 +89,13 @@ Artist.prototype.getAlbums = function () {
 
 Artist.prototype.setName = function (name) {
     this._name = name;
+};
+
+Artist.prototype.getAlbumByTitle = function(title) {
+    for(var i = 0; i < this.getAlbums().length; i++) {
+        var album = this.getAlbums()[i];
+        if (album.getAlbumTitle() === title)
+            return album;
+    }
+    return null;
 };
