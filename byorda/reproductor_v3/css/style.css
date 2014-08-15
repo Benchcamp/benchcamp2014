@@ -1,0 +1,91 @@
+/* General */
+.wrapper {
+    width: 50em;
+    height: 25em;
+    margin: 0 auto;
+    overflow: hidden;
+    background-color: lightgray;
+}
+
+#wrapper-top {
+    position: relative;
+    -webkit-transition: padding 0.5s;
+}
+
+#wrapper-top.full-size {
+    padding: 0;
+}
+
+#toggle {
+    background-color: darkgray;
+}
+
+#toggle span {
+    font-size: 1.2em;
+    height: 100%;
+    padding: 0.3em;
+}
+
+#panel-filters {
+    display: block;
+    background-color: #BEBEBE;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-transition: transform 0.5s;
+}
+
+#panel-filters * {
+    background-color: dimgray;
+    color: white;
+    text-align: center;
+}
+
+.panel-visible {
+    -webkit-transform: translate(0, 0);
+}
+
+#content {
+    height: 100%;
+    width: 100%;
+}
+
+#content table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#table-content tbody tr:not(.selected):hover {
+    background-color: #BEBEBE;
+}
+
+#content table tr * {
+    text-align: center;
+}
+
+.selected {
+    background-color: dimgray;
+    color: white;
+}
+
+#wrapper-bot {
+    background-color: #BEBEBE;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-transition: padding 0.5s;
+}
+
+#controls-player {
+    background-color: #BEBEBE;
+    text-align: center;
+    width: 100%;
+}
+
+#controls-player > * {
+    display: inline-block;
+}
+
+.clearfix {
+    clear: both;
+}

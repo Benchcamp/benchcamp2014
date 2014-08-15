@@ -1,0 +1,11 @@
+{
+    "items": [
+        {
+            "Name": "Artist 1",
+            "Albums": [
+                "Album 1",
+                "Album 2"
+            ]
+        }
+    ]
+}
