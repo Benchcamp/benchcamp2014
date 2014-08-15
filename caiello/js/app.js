@@ -7,9 +7,10 @@ Global vars
 /*
 Track
 */
-function Track(title, lngth){
+function Track(title, lngth, filename){
 	this.title 	= title  || "";
-	this.lngth = lngth   || 0;
+	this.lngth  = lngth   || 0;
+	this.file  = filename   || "";
 }
 Track.prototype.lyric_cache = '';
 Track.prototype.setLyricCache = function (lyric){
@@ -75,7 +76,7 @@ var eventsLogger = (function (e) {
 	function _addToEventLog(actionev,eventelement,eventtime){
 		document.getElementById("eventlogcount").innerHTML = ++_eventlogcount;
 	 	var rowstr="";
-		if (_eventlogcount%2==0)
+		if (_eventlogcount%2==0) //have to use nth styles here
 			rowstr+="<tr class=\"even\">";
 		else
 			rowstr+="<tr class=\"odd\">";
@@ -146,13 +147,52 @@ var utilities = (function () {
 var player = (function () {
 	var _instance;
 	var _timing;
-	var _currentsong=1;
-	var _totalsongs=0;
+
+	var _currentartist;
+	var _currentalbum;
+	var _currentsong;
+
+	var _playingcontext;
+
 	var _repeat=false;
 	var _random=false;
 	var _registered=false;
-	var _playlist=[];
 	var _artists=[]; //artists has all the data (artists, albums, and tracks)
+	var _playing;
+
+
+	//this class will represent the context to play
+	function PlayContext(reproductiontype, artist, album, track){
+		this.reproductiontype = reproductiontype || "";
+		this.artist    	 	  = artist || "";
+	  	this.album       	  = album  || "";
+	  	this.track       	  = track  || "";
+	}
+
+	// instantiate the context to play and start playing it
+	function _play(reproductiontype, artist, album, track){
+		_playingcontext = new PlayContext(reproductiontype,artist,album,track);
+		console.log("reptype: "+reproductiontype+", artist: "+artist);
+	}
+
+	// plays a song
+	function _playXX(playable) {
+		_currentsong=songid;
+		document.getElementById("song-name").innerText=_playlist[_currentsong-1];
+		if (!(_instance && _instance.resume())){ //resume pause
+			if (_instance) //stops current song
+				_stopSong(); 
+			_instance = createjs.Sound.play(songid); //plays selected
+		}
+	    _instance.addEventListener("complete", _songEnds);
+	    //change btn from play to pause
+	    playbtn.style.display = "none";
+	    pausebtn.style.display="";
+	    _timing = setInterval(_update,3);//most fluid than 1000
+	    //have to move this...
+	    view.hideDragArea();
+	}
+
 
 	// a song ends
 	function _songEnds() {
@@ -165,6 +205,7 @@ var player = (function () {
 				_stopSong();
 			}
 	}
+
 	// plays a song
 	function _playSong(songid) {
 		_currentsong=songid;
@@ -312,7 +353,8 @@ var player = (function () {
 		setRepeat: 		_setRepeat,
 		setRandom: 		_setRandom,
 		setArtists: 	_setArtists,
-		artists:        _artists
+		artists:        _artists,
+		play: 			_play
     };
 })();
  
@@ -327,7 +369,7 @@ var view = (function () {
 
 	// show a table
 	function _fillTables(){
-		var filterid="albums";
+		var filterid="artists";
 		//creates the headers of the playlist
 		var rowstr="<tr class=\"theader\">";
 		switch(filterid) {
@@ -346,7 +388,7 @@ var view = (function () {
 		if (filterid=="artists")
 			for (var artist in player.artists)
 				if (player.artists.hasOwnProperty(artist)) // hasOwnProperty gets only custom prototyped :)
-					rowstr += "<tr><td>"+player.artists[artist].name+"</td></tr>";
+					rowstr += "<tr class=\"artist-type dragme\" data-artist="+player.artists[artist].name+"><td>"+player.artists[artist].name+"</td></tr>";
 
 		//create the table of albums
 		if (filterid=="albums")
@@ -378,7 +420,34 @@ var view = (function () {
 
 
 		document.getElementById("content").innerHTML = rowstr;
+		// var aresongs=(filterid=="songs");
+		// for (var i=0; i<content.structure.length; i++){
+		// 	//if songs are not registered then register the songs and set the flag to true
+		// 	if (aresongs && !player.registered)
+		// 		player.registerSong(content.structure[i].id);
+		// 	//creating the content of the table
+		// 	//used even and odd, in the future i have to use only css...
+		// 	if (i%2==0)
+		// 		rowstr+="<tr class=\"songp even\"";
+		// 	else
+		// 		rowstr+="<tr class=\"songp odd\"";
+
+		// 	//have to sanitize all this:
+		// 	//i have to change player.playSong and maybe data- here :(
+		// 	rowstr+=(filterid=="songs") ? " data-name=\""+content.structure[i].songs+"\" data-id=\""+content.structure[i].id+"\" onclick=\"player.playSong(" +content.structure[i].id+")\">" : ">";
+		// 	if (filterid=="songs") player.playlistPush(content.structure[i].songs);// adds the name of the song to the playlist... little ugly
+		// 	rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].songs+"</td>" : "";
+		// 	rowstr+="<td>"+ content.structure[i].artists+"</td>";
+		// 	rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].time +"</td>" : "";
+		// 	rowstr+= (filterid!="artists") ? "<td>"+ content.structure[i].albums+"</td>" : "";
+		// 	rowstr+="</tr>"
+		// }
+		// registered=true;
+		// if (aresongs) totalsongs = content.structure.length;
 		
+		// document.getElementById("content").innerHTML = rowstr;
+
+
 	}
 
 
@@ -757,6 +826,7 @@ function playDraggedSong(){
 //returns the song being dragged
 function draggingASong(data) {
   return function(event) {
+  	console.log(data);
     draggedsong=data;
   }
 }
@@ -769,11 +839,12 @@ function songsListeners(){
 
 	setTimeout(
 		function(){
-			songss = document.getElementsByClassName("songp");
+			songss = document.getElementsByClassName("dragme");
 			for (ll=0; ll<songss.length; ll++)
 			{
-				songss[ll].addEventListener("mousedown", draggingASong(songss[ll].getAttribute('data-id')));
-				songss[ll].addEventListener("contextmenu", view.showContextMenu(songss[ll].getAttribute('data-id')));
+
+				songss[ll].addEventListener("mousedown", draggingASong(songss[ll].getAttribute('data-artist')));
+				songss[ll].addEventListener("contextmenu", view.showContextMenu(songss[ll].getAttribute('data-artist')));
 			}	
 		}
 	,100);
@@ -914,10 +985,13 @@ for (var i = 0; i < cosos.length; i++) {
 	}, false);
 
 	//hide the default menu
-	document.addEventListener('contextmenu', function(ev) {
-	    ev.preventDefault();
-	    return false;
-	}, false);
+
+
+	//para q no joda esto x ahora	
+	// document.addEventListener('contextmenu', function(ev) {
+	//     ev.preventDefault();
+	//     return false;
+	// }, false);
 
 
 	

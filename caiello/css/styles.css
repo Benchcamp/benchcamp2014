@@ -55,7 +55,7 @@ a{
 .section{
 	float:right;
 	width:100%;
-	height:calc(100% - 165px);
+	height:calc(100% - 180px);
 	overflow-y:auto;
 }
 
@@ -78,6 +78,20 @@ a{
 
 .events p{
 	display:inline;
+}
+
+
+td{	
+	height:auto;
+	text-align: center;
+	vertical-align: middle;
+}
+
+tr:nth-child(odd){ 
+	background-color:#bdc3c7; 
+}
+tr:nth-child(even){ 
+	background-color:#ecf0f1;
 }
 
 ul{
@@ -117,10 +131,14 @@ ul{
 
 	background-color:#999;
 }
-.even{
-	background-color:#ccc;
-}
 
+/*i have to use nth instead of this*/
+.even{
+	background-color:#bdc3c7 !important;
+}
+.odd{
+	background-color:#ecf0f1 !important; 
+}
 
 
 /*Player*/
