@@ -55,6 +55,7 @@ a{
 .section{
 	float:right;
 	width:100%;
+	height:calc(100% - 165px);
 	overflow-y:auto;
 }
 
@@ -286,6 +287,10 @@ ul{
 	display:none;
 }
 
+img.cover{
+	width:100px;
+	height:100px;
+}
 
 
 

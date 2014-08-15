@@ -3,31 +3,31 @@
 	    "artist":"Scorpions",
 	    "album":"Acoustica",
 	    "year":"2001",
-	    "cover":"acoustica.png"
+	    "cover":"scorpions_acoustica.png"
 	},
 	{
 		"artist":"Scorpions",
 		"album":"Sting in the Tail",
 		"year":"2010",
-	    "cover":"stinginthetail.png"
+	    "cover":"scorpions_sting_in_the_tail.png"
 	},
 	{
 		"artist":"Metallica",
 		"album":"Master of Puppets",
 		"year":"1986",
-	    "cover":"masterofpuppets.png"
+	    "cover":"metallica_master_of_puppets.png"
 	},
 	{
 		"artist":"Ayreon",
 		"album":"Timeline",
 		"year":"2008",
-	    "cover":"timeline.png"
+	    "cover":"ayreon_timeline.png"
 	},
 	{
 		"artist":"Ayreon",
 		"album":"01011001",
 		"year":"2008",
-	    "cover":"01011001.png"
+	    "cover":"ayreon_01011001.png"
 	}
 
 ]}
