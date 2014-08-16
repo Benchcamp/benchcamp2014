@@ -135,6 +135,14 @@ var utilities = (function () {
 	function _percent(part,total){
 		return part*100.0/total;
 	}
+	/*
+	other utils
+	*/
+	//it's a little ugly to return in a for but..
+	function getFirst(data) {
+        for (elem in data ) 
+            return elem;
+   	}
 
     // Reveal
     return {
@@ -166,28 +174,62 @@ var player = (function () {
 	var _registered=false;
 	var _artists=[]; //artists has all the data (artists, albums, and tracks)
 	var _playing;
-
+	var _gen;
 
 
 	// instantiate the context to play and start playing it
 	function _play(playingcontext){
 		
 		_playingcontext = playingcontext;
-		console.log("playing: "+_playingcontext.reproductiontype+", artist: "+_playingcontext.artist);
+		
+
+
+		_playNextSong(true);
+		//check if its an artist, album or song
+		//play first song if not random
+		  //if random first any song
+		//console.log("playing: "+_playingcontext.reproductiontype+", artist: "+_playingcontext.artist+", alb: "+_playingcontext.album);
+
+
 	}
+
+
+
+	// //choose what to play
+	//  function _firstPlay(){
+
+	// 	if (_playingcontext.track){ //the user only selected a song to play
+	// 		console.log("have to play song"+_playingcontext.track);
+	// 	}else{
+	// 		if(_playingcontext.album){ //the user only selected an album to play
+	// 			console.log("have to play album"+_playingcontext.album);
+	// 		}else{
+	// 			if(_playingcontext.artist){ //the user only selected an artist to play
+	// 				console.log("have to play artist"+_playingcontext.artist);
+	// 				_playAnArtist(_playingcontext.artist).next();
+	// 			}
+	// 		}
+	// 	}
+	// }
+
+
+
+
 	//FALTA:
 	// Tengo que hacer un metodo que una los play y playsong (que elija cual playear)
 	// tengo que hacer un metodo que registre las canciones en la parte de promesas
+
 	// plays a song. It requires the artist and album for performance (because im using a hashtable)
 	function _playSong(artist,album,songname) {
-		_currentsong=_artists[artist].albums[album].tracks[songname];
-	    console.log(artist);
-		document.getElementById("song-name").innerText=_currentsong.name;
+		console.log("oh playing "+artist+", "+album+", "+songname);
+		_currentsong=player.artists[artist].albums[album].tracks[songname].title;
+	    //console.log(artist);
+		document.getElementById("song-name").innerText=_currentsong.title;
 
 		if (!(_instance && _instance.resume())){ //resume pause
 			if (_instance) //stops current song
 				_stopSong(); 
-			_instance = createjs.Sound.play(_currentsong.name); //plays selected
+			_instance = createjs.Sound.play(_currentsong.title); //plays selected
 		}
 	    _instance.addEventListener("complete", _songEnds);
 	    //change btn from play to pause
@@ -308,8 +350,44 @@ var player = (function () {
 	function _playPrevSong(){
         _currentsong-1 > 0 ? _playSong(--_currentSong) : _currentsong = _getTotalSongs(); _playSong(_currentsong);
 	}
-	function _playNextSong(){
-		_currentsong+1 <= _getTotalSongs() ? _playSong(++_currentsong) : _currentsong=1; _playSong(_currentsong);	
+	//plays the next song, if it's playing for first time choose a first song to play
+	//this is absolutely not optimum, i was planifying to use a yield but is not working properly in chrome...
+	function _playNextSong(firstplay){
+		console.log(firstplay);
+		if (firstplay){
+		    console.log("elijo primera vez "+_playingcontext.artist);
+			for (var album in player.artists[_playingcontext.artist].albums)
+				if (player.artists[_playingcontext.artist].albums.hasOwnProperty(album))
+					for (var track in player.artists[_playingcontext.artist].albums[album].tracks)
+						if (player.artists[_playingcontext.artist].albums[album].tracks.hasOwnProperty(track)){
+							return player.playSong(_playingcontext.artist, album, track);
+							//return player.artists[_playingcontext.artist].albums[album].tracks[track].title;
+						}
+	
+		}else{
+		    console.log("elijo next song "+_playingcontext.artist);
+	
+		    iscurrent=false;
+			for (var album in player.artists[_playingcontext.artist].albums)
+				if (player.artists[_playingcontext.artist].albums.hasOwnProperty(album))
+					for (var track in player.artists[_playingcontext.artist].albums[album].tracks)
+						if (player.artists[_playingcontext.artist].albums[album].tracks.hasOwnProperty(track)){
+							console.log("MIERDA DEL ORTO");
+							if (iscurrent) //is the next
+							{
+								console.log("LOGUEATE MIERDA "+_playingcontext.artist+" "+album+" "+track);
+								return player.playSong(_playingcontext.artist, album, track);
+							}
+								
+							console.log("song actual "+_currentsong);
+							if (_currentsong==track){
+								console.log("current "+_currentsong+" y "+track+" ...")
+								iscurrent=true;
+							}
+								
+
+						}
+		}
 
 	}
 	// negate the random bool state
@@ -945,7 +1023,7 @@ window.onload = function(){
 	playbtn.addEventListener("click", function(){player.playSong(player.getCurrentSong())} );
 	pausebtn.addEventListener("click", player.pauseSong );
 	backbtn.addEventListener("click", player.playPrevSong );
-	nextbtn.addEventListener("click", player.playNextSong );
+	nextbtn.addEventListener("click", function(){player.playSong(player.playNextSong())} );
 	playing.addEventListener("click", player.moveToPosition);
 	lbtn.addEventListener("click", player.setRepeat );
 	rbtn.addEventListener("click", player.setRandom );
@@ -1014,6 +1092,6 @@ window.onload = function(){
 	// }, false);
 
 
-	
+
 }
 
