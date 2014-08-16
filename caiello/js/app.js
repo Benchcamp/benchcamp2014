@@ -691,12 +691,13 @@ var modal = (function () {
 
 // filters the data "songs", "artists", "albums"
 function filter(tofilterid){
+	console.log("ye");
 	var path="assets/json/"+tofilterid+".json";
 	var content=loadJSON(path,
          function(data) { console.log(data); },
          function(xhr) { console.error(xhr); },
          tofilterid);
-	songsListeners();
+	
 	return true;
 }
 
@@ -761,7 +762,10 @@ function displaySounds(content, filterid){/*in json*/
 		rowstr+="</tr>"
 	}
 	registered=true;
-	if (aresongs) totalsongs = content.structure.length;
+	if (aresongs){
+		totalsongs = content.structure.length;
+		songsListeners();
+	}
 	
 	document.getElementById("content").innerHTML = rowstr;
 };
