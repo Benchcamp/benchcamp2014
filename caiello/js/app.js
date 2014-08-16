@@ -354,40 +354,20 @@ var player = (function () {
 	//this is absolutely not optimum, i was planifying to use a yield but is not working properly in chrome...
 	function _playNextSong(firstplay){
 		console.log(firstplay);
-		if (firstplay){
-		    console.log("elijo primera vez "+_playingcontext.artist);
-			for (var album in player.artists[_playingcontext.artist].albums)
-				if (player.artists[_playingcontext.artist].albums.hasOwnProperty(album))
-					for (var track in player.artists[_playingcontext.artist].albums[album].tracks)
-						if (player.artists[_playingcontext.artist].albums[album].tracks.hasOwnProperty(track)){
-							return player.playSong(_playingcontext.artist, album, track);
-							//return player.artists[_playingcontext.artist].albums[album].tracks[track].title;
-						}
-	
-		}else{
-		    console.log("elijo next song "+_playingcontext.artist);
-	
-		    iscurrent=false;
-			for (var album in player.artists[_playingcontext.artist].albums)
-				if (player.artists[_playingcontext.artist].albums.hasOwnProperty(album))
-					for (var track in player.artists[_playingcontext.artist].albums[album].tracks)
-						if (player.artists[_playingcontext.artist].albums[album].tracks.hasOwnProperty(track)){
-							console.log("MIERDA DEL ORTO");
-							if (iscurrent) //is the next
-							{
-								console.log("LOGUEATE MIERDA "+_playingcontext.artist+" "+album+" "+track);
-								return player.playSong(_playingcontext.artist, album, track);
-							}
-								
-							console.log("song actual "+_currentsong);
-							if (_currentsong==track){
-								console.log("current "+_currentsong+" y "+track+" ...")
-								iscurrent=true;
-							}
-								
+	    iscurrent=false;
+		for (var album in player.artists[_playingcontext.artist].albums)
+			if (player.artists[_playingcontext.artist].albums.hasOwnProperty(album))
+				for (var track in player.artists[_playingcontext.artist].albums[album].tracks)
+					if (player.artists[_playingcontext.artist].albums[album].tracks.hasOwnProperty(track)){
 
-						}
-		}
+						if (iscurrent) //is the next
+							return player.playSong(_playingcontext.artist, album, track);
+						if (firstplay)
+							return player.playSong(_playingcontext.artist, album, track);
+						if (_currentsong==track)
+							iscurrent=true;
+					}
+		
 
 	}
 	// negate the random bool state
