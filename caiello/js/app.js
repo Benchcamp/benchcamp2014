@@ -54,6 +54,10 @@ function PlayContext(reproductiontype, artist, album, track) {
 
 
 
+/*
+Here i use the pattern observer in the player to show the lyrics
+*/
+
 //the observable class (player)
 var PlayerObservable = function() {
     this.subscribers = [];// will be only one :)
@@ -289,18 +293,43 @@ var player = (function() {
     function _playNextSong(firstplay) {
 
         iscurrent = false;
-        for (var album in player.artists[_playingcontext.artist].albums)
-            if (player.artists[_playingcontext.artist].albums.hasOwnProperty(album))
-                for (var track in player.artists[_playingcontext.artist].albums[album].tracks)
-                    if (player.artists[_playingcontext.artist].albums[album].tracks.hasOwnProperty(track)) {
+        console.log("tipo de reproduccion: "+_playingcontext.reproductiontype);
 
-                        if (iscurrent) //is the next
-                            return _playSong(_playingcontext.artist, album, track);
-                        if (firstplay)
-                            return _playSong(_playingcontext.artist, album, track);
-                        if (_currentsong.title == track)
-                            iscurrent = true;
-                    }
+        if (_playingcontext.reproductiontype=="song"){
+            return _playSong(_playingcontext.artist, _playingcontext.album, _playingcontext.track);
+        }
+
+
+
+        if (_playingcontext.reproductiontype=="album"){
+            console.log("el alb es "+_playingcontext.album);
+                    for (var track in player.artists[_playingcontext.artist].albums[_playingcontext.album].tracks)
+                        if (player.artists[_playingcontext.artist].albums[_playingcontext.album].tracks.hasOwnProperty(track)) {
+                            if ((iscurrent)||(firstplay)) //is the next
+                                return _playSong(_playingcontext.artist, _playingcontext.album, track);
+                            if (_currentsong.title == track)
+                                iscurrent = true;
+                        }   
+        }
+
+
+        if (_playingcontext.reproductiontype=="artist"){
+
+            for (var album in player.artists[_playingcontext.artist].albums)
+                if (player.artists[_playingcontext.artist].albums.hasOwnProperty(album))
+                    for (var track in player.artists[_playingcontext.artist].albums[album].tracks)
+                        if (player.artists[_playingcontext.artist].albums[album].tracks.hasOwnProperty(track)) {
+
+                            if (iscurrent) //is the next
+                                return _playSong(_playingcontext.artist, album, track);
+                            if (firstplay)
+                                return _playSong(_playingcontext.artist, album, track);
+                            if (_currentsong.title == track)
+                                iscurrent = true;
+                        }   
+        }
+
+
     }
 
     // negate the random bool state
@@ -418,7 +447,7 @@ var view = (function() {
                 if (player.artists.hasOwnProperty(artist))
                     for (var album in player.artists[artist].albums)
                         if (player.artists[artist].albums.hasOwnProperty(album)) {
-                            rowstr += "<tr class=\"album-type playable\ data-type=\"album\" data-artist=" + player.artists[artist].name + " data-abum=" + player.artists[artist].albums[album].title + " ><td>" + player.artists[artist].name + "</td>";
+                            rowstr += "<tr class=\"album-type playable\" data-type=\"album\" data-artist=" + player.artists[artist].name + " data-album=\"" + player.artists[artist].albums[album].title + "\" ><td>" + player.artists[artist].name + "</td>";
                             rowstr += "<td>" + player.artists[artist].albums[album].title + " </td>";
                             rowstr += "<td>" + player.artists[artist].albums[album].year + "</td>";
                             rowstr += "<td> <img class=\"cover\" src=\"assets/resources/albums/covers/" + player.artists[artist].albums[album].cover + "\"/> </td></tr>";
@@ -436,7 +465,7 @@ var view = (function() {
                         if (player.artists[artist].albums.hasOwnProperty(album))
                             for (var track in player.artists[artist].albums[album].tracks)
                                 if (player.artists[artist].albums[album].tracks.hasOwnProperty(track)) {
-                                    rowstr += "<tr class=\"song-type playable\ data-type=\"song\" data-artist=" + player.artists[artist].name + " data-abum=" + player.artists[artist].albums[album].title + " data-song="+player.artists[artist].albums[album].tracks[track].title +" ><td>" + player.artists[artist].albums[album].tracks[track].title + "</td>";
+                                    rowstr += "<tr class=\"song-type playable\" data-type=\"song\" data-artist=" + player.artists[artist].name + " data-album=\"" + player.artists[artist].albums[album].title + "\" data-song=\""+player.artists[artist].albums[album].tracks[track].title +"\" ><td>" + player.artists[artist].albums[album].tracks[track].title + "</td>";
                                     rowstr += "<td>" + player.artists[artist].name + "</td>";
                                     rowstr += "<td>" + player.artists[artist].albums[album].tracks[track].lngth + "</td>";
                                     rowstr += "<td>" + player.artists[artist].albums[album].title + "</td></tr>";
@@ -730,7 +759,7 @@ function songsListeners() {
     songss = document.getElementsByClassName("playable");
     for (ll = 0; ll < songss.length; ll++) {
         //play
-        songss[ll].addEventListener("click", player.playFromTable(new PlayContext(songss[ll].getAttribute('data-type'), songss[ll].getAttribute('data-artist'))));
+        songss[ll].addEventListener("click", player.playFromTable(new PlayContext(songss[ll].getAttribute('data-type'), songss[ll].getAttribute('data-artist'), songss[ll].getAttribute('data-album'), songss[ll].getAttribute('data-song') )));
 
         //drag
         songss[ll].addEventListener("mousedown", view.draggingASong(new PlayContext(songss[ll].getAttribute('data-type'), songss[ll].getAttribute('data-artist'))));
