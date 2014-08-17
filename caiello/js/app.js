@@ -21,9 +21,6 @@ var config = (function(e) {
 
 
 
-
-
-
 /*
 Track
 */
@@ -79,12 +76,6 @@ function PlayContext(reproductiontype, artist, album, track) {
 }
 
 
-
-var draggedthing;
-
-/*
-Functions
-*/
 
 //Events Logger Module
 var eventsLogger = (function(e) {
@@ -190,7 +181,7 @@ var utilities = (function() {
 var player = (function() {
     var _instance;
     var _timing;
-
+    var _draggedthing;
     var _currentartist;
     var _currentalbum;
     var _currentsong;
@@ -291,7 +282,7 @@ var player = (function() {
 
     function _moveToPosition(e) { //gets the position from event
             if (_instance) {
-                var parentpos = player.getPosition(e.currentTarget);
+                var parentpos = _getPosition(e.currentTarget);
                 var posx = e.clientX - parentpos.x;
                 var pbwidth = document.getElementById("playing").clientWidth;
                 _instance.setPosition((posx / pbwidth) * _instance.getDuration());
@@ -371,16 +362,13 @@ var player = (function() {
     function _playPrevSong() {
 
         var tempart="";var tempalb="";var tempsong="";
-        if (!tempart){
-        	console.log("es bien, tempart es vacio");
-        }
         for (var album in player.artists[_playingcontext.artist].albums)
             if (player.artists[_playingcontext.artist].albums.hasOwnProperty(album))
                 for (var track in player.artists[_playingcontext.artist].albums[album].tracks)
                     if (player.artists[_playingcontext.artist].albums[album].tracks.hasOwnProperty(track)) {
 
                         if (_currentsong.title == track){
-                        	return player.playSong(tempart, tempalb, tempsong);
+                        	return _playSong(tempart, tempalb, tempsong);
                         }
                         tempart=_playingcontext.artist; tempalb=album; tempsong=track;
                             
@@ -390,7 +378,7 @@ var player = (function() {
     //plays the next song, if it's playing for first time choose a first song to play
     //this is absolutely not optimum, i was planifying to use a yield but is not working properly in chrome...
     function _playNextSong(firstplay) {
-        console.log(firstplay);
+
         iscurrent = false;
         for (var album in player.artists[_playingcontext.artist].albums)
             if (player.artists[_playingcontext.artist].albums.hasOwnProperty(album))
@@ -398,9 +386,9 @@ var player = (function() {
                     if (player.artists[_playingcontext.artist].albums[album].tracks.hasOwnProperty(track)) {
 
                         if (iscurrent) //is the next
-                            return player.playSong(_playingcontext.artist, album, track);
+                            return _playSong(_playingcontext.artist, album, track);
                         if (firstplay)
-                            return player.playSong(_playingcontext.artist, album, track);
+                            return _playSong(_playingcontext.artist, album, track);
                         if (_currentsong.title == track)
                             iscurrent = true;
                     }
@@ -428,6 +416,31 @@ var player = (function() {
     function _setArtists(artists) {
         _artists = artists;
     }
+    //plays a song from the context menu
+    function _playSongContext(id) {
+        console.log("proximamente...");
+        view.hideContextMenu();
+        _playSong(id);
+    }
+
+    //plays a dragged song
+    function _playDraggedThing() {
+
+        if (player.draggedthing) {
+
+            player.play(player.draggedthing);
+        }
+        player.draggedthing = null;
+        view.hideDragArea();
+    }
+
+    function _playFromTable(data) {
+        return function() {
+            player.play(data);
+        }
+    }
+
+
 
     // Reveal
     return {
@@ -453,6 +466,10 @@ var player = (function() {
         setRandom: _setRandom,
         setArtists: _setArtists,
         artists: _artists,
+        playSongContext: _playSongContext,
+        playDraggedThing: _playDraggedThing,
+        playFromTable: _playFromTable,
+        draggedthing: _draggedthing,
         play: _play
     };
 })();
@@ -463,12 +480,15 @@ var player = (function() {
 //View module
 var view = (function() {
 
+
+    var _dragging;
+    var _moving;
+    var _mouse = {
+        x: 0,
+        y: 0
+    };
     // show a table
     function _fillTables(filterid) {
-       
-        
-        
-
     		var rowstr ="<table class=\"t-filters\" id=\"t-artists\">";
     		rowstr += "<tr class=\"theader\">";
         	rowstr += "<th>Artista</th>";
@@ -513,8 +533,6 @@ var view = (function() {
                                     rowstr += "<td>" + player.artists[artist].albums[album].title + "</td></tr>";
                                 }
             rowstr +="</table>";
-
-
 
         document.getElementById("content").innerHTML = rowstr;
 
@@ -601,14 +619,14 @@ var view = (function() {
     //shows the context menu (play and addtofav)
     function _showContextMenu(data) {
         return function(event) {
-            draggedthing = null;
+            player.draggedthing = null;
             var contextmenu = document.getElementById("context-menu");
             var placetext = document.getElementById("context-menu-list");
             placetext.innerHTML = "<li><a href=\"#\" onclick=\"playSongContext(" + data + ")\">Play song</li>";
             placetext.innerHTML += "<li><hr></li>";
-            placetext.innerHTML += "<li><a href=\"#\" onclick=\"addToFavoritesContext(" + data + ")\">Add to favorite</li>";
+            placetext.innerHTML += "<li><a href=\"#\" onclick=\"view.addToFavoritesContext(" + data + ")\">Add to favorite</li>";
             utilities.removeClass(contextmenu, "hide");
-            contextmenu.style.transform = "translate3d(" + (mouse.x) + "px, " + (mouse.y) + "px, 0)";
+            contextmenu.style.transform = "translate3d(" + (view.mouse.x) + "px, " + (view.mouse.y) + "px, 0)";
             _hideDragArea();
         }
     }
@@ -623,6 +641,80 @@ var view = (function() {
     }
 
 
+    // shows the table "songs", "artists" or "albums"
+    function _filter(tofilterid) {
+    	console.log("filtro: "+tofilterid);
+    	var alb=document.getElementById("t-albums");
+    	var art=document.getElementById("t-artists");
+    	var tra=document.getElementById("t-songs");
+
+    	utilities.addClass(alb,"hide");
+    	utilities.addClass(art,"hide");
+    	utilities.addClass(tra,"hide");
+    	utilities.removeClass(document.getElementById("t-"+tofilterid),"hide");
+
+    }
+
+
+    //adds a song to favorites
+    function _addToFavorites() {
+        if (player.draggedthing) {
+            document.getElementById("sidebar-list").innerHTML += "<li><a href=\"#\" class=\"playable\" data-type=" + player.draggedthing.reproductiontype + " data-artist=" + player.draggedthing.artist + ">" + player.draggedthing.artist + "</a></li>"
+        }
+
+        player.draggedthing = null;
+        view.hideDragArea();
+        songsListeners();
+    }
+
+    //adds a song to favorites from the context menu
+    function _addToFavoritesContext(id) {
+            view.hideContextMenu();
+            document.getElementById("sidebar-list").innerHTML += "<li><a href=\"#\" onclick=\"player.play(" + id + ")\">" + id + "</a></li>"
+    }
+
+
+
+
+    //returns the song being dragged
+    function _draggingASong(data) {
+        return function(event) {
+            player.draggedthing = data;
+        }
+    }
+
+    //updates the drag position
+    function _updatedrag() {
+        if (view.dragging)
+            draggable.style.transform = "translate3d(" + (view.mouse.x - 60) + "px, " + (view.mouse.y - 20) + "px, 0)";
+        view.moving = false;
+    }
+
+    //start the dragging and drag areas
+    function _mousedown(event) {
+            view.dragging = true;
+
+    }
+        
+    //stop the dragging and hide dragging rectangle
+    function _mouseup() {
+        view.dragging = false;
+        setTimeout(function() {
+            player.draggedthing = null
+        }, 1000); //removes the dragged thing in a sec. have to solve this in a better way
+        utilities.addClass(draggable, "hide");
+        view.hideDragArea();
+    }
+
+
+    //stop the dragging and hide dragging rectangle
+    function _mousemove() {
+        if (view.dragging) {
+            view.showDragArea();
+        }
+    }
+
+
     // Reveal
     return {
         showHideElement: _showHideElement,
@@ -633,7 +725,20 @@ var view = (function() {
         showDragArea: _showDragArea,
         showContextMenu: _showContextMenu,
         hideContextMenu: _hideContextMenu,
-        fillTables: _fillTables
+        fillTables: _fillTables,
+        filter: _filter,
+        addToFavorites: _addToFavorites,
+        addToFavoritesContext: _addToFavoritesContext,
+        draggingASong: _draggingASong,
+        updatedrag:_updatedrag,
+        mousedown:_mousedown,
+        mouseup:_mouseup,
+        mousemove:_mousemove,
+        dragging:_dragging,
+        moving:_moving,
+        mouse:_mouse
+
+
     };
 })();
 
@@ -710,11 +815,6 @@ var dataLoad = (function() {
 
 
 
-
-
-
-
-
 // Modal module
 var modal = (function() {
     var _actualmod;
@@ -741,152 +841,15 @@ var modal = (function() {
 
 
 
-// shows the table "songs", "artists" or "albums"
-function filter(tofilterid) {
-	console.log("filtro: "+tofilterid);
-	var alb=document.getElementById("t-albums");
-	var art=document.getElementById("t-artists");
-	var tra=document.getElementById("t-songs");
-
-	utilities.addClass(alb,"hide");
-	utilities.addClass(art,"hide");
-	utilities.addClass(tra,"hide");
-	utilities.removeClass(document.getElementById("t-"+tofilterid),"hide");
-
-}
-
-// loads a json
-// method taken from http://stackoverflow.com/questions/9838812/how-can-i-open-a-json-file-in-javascript-without-jquery
-function loadJSON(path, success, error, filterid) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                if (success)
-                    displaySounds(JSON.parse(xhr.responseText), filterid);
-            } else {
-                if (error)
-                    error(xhr);
-            }
-        }
-    };
-    xhr.open("GET", path, true);
-    xhr.send();
-
-}
-
-//converts a json to tables of the reproductor
-function displaySounds(content, filterid) { /*in json*/
-    //maybe a template here? remove the spaggetti code and sanitize
-    //creating the header of the table
-    var rowstr = "<tr class=\"theader\">";
-    switch (filterid) {
-        case "artists":
-            rowstr += "<th>Artista</th>";
-            break;
-        case "albums":
-            rowstr += "<th>Artista</th><th>Album</th>";
-            break;
-        default:
-            rowstr += "<th>Pista</th><th>Artista</th><th>Tiempo</th><th>Album</th>";
-    }
-    rowstr += "</tr>";
-    var aresongs = (filterid == "songs");
-    for (var i = 0; i < content.structure.length; i++) {
-        //if songs are not registered then register the songs and set the flag to true
-        if (aresongs && !player.registered)
-            player.registerSong(content.structure[i].id);
-        //creating the content of the table
-        //used even and odd, in the future i have to use only css...
-        if (i % 2 == 0)
-            rowstr += "<tr class=\"songp even\"";
-        else
-            rowstr += "<tr class=\"songp odd\"";
-
-        //have to sanitize all this:
-        //i have to change player.playSong and maybe data- here :(
-        rowstr += (filterid == "songs") ? " data-name=\"" + content.structure[i].songs + "\" data-id=\"" + content.structure[i].id + "\" onclick=\"player.playSong(" + content.structure[i].id + ")\">" : ">";
-        if (filterid == "songs") player.playlistPush(content.structure[i].songs); // adds the name of the song to the playlist... little ugly
-        rowstr += (filterid == "songs") ? "<td>" + content.structure[i].songs + "</td>" : "";
-        rowstr += "<td>" + content.structure[i].artists + "</td>";
-        rowstr += (filterid == "songs") ? "<td>" + content.structure[i].time + "</td>" : "";
-        rowstr += (filterid != "artists") ? "<td>" + content.structure[i].albums + "</td>" : "";
-        rowstr += "</tr>"
-    }
-    registered = true;
-    if (aresongs) {
-        totalsongs = content.structure.length;
-        songsListeners();
-    }
-
-    document.getElementById("content").innerHTML = rowstr;
-};
-
-
-
-
-//adds a song to favorites
-function addToFavorites() {
-    if (draggedthing) {
-        document.getElementById("sidebar-list").innerHTML += "<li><a href=\"#\" class=\"playable\" data-type=" + draggedthing.reproductiontype + " data-artist=" + draggedthing.artist + ">" + draggedthing.artist + "</a></li>"
-    }
-
-    draggedthing = null;
-    view.hideDragArea();
-    songsListeners();
-}
-
-//adds a song to favorites from the context menu
-function addToFavoritesContext(id) {
-        view.hideContextMenu();
-        document.getElementById("sidebar-list").innerHTML += "<li><a href=\"#\" onclick=\"player.play(" + id + ")\">" + id + "</a></li>"
-    }
-    //plays a song from the context menu
-
-function playSongContext(id) {
-    view.hideContextMenu();
-    player.playSong(id);
-}
-
-//plays a dragged song
-function playDraggedThing() {
-
-    if (draggedthing) {
-
-        player.play(draggedthing);
-    }
-    draggedthing = null;
-    view.hideDragArea();
-}
-
-function playFromTable(data) {
-    return function() {
-        player.play(data);
-    }
-}
-
-
-
-//returns the song being dragged
-function draggingASong(data) {
-    return function(event) {
-        console.log("dragging this thing: " + data.reproductiontype);
-        draggedthing = data;
-    }
-}
-
-
-
-
 //listeners in everything playable
 function songsListeners() {
     songss = document.getElementsByClassName("playable");
     for (ll = 0; ll < songss.length; ll++) {
         //play
-        songss[ll].addEventListener("click", playFromTable(new PlayContext(songss[ll].getAttribute('data-type'), songss[ll].getAttribute('data-artist'))));
+        songss[ll].addEventListener("click", player.playFromTable(new PlayContext(songss[ll].getAttribute('data-type'), songss[ll].getAttribute('data-artist'))));
 
         //drag
-        songss[ll].addEventListener("mousedown", draggingASong(new PlayContext(songss[ll].getAttribute('data-type'), songss[ll].getAttribute('data-artist'))));
+        songss[ll].addEventListener("mousedown", view.draggingASong(new PlayContext(songss[ll].getAttribute('data-type'), songss[ll].getAttribute('data-artist'))));
 
         //contextmenu
         songss[ll].addEventListener("contextmenu", view.showContextMenu(songss[ll].getAttribute('data-artist')));
@@ -896,65 +859,10 @@ function songsListeners() {
 
 
 
-
-//updates the drag position
-function updatedrag() {
-    if (dragging)
-        draggable.style.transform = "translate3d(" + (mouse.x - 60) + "px, " + (mouse.y - 20) + "px, 0)";
-    moving = false;
-}
-
-//start the dragging and drag areas
-function mousedown(event) {
-        dragging = true;
-
-    }
-    //stop the dragging and hide dragging rectangle
-
-function mouseup() {
-    dragging = false;
-    setTimeout(function() {
-        draggedthing = null
-    }, 1000); //removes the dragged thing in a sec. have to solve this in a better way
-    utilities.addClass(draggable, "hide");
-    view.hideDragArea();
-}
-
-
-//stop the dragging and hide dragging rectangle
-function mousemove() {
-    if (dragging) {
-        view.showDragArea();
-    }
-}
-
-
-
-
-var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists, toggler, modalel, rateit, songss;
-var dragging;
-var moving;
-var draggable;
-var mouse = {
-    x: 0,
-    y: 0
-};
-
-var moving = false;
-
-function estrellas(num) {
-    console.log(num);
-}
-
-function estrellasD(num) {
-        return function() {
-            estrellas(num);
-        }
-    }
-    // when site is loaded, loads the listeners and +
+// i have to move this global vars to a module or something else..
+var draggable,playbtn,pausebtn,backbtn,nextbtn,lbtn,rbtn,playing,eventbtn,volumebtn,filtersongs,filteralbums,filterartists,toggler,togglermob,modalel,ratebtn,dropzone,dropzoneplay,songtables;
+// when site is loaded, loads the listeners and +, ill try to put all this as a module..
 window.onload = function() {
-
-
 
     // event is triggered (for logs)
     document.onclick = function(e) {
@@ -969,9 +877,8 @@ window.onload = function() {
     /*
 	Other vars and Listeners
 	*/
-    moving = false;
-    dragging = false;
-
+    
+    //i have to improve the performance of this not calling directly to the document everytime...
     draggable = document.getElementById("draggable");
     playbtn = document.getElementById("btn-play");
     pausebtn = document.getElementById("btn-pause");
@@ -992,9 +899,6 @@ window.onload = function() {
     dropzone = document.getElementById("drop-zone-fav");
     dropzoneplay = document.getElementById("player");
     songtables = document.getElementById("content");
-
-    //stars=document.getElementsByClassName("icon-star");
-
     playbtn.addEventListener("click", function() {
         player.playSong()
     });
@@ -1014,13 +918,13 @@ window.onload = function() {
         view.showHideElement("volume")
     });
     filtersongs.addEventListener("click", function() {
-        filter("songs")
+        view.filter("songs")
     });
     filteralbums.addEventListener("click", function() {
-        filter("albums")
+        view.filter("albums")
     });
     filterartists.addEventListener("click", function() {
-        filter("artists")
+        view.filter("artists")
     });
     toggler.addEventListener("click", function() {
         view.toggleMenu()
@@ -1035,19 +939,15 @@ window.onload = function() {
     ratebtn.addEventListener("click", function() {
         modal.modalThis("rate-it")
     });
-    songtables.addEventListener("mousedown", mousedown);
-    document.addEventListener("mouseup", mouseup);
-    document.addEventListener("mousemove", mousemove);
+    songtables.addEventListener("mousedown", view.mousedown);
+    document.addEventListener("mouseup", view.mouseup);
+    document.addEventListener("mousemove", view.mousemove);
 
     songtables.addEventListener("click", view.hideContextMenu); //hide the menu fix
-    dropzone.addEventListener("mouseover", addToFavorites);
-    dropzoneplay.addEventListener("mouseover", playDraggedThing);
+    dropzone.addEventListener("mouseover", view.addToFavorites);
+    dropzoneplay.addEventListener("mouseover", player.playDraggedThing);
     for (var i = 0; i < modalel.length; i++)
         modalel[i].addEventListener("click", modal.unmodal);
-
-
-
-
     //rating
     // have to put all in only one var
     var choose1 = view.chooseStar(1);
@@ -1060,24 +960,21 @@ window.onload = function() {
     document.getElementById('star3').onmouseover = choose3;
     document.getElementById('star4').onmouseover = choose4;
     document.getElementById('star5').onmouseover = choose5;
-
-
-
-
     //drag listeners
+
+
     document.addEventListener('mousemove', function(e) {
-        mouse.x = e.clientX || e.pageX;
-        mouse.y = e.clientY || e.pageY;
+        view.mouse.x = e.clientX || e.pageX;
+        view.mouse.y = e.clientY || e.pageY;
         //console.log(mouse.x);
-        if (!moving) {
-            if (dragging) {
+        if (!view.moving) {
+            if (view.dragging) {
                 utilities.removeClass(draggable, "hide");
             }
-            moving = true;
-            requestAnimationFrame(updatedrag);
+            view.moving = true;
+            requestAnimationFrame(view.updatedrag);
         }
     }, false);
-
 	
 	dataLoad.createObjects(config.jsonart, config.jsonalb, config.jsonsng);
     
