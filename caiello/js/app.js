@@ -167,15 +167,7 @@ var player = (function() {
 
     // handle what happens when a song ends
     function _songEnds() {
-        if (_random)
-            _playSong(Math.floor((Math.random() * _getTotalSongs()) + 1));
-        else
-        if (_repeat) {
-            (_currentsong + 1 <= _totalsongs) ? _playSong(++_currentsong): _currentsong = 1;
-            _playSong(_currentsong);
-        } else {
-            _stopSong();
-        }
+        _playNextSong();
     }
 
     // pause the current song
