@@ -1,11 +1,4 @@
 /*
-Global vars
-*/
-
-
-
-
-/*
 Track
 */
 function Track(title, lngth, filename) {
@@ -51,13 +44,57 @@ Artist.prototype.setAlbums = function(albums) {
 
 
 
-//this class will represent the context to play
+//this class will represent the context to play (an entire artist?, an album? a track?)
 function PlayContext(reproductiontype, artist, album, track) {
     this.reproductiontype = reproductiontype || "";
     this.artist = artist || "";
     this.album = album || "";
     this.track = track || "";
 }
+
+
+
+
+var PlayerObservable = function() {
+    this.subscribers = [];// will be only one :)
+}
+ 
+PlayerObservable.prototype = {
+    subscribe: function(callback) {
+        this.subscribers.push(callback);
+    },
+    unsubscribe: function(callback) {
+        for (var i=0 ; i < this.subscribers.length; i++) {
+            if (this.subscribers[i] === callback) {
+                this.subscribers.splice(i, 1);//removing the suscriber..
+                return;//stop the iteration
+            }
+        }
+    },
+    publish: function(data) {
+        // call all the suscribers
+        for (var i=0 ; i < this.subscribers.length; i++) {
+            this.subscribers[i](data);
+        }        
+    }
+};
+
+//the lyrics observer
+var LyricsObserver = function (data) {
+    
+    var promises = [dataLoad.getPromiseJSON(config.lyricsapi+""+data)];
+
+    Promise.all(promises).then(function(resultados) {
+        
+        document.getElementById("lyrics").innerText=resultados[0][0].snippet;
+    });
+
+
+}
+ 
+var observable = new PlayerObservable();
+observable.subscribe(LyricsObserver);
+
 
 
 
@@ -83,6 +120,10 @@ var player = (function() {
     var _gen;
 
 
+
+    
+
+
     // instantiate the context to play and start playing it
     function _play(playingcontext) {
 
@@ -101,7 +142,7 @@ var player = (function() {
             _currentalbum = album;
             _currentartist = artist;
         }
-
+        observable.publish(_currentsong.title+" "+_currentartist);
         document.getElementById("song-name").innerText = _currentsong.title;
 
         if (!(_instance && _instance.resume())) { //resume pause
@@ -147,10 +188,10 @@ var player = (function() {
         // stop the song (another song selected)
 
     function _stopSong() {
-            _pauseSong();
-            _instance.setPosition(0);
-        }
-        //taken from http://www.kirupa.com/html5/getting_mouse_click_position.htm
+        _pauseSong();
+        _instance.setPosition(0);
+    }
+    //taken from http://www.kirupa.com/html5/getting_mouse_click_position.htm
 
     function _getPosition(element) {
             var xPosition = 0;
@@ -165,8 +206,8 @@ var player = (function() {
                 y: yPosition
             };
         }
-        // moves the player to a position given by an event
-
+    
+    // moves the player to a position given by an event
     function _moveToPosition(e) { //gets the position from event
             if (_instance) {
                 var parentpos = _getPosition(e.currentTarget);
@@ -176,8 +217,8 @@ var player = (function() {
                 _update();
             }
         }
-        // update all items (transcurred time, progressbar, circle)
-
+    
+    // update all items (transcurred time, progressbar, circle)
     function _update() {
             var playedms = _instance.getPosition();
             document.getElementById("transcurredtime").innerHTML = parseInt(utilities.msToMinutes(playedms)) + ":" + parseInt(utilities.msToSecondsWithoutMinutes(playedms));
@@ -632,7 +673,7 @@ var view = (function() {
 
 
 
-//Events Logger Module
+//loads data from jsons with promises
 var dataLoad = (function() {
     // gets a url creating a promise
     function _get(url) {
