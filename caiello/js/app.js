@@ -1,23 +1,7 @@
 /*
 Global vars
 */
-//config
 
-
-//Config data
-var config = (function(e) {
-    var _jsonart="assets/json/artistsv2.json";
-	var _jsonalb="assets/json/albumsv2.json";
-	var _jsonsng="assets/json/songsv2.json";
-    // adds a event to the log
-
-    // Reveal
-    return {
-        jsonart: _jsonart,
-        jsonalb: _jsonalb,
-        jsonsng: _jsonsng
-    };
-})();
 
 
 
@@ -77,103 +61,6 @@ function PlayContext(reproductiontype, artist, album, track) {
 
 
 
-//Events Logger Module
-var eventsLogger = (function(e) {
-    var _eventlogcount = 0
-    // adds a event to the log
-    function _logEvent(e) {
-            var actualtime = new Date(e.timeStamp);
-            var timetolog = actualtime.getHours() + ":" + actualtime.getMinutes() + ":" + actualtime.getSeconds();
-            var eventaction = e.type;
-            var eventelement = e.target.innerText;
-            if (eventelement == "")
-                eventelement = e.target.className;
-            _addToEventLog(eventaction, eventelement, timetolog);
-        }
-       
-    // adds an item to the log
-    function _addToEventLog(actionev, eventelement, eventtime) {
-        document.getElementById("eventlogcount").innerHTML = ++_eventlogcount;
-        var rowstr = "";
-        if (_eventlogcount % 2 == 0) //have to use nth styles here
-            rowstr += "<tr class=\"even\">";
-        else
-            rowstr += "<tr class=\"odd\">";
-        rowstr += "<td>" + actionev + "</td>";
-        rowstr += "<td>" + eventelement + "</td>";
-        rowstr += "<td>" + eventtime + "</td>";
-        rowstr += "</tr>"
-        document.getElementById("eventlog").innerHTML += rowstr;
-    };
-    // Reveal
-    return {
-        logEvent: _logEvent
-    };
-})();
-
-
-//Utilities
-var utilities = (function() {
-
-    //hasclass, addclass and remove class taken from http://jaketrent.com/post/addremove-classes-raw-javascript/
-    function _hasClass(ele, cls) {
-        return ele.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
-    }
-
-    function _addClass(ele, cls) {
-        if (!_hasClass(ele, cls)) ele.className += " " + cls;
-    }
-
-    function _removeClass(ele, cls) {
-            if (_hasClass(ele, cls)) {
-                var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
-                ele.className = ele.className.replace(reg, ' ');
-            }
-        }
-        /*
-	maths
-	*/
-        //miliseconds to seconds
-
-    function _msToSeconds(mscs) {
-            return mscs / 1000;
-        }
-        //miliseconds to minutes
-
-    function _msToMinutes(mscs) {
-            return _msToSeconds(mscs) / 60;
-        }
-        //miliseconds to seconds without minutes (ie: 127 ret 7)
-
-    function _msToSecondsWithoutMinutes(mscs) {
-            return _msToSeconds(mscs) % 60;
-        }
-        //percent of a part in a total
-
-    function _percent(part, total) {
-            return part * 100.0 / total;
-        }
-        /*
-	other utils
-	*/
-        //it's a little ugly to return in a for but..
-
-    function getFirst(data) {
-        for (elem in data)
-            return elem;
-    }
-
-    // Reveal
-    return {
-        hasClass: _hasClass,
-        addClass: _addClass,
-        removeClass: _removeClass,
-        msToSeconds: _msToSeconds,
-        msToMinutes: _msToMinutes,
-        msToSecondsWithoutMinutes: _msToSecondsWithoutMinutes,
-        percent: _percent
-    };
-})();
 
 
 
@@ -814,29 +701,6 @@ var dataLoad = (function() {
 
 
 
-
-// Modal module
-var modal = (function() {
-    var _actualmod;
-    // adds a event to the log
-
-    //puts a modal to a given id
-    function _modalThis(idtomod) {
-        _actualmod = idtomod;
-        elem = document.getElementById(idtomod);
-        elem.style.visibility = (elem.style.visibility == "visible") ? "hidden" : "visible";
-    }
-
-    //unmodal if something is modaled
-    function _unmodal() {
-            _modalThis(_actualmod);
-        }
-        // Reveal
-    return {
-        modalThis: _modalThis,
-        unmodal: _unmodal
-    };
-})();
 
 
 
