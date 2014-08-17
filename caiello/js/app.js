@@ -135,7 +135,6 @@ var player = (function() {
     // plays a song. It requires the artist and album for performance (because im using a hashtable)
     function _playSong(artist, album, songname) {
         if (artist) { //if not artist provided plays the current song 
-            console.log("oh playing " + artist + ", " + album + ", " + songname);
             _currentsong = player.artists[artist].albums[album].tracks[songname];
             _currentalbum = album;
             _currentartist = artist;
@@ -144,12 +143,9 @@ var player = (function() {
         document.getElementById("song-name").innerText = _currentsong.title;
 
         if (!(_instance && _instance.resume())) { //resume pause
-            console.log("aca");
             if (_instance) //stops current song
                 _stopSong();
             _instance = createjs.Sound.play(_currentsong.title); //plays selected
-            console.log("playing " + _currentsong.file);
-
         }
         _instance.addEventListener("complete", _songEnds);
         //change btn from play to pause
@@ -306,24 +302,14 @@ var player = (function() {
     //plays the next song, if it's playing for first time choose a first song to play
     //this is absolutely not optimum, i was planifying to use a yield but is not working properly in chrome...
     function _playNextSong(firstplay) {
-
         iscurrent = false;
-        console.log("tipo de reproduccion: "+_playingcontext.reproductiontype);
-        console.log("end of rep?: "+_endofreproduction);
-
         if (_playingcontext.reproductiontype=="song"){
             _endofreproduction=true;
             return _playSong(_playingcontext.artist, _playingcontext.album, _playingcontext.track);
         }
-
         if (_playingcontext.reproductiontype=="album"){
             for (var track in player.artists[_playingcontext.artist].albums[_playingcontext.album].tracks)
                 if (player.artists[_playingcontext.artist].albums[_playingcontext.album].tracks.hasOwnProperty(track)) {
-
-                    console.log("length tracks: "+player.artists[_playingcontext.artist].albums[_playingcontext.album].tracks.length);
-                    
-                    
-
                     if ((iscurrent)||(firstplay)) //is the next
                         return _playSong(_playingcontext.artist, _playingcontext.album, track);
                     if (_currentsong.title == track)
@@ -332,7 +318,6 @@ var player = (function() {
             _endofreproduction=true;
             if (_repeat)
                 _play(_playingcontext);
-            
         }
 
 
@@ -380,7 +365,6 @@ var player = (function() {
     }
     //plays a song from the context menu
     function _playSongContext(id) {
-        console.log("proximamente...");
         view.hideContextMenu();
         _playSong(id);
     }
@@ -582,19 +566,67 @@ var view = (function() {
     //shows the context menu (play and addtofav)
     function _showContextMenu(data) {
         return function(event) {
-            player.draggedthing = null;
+
+        
             var contextmenu = document.getElementById("context-menu");
             var placetext = document.getElementById("context-menu-list");
-            placetext.innerHTML = "<li><a href=\"#\" onclick=\"playSongContext(" + data + ")\">Play song</li>";
-            placetext.innerHTML += "<li><hr></li>";
-            placetext.innerHTML += "<li><a href=\"#\" onclick=\"view.addToFavoritesContext(" + data + ")\">Add to favorite</li>";
+    
             utilities.removeClass(contextmenu, "hide");
             contextmenu.style.transform = "translate3d(" + (view.mouse.x) + "px, " + (view.mouse.y) + "px, 0)";
             contextmenu.style.webkitTransform= "translate3d(" + (view.mouse.x) + "px, " + (view.mouse.y) + "px, 0)";
             contextmenu.style.mozTransform= "translate3d(" + (view.mouse.x) + "px, " + (view.mouse.y) + "px, 0)";
-            _hideDragArea();
+           
+
+        
+            if (player.draggedthing) {
+                if (player.draggedthing.reproductiontype=="song"){
+                    placetext.innerHTML = "<li><a href=\"#\" class=\"playable\" data-type=\"" + player.draggedthing.reproductiontype + "\" data-artist=\"" + player.draggedthing.artist + "\" data-album=\"" + player.draggedthing.album + "\" data-track=\"" + player.draggedthing.track + "\">Play this</a></li>"
+                    
+                }
+                    
+                if (player.draggedthing.reproductiontype=="album"){
+                    placetext.innerHTML =  "<li><a href=\"#\" class=\"playable\" data-type=\"" + player.draggedthing.reproductiontype + "\" data-artist=\"" + player.draggedthing.artist + "\" data-album=\"" + player.draggedthing.album + "\">Play this</a></li>"
+                    
+                }
+                    
+                if (player.draggedthing.reproductiontype=="artist"){
+                    placetext.innerHTML =  "<li><a href=\"#\" class=\"playable\" data-type=\"" + player.draggedthing.reproductiontype + "\" data-artist=\"" + player.draggedthing.artist + "\">Play this</a></li>"
+                    
+                }
+                    
+ 
+            }
+
+            player.draggedthing = null;
+            view.hideDragArea();
+            songsListeners();
+
+
+
         }
     }
+
+
+
+
+    //adds a song to favorites
+    function _addToFavorites() {
+        if (player.draggedthing) {
+            if (player.draggedthing.reproductiontype=="song")
+                document.getElementById("sidebar-fav").innerHTML += "<li><a href=\"#\" class=\"playable\" data-type=\"" + player.draggedthing.reproductiontype + "\" data-artist=\"" + player.draggedthing.artist + "\" data-album=\"" + player.draggedthing.album + "\" data-track=\"" + player.draggedthing.track + "\">" + player.draggedthing.track + "</a></li>"
+            if (player.draggedthing.reproductiontype=="album")
+                document.getElementById("sidebar-fav").innerHTML += "<li><a href=\"#\" class=\"playable\" data-type=\"" + player.draggedthing.reproductiontype + "\" data-artist=\"" + player.draggedthing.artist + "\" data-album=\"" + player.draggedthing.album + "\">" + player.draggedthing.album + "</a></li>"
+            if (player.draggedthing.reproductiontype=="artist")
+                document.getElementById("sidebar-fav").innerHTML += "<li><a href=\"#\" class=\"playable\" data-type=\"" + player.draggedthing.reproductiontype + "\" data-artist=\"" + player.draggedthing.artist + "\">" + player.draggedthing.artist + "</a></li>"
+        }
+
+        player.draggedthing = null;
+        view.hideDragArea();
+        songsListeners();
+    }
+
+
+
 
     //hide context menu (not inmediately)
     function _hideContextMenu() {
@@ -608,7 +640,6 @@ var view = (function() {
 
     // shows the table "songs", "artists" or "albums"
     function _filter(tofilterid) {
-    	console.log("filtro: "+tofilterid);
     	var alb=document.getElementById("t-albums");
     	var art=document.getElementById("t-artists");
     	var tra=document.getElementById("t-songs");
@@ -618,27 +649,6 @@ var view = (function() {
     	utilities.addClass(tra,"hide");
     	utilities.removeClass(document.getElementById("t-"+tofilterid),"hide");
 
-    }
-
-
-    //adds a song to favorites
-    function _addToFavorites() {
-        console.log("favoritea: "+player.draggedthing.reproductiontype);
-        if (player.draggedthing) {
-            if (player.draggedthing.reproductiontype=="song")
-                document.getElementById("sidebar-fav").innerHTML += "<li><a href=\"#\" class=\"playable\" data-type=\"" + player.draggedthing.reproductiontype + "\" data-artist=\"" + player.draggedthing.artist + "\" data-album=\"" + player.draggedthing.album + "\" data-track=\"" + player.draggedthing.track + "\">" + player.draggedthing.track + "</a></li>"
-            if (player.draggedthing.reproductiontype=="album")
-                document.getElementById("sidebar-fav").innerHTML += "<li><a href=\"#\" class=\"playable\" data-type=\"" + player.draggedthing.reproductiontype + "\" data-artist=\"" + player.draggedthing.artist + "\" data-album=\"" + player.draggedthing.album + "\">" + player.draggedthing.album + "</a></li>"
-            if (player.draggedthing.reproductiontype=="artist")
-                document.getElementById("sidebar-fav").innerHTML += "<li><a href=\"#\" class=\"playable\" data-type=\"" + player.draggedthing.reproductiontype + "\" data-artist=\"" + player.draggedthing.artist + "\">" + player.draggedthing.artist + "</a></li>"
-
-
-                
-        }
-
-        player.draggedthing = null;
-        view.hideDragArea();
-        songsListeners();
     }
 
     //adds a song to favorites from the context menu
@@ -898,7 +908,7 @@ window.onload = function() {
     document.addEventListener("mouseup", view.mouseup);
     document.addEventListener("mousemove", view.mousemove);
 
-    songtables.addEventListener("click", view.hideContextMenu); //hide the menu fix
+    document.addEventListener("click", view.hideContextMenu); //hide the menu fix
     dropzone.addEventListener("mouseover", view.addToFavorites);
     dropzoneplay.addEventListener("mouseover", player.playDraggedThing);
     for (var i = 0; i < modalel.length; i++)
@@ -921,7 +931,6 @@ window.onload = function() {
     document.addEventListener('mousemove', function(e) {
         view.mouse.x = e.clientX || e.pageX;
         view.mouse.y = e.clientY || e.pageY;
-        //console.log(mouse.x);
         if (!view.moving) {
             if (view.dragging) {
                 utilities.removeClass(draggable, "hide");
@@ -934,11 +943,10 @@ window.onload = function() {
 	dataLoad.createObjects(config.jsonart, config.jsonalb, config.jsonsng);
     
     //hide the default menu
-    //para q no joda esto x ahora	
-    // document.addEventListener('contextmenu', function(ev) {
-    //     ev.preventDefault();
-    //     return false;
-    // }, false);
+    document.addEventListener('contextmenu', function(ev) {
+        ev.preventDefault();
+        return false;
+    }, false);
 
 
 
