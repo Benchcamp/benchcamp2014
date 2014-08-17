@@ -1,6 +1,29 @@
 /*
 Global vars
 */
+//config
+
+
+//Config data
+var config = (function(e) {
+    var _jsonart="assets/json/artistsv2.json";
+	var _jsonalb="assets/json/albumsv2.json";
+	var _jsonsng="assets/json/songsv2.json";
+    // adds a event to the log
+
+    // Reveal
+    return {
+        jsonart: _jsonart,
+        jsonalb: _jsonalb,
+        jsonsng: _jsonsng
+    };
+})();
+
+
+
+
+
+
 /*
 Track
 */
@@ -441,85 +464,59 @@ var player = (function() {
 var view = (function() {
 
     // show a table
-    function _fillTables() {
-        var filterid = "artists";
-        //creates the headers of the playlist
-        var rowstr = "<tr class=\"theader\">";
-        switch (filterid) {
-            case "artists":
-                rowstr += "<th>Artista</th>";
-                break;
-            case "albums":
-                rowstr += "<th>Artista</th><th>Album</th><th>A&ntilde;o</th><th>Cover</th>";
-                break;
-            default:
-                rowstr += "<th>Pista</th><th>Artista</th><th>Tiempo</th><th>Album</th>";
-        }
-        rowstr += "</tr>";
+    function _fillTables(filterid) {
+       
+        
+        
 
-        // create the table of artists
-        if (filterid == "artists")
+    		var rowstr ="<table class=\"t-filters\" id=\"t-artists\">";
+    		rowstr += "<tr class=\"theader\">";
+        	rowstr += "<th>Artista</th>";
+        	rowstr += "</tr>";
+        	// create the table of artists
             for (var artist in player.artists)
                 if (player.artists.hasOwnProperty(artist)) // hasOwnProperty gets only custom prototyped :)
-                    rowstr += "<tr class=\"artist-type playable\" data-type=\"album\" data-artist=" + player.artists[artist].name + "><td>" + player.artists[artist].name + "</td></tr>";
+                    rowstr += "<tr class=\"artist-type playable\" data-type=\"artist\" data-artist=" + player.artists[artist].name + "><td>" + player.artists[artist].name + "</td></tr>";
+            rowstr +="</table>";
 
-                //create the table of albums
-        if (filterid == "albums")
+
+            rowstr +="<table class=\"t-filters hide\" id=\"t-albums\">";
+            rowstr += "<tr class=\"theader\">";
+ 			rowstr += "<th>Artista</th><th>Album</th><th>A&ntilde;o</th><th>Cover</th>";
+ 			rowstr += "</tr>";
+            //create the table of albums
             for (var artist in player.artists)
                 if (player.artists.hasOwnProperty(artist))
                     for (var album in player.artists[artist].albums)
                         if (player.artists[artist].albums.hasOwnProperty(album)) {
-                            rowstr += "<tr><td>" + player.artists[artist].name + "</td>";
+                            rowstr += "<tr class=\"album-type playable\ data-type=\"album\" data-artist=" + player.artists[artist].name + " data-abum=" + player.artists[artist].albums[album].title + " ><td>" + player.artists[artist].name + "</td>";
                             rowstr += "<td>" + player.artists[artist].albums[album].title + " </td>";
                             rowstr += "<td>" + player.artists[artist].albums[album].year + "</td>";
                             rowstr += "<td> <img class=\"cover\" src=\"assets/resources/albums/covers/" + player.artists[artist].albums[album].cover + "\"/> </td></tr>";
                         }
+            rowstr +="</table>";
 
-                        //create the table of tracks
-        if (filterid == "songs")
+            rowstr +="<table class=\"t-filters hide\" id=\"t-songs\">";
+		    rowstr += "<tr class=\"theader\">";
+            rowstr += "<th>Pista</th><th>Artista</th><th>Tiempo</th><th>Album</th>";    
+            rowstr += "</tr>";    
+            //create the table of tracks
             for (var artist in player.artists)
                 if (player.artists.hasOwnProperty(artist))
                     for (var album in player.artists[artist].albums)
                         if (player.artists[artist].albums.hasOwnProperty(album))
                             for (var track in player.artists[artist].albums[album].tracks)
                                 if (player.artists[artist].albums[album].tracks.hasOwnProperty(track)) {
-                                    rowstr += "<tr><td>" + player.artists[artist].albums[album].tracks[track].title + "</td>";
+                                    rowstr += "<tr class=\"song-type playable\ data-type=\"song\" data-artist=" + player.artists[artist].name + " data-abum=" + player.artists[artist].albums[album].title + " data-song="+player.artists[artist].albums[album].tracks[track].title +" ><td>" + player.artists[artist].albums[album].tracks[track].title + "</td>";
                                     rowstr += "<td>" + player.artists[artist].name + "</td>";
                                     rowstr += "<td>" + player.artists[artist].albums[album].tracks[track].lngth + "</td>";
                                     rowstr += "<td>" + player.artists[artist].albums[album].title + "</td></tr>";
                                 }
-
+            rowstr +="</table>";
 
 
 
         document.getElementById("content").innerHTML = rowstr;
-        // var aresongs=(filterid=="songs");
-        // for (var i=0; i<content.structure.length; i++){
-        // 	//if songs are not registered then register the songs and set the flag to true
-        // 	if (aresongs && !player.registered)
-        // 		player.registerSong(content.structure[i].id);
-        // 	//creating the content of the table
-        // 	//used even and odd, in the future i have to use only css...
-        // 	if (i%2==0)
-        // 		rowstr+="<tr class=\"songp even\"";
-        // 	else
-        // 		rowstr+="<tr class=\"songp odd\"";
-
-        // 	//have to sanitize all this:
-        // 	//i have to change player.playSong and maybe data- here :(
-        // 	rowstr+=(filterid=="songs") ? " data-name=\""+content.structure[i].songs+"\" data-id=\""+content.structure[i].id+"\" onclick=\"player.playSong(" +content.structure[i].id+")\">" : ">";
-        // 	if (filterid=="songs") player.playlistPush(content.structure[i].songs);// adds the name of the song to the playlist... little ugly
-        // 	rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].songs+"</td>" : "";
-        // 	rowstr+="<td>"+ content.structure[i].artists+"</td>";
-        // 	rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].time +"</td>" : "";
-        // 	rowstr+= (filterid!="artists") ? "<td>"+ content.structure[i].albums+"</td>" : "";
-        // 	rowstr+="</tr>"
-        // }
-        // registered=true;
-        // if (aresongs) totalsongs = content.structure.length;
-
-        // document.getElementById("content").innerHTML = rowstr;
-
 
     }
 
@@ -664,7 +661,7 @@ var dataLoad = (function() {
     }
 
     //create a promise for each json (.all), then fill the tables, then add the listeners to those tables
-    function _createObjects(art_path, alb_path, sng_path) {
+    function _createObjects(art_path, alb_path, sng_path, filter) {
             var _promises = [_get(art_path), _get(alb_path), _get(sng_path)];
 
             Promise.all(_promises).then(function(resultados) {
@@ -673,7 +670,7 @@ var dataLoad = (function() {
             }, function() {
                 console.log("error");
             }).then(function(r) {
-                view.fillTables();
+                view.fillTables(filter);
             }).then(function() {
                 songsListeners();
             }).then(function() {
@@ -713,7 +710,7 @@ var dataLoad = (function() {
 
 
 
-dataLoad.createObjects("assets/json/artistsv2.json", "assets/json/albumsv2.json", "assets/json/songsv2.json");
+
 
 
 
@@ -744,20 +741,18 @@ var modal = (function() {
 
 
 
-// filters the data "songs", "artists", "albums"
+// shows the table "songs", "artists" or "albums"
 function filter(tofilterid) {
-    console.log("ye");
-    var path = "assets/json/" + tofilterid + ".json";
-    var content = loadJSON(path,
-        function(data) {
-            console.log(data);
-        },
-        function(xhr) {
-            console.error(xhr);
-        },
-        tofilterid);
+	console.log("filtro: "+tofilterid);
+	var alb=document.getElementById("t-albums");
+	var art=document.getElementById("t-artists");
+	var tra=document.getElementById("t-songs");
 
-    return true;
+	utilities.addClass(alb,"hide");
+	utilities.addClass(art,"hide");
+	utilities.addClass(tra,"hide");
+	utilities.removeClass(document.getElementById("t-"+tofilterid),"hide");
+
 }
 
 // loads a json
@@ -1083,6 +1078,9 @@ window.onload = function() {
         }
     }, false);
 
+	
+	dataLoad.createObjects(config.jsonart, config.jsonalb, config.jsonsng);
+    
     //hide the default menu
 
 

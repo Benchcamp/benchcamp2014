@@ -304,6 +304,9 @@ ul{
 	transition:all 0.3s linear;	
 	display:none;
 }
+.t-filters{
+	width:100%;
+}
 
 img.cover{
 	width:100px;
