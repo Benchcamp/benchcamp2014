@@ -563,6 +563,8 @@ var view = (function() {
             placetext.innerHTML += "<li><a href=\"#\" onclick=\"view.addToFavoritesContext(" + data + ")\">Add to favorite</li>";
             utilities.removeClass(contextmenu, "hide");
             contextmenu.style.transform = "translate3d(" + (view.mouse.x) + "px, " + (view.mouse.y) + "px, 0)";
+            contextmenu.style.webkitTransform= "translate3d(" + (view.mouse.x) + "px, " + (view.mouse.y) + "px, 0)";
+            contextmenu.style.mozTransform= "translate3d(" + (view.mouse.x) + "px, " + (view.mouse.y) + "px, 0)";
             _hideDragArea();
         }
     }
@@ -621,8 +623,11 @@ var view = (function() {
 
     //updates the drag position
     function _updatedrag() {
-        if (view.dragging)
+        if (view.dragging){
             draggable.style.transform = "translate3d(" + (view.mouse.x - 60) + "px, " + (view.mouse.y - 20) + "px, 0)";
+            draggable.style.webkitTransform = "translate3d(" + (view.mouse.x - 60) + "px, " + (view.mouse.y - 20) + "px, 0)";
+            draggable.style.MozTransform = "translate3d(" + (view.mouse.x - 60) + "px, " + (view.mouse.y - 20) + "px, 0)";
+        }
         view.moving = false;
     }
 
