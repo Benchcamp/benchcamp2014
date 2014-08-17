@@ -316,8 +316,6 @@ var player = (function() {
             return _playSong(_playingcontext.artist, _playingcontext.album, _playingcontext.track);
         }
 
-
-
         if (_playingcontext.reproductiontype=="album"){
             for (var track in player.artists[_playingcontext.artist].albums[_playingcontext.album].tracks)
                 if (player.artists[_playingcontext.artist].albums[_playingcontext.album].tracks.hasOwnProperty(track)) {
@@ -453,6 +451,7 @@ var view = (function() {
         x: 0,
         y: 0
     };
+
     // creates the song, albums and artists tables
     function _fillTables(filterid) {
     		var rowstr ="<table class=\"t-filters\" id=\"t-artists\">";
@@ -624,8 +623,17 @@ var view = (function() {
 
     //adds a song to favorites
     function _addToFavorites() {
+        console.log("favoritea: "+player.draggedthing.reproductiontype);
         if (player.draggedthing) {
-            document.getElementById("sidebar-fav").innerHTML += "<li><a href=\"#\" class=\"playable\" data-type=" + player.draggedthing.reproductiontype + " data-artist=" + player.draggedthing.artist + ">" + player.draggedthing.artist + "</a></li>"
+            if (player.draggedthing.reproductiontype=="song")
+                document.getElementById("sidebar-fav").innerHTML += "<li><a href=\"#\" class=\"playable\" data-type=\"" + player.draggedthing.reproductiontype + "\" data-artist=\"" + player.draggedthing.artist + "\" data-album=\"" + player.draggedthing.album + "\" data-track=\"" + player.draggedthing.track + "\">" + player.draggedthing.track + "</a></li>"
+            if (player.draggedthing.reproductiontype=="album")
+                document.getElementById("sidebar-fav").innerHTML += "<li><a href=\"#\" class=\"playable\" data-type=\"" + player.draggedthing.reproductiontype + "\" data-artist=\"" + player.draggedthing.artist + "\" data-album=\"" + player.draggedthing.album + "\">" + player.draggedthing.album + "</a></li>"
+            if (player.draggedthing.reproductiontype=="artist")
+                document.getElementById("sidebar-fav").innerHTML += "<li><a href=\"#\" class=\"playable\" data-type=\"" + player.draggedthing.reproductiontype + "\" data-artist=\"" + player.draggedthing.artist + "\">" + player.draggedthing.artist + "</a></li>"
+
+
+                
         }
 
         player.draggedthing = null;
@@ -795,10 +803,10 @@ function songsListeners() {
         songss[ll].addEventListener("click", player.playFromTable(new PlayContext(songss[ll].getAttribute('data-type'), songss[ll].getAttribute('data-artist'), songss[ll].getAttribute('data-album'), songss[ll].getAttribute('data-song') )));
 
         //drag
-        songss[ll].addEventListener("mousedown", view.draggingASong(new PlayContext(songss[ll].getAttribute('data-type'), songss[ll].getAttribute('data-artist'))));
+        songss[ll].addEventListener("mousedown", view.draggingASong(new PlayContext(songss[ll].getAttribute('data-type'), songss[ll].getAttribute('data-artist'), songss[ll].getAttribute('data-album'), songss[ll].getAttribute('data-song'))));
 
         //contextmenu
-        songss[ll].addEventListener("contextmenu", view.showContextMenu(songss[ll].getAttribute('data-artist')));
+        songss[ll].addEventListener("contextmenu", view.showContextMenu(new PlayContext(songss[ll].getAttribute('data-type'), songss[ll].getAttribute('data-artist'), songss[ll].getAttribute('data-album'), songss[ll].getAttribute('data-song'))));
 
     }
 
