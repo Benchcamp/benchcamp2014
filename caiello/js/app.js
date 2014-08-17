@@ -54,7 +54,7 @@ function PlayContext(reproductiontype, artist, album, track) {
 
 
 
-
+//the observable class (player)
 var PlayerObservable = function() {
     this.subscribers = [];// will be only one :)
 }
@@ -111,25 +111,17 @@ var player = (function() {
     var _currentsong;
     var _registeredsong=[];
     var _playingcontext;
-
     var _repeat = false;
     var _random = false;
     var _registered = false;
     var _artists = []; //artists has all the data (artists, albums, and tracks)
     var _playing;
-    var _gen;
-
-
-
-    
 
 
     // instantiate the context to play and start playing it
     function _play(playingcontext) {
-
         _playingcontext = playingcontext;
         _playNextSong(true);
-
     }
 
 
@@ -158,11 +150,8 @@ var player = (function() {
         playbtn.style.display = "none";
         pausebtn.style.display = "";
         _timing = setInterval(_update, 3); //most fluid than 1000
-        //have to move this...
         view.hideDragArea();
     }
-
-
 
 
     // handle what happens when a song ends
@@ -172,19 +161,19 @@ var player = (function() {
 
     // pause the current song
     function _pauseSong() {
-            _instance.pause();
-            clearInterval(_timing);
-            pausebtn.style.display = "none";
-            playbtn.style.display = "";
-        }
-        // stop the song (another song selected)
+        _instance.pause();
+        clearInterval(_timing);
+        pausebtn.style.display = "none";
+        playbtn.style.display = "";
+    }
 
+    // stop the song (another song selected)
     function _stopSong() {
         _pauseSong();
         _instance.setPosition(0);
     }
-    //taken from http://www.kirupa.com/html5/getting_mouse_click_position.htm
 
+    //taken from http://www.kirupa.com/html5/getting_mouse_click_position.htm
     function _getPosition(element) {
             var xPosition = 0;
             var yPosition = 0;
@@ -212,13 +201,13 @@ var player = (function() {
     
     // update all items (transcurred time, progressbar, circle)
     function _update() {
-            var playedms = _instance.getPosition();
-            document.getElementById("transcurredtime").innerHTML = parseInt(utilities.msToMinutes(playedms)) + ":" + parseInt(utilities.msToSecondsWithoutMinutes(playedms));
-            var percentplayed = utilities.percent(playedms, _instance.getDuration());
-            document.getElementById("progressbar").style.width = percentplayed + "%";
-        }
-        // register a song
+        var playedms = _instance.getPosition();
+        document.getElementById("transcurredtime").innerHTML = parseInt(utilities.msToMinutes(playedms)) + ":" + parseInt(utilities.msToSecondsWithoutMinutes(playedms));
+        var percentplayed = utilities.percent(playedms, _instance.getDuration());
+        document.getElementById("progressbar").style.width = percentplayed + "%";
+    }
 
+    // register a song
     function _registerSong(filename, title) {
     	if (!_registeredsong[title]){
     		createjs.Sound.registerSound("assets/resources/songs/" + filename, title);
@@ -238,8 +227,8 @@ var player = (function() {
                                     _registerSong(player.artists[artist].albums[album].tracks[track].file, player.artists[artist].albums[album].tracks[track].title);
 
     }
-    // mute the sound
 
+    // mute the sound
     function _muteSound() {
         if (_instance)
             _instance.setMute(!_instance.getMute());
@@ -407,7 +396,7 @@ var view = (function() {
         x: 0,
         y: 0
     };
-    // show a table
+    // creates the song, albums and artists tables
     function _fillTables(filterid) {
     		var rowstr ="<table class=\"t-filters\" id=\"t-artists\">";
     		rowstr += "<tr class=\"theader\">";
@@ -497,6 +486,7 @@ var view = (function() {
             utilities.addClass(elem, "on");
     }
 
+    //show or hide stars 1,2,3,4 or 5 stars ("size")
     function _chooseStar(size) {
         return function() {
             var elem;
@@ -527,11 +517,8 @@ var view = (function() {
 
     //shows the dropzones
     function _showDragArea() {
-
         utilities.removeClass(document.getElementById("drop-zone-fav"), "hide");
         utilities.addClass(document.getElementById("player"), "drop-zone");
-
-
     }
 
 
@@ -687,23 +674,23 @@ var dataLoad = (function() {
 
     //create a promise for each json (.all), then fill the tables, then add the listeners to those tables
     function _createObjects(art_path, alb_path, sng_path, filter) {
-            var _promises = [_get(art_path), _get(alb_path), _get(sng_path)];
+        var _promises = [_get(art_path), _get(alb_path), _get(sng_path)];
 
-            Promise.all(_promises).then(function(resultados) {
+        Promise.all(_promises).then(function(resultados) {
 
-                return _jsonsToObjects(resultados);
-            }, function() {
-                console.log("error");
-            }).then(function(r) {
-                view.fillTables(filter);
-            }).then(function() {
-                songsListeners();
-            }).then(function() {
-                player.registerAllSongs();
-            });
-        }
-        // transforms a parsed json to an array of artists (artists have albums and albums have songs)
-
+            return _jsonsToObjects(resultados);
+        }, function() {
+            console.log("error");
+        }).then(function(r) {
+            view.fillTables(filter);
+        }).then(function() {
+            songsListeners();
+        }).then(function() {
+            player.registerAllSongs();
+        });
+    }
+    
+    // transforms a parsed json to an array of artists (artists have albums and albums have songs)
     function _jsonsToObjects(jsons) {
         player.artists = [];
         var artistsjs = jsons[0]["artists"];
@@ -876,8 +863,6 @@ window.onload = function() {
 	dataLoad.createObjects(config.jsonart, config.jsonalb, config.jsonsng);
     
     //hide the default menu
-
-
     //para q no joda esto x ahora	
     // document.addEventListener('contextmenu', function(ev) {
     //     ev.preventDefault();
