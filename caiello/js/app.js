@@ -163,8 +163,18 @@ var player = (function() {
     // handle what happens when a song ends
     // if is repeating or random or the reproduction list didn't end, then plays the next song
     function _songEnds() {
-        if ((_repeat)||(_random)||(!_endofreproduction))
-            _playNextSong();
+        if ((_repeat)||(_random)){
+            if (_endofreproduction)
+                _play(_playingcontext);//if is repeat or random and end of reproduction, start again the playingcontext
+            
+            else
+                _playNextSong();//if is repeat or random and is not the last song play the next..       
+        }else{
+            if (_endofreproduction)
+                _stopSong(); // is not repeat, not random and is the end of reproduction, then stop
+            else
+                _playNextSong();//is not repeat or random, but it's more to play, then play it
+        }
     }
 
     // pause the current song
@@ -309,14 +319,22 @@ var player = (function() {
 
 
         if (_playingcontext.reproductiontype=="album"){
-            console.log("el alb es "+_playingcontext.album);
-                    for (var track in player.artists[_playingcontext.artist].albums[_playingcontext.album].tracks)
-                        if (player.artists[_playingcontext.artist].albums[_playingcontext.album].tracks.hasOwnProperty(track)) {
-                            if ((iscurrent)||(firstplay)) //is the next
-                                return _playSong(_playingcontext.artist, _playingcontext.album, track);
-                            if (_currentsong.title == track)
-                                iscurrent = true;
-                        }   
+            for (var track in player.artists[_playingcontext.artist].albums[_playingcontext.album].tracks)
+                if (player.artists[_playingcontext.artist].albums[_playingcontext.album].tracks.hasOwnProperty(track)) {
+
+                    console.log("length tracks: "+player.artists[_playingcontext.artist].albums[_playingcontext.album].tracks.length);
+                    
+                    
+
+                    if ((iscurrent)||(firstplay)) //is the next
+                        return _playSong(_playingcontext.artist, _playingcontext.album, track);
+                    if (_currentsong.title == track)
+                        iscurrent = true;
+                }
+            _endofreproduction=true;
+            if (_repeat)
+                _play(_playingcontext);
+            
         }
 
 
@@ -331,7 +349,10 @@ var player = (function() {
                                 return _playSong(_playingcontext.artist, album, track);
                             if (_currentsong.title == track)
                                 iscurrent = true;
-                        }   
+                        } 
+            _endofreproduction=true;
+            if (_repeat)
+                _play(_playingcontext);
         }
 
 
