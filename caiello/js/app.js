@@ -149,8 +149,8 @@ var player = (function() {
         }
         _instance.addEventListener("complete", _songEnds);
         //change btn from play to pause
-        playbtn.style.display = "none";
-        pausebtn.style.display = "";
+        elements.playbtn.style.display = "none";
+        elements.pausebtn.style.display = "";
         _timing = setInterval(_update, 3); //most fluid than 1000
         view.hideDragArea();
     }
@@ -177,8 +177,8 @@ var player = (function() {
     function _pauseSong() {
         _instance.pause();
         clearInterval(_timing);
-        pausebtn.style.display = "none";
-        playbtn.style.display = "";
+        elements.pausebtn.style.display = "none";
+        elements.playbtn.style.display = "";
     }
 
     // stop the song (another song selected)
@@ -599,7 +599,7 @@ var view = (function() {
 
             player.draggedthing = null;
             view.hideDragArea();
-            songsListeners();
+            elements.songsListeners();
 
 
 
@@ -622,7 +622,7 @@ var view = (function() {
 
         player.draggedthing = null;
         view.hideDragArea();
-        songsListeners();
+        elements.songsListeners();
     }
 
 
@@ -764,7 +764,7 @@ var dataLoad = (function() {
         }).then(function(r) {
             view.fillTables(filter);
         }).then(function() {
-            songsListeners();
+            elements.songsListeners();
         }).then(function() {
             player.registerAllSongs();
         });
@@ -805,8 +805,45 @@ var dataLoad = (function() {
 
 
 
-//listeners in everything playable
-function songsListeners() {
+
+
+
+
+
+//This class represents all elements in the DOM and listeners
+function Elements() {
+
+    /*
+    Other vars and Listeners
+    */
+
+    //i have to improve the performance of this not calling directly to the document everytime...
+    this.draggable = document.getElementById("draggable");
+    this.playbtn = document.getElementById("btn-play");
+    this.pausebtn = document.getElementById("btn-pause");
+    this.backbtn = document.getElementById("btn-back");
+    this.nextbtn = document.getElementById("btn-next");
+    this.lbtn = document.getElementById("btn-l");
+    this.rbtn = document.getElementById("btn-r");
+    this.playing = document.getElementById("playing");
+    this.eventbtn = document.getElementById("btn-events");
+    this.volumebtn = document.getElementById("btn-volume");
+    this.filtersongs = document.getElementById("filter-songs");
+    this.filteralbums = document.getElementById("filter-albums");
+    this.filterartists = document.getElementById("filter-artists");
+    this.toggler = document.getElementById("btn-hide-show-side");
+    this.togglermob = document.getElementById("btn-hide-show-side-mobile");
+    this.modalel = document.getElementsByClassName("modal");
+    this.ratebtn = document.getElementById("rate");
+    this.dropzone = document.getElementById("drop-zone-fav");
+    this.dropzoneplay = document.getElementById("player");
+    this.songtables = document.getElementById("content");
+
+}
+
+//This function is used to listen in everything playable, for example the tables of songs, albums, artists, or the favorites or context menus
+Elements.prototype.songsListeners = function() {
+    //listeners in everything playable
     songss = document.getElementsByClassName("playable");
     for (ll = 0; ll < songss.length; ll++) {
         //play
@@ -817,18 +854,12 @@ function songsListeners() {
 
         //contextmenu
         songss[ll].addEventListener("contextmenu", view.showContextMenu(new PlayContext(songss[ll].getAttribute('data-type'), songss[ll].getAttribute('data-artist'), songss[ll].getAttribute('data-album'), songss[ll].getAttribute('data-song'))));
-
     }
-
 }
 
 
 
-// i have to move this global vars to a module or something else..
-var draggable,playbtn,pausebtn,backbtn,nextbtn,lbtn,rbtn,playing,eventbtn,volumebtn,filtersongs,filteralbums,filterartists,toggler,togglermob,modalel,ratebtn,dropzone,dropzoneplay,songtables;
-// when site is loaded, loads the listeners and +, ill try to put all this as a module..
-window.onload = function() {
-
+Elements.prototype.executeListeners = function() {
     // event is triggered (for logs)
     document.onclick = function(e) {
         return eventsLogger.logEvent(e);
@@ -839,80 +870,57 @@ window.onload = function() {
     document.onkeyup = function(e) {
         return eventsLogger.logEvent(e);
     };
-    /*
-	Other vars and Listeners
-	*/
-    
-    //i have to improve the performance of this not calling directly to the document everytime...
-    draggable = document.getElementById("draggable");
-    playbtn = document.getElementById("btn-play");
-    pausebtn = document.getElementById("btn-pause");
-    backbtn = document.getElementById("btn-back");
-    nextbtn = document.getElementById("btn-next");
-    lbtn = document.getElementById("btn-l");
-    rbtn = document.getElementById("btn-r");
-    playing = document.getElementById("playing");
-    eventbtn = document.getElementById("btn-events");
-    volumebtn = document.getElementById("btn-volume");
-    filtersongs = document.getElementById("filter-songs");
-    filteralbums = document.getElementById("filter-albums");
-    filterartists = document.getElementById("filter-artists");
-    toggler = document.getElementById("btn-hide-show-side");
-    togglermob = document.getElementById("btn-hide-show-side-mobile");
-    modalel = document.getElementsByClassName("modal");
-    ratebtn = document.getElementById("rate");
-    dropzone = document.getElementById("drop-zone-fav");
-    dropzoneplay = document.getElementById("player");
-    songtables = document.getElementById("content");
-    playbtn.addEventListener("click", function() {
+
+
+    this.playbtn.addEventListener("click", function() {
         player.playSong()
     });
-    pausebtn.addEventListener("click", player.pauseSong);
-    backbtn.addEventListener("click", player.playPrevSong);
-    nextbtn.addEventListener("click", function() {
+    this.pausebtn.addEventListener("click", player.pauseSong);
+    this.backbtn.addEventListener("click", player.playPrevSong);
+    this.nextbtn.addEventListener("click", function() {
         player.playSong(player.playNextSong())
     });
-    playing.addEventListener("click", player.moveToPosition);
-    lbtn.addEventListener("click", player.setRepeat);
-    rbtn.addEventListener("click", player.setRandom);
-    volumebtn.addEventListener("click", player.muteSound);
-    volumebtn.addEventListener("mouseover", function() {
+    this.playing.addEventListener("click", player.moveToPosition);
+    this.lbtn.addEventListener("click", player.setRepeat);
+    this.rbtn.addEventListener("click", player.setRandom);
+    this.volumebtn.addEventListener("click", player.muteSound);
+    this.volumebtn.addEventListener("mouseover", function() {
         view.showHideElement("volume")
     });
-    volumebtn.addEventListener("mouseout", function() {
+    this.volumebtn.addEventListener("mouseout", function() {
         view.showHideElement("volume")
     });
-    filtersongs.addEventListener("click", function() {
+    this.filtersongs.addEventListener("click", function() {
         view.filter("songs")
     });
-    filteralbums.addEventListener("click", function() {
+    this.filteralbums.addEventListener("click", function() {
         view.filter("albums")
     });
-    filterartists.addEventListener("click", function() {
+    this.filterartists.addEventListener("click", function() {
         view.filter("artists")
     });
-    toggler.addEventListener("click", function() {
+    this.toggler.addEventListener("click", function() {
         view.toggleMenu()
     });
-    togglermob.addEventListener("click", function() {
+    this.togglermob.addEventListener("click", function() {
         view.toggleMenuMob()
     });
 
-    eventbtn.addEventListener("click", function() {
+    this.eventbtn.addEventListener("click", function() {
         modal.modalThis("event-log-box")
     });
-    ratebtn.addEventListener("click", function() {
+    this.ratebtn.addEventListener("click", function() {
         modal.modalThis("rate-it")
     });
-    songtables.addEventListener("mousedown", view.mousedown);
+    this.songtables.addEventListener("mousedown", view.mousedown);
     document.addEventListener("mouseup", view.mouseup);
     document.addEventListener("mousemove", view.mousemove);
 
     document.addEventListener("click", view.hideContextMenu); //hide the menu fix
-    dropzone.addEventListener("mouseover", view.addToFavorites);
-    dropzoneplay.addEventListener("mouseover", player.playDraggedThing);
-    for (var i = 0; i < modalel.length; i++)
-        modalel[i].addEventListener("click", modal.unmodal);
+    this.dropzone.addEventListener("mouseover", view.addToFavorites);
+    this.dropzoneplay.addEventListener("mouseover", player.playDraggedThing);
+    for (var i = 0; i < this.modalel.length; i++)
+        this.modalel[i].addEventListener("click", modal.unmodal);
     //rating
     // have to put all in only one var
     var choose1 = view.chooseStar(1);
@@ -926,8 +934,6 @@ window.onload = function() {
     document.getElementById('star4').onmouseover = choose4;
     document.getElementById('star5').onmouseover = choose5;
     //drag listeners
-
-
     document.addEventListener('mousemove', function(e) {
         view.mouse.x = e.clientX || e.pageX;
         view.mouse.y = e.clientY || e.pageY;
@@ -939,15 +945,27 @@ window.onload = function() {
             requestAnimationFrame(view.updatedrag);
         }
     }, false);
-	
-	dataLoad.createObjects(config.jsonart, config.jsonalb, config.jsonsng);
     
+
     //hide the default menu
     document.addEventListener('contextmenu', function(ev) {
         ev.preventDefault();
         return false;
     }, false);
 
+}
 
+
+
+
+var elements;
+
+// i have to move this global vars to a module or something else..
+// when site is loaded, loads the listeners and +, ill try to put all this as a module..
+window.onload = function() {
+
+    elements=new Elements();
+    elements.executeListeners();
+	dataLoad.createObjects(config.jsonart, config.jsonalb, config.jsonsng);
 
 }
