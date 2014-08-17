@@ -88,8 +88,8 @@ var LyricsObserver = function (data) {
     
     var promises = [dataLoad.getPromiseJSON(config.lyricsapi+""+data)];
 
-    Promise.all(promises).then(function(resultados) {
-        
+    Promise.all(promises).then(function(resultados) {    
+        //i'm not caching the lyrics yet...
         document.getElementById("lyrics").innerText=resultados[0][0].snippet;
     });
 
@@ -120,10 +120,12 @@ var player = (function() {
     var _registered = false;
     var _artists = []; //artists has all the data (artists, albums, and tracks)
     var _playing;
+    var _endofreproduction=false;
 
 
     // instantiate the context to play and start playing it
     function _play(playingcontext) {
+        _endofreproduction=false;
         _playingcontext = playingcontext;
         _playNextSong(true);
     }
@@ -159,8 +161,10 @@ var player = (function() {
 
 
     // handle what happens when a song ends
+    // if is repeating or random or the reproduction list didn't end, then plays the next song
     function _songEnds() {
-        _playNextSong();
+        if ((_repeat)||(_random)||(!_endofreproduction))
+            _playNextSong();
     }
 
     // pause the current song
@@ -227,8 +231,9 @@ var player = (function() {
                     for (var album in player.artists[artist].albums)
                         if (player.artists[artist].albums.hasOwnProperty(album))
                             for (var track in player.artists[artist].albums[album].tracks)
-                                if (player.artists[artist].albums[album].tracks.hasOwnProperty(track))
+                                if (player.artists[artist].albums[album].tracks.hasOwnProperty(track)){
                                     _registerSong(player.artists[artist].albums[album].tracks[track].file, player.artists[artist].albums[album].tracks[track].title);
+                                }
 
     }
 
@@ -294,8 +299,10 @@ var player = (function() {
 
         iscurrent = false;
         console.log("tipo de reproduccion: "+_playingcontext.reproductiontype);
+        console.log("end of rep?: "+_endofreproduction);
 
         if (_playingcontext.reproductiontype=="song"){
+            _endofreproduction=true;
             return _playSong(_playingcontext.artist, _playingcontext.album, _playingcontext.track);
         }
 
@@ -320,9 +327,7 @@ var player = (function() {
                     for (var track in player.artists[_playingcontext.artist].albums[album].tracks)
                         if (player.artists[_playingcontext.artist].albums[album].tracks.hasOwnProperty(track)) {
 
-                            if (iscurrent) //is the next
-                                return _playSong(_playingcontext.artist, album, track);
-                            if (firstplay)
+                            if ((iscurrent)||(firstplay))
                                 return _playSong(_playingcontext.artist, album, track);
                             if (_currentsong.title == track)
                                 iscurrent = true;
@@ -377,6 +382,8 @@ var player = (function() {
             player.play(data);
         }
     }
+
+ 
 
 
 
