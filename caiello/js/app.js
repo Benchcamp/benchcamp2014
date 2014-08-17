@@ -595,7 +595,7 @@ var view = (function() {
     //adds a song to favorites
     function _addToFavorites() {
         if (player.draggedthing) {
-            document.getElementById("sidebar-list").innerHTML += "<li><a href=\"#\" class=\"playable\" data-type=" + player.draggedthing.reproductiontype + " data-artist=" + player.draggedthing.artist + ">" + player.draggedthing.artist + "</a></li>"
+            document.getElementById("sidebar-fav").innerHTML += "<li><a href=\"#\" class=\"playable\" data-type=" + player.draggedthing.reproductiontype + " data-artist=" + player.draggedthing.artist + ">" + player.draggedthing.artist + "</a></li>"
         }
 
         player.draggedthing = null;
@@ -766,6 +766,7 @@ function songsListeners() {
 
         //contextmenu
         songss[ll].addEventListener("contextmenu", view.showContextMenu(songss[ll].getAttribute('data-artist')));
+
     }
 
 }
