@@ -1,480 +1,705 @@
 /*
-Global vars
-*/
-
-
-
-/*
 Track
 */
-function Track(title, lngth){
-	this.title 	= title  || "";
-	this.lngth = lngth   || 0;
+function Track(title, lngth, filename) {
+    this.title = title || "";
+    this.lngth = lngth || 0;
+    this.file = filename || "";
 }
 Track.prototype.lyric_cache = '';
-Track.prototype.setLyricCache = function (lyric){
-	this.lyric_cache=lyric;
+Track.prototype.setLyricCache = function(lyric) {
+    this.lyric_cache = lyric;
 }
 
 /*
 Album
 */
-function Album(title, year, cover){
-	this.title	  = title || "";
-	this.year     = year  || "";
-  	this.cover    = cover || "nocover.png";
-  	this.tracks   = [];
+function Album(title, year, cover) {
+    this.title = title || "";
+    this.year = year || "";
+    this.cover = cover || "nocover.png";
+    this.tracks = [];
 }
-Album.prototype.pushTrack = function (track){
+Album.prototype.pushTrack = function(track) {
     this.albums.push(album);
 }
-Album.prototype.setTracks = function (tracks){
-    this.tracks=tracks;
+Album.prototype.setTracks = function(tracks) {
+    this.tracks = tracks;
 }
 
 /*
 Artist
 */
-function Artist(name){
-	this.name  = name;
-  	this.albums=[];
-}
-//Artist.prototype.albums = [];
-Artist.prototype.pushAlbum = function (album){
+function Artist(name) {
+        this.name = name;
+        this.albums = [];
+    }
+    //Artist.prototype.albums = [];
+Artist.prototype.pushAlbum = function(album) {
     this.albums.push(album);
 }
-Artist.prototype.setAlbums = function (albums){
-    this.albums=albums;
+Artist.prototype.setAlbums = function(albums) {
+    this.albums = albums;
 }
 
 
 
+//this class will represent the context to play (an entire artist?, an album? a track?)
+function PlayContext(reproductiontype, artist, album, track) {
+    this.reproductiontype = reproductiontype || "";
+    this.artist = artist || "";
+    this.album = album || "";
+    this.track = track || "";
+}
 
 
-
-var draggedsong=0;
 
 /*
-Functions
+Here i use the pattern observer in the player to show the lyrics
 */
 
-//Events Logger Module
-var eventsLogger = (function (e) {
-    var _eventlogcount=0
-	// adds a event to the log
-	function _logEvent(e){
-		var actualtime=new Date(e.timeStamp);
-		var timetolog=actualtime.getHours()+":"+actualtime.getMinutes()+":"+actualtime.getSeconds();
-		var eventaction=e.type;
-		var eventelement=e.target.innerText;
-		if (eventelement=="")
-			eventelement=e.target.className;
-		_addToEventLog(eventaction,eventelement,timetolog);
-	}
-	// adds an item to the log
-	function _addToEventLog(actionev,eventelement,eventtime){
-		document.getElementById("eventlogcount").innerHTML = ++_eventlogcount;
-	 	var rowstr="";
-		if (_eventlogcount%2==0)
-			rowstr+="<tr class=\"even\">";
-		else
-			rowstr+="<tr class=\"odd\">";
-		rowstr+="<td>"+ actionev +"</td>";
-		rowstr+="<td>"+ eventelement +"</td>";
-		rowstr+="<td>"+ eventtime +"</td>";
-		rowstr+="</tr>"
-		document.getElementById("eventlog").innerHTML += rowstr;
-	};
-    // Reveal
-    return {
-        logEvent: _logEvent
-    };
-})();
+//the observable class (player)
+var PlayerObservable = function() {
+    this.subscribers = [];// will be only one :)
+}
+ 
+PlayerObservable.prototype = {
+    subscribe: function(callback) {
+        this.subscribers.push(callback);
+    },
+    unsubscribe: function(callback) {
+        for (var i=0 ; i < this.subscribers.length; i++) {
+            if (this.subscribers[i] === callback) {
+                this.subscribers.splice(i, 1);//removing the suscriber..
+                return;//stop the iteration
+            }
+        }
+    },
+    publish: function(data) {
+        // call all the suscribers
+        for (var i=0 ; i < this.subscribers.length; i++) {
+            this.subscribers[i](data);
+        }        
+    }
+};
+
+//the lyrics observer
+var LyricsObserver = function (data) {
+    
+    var promises = [dataLoad.getPromiseJSON(config.lyricsapi+""+data)];
+
+    Promise.all(promises).then(function(resultados) {    
+        //i'm not caching the lyrics yet...
+        document.getElementById("lyrics").innerText=resultados[0][0].snippet;
+    });
 
 
-//Utilities
-var utilities = (function () {
-   
-	//hasclass, addclass and remove class taken from http://jaketrent.com/post/addremove-classes-raw-javascript/
-	function _hasClass(ele,cls) {
-	  return ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
-	}
-	function _addClass(ele,cls) {
-	  if (!_hasClass(ele,cls)) ele.className += " "+cls;
-	}
-	function _removeClass(ele,cls) {
-	  if (_hasClass(ele,cls)) {
-	    var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
-	    ele.className=ele.className.replace(reg,' ');
-	  }
-	}
-	/*
-	maths
-	*/
-	//miliseconds to seconds
-	function _msToSeconds(mscs){
-		return mscs/1000;
-	}
-	//miliseconds to minutes
-	function _msToMinutes(mscs){
-		return _msToSeconds(mscs)/60;
-	}
-	//miliseconds to seconds without minutes (ie: 127 ret 7)
-	function _msToSecondsWithoutMinutes(mscs){
-		return _msToSeconds(mscs)%60;
-	}
-	//percent of a part in a total
-	function _percent(part,total){
-		return part*100.0/total;
-	}
+}
+ 
+var observable = new PlayerObservable();
+observable.subscribe(LyricsObserver);
 
-    // Reveal
-    return {
-        hasClass: _hasClass,
-        addClass: _addClass,
-        removeClass: _removeClass,
-        msToSeconds: _msToSeconds,
-        msToMinutes: _msToMinutes,
-        msToSecondsWithoutMinutes: _msToSecondsWithoutMinutes,
-        percent: _percent
-    };
-})();
+
+
+
 
 
 
 //Player
-var player = (function () {
-	var _instance;
-	var _timing;
-	var _currentsong=1;
-	var _totalsongs=0;
-	var _repeat=false;
-	var _random=false;
-	var _registered=false;
-	var _playlist=[];
-	var _artists=[];
+var player = (function() {
+    var _instance;
+    var _timing;
+    var _draggedthing;
+    var _currentartist;
+    var _currentalbum;
+    var _currentsong;
+    var _registeredsong=[];
+    var _playingcontext;
+    var _repeat = false;
+    var _random = false;
+    var _registered = false;
+    var _artists = []; //artists has all the data (artists, albums, and tracks)
+    var _playing;
+    var _endofreproduction=false;
 
-	// a song ends
-	function _songEnds() {
-		if (_random)
-			_playSong(Math.floor((Math.random() * _getTotalSongs()) + 1));
-		else
-			if (_repeat){
-				(_currentsong+1 <= _totalsongs) ? _playSong(++_currentsong) : _currentsong=1; _playSong(_currentsong);
-			}else{
-				_stopSong();
-			}
-	}
-	// plays a song
-	function _playSong(songid) {
-		_currentsong=songid;
-		document.getElementById("song-name").innerText=_playlist[_currentsong-1];
-		if (!(_instance && _instance.resume())){ //resume pause
-			if (_instance) //stops current song
-				_stopSong(); 
-			_instance = createjs.Sound.play(songid); //plays selected
-		}
-	    _instance.addEventListener("complete", _songEnds);
-	    //change btn from play to pause
-	    playbtn.style.display = "none";
-	    pausebtn.style.display="";
-	    _timing = setInterval(_update,3);//most fluid than 1000
-	    //have to move this...
-	    view.hideDragArea();
-	}
-	// pause the current song
-	function _pauseSong() {
-		_instance.pause();
-		clearInterval(_timing);
-		pausebtn.style.display="none";
-		playbtn.style.display="";
-	}
-	// stop the song (another song selected)
-	function _stopSong() {
-		_pauseSong();
-		_instance.setPosition(0);
-	}
-	//taken from http://www.kirupa.com/html5/getting_mouse_click_position.htm
-	function _getPosition(element) {
-		var xPosition = 0;
-		var yPosition = 0;
-		while (element) {
-			xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
-			yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
-			element = element.offsetParent;
-		}
-		return { x: xPosition, y: yPosition };
-	}
-	// moves the player to a position given by an event
-	function _moveToPosition(e){//gets the position from event
-		if (_instance){
-			var parentpos = player.getPosition(e.currentTarget);
-			var posx = e.clientX - parentpos.x;
-			var pbwidth = document.getElementById("playing").clientWidth;
-		    _instance.setPosition( (posx/pbwidth) * _instance.getDuration() );
-		    _update();
-		}
-	}
-	// update all items (transcurred time, progressbar, circle)
-	function _update(){
-		var playedms = _instance.getPosition();
-		document.getElementById("transcurredtime").innerHTML=parseInt(utilities.msToMinutes(playedms))+":"+parseInt(utilities.msToSecondsWithoutMinutes(playedms));
-		var percentplayed=utilities.percent(playedms,_instance.getDuration());
-		document.getElementById("progressbar").style.width=percentplayed+"%";
-	}
-	// register a song
-	function _registerSong(songid) {
-		createjs.Sound.registerSound("assets/resources/songs/"+songid+".ogg",songid);
-	}
-	// mute the sound
-	function _muteSound(){
-		if (_instance)
-			_instance.setMute(!_instance.getMute());
-		if (_instance.getMute())
-			utilities.removeClass(document.getElementById("i-shuffle"),"inactive");
-		else
-			utilities.addClass(document.getElementById("i-shuffle"),"inactive");
-	}
 
-	function _getCurrentSong(){
-		return _currentsong;
-	}
+    // instantiate the context to play and start playing it
+    function _play(playingcontext) {
+        _endofreproduction=false;
+        _playingcontext = playingcontext;
+        _playNextSong(true);
+    }
 
-	function _setCurrentSong(currentsong){
-		this._currentsong=currentsong;
-	}
-	function _registered(){
-		return _currentsong;
-	}
-	function _changeSong(q){
-		_currentsong+=q;
-	}
-	function _playlistPush(songname){
-		 _playlist.push(songname);
-	}
-	function _getTotalSongs(){
-		 return _playlist.length;
-	}
-	function _getSongName(id){
-		 return _playlist[id];
-	}
 
-	function _playPrevSong(){
-        _currentsong-1 > 0 ? _playSong(--_currentSong) : _currentsong = _getTotalSongs(); _playSong(_currentsong);
-	}
-	function _playNextSong(){
-		_currentsong+1 <= _getTotalSongs() ? _playSong(++_currentsong) : _currentsong=1; _playSong(_currentsong);	
 
-	}
-	// negate the random bool state
-	function _setRandom(){
-		_random=!_random;
-		if (_random)
-			utilities.removeClass(document.getElementById("i-shuffle"),"inactive");
-		else
-			utilities.addClass(document.getElementById("i-shuffle"),"inactive");
-	}
+    // plays a song. It requires the artist and album for performance (because im using a hashtable)
+    function _playSong(artist, album, songname) {
+        if (artist) { //if not artist provided plays the current song 
+            _currentsong = player.artists[artist].albums[album].tracks[songname];
+            _currentalbum = album;
+            _currentartist = artist;
+        }
+        observable.publish(_currentsong.title+" "+_currentartist);
+        document.getElementById("song-name").innerText = _currentsong.title;
 
-	// negates repeat (have to reuse the method setrandom..)
-	function _setRepeat(){
-		_repeat=!_repeat;
-		if (_repeat)
-			utilities.removeClass(document.getElementById("i-loop"),"inactive");
-		else
-			utilities.addClass(document.getElementById("i-loop"),"inactive");
-	}
+        if (!(_instance && _instance.resume())) { //resume pause
+            if (_instance) //stops current song
+                _stopSong();
+            _instance = createjs.Sound.play(_currentsong.title); //plays selected
+        }
+        _instance.addEventListener("complete", _songEnds);
+        //change btn from play to pause
+        elements.playbtn.style.display = "none";
+        elements.pausebtn.style.display = "";
+        _timing = setInterval(_update, 3); //most fluid than 1000
+        view.hideDragArea();
+    }
 
-	// set the array of artists with the albums and tracks
-	function _setArtists(artists){
-		_artists=artists;
-	}	
 
-    // Reveal
-    return {
-        playSong:       _playSong,
-        songEnds:       _songEnds,
-		pauseSong:      _pauseSong,
-		stopSong:       _stopSong,
-		getPosition:    _getPosition,
-		moveToPosition: _moveToPosition,
-		update: 		_update,
-		registerSong: 	_registerSong,
-		muteSound: 		_muteSound,
-		getCurrentSong: _getCurrentSong,
-		setCurrentSong: _setCurrentSong,
-		registered: 	_registered,
-		changeSong: 	_changeSong,
-		playlistPush: 	_playlistPush,
-		getTotalSongs:  _getTotalSongs,
-		getSongName:    _getSongName,
-		playPrevSong: 	_playPrevSong,
-		playNextSong: 	_playNextSong,
-		setRepeat: 		_setRepeat,
-		setRandom: 		_setRandom,
-		setArtists: 	_setArtists,
-		artists:        _artists
-    };
-})();
+    // handle what happens when a song ends
+    // if is repeating or random or the reproduction list didn't end, then plays the next song
+    function _songEnds() {
+        if ((_repeat)||(_random)){
+            if (_endofreproduction)
+                _play(_playingcontext);//if is repeat or random and end of reproduction, start again the playingcontext
+            
+            else
+                _playNextSong();//if is repeat or random and is not the last song play the next..       
+        }else{
+            if (_endofreproduction)
+                _stopSong(); // is not repeat, not random and is the end of reproduction, then stop
+            else
+                _playNextSong();//is not repeat or random, but it's more to play, then play it
+        }
+    }
+
+    // pause the current song
+    function _pauseSong() {
+        _instance.pause();
+        clearInterval(_timing);
+        elements.pausebtn.style.display = "none";
+        elements.playbtn.style.display = "";
+    }
+
+    // stop the song (another song selected)
+    function _stopSong() {
+        _pauseSong();
+        _instance.setPosition(0);
+    }
+
+    //taken from http://www.kirupa.com/html5/getting_mouse_click_position.htm
+    function _getPosition(element) {
+            var xPosition = 0;
+            var yPosition = 0;
+            while (element) {
+                xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+                yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+                element = element.offsetParent;
+            }
+            return {
+                x: xPosition,
+                y: yPosition
+            };
+        }
+    
+    // moves the player to a position given by an event
+    function _moveToPosition(e) { //gets the position from event
+            if (_instance) {
+                var parentpos = _getPosition(e.currentTarget);
+                var posx = e.clientX - parentpos.x;
+                var pbwidth = document.getElementById("playing").clientWidth;
+                _instance.setPosition((posx / pbwidth) * _instance.getDuration());
+                _update();
+            }
+        }
+    
+    // update all items (transcurred time, progressbar, circle)
+    function _update() {
+        var playedms = _instance.getPosition();
+        document.getElementById("transcurredtime").innerHTML = parseInt(utilities.msToMinutes(playedms)) + ":" + parseInt(utilities.msToSecondsWithoutMinutes(playedms));
+        var percentplayed = utilities.percent(playedms, _instance.getDuration());
+        document.getElementById("progressbar").style.width = percentplayed + "%";
+    }
+
+    // register a song
+    function _registerSong(filename, title) {
+    	if (!_registeredsong[title]){
+    		createjs.Sound.registerSound("assets/resources/songs/" + filename, title);
+    		_registeredsong[title]=true;	
+    	}
+        
+    }
+
+    //registers all the songs in the structure
+    function _registerAllSongs() {
+            for (var artist in player.artists)
+                if (player.artists.hasOwnProperty(artist))
+                    for (var album in player.artists[artist].albums)
+                        if (player.artists[artist].albums.hasOwnProperty(album))
+                            for (var track in player.artists[artist].albums[album].tracks)
+                                if (player.artists[artist].albums[album].tracks.hasOwnProperty(track)){
+                                    _registerSong(player.artists[artist].albums[album].tracks[track].file, player.artists[artist].albums[album].tracks[track].title);
+                                }
+
+    }
+
+    // mute the sound
+    function _muteSound() {
+        if (_instance)
+            _instance.setMute(!_instance.getMute());
+        if (_instance.getMute())
+            utilities.removeClass(document.getElementById("i-shuffle"), "inactive");
+        else
+            utilities.addClass(document.getElementById("i-shuffle"), "inactive");
+    }
+
+    function _getCurrentSong() {
+        return _currentsong;
+    }
+
+    function _setCurrentSong(currentsong) {
+        this._currentsong = currentsong;
+    }
+
+    function _registered() {
+        return _currentsong;
+    }
+
+    function _changeSong(q) {
+        _currentsong += q;
+    }
+
+    function _playlistPush(songname) {
+        _playlist.push(songname);
+    }
+
+    function _getTotalSongs() {
+        return _playlist.length;
+    }
+
+    function _getSongName(id) {
+        return _playlist[id];
+    }
+
+    //plays the previous song
+    //this is absolutely not optimum, i was planifying to use a yield but is not working properly in chrome...
+    function _playPrevSong() {
+
+        var tempart="";var tempalb="";var tempsong="";
+        for (var album in player.artists[_playingcontext.artist].albums)
+            if (player.artists[_playingcontext.artist].albums.hasOwnProperty(album))
+                for (var track in player.artists[_playingcontext.artist].albums[album].tracks)
+                    if (player.artists[_playingcontext.artist].albums[album].tracks.hasOwnProperty(track)) {
+
+                        if (_currentsong.title == track){
+                        	return _playSong(tempart, tempalb, tempsong);
+                        }
+                        tempart=_playingcontext.artist; tempalb=album; tempsong=track;
+                            
+                    }
+    }
+    
+    //plays the next song, if it's playing for first time choose a first song to play
+    //this is absolutely not optimum, i was planifying to use a yield but is not working properly in chrome...
+    function _playNextSong(firstplay) {
+        iscurrent = false;
+        if (_playingcontext.reproductiontype=="song"){
+            _endofreproduction=true;
+            return _playSong(_playingcontext.artist, _playingcontext.album, _playingcontext.track);
+        }
+        if (_playingcontext.reproductiontype=="album"){
+            for (var track in player.artists[_playingcontext.artist].albums[_playingcontext.album].tracks)
+                if (player.artists[_playingcontext.artist].albums[_playingcontext.album].tracks.hasOwnProperty(track)) {
+                    if ((iscurrent)||(firstplay)) //is the next
+                        return _playSong(_playingcontext.artist, _playingcontext.album, track);
+                    if (_currentsong.title == track)
+                        iscurrent = true;
+                }
+            _endofreproduction=true;
+            if (_repeat)
+                _play(_playingcontext);
+        }
+
+
+        if (_playingcontext.reproductiontype=="artist"){
+
+            for (var album in player.artists[_playingcontext.artist].albums)
+                if (player.artists[_playingcontext.artist].albums.hasOwnProperty(album))
+                    for (var track in player.artists[_playingcontext.artist].albums[album].tracks)
+                        if (player.artists[_playingcontext.artist].albums[album].tracks.hasOwnProperty(track)) {
+
+                            if ((iscurrent)||(firstplay))
+                                return _playSong(_playingcontext.artist, album, track);
+                            if (_currentsong.title == track)
+                                iscurrent = true;
+                        } 
+            _endofreproduction=true;
+            if (_repeat)
+                _play(_playingcontext);
+        }
+
+
+    }
+
+    // negate the random bool state
+    function _setRandom() {
+        _random = !_random;
+        if (_random)
+            utilities.removeClass(document.getElementById("i-shuffle"), "inactive");
+        else
+            utilities.addClass(document.getElementById("i-shuffle"), "inactive");
+    }
+
+    // negates repeat (have to reuse the method setrandom..)
+    function _setRepeat() {
+        _repeat = !_repeat;
+        if (_repeat)
+            utilities.removeClass(document.getElementById("i-loop"), "inactive");
+        else
+            utilities.addClass(document.getElementById("i-loop"), "inactive");
+    }
+
+    // set the array of artists with the albums and tracks
+    function _setArtists(artists) {
+        _artists = artists;
+    }
+    //plays a song from the context menu
+    function _playSongContext(id) {
+        view.hideContextMenu();
+        _playSong(id);
+    }
+
+    //plays a dragged song
+    function _playDraggedThing() {
+
+        if (player.draggedthing) {
+
+            player.play(player.draggedthing);
+        }
+        player.draggedthing = null;
+        view.hideDragArea();
+    }
+
+    function _playFromTable(data) {
+        return function() {
+            player.play(data);
+        }
+    }
+
  
 
 
+
+    // Reveal
+    return {
+        playSong: _playSong,
+        songEnds: _songEnds,
+        pauseSong: _pauseSong,
+        stopSong: _stopSong,
+        getPosition: _getPosition,
+        moveToPosition: _moveToPosition,
+        update: _update,
+        registerAllSongs: _registerAllSongs,
+        muteSound: _muteSound,
+        getCurrentSong: _getCurrentSong,
+        setCurrentSong: _setCurrentSong,
+        registered: _registered,
+        changeSong: _changeSong,
+        playlistPush: _playlistPush,
+        getTotalSongs: _getTotalSongs,
+        getSongName: _getSongName,
+        playPrevSong: _playPrevSong,
+        playNextSong: _playNextSong,
+        setRepeat: _setRepeat,
+        setRandom: _setRandom,
+        setArtists: _setArtists,
+        artists: _artists,
+        playSongContext: _playSongContext,
+        playDraggedThing: _playDraggedThing,
+        playFromTable: _playFromTable,
+        draggedthing: _draggedthing,
+        play: _play
+    };
+})();
 
 
 
 
 //View module
-var view = (function () {
-
-	// show a table
-	function _fillTables(){
-		var filterid="artists";
-		var rowstr="<tr class=\"theader\">";
-		switch(filterid) {
-	  		case "artists":
-	       		rowstr+="<th>Artista</th>";
-	       	break;
-	    	case "albums":
-	       		rowstr+="<th>Artista</th><th>Album</th>";
-	       	break;
-	    	default:
-	    		rowstr+="<th>Pista</th><th>Artista</th><th>Tiempo</th><th>Album</th>";
-		}
-		rowstr+="</tr>";
-		if (filterid=="artists")
-			for (var artist in player.artists)
-				rowstr += "<tr><td>"+player.artists[artist].name+"</td></tr>";
-		if 
-
-		document.getElementById("content").innerHTML = rowstr;
-		// var aresongs=(filterid=="songs");
-		// for (var i=0; i<content.structure.length; i++){
-		// 	//if songs are not registered then register the songs and set the flag to true
-		// 	if (aresongs && !player.registered)
-		// 		player.registerSong(content.structure[i].id);
-		// 	//creating the content of the table
-		// 	//used even and odd, in the future i have to use only css...
-		// 	if (i%2==0)
-		// 		rowstr+="<tr class=\"songp even\"";
-		// 	else
-		// 		rowstr+="<tr class=\"songp odd\"";
-
-		// 	//have to sanitize all this:
-		// 	//i have to change player.playSong and maybe data- here :(
-		// 	rowstr+=(filterid=="songs") ? " data-name=\""+content.structure[i].songs+"\" data-id=\""+content.structure[i].id+"\" onclick=\"player.playSong(" +content.structure[i].id+")\">" : ">";
-		// 	if (filterid=="songs") player.playlistPush(content.structure[i].songs);// adds the name of the song to the playlist... little ugly
-		// 	rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].songs+"</td>" : "";
-		// 	rowstr+="<td>"+ content.structure[i].artists+"</td>";
-		// 	rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].time +"</td>" : "";
-		// 	rowstr+= (filterid!="artists") ? "<td>"+ content.structure[i].albums+"</td>" : "";
-		// 	rowstr+="</tr>"
-		// }
-		// registered=true;
-		// if (aresongs) totalsongs = content.structure.length;
-		
-		// document.getElementById("content").innerHTML = rowstr;
+var view = (function() {
 
 
-	}
+    var _dragging;
+    var _moving;
+    var _mouse = {
+        x: 0,
+        y: 0
+    };
+
+    // creates the song, albums and artists tables
+    function _fillTables(filterid) {
+    		var rowstr ="<table class=\"t-filters\" id=\"t-artists\">";
+    		rowstr += "<tr class=\"theader\">";
+        	rowstr += "<th>Artista</th>";
+        	rowstr += "</tr>";
+        	// create the table of artists
+            for (var artist in player.artists)
+                if (player.artists.hasOwnProperty(artist)) // hasOwnProperty gets only custom prototyped :)
+                    rowstr += "<tr class=\"artist-type playable\" data-type=\"artist\" data-artist=" + player.artists[artist].name + "><td>" + player.artists[artist].name + "</td></tr>";
+            rowstr +="</table>";
 
 
+            rowstr +="<table class=\"t-filters hide\" id=\"t-albums\">";
+            rowstr += "<tr class=\"theader\">";
+ 			rowstr += "<th>Artista</th><th>Album</th><th>A&ntilde;o</th><th>Cover</th>";
+ 			rowstr += "</tr>";
+            //create the table of albums
+            for (var artist in player.artists)
+                if (player.artists.hasOwnProperty(artist))
+                    for (var album in player.artists[artist].albums)
+                        if (player.artists[artist].albums.hasOwnProperty(album)) {
+                            rowstr += "<tr class=\"album-type playable\" data-type=\"album\" data-artist=" + player.artists[artist].name + " data-album=\"" + player.artists[artist].albums[album].title + "\" ><td>" + player.artists[artist].name + "</td>";
+                            rowstr += "<td>" + player.artists[artist].albums[album].title + " </td>";
+                            rowstr += "<td>" + player.artists[artist].albums[album].year + "</td>";
+                            rowstr += "<td> <img class=\"cover\" src=\"assets/resources/albums/covers/" + player.artists[artist].albums[album].cover + "\"/> </td></tr>";
+                        }
+            rowstr +="</table>";
+
+            rowstr +="<table class=\"t-filters hide\" id=\"t-songs\">";
+		    rowstr += "<tr class=\"theader\">";
+            rowstr += "<th>Pista</th><th>Artista</th><th>Tiempo</th><th>Album</th>";    
+            rowstr += "</tr>";    
+            //create the table of tracks
+            for (var artist in player.artists)
+                if (player.artists.hasOwnProperty(artist))
+                    for (var album in player.artists[artist].albums)
+                        if (player.artists[artist].albums.hasOwnProperty(album))
+                            for (var track in player.artists[artist].albums[album].tracks)
+                                if (player.artists[artist].albums[album].tracks.hasOwnProperty(track)) {
+                                    rowstr += "<tr class=\"song-type playable\" data-type=\"song\" data-artist=" + player.artists[artist].name + " data-album=\"" + player.artists[artist].albums[album].title + "\" data-song=\""+player.artists[artist].albums[album].tracks[track].title +"\" ><td>" + player.artists[artist].albums[album].tracks[track].title + "</td>";
+                                    rowstr += "<td>" + player.artists[artist].name + "</td>";
+                                    rowstr += "<td>" + player.artists[artist].albums[album].tracks[track].lngth + "</td>";
+                                    rowstr += "<td>" + player.artists[artist].albums[album].title + "</td></tr>";
+                                }
+            rowstr +="</table>";
+
+        document.getElementById("content").innerHTML = rowstr;
+
+    }
+
+
+
+    //hide or show a element
+    function _showHideElement(element) {
+        if (document.getElementById(element).style.display == "none")
+            document.getElementById(element).style.display = "";
+        else
+            document.getElementById(element).style.display = "none";
+    }
+
+    //toggles the sidebar
+    function _toggleMenu() {
+        //have to reuse here..
+        var elemsec = document.getElementById("section");
+        var elemcpl = document.getElementById("currently-playing");
+        var elemfil = document.getElementById("filters");
+
+        if (utilities.hasClass(elemcpl, "on")) {
+            utilities.removeClass(elemcpl, "on");
+            utilities.removeClass(elemfil, "on");
+            utilities.removeClass(elemsec, "full-width");
+        } else {
+            utilities.addClass(elemcpl, "on");
+            utilities.addClass(elemfil, "on");
+            utilities.addClass(elemsec, "full-width");
+        }
+
+
+    }
+
+    //toggles the sidebar
+    function _toggleMenuMob() {
+        var elem = document.getElementById("currently-playing");
+        if (utilities.hasClass(elem, "on"))
+            utilities.removeClass(elem, "on");
+        else
+            utilities.addClass(elem, "on");
+    }
+
+    //show or hide stars 1,2,3,4 or 5 stars ("size")
+    function _chooseStar(size) {
+        return function() {
+            var elem;
+            for (var xx = 1; xx <= 5; xx++) {
+                if (xx <= size) {
+                    elem = document.getElementById("star" + xx);
+                    utilities.removeClass(elem, "icon-star");
+                    utilities.addClass(elem, "icon-star2");
+                } else {
+                    elem = document.getElementById("star" + xx);
+                    utilities.removeClass(elem, "icon-star2");
+                    utilities.addClass(elem, "icon-star");
+                }
+
+            }
+        };
+    }
+
+    //hides the dropzones
+    function _hideDragArea() {
+        //i have to hide with a time out, because if drop area disappears first
+        //i cant drop on the drop zone, race condition
+        setTimeout(function() {
+            utilities.addClass(document.getElementById("drop-zone-fav"), "hide");
+            utilities.removeClass(document.getElementById("player"), "drop-zone");
+        }, 200);
+    }
+
+    //shows the dropzones
+    function _showDragArea() {
+        utilities.removeClass(document.getElementById("drop-zone-fav"), "hide");
+        utilities.addClass(document.getElementById("player"), "drop-zone");
+    }
+
+
+
+    //shows the context menu (play and addtofav)
+    function _showContextMenu(data) {
+        return function(event) {
+
+        
+            var contextmenu = document.getElementById("context-menu");
+            var placetext = document.getElementById("context-menu-list");
+    
+            utilities.removeClass(contextmenu, "hide");
+            contextmenu.style.transform = "translate3d(" + (view.mouse.x) + "px, " + (view.mouse.y) + "px, 0)";
+            contextmenu.style.webkitTransform= "translate3d(" + (view.mouse.x) + "px, " + (view.mouse.y) + "px, 0)";
+            contextmenu.style.mozTransform= "translate3d(" + (view.mouse.x) + "px, " + (view.mouse.y) + "px, 0)";
+           
+
+        
+            if (player.draggedthing) {
+                if (player.draggedthing.reproductiontype=="song"){
+                    placetext.innerHTML = "<li><a href=\"#\" class=\"playable\" data-type=\"" + player.draggedthing.reproductiontype + "\" data-artist=\"" + player.draggedthing.artist + "\" data-album=\"" + player.draggedthing.album + "\" data-track=\"" + player.draggedthing.track + "\">Play this</a></li>"
+                    
+                }
+                    
+                if (player.draggedthing.reproductiontype=="album"){
+                    placetext.innerHTML =  "<li><a href=\"#\" class=\"playable\" data-type=\"" + player.draggedthing.reproductiontype + "\" data-artist=\"" + player.draggedthing.artist + "\" data-album=\"" + player.draggedthing.album + "\">Play this</a></li>"
+                    
+                }
+                    
+                if (player.draggedthing.reproductiontype=="artist"){
+                    placetext.innerHTML =  "<li><a href=\"#\" class=\"playable\" data-type=\"" + player.draggedthing.reproductiontype + "\" data-artist=\"" + player.draggedthing.artist + "\">Play this</a></li>"
+                    
+                }
+                    
  
-	//hide or show a element
-	function _showHideElement(element){
-		if (document.getElementById(element).style.display == "none")
-			document.getElementById(element).style.display = "";
-		else 
-			document.getElementById(element).style.display = "none";
-	}
+            }
 
-	//toggles the sidebar
-	function _toggleMenu(){
-		//have to reuse here..
-		var elemsec =document.getElementById("section");
-		var elemcpl =document.getElementById("currently-playing");
-		var elemfil =document.getElementById("filters");
-
-		if (utilities.hasClass(elemcpl,"on")){
-			utilities.removeClass(elemcpl,"on");
-			utilities.removeClass(elemfil,"on");
-			utilities.removeClass(elemsec,"full-width");
-		}else{
-			utilities.addClass(elemcpl,"on");
-			utilities.addClass(elemfil,"on");
-			utilities.addClass(elemsec,"full-width");
-		}
-
-
-	}
-
-	//toggles the sidebar
-	function _toggleMenuMob(){
-		var elem =document.getElementById("currently-playing");
-		if (utilities.hasClass(elem,"on"))
-			utilities.removeClass(elem,"on");
-		else
-			utilities.addClass(elem,"on");
-	}
-
-	function _chooseStar(size) {
-		return function() {
-			var elem;
-			for (var xx=1; xx<=5; xx++){
-				if (xx<=size){
-		 			elem= document.getElementById("star"+xx);
-		 			utilities.removeClass(elem,"icon-star");
-	 				utilities.addClass(elem,"icon-star2");
-				}else{
-		 			elem= document.getElementById("star"+xx);
-		 			utilities.removeClass(elem,"icon-star2");
-	 				utilities.addClass(elem,"icon-star");
-				}
-				
-			}
-		};
-	}
-
-	//hides the dropzones
-	function _hideDragArea(){
-		//i have to hide with a time out, because if drop area disappears first
-		//i cant drop on the drop zone, race condition
-		setTimeout( function(){
-			utilities.addClass(document.getElementById("drop-zone-fav"),"hide");
-			utilities.removeClass(document.getElementById("player"),"drop-zone");
-		},200);
-	}
-
-	//shows the dropzones
-	function _showDragArea(){
-		utilities.removeClass(document.getElementById("drop-zone-fav"),"hide");
-		utilities.addClass(document.getElementById("player"),"drop-zone");
-	}
+            player.draggedthing = null;
+            view.hideDragArea();
+            elements.songsListeners();
 
 
 
-	//shows the context menu (play and addtofav)
-	function _showContextMenu(data){
-		return function(event){
-			draggedsong=0;
-			var contextmenu=document.getElementById("context-menu");
-			var placetext=document.getElementById("context-menu-list");
-			placetext.innerHTML="<li><a href=\"#\" onclick=\"playSongContext("+data+")\">Play song</li>";
-			placetext.innerHTML+="<li><hr></li>";
-			placetext.innerHTML+="<li><a href=\"#\" onclick=\"addSongToFavoritesContext("+data+")\">Add to favorite</li>";
-			utilities.removeClass(contextmenu,"hide");
-			contextmenu.style.transform="translate3d("+(mouse.x)+"px, "+(mouse.y)+"px, 0)";
-			hideDragArea();	
-		}
-	}
+        }
+    }
 
-	//hide context menu (not inmediately)
-	function _hideContextMenu(){
-		setTimeout(
-			function(){
-				utilities.addClass(document.getElementById("context-menu"),"hide");		
-			}
-		,200);
 
-	}
+
+
+    //adds a song to favorites
+    function _addToFavorites() {
+        if (player.draggedthing) {
+            if (player.draggedthing.reproductiontype=="song")
+                document.getElementById("sidebar-fav").innerHTML += "<li><a href=\"#\" class=\"playable\" data-type=\"" + player.draggedthing.reproductiontype + "\" data-artist=\"" + player.draggedthing.artist + "\" data-album=\"" + player.draggedthing.album + "\" data-track=\"" + player.draggedthing.track + "\">" + player.draggedthing.track + "</a></li>"
+            if (player.draggedthing.reproductiontype=="album")
+                document.getElementById("sidebar-fav").innerHTML += "<li><a href=\"#\" class=\"playable\" data-type=\"" + player.draggedthing.reproductiontype + "\" data-artist=\"" + player.draggedthing.artist + "\" data-album=\"" + player.draggedthing.album + "\">" + player.draggedthing.album + "</a></li>"
+            if (player.draggedthing.reproductiontype=="artist")
+                document.getElementById("sidebar-fav").innerHTML += "<li><a href=\"#\" class=\"playable\" data-type=\"" + player.draggedthing.reproductiontype + "\" data-artist=\"" + player.draggedthing.artist + "\">" + player.draggedthing.artist + "</a></li>"
+        }
+
+        player.draggedthing = null;
+        view.hideDragArea();
+        elements.songsListeners();
+    }
+
+
+
+
+    //hide context menu (not inmediately)
+    function _hideContextMenu() {
+        setTimeout(
+            function() {
+                utilities.addClass(document.getElementById("context-menu"), "hide");
+            }, 200);
+
+    }
+
+
+    // shows the table "songs", "artists" or "albums"
+    function _filter(tofilterid) {
+    	var alb=document.getElementById("t-albums");
+    	var art=document.getElementById("t-artists");
+    	var tra=document.getElementById("t-songs");
+
+    	utilities.addClass(alb,"hide");
+    	utilities.addClass(art,"hide");
+    	utilities.addClass(tra,"hide");
+    	utilities.removeClass(document.getElementById("t-"+tofilterid),"hide");
+
+    }
+
+    //adds a song to favorites from the context menu
+    function _addToFavoritesContext(id) {
+            view.hideContextMenu();
+            document.getElementById("sidebar-list").innerHTML += "<li><a href=\"#\" onclick=\"player.play(" + id + ")\">" + id + "</a></li>"
+    }
+
+
+
+
+    //returns the song being dragged
+    function _draggingASong(data) {
+        return function(event) {
+            player.draggedthing = data;
+        }
+    }
+
+    //updates the drag position
+    function _updatedrag() {
+        if (view.dragging){
+            draggable.style.transform = "translate3d(" + (view.mouse.x - 60) + "px, " + (view.mouse.y - 20) + "px, 0)";
+            draggable.style.webkitTransform = "translate3d(" + (view.mouse.x - 60) + "px, " + (view.mouse.y - 20) + "px, 0)";
+            draggable.style.MozTransform = "translate3d(" + (view.mouse.x - 60) + "px, " + (view.mouse.y - 20) + "px, 0)";
+        }
+        view.moving = false;
+    }
+
+    //start the dragging and drag areas
+    function _mousedown(event) {
+            view.dragging = true;
+
+    }
+        
+    //stop the dragging and hide dragging rectangle
+    function _mouseup() {
+        view.dragging = false;
+        setTimeout(function() {
+            player.draggedthing = null
+        }, 1000); //removes the dragged thing in a sec. have to solve this in a better way
+        utilities.addClass(draggable, "hide");
+        view.hideDragArea();
+    }
+
+
+    //stop the dragging and hide dragging rectangle
+    function _mousemove() {
+        if (view.dragging) {
+            view.showDragArea();
+        }
+    }
 
 
     // Reveal
@@ -487,69 +712,85 @@ var view = (function () {
         showDragArea: _showDragArea,
         showContextMenu: _showContextMenu,
         hideContextMenu: _hideContextMenu,
-        fillTables: _fillTables
+        fillTables: _fillTables,
+        filter: _filter,
+        addToFavorites: _addToFavorites,
+        addToFavoritesContext: _addToFavoritesContext,
+        draggingASong: _draggingASong,
+        updatedrag:_updatedrag,
+        mousedown:_mousedown,
+        mouseup:_mouseup,
+        mousemove:_mousemove,
+        dragging:_dragging,
+        moving:_moving,
+        mouse:_mouse
+
+
     };
 })();
 
 
 
 
+//loads data from jsons with promises
+var dataLoad = (function() {
+    // gets a url creating a promise
+    function _get(url) {
+        return new Promise(function(resolve, reject) {
+            var req = new XMLHttpRequest();
+            req.open('GET', url);
+            req.onload = function() {
+                if (req.status == 200)
+                    resolve(JSON.parse(req.response));
+                else
+                    reject(Error(req.statusText));
+            };
+            req.onerror = function() {
+                reject(Error("Network Error"));
+            };
+            req.send();
+        });
+    }
 
+    //create a promise for each json (.all), then fill the tables, then add the listeners to those tables
+    function _createObjects(art_path, alb_path, sng_path, filter) {
+        var _promises = [_get(art_path), _get(alb_path), _get(sng_path)];
 
+        Promise.all(_promises).then(function(resultados) {
 
-
-//Events Logger Module
-var dataLoad = (function () {
-  // gets a url creating a promise
-  function _get(url) {
-    return new Promise(function(resolve, reject) {
-      var req = new XMLHttpRequest();
-      req.open('GET', url);
-      req.onload = function() {
-        if (req.status == 200)
-          resolve(JSON.parse(req.response));
-        else
-          reject(Error(req.statusText));
-      };
-      req.onerror = function() {
-        reject(Error("Network Error"));
-      };
-      req.send();
-    });
-  }
-
-  function _createObjects(art_path, alb_path, sng_path){
-    var _promises = [_get(art_path), _get(alb_path), _get(sng_path)];
-
-    Promise.all(_promises).then(function(resultados) {
-
-      return _jsonsToObjects(resultados);
-    }, function() {
-      console.log("error");
-    }).then(function(r){ view.fillTables();  });
-  }
-  // transforms a parsed json to an array of artists (artists have albums and albums have songs)
-  function _jsonsToObjects(jsons){
-    player.artists = [];
-    var artistsjs=jsons[0]["artists"];
-    var albumsjs=jsons[1]["albums"];
-    var songsjs=jsons[2]["tracks"];
-    // using hashtables for performance (3*n)..
-    // loading artists
-    for (var i=0; i<artistsjs.length; i++)
-      //uso una hashtable para mejorar performance
-      player.artists[artistsjs[i]["artist"]]= new Artist(artistsjs[i]["artist"]);
-
-    // loading albums
-    for (var i=0; i<albumsjs.length; i++)
-      player.artists[ albumsjs[i]["artist"] ].albums[ albumsjs[i]["album"] ] = new Album(albumsjs[i]["album"], albumsjs[i]["year"], albumsjs[i]["cover"]);
+            return _jsonsToObjects(resultados);
+        }, function() {
+            console.log("error");
+        }).then(function(r) {
+            view.fillTables(filter);
+        }).then(function() {
+            elements.songsListeners();
+        }).then(function() {
+            player.registerAllSongs();
+        });
+    }
     
-    // loading tracks
-    for (var i=0; i<songsjs.length; i++)
-      player.artists[ songsjs[i]["artist"] ].albums[ songsjs[i]["album"] ].tracks[ songsjs[i]["song"] ] = new Track(songsjs[i]["song"], songsjs[i]["song"] );
+    // transforms a parsed json to an array of artists (artists have albums and albums have songs)
+    function _jsonsToObjects(jsons) {
+        player.artists = [];
+        var artistsjs = jsons[0]["artists"];
+        var albumsjs = jsons[1]["albums"];
+        var songsjs = jsons[2]["tracks"];
+        // using hashtables for performance (3*n)..
+        // loading artists
+        for (var i = 0; i < artistsjs.length; i++)
+            player.artists[artistsjs[i]["artist"]] = new Artist(artistsjs[i]["artist"]);
 
-    return player.artists;
-  }
+        // loading albums
+        for (var i = 0; i < albumsjs.length; i++)
+            player.artists[albumsjs[i]["artist"]].albums[albumsjs[i]["album"]] = new Album(albumsjs[i]["album"], albumsjs[i]["year"], albumsjs[i]["cover"]);
+
+        // loading tracks
+        for (var i = 0; i < songsjs.length; i++)
+            player.artists[songsjs[i]["artist"]].albums[songsjs[i]["album"]].tracks[songsjs[i]["song"]] = new Track(songsjs[i]["song"], songsjs[i]["time"], songsjs[i]["file"]);
+
+        return player.artists;
+    }
 
     // Reveal
     return {
@@ -562,7 +803,6 @@ var dataLoad = (function () {
 
 
 
-dataLoad.createObjects("assets/json/artistsv2.json","assets/json/albumsv2.json","assets/json/songsv2.json");
 
 
 
@@ -570,351 +810,162 @@ dataLoad.createObjects("assets/json/artistsv2.json","assets/json/albumsv2.json",
 
 
 
+//This class represents all elements in the DOM and listeners
+function Elements() {
 
+    /*
+    Other vars and Listeners
+    */
 
+    //i have to improve the performance of this not calling directly to the document everytime...
+    this.draggable = document.getElementById("draggable");
+    this.playbtn = document.getElementById("btn-play");
+    this.pausebtn = document.getElementById("btn-pause");
+    this.backbtn = document.getElementById("btn-back");
+    this.nextbtn = document.getElementById("btn-next");
+    this.lbtn = document.getElementById("btn-l");
+    this.rbtn = document.getElementById("btn-r");
+    this.playing = document.getElementById("playing");
+    this.eventbtn = document.getElementById("btn-events");
+    this.volumebtn = document.getElementById("btn-volume");
+    this.filtersongs = document.getElementById("filter-songs");
+    this.filteralbums = document.getElementById("filter-albums");
+    this.filterartists = document.getElementById("filter-artists");
+    this.toggler = document.getElementById("btn-hide-show-side");
+    this.togglermob = document.getElementById("btn-hide-show-side-mobile");
+    this.modalel = document.getElementsByClassName("modal");
+    this.ratebtn = document.getElementById("rate");
+    this.dropzone = document.getElementById("drop-zone-fav");
+    this.dropzoneplay = document.getElementById("player");
+    this.songtables = document.getElementById("content");
 
-
-
-
-
-
-
-
-// Modal module
-var modal = (function () {
-    var _actualmod;
-	// adds a event to the log
-
-	//puts a modal to a given id
-	function _modalThis(idtomod) {
-		_actualmod=idtomod;
-		elem = document.getElementById(idtomod);
-		elem.style.visibility = (elem.style.visibility == "visible") ? "hidden" : "visible";
-	}
-
-	//unmodal if something is modaled
-	function _unmodal(){
-		_modalThis(_actualmod);
-	}
-    // Reveal
-    return {
-        modalThis: _modalThis,
-        unmodal:   _unmodal
-    };
-})();
-
-
-
-
-// filters the data "songs", "artists", "albums"
-function filter(tofilterid){
-	var path="assets/json/"+tofilterid+".json";
-	var content=loadJSON(path,
-         function(data) { console.log(data); },
-         function(xhr) { console.error(xhr); },
-         tofilterid);
-	songsListeners();
-	return true;
 }
 
-// loads a json
-// method taken from http://stackoverflow.com/questions/9838812/how-can-i-open-a-json-file-in-javascript-without-jquery
-function loadJSON(path, success, error, filterid)
-{
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function()
-    {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                if (success)
-                    displaySounds(JSON.parse(xhr.responseText),filterid);
-            } else {
-                if (error)
-                    error(xhr);
+//This function is used to listen in everything playable, for example the tables of songs, albums, artists, or the favorites or context menus
+Elements.prototype.songsListeners = function() {
+    //listeners in everything playable
+    songss = document.getElementsByClassName("playable");
+    for (ll = 0; ll < songss.length; ll++) {
+        //play
+        songss[ll].addEventListener("click", player.playFromTable(new PlayContext(songss[ll].getAttribute('data-type'), songss[ll].getAttribute('data-artist'), songss[ll].getAttribute('data-album'), songss[ll].getAttribute('data-song') )));
+
+        //drag
+        songss[ll].addEventListener("mousedown", view.draggingASong(new PlayContext(songss[ll].getAttribute('data-type'), songss[ll].getAttribute('data-artist'), songss[ll].getAttribute('data-album'), songss[ll].getAttribute('data-song'))));
+
+        //contextmenu
+        songss[ll].addEventListener("contextmenu", view.showContextMenu(new PlayContext(songss[ll].getAttribute('data-type'), songss[ll].getAttribute('data-artist'), songss[ll].getAttribute('data-album'), songss[ll].getAttribute('data-song'))));
+    }
+}
+
+
+
+Elements.prototype.executeListeners = function() {
+    // event is triggered (for logs)
+    document.onclick = function(e) {
+        return eventsLogger.logEvent(e);
+    };
+    document.ondblclick = function(e) {
+        return eventsLogger.logEvent(e);
+    };
+    document.onkeyup = function(e) {
+        return eventsLogger.logEvent(e);
+    };
+
+
+    this.playbtn.addEventListener("click", function() {
+        player.playSong()
+    });
+    this.pausebtn.addEventListener("click", player.pauseSong);
+    this.backbtn.addEventListener("click", player.playPrevSong);
+    this.nextbtn.addEventListener("click", function() {
+        player.playSong(player.playNextSong())
+    });
+    this.playing.addEventListener("click", player.moveToPosition);
+    this.lbtn.addEventListener("click", player.setRepeat);
+    this.rbtn.addEventListener("click", player.setRandom);
+    this.volumebtn.addEventListener("click", player.muteSound);
+    this.volumebtn.addEventListener("mouseover", function() {
+        view.showHideElement("volume")
+    });
+    this.volumebtn.addEventListener("mouseout", function() {
+        view.showHideElement("volume")
+    });
+    this.filtersongs.addEventListener("click", function() {
+        view.filter("songs")
+    });
+    this.filteralbums.addEventListener("click", function() {
+        view.filter("albums")
+    });
+    this.filterartists.addEventListener("click", function() {
+        view.filter("artists")
+    });
+    this.toggler.addEventListener("click", function() {
+        view.toggleMenu()
+    });
+    this.togglermob.addEventListener("click", function() {
+        view.toggleMenuMob()
+    });
+
+    this.eventbtn.addEventListener("click", function() {
+        modal.modalThis("event-log-box")
+    });
+    this.ratebtn.addEventListener("click", function() {
+        modal.modalThis("rate-it")
+    });
+    this.songtables.addEventListener("mousedown", view.mousedown);
+    document.addEventListener("mouseup", view.mouseup);
+    document.addEventListener("mousemove", view.mousemove);
+
+    document.addEventListener("click", view.hideContextMenu); //hide the menu fix
+    this.dropzone.addEventListener("mouseover", view.addToFavorites);
+    this.dropzoneplay.addEventListener("mouseover", player.playDraggedThing);
+    for (var i = 0; i < this.modalel.length; i++)
+        this.modalel[i].addEventListener("click", modal.unmodal);
+    //rating
+    // have to put all in only one var
+    var choose1 = view.chooseStar(1);
+    var choose2 = view.chooseStar(2);
+    var choose3 = view.chooseStar(3);
+    var choose4 = view.chooseStar(4);
+    var choose5 = view.chooseStar(5);
+    document.getElementById('star1').onmouseover = choose1;
+    document.getElementById('star2').onmouseover = choose2;
+    document.getElementById('star3').onmouseover = choose3;
+    document.getElementById('star4').onmouseover = choose4;
+    document.getElementById('star5').onmouseover = choose5;
+    //drag listeners
+    document.addEventListener('mousemove', function(e) {
+        view.mouse.x = e.clientX || e.pageX;
+        view.mouse.y = e.clientY || e.pageY;
+        if (!view.moving) {
+            if (view.dragging) {
+                utilities.removeClass(draggable, "hide");
             }
+            view.moving = true;
+            requestAnimationFrame(view.updatedrag);
         }
-    };
-    xhr.open("GET", path, true);
-    xhr.send();
+    }, false);
+    
 
-}
-
-//converts a json to tables of the reproductor
-function displaySounds(content, filterid){/*in json*/
-	//maybe a template here? remove the spaggetti code and sanitize
-	//creating the header of the table
-	var rowstr="<tr class=\"theader\">";
-	switch(filterid) {
-  		case "artists":
-       		rowstr+="<th>Artista</th>";
-       	break;
-    	case "albums":
-       		rowstr+="<th>Artista</th><th>Album</th>";
-       	break;
-    	default:
-    		rowstr+="<th>Pista</th><th>Artista</th><th>Tiempo</th><th>Album</th>";
-	}
-	rowstr+="</tr>";
-	var aresongs=(filterid=="songs");
-	for (var i=0; i<content.structure.length; i++){
-		//if songs are not registered then register the songs and set the flag to true
-		if (aresongs && !player.registered)
-			player.registerSong(content.structure[i].id);
-		//creating the content of the table
-		//used even and odd, in the future i have to use only css...
-		if (i%2==0)
-			rowstr+="<tr class=\"songp even\"";
-		else
-			rowstr+="<tr class=\"songp odd\"";
-
-		//have to sanitize all this:
-		//i have to change player.playSong and maybe data- here :(
-		rowstr+=(filterid=="songs") ? " data-name=\""+content.structure[i].songs+"\" data-id=\""+content.structure[i].id+"\" onclick=\"player.playSong(" +content.structure[i].id+")\">" : ">";
-		if (filterid=="songs") player.playlistPush(content.structure[i].songs);// adds the name of the song to the playlist... little ugly
-		rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].songs+"</td>" : "";
-		rowstr+="<td>"+ content.structure[i].artists+"</td>";
-		rowstr+= (filterid=="songs") ? "<td>"+ content.structure[i].time +"</td>" : "";
-		rowstr+= (filterid!="artists") ? "<td>"+ content.structure[i].albums+"</td>" : "";
-		rowstr+="</tr>"
-	}
-	registered=true;
-	if (aresongs) totalsongs = content.structure.length;
-	
-	document.getElementById("content").innerHTML = rowstr;
-};
-
-
-
-
-
-
-
-
-
-//returns the song being dragged
-function draggingASong(data) {
-  return function(event) {
-    draggedsong=data;
-  }
-}
-
-
-//updates the drag position
-function updatedrag() { 
-	if (dragging)
-		draggable.style.transform="translate3d("+(mouse.x-60)+"px, "+(mouse.y-20)+"px, 0)";
-	moving = false;
-}
-
-//start the dragging and drag areas
-function mousedown(event) {
-	dragging=true;
-	view.showDragArea();
-}
-//stop the dragging and hide dragging rectangle
-function mouseup() {
-	dragging=false;
-	utilities.addClass(draggable,"hide");
-	view.hideDragArea();
-}
-
-//adds a song to favorites
-function addSongToFavorites(){
-
-	if (draggedsong!=0){
-		document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"player.playSong("+draggedsong+")\">"+player.getSongName(draggedsong-1)+"</a></li>"
-	}
-	draggedsong=0;
-	view.hideDragArea();
-}
-
-//adds a song to favorites
-function addSongToFavoritesContext(id){
-	view.hideContextMenu();
-	document.getElementById("sidebar-list").innerHTML+="<li><a href=\"#\" onclick=\"player.playSong("+id+")\">"+player.getSongName(id-1)+"</a></li>"
-}
-//adds a song to favorites
-function playSongContext(id){
-	view.hideContextMenu();
-	player.playSong(id);
-}
-
-//plays a dragged song
-function playDraggedSong(){
-	if (draggedsong!=0){
-		player.playSong(draggedsong);
-	}
-	draggedsong=0;
-}
-
-
-
-//returns the song being dragged
-function draggingASong(data) {
-  return function(event) {
-    draggedsong=data;
-  }
-}
-
-
-
-
-
-function songsListeners(){
-
-	setTimeout(
-		function(){
-			songss = document.getElementsByClassName("songp");
-			for (ll=0; ll<songss.length; ll++)
-			{
-				songss[ll].addEventListener("mousedown", draggingASong(songss[ll].getAttribute('data-id')));
-				songss[ll].addEventListener("contextmenu", view.showContextMenu(songss[ll].getAttribute('data-id')));
-			}	
-		}
-	,100);
-
+    //hide the default menu
+    document.addEventListener('contextmenu', function(ev) {
+        ev.preventDefault();
+        return false;
+    }, false);
 
 }
 
 
-var playbtn, pausebtn, backbtn, nextbtn, lbtn, rbtn, playing, eventbtn, volumebtn, filtersongs, filteralbums, filterartists,toggler,modalel, rateit, songss;
-var dragging;
-var draggable;
-var mouse = {x: 0, y: 0};
 
-var moving = false;
-function estrellas(num){
-	console.log(num);
+
+var elements;
+
+// i have to move this global vars to a module or something else..
+// when site is loaded, loads the listeners and +, ill try to put all this as a module..
+window.onload = function() {
+
+    elements=new Elements();
+    elements.executeListeners();
+	dataLoad.createObjects(config.jsonart, config.jsonalb, config.jsonsng);
+
 }
-function estrellasD(num){
-  return function(){
-      estrellas(num);
-  }
-}
-// when site is loaded, loads the listeners and +
-window.onload = function(){
-
-	//have to fix this race condition in a nicer way:
-
-	//filter("songs");
-
-	songsListeners();
-
-
-
-	
-	// event is triggered (for logs)
-	document.onclick = function (e) { return eventsLogger.logEvent(e); };
-	document.ondblclick = function (e) { return eventsLogger.logEvent(e); };
-	document.onkeyup = function (e) { return eventsLogger.logEvent(e); };
-	/*
-	Other vars and Listeners
-	*/
-	moving=false;
-	dragging=false;
-	draggable=document.getElementById("draggable");
-	playbtn = document.getElementById("btn-play");
-	pausebtn = document.getElementById("btn-pause");
-	backbtn = document.getElementById("btn-back");
-	nextbtn = document.getElementById("btn-next");
-	lbtn = document.getElementById("btn-l");
-	rbtn = document.getElementById("btn-r");
-	playing = document.getElementById("playing");
-	eventbtn = document.getElementById("btn-events");
-	volumebtn = document.getElementById("btn-volume");
-	filtersongs = document.getElementById("filter-songs");
-	filteralbums = document.getElementById("filter-albums");
-	filterartists = document.getElementById("filter-artists");
-	toggler= document.getElementById("btn-hide-show-side");
-	togglermob= document.getElementById("btn-hide-show-side-mobile");
-	modalel=  document.getElementsByClassName("modal");
-
-	ratebtn = document.getElementById("rate");
-	dropzone=document.getElementById("drop-zone-fav");
-	dropzoneplay=document.getElementById("player");
-	songtables=document.getElementById("content");
-
-	//stars=document.getElementsByClassName("icon-star");
-
-	playbtn.addEventListener("click", function(){player.playSong(player.getCurrentSong())} );
-	pausebtn.addEventListener("click", player.pauseSong );
-	backbtn.addEventListener("click", player.playPrevSong );
-	nextbtn.addEventListener("click", player.playNextSong );
-	playing.addEventListener("click", player.moveToPosition);
-	lbtn.addEventListener("click", player.setRepeat );
-	rbtn.addEventListener("click", player.setRandom );
-	volumebtn.addEventListener("click", player.muteSound );
-	volumebtn.addEventListener("mouseover", function(){ view.showHideElement("volume")} );
-	volumebtn.addEventListener("mouseout", function(){ view.showHideElement("volume")} );
-	filtersongs.addEventListener("click", function(){filter("songs")} );
-	filteralbums.addEventListener("click", function(){filter("albums")} );
-	filterartists.addEventListener("click", function(){filter("artists")} );
-	toggler.addEventListener("click", function(){view.toggleMenu()} );
-	togglermob.addEventListener("click", function(){view.toggleMenuMob()} );
-
-	eventbtn.addEventListener("click", function(){ modal.modalThis("event-log-box")} );
-	ratebtn.addEventListener("click", function(){ modal.modalThis("rate-it")} );
-	songtables.addEventListener("mousedown", mousedown);
-	document.addEventListener("mouseup", mouseup);
-	songtables.addEventListener("click",view.hideContextMenu);//hide the menu fix
-	dropzone.addEventListener("mouseover", addSongToFavorites );
-	dropzoneplay.addEventListener("mouseover", playDraggedSong );
-	for (var i=0; i < modalel.length; i++)
-		modalel[i].addEventListener("click", modal.unmodal );
-
-
-
-
-var cosos = document.getElementsByClassName("star");
-
-function decimecual(v) {
-    return function () {
-        console.log(v);
-    };
-}
-
-for (var i = 0; i < cosos.length; i++) {
-    cosos[i].addEventListener("mouseover", decimecual(i));
-}
-
-
-	//rating
-	// have to put all in only one var
-	var choose1 = view.chooseStar(1);
-	var choose2 = view.chooseStar(2);
-	var choose3 = view.chooseStar(3);
-	var choose4 = view.chooseStar(4);
-	var choose5 = view.chooseStar(5);
-	document.getElementById('star1').onmouseover = choose1;
-	document.getElementById('star2').onmouseover = choose2;
-	document.getElementById('star3').onmouseover = choose3;
-	document.getElementById('star4').onmouseover = choose4;
-	document.getElementById('star5').onmouseover = choose5;
-
-
-	
-
-	//drag listeners
-	document.addEventListener('mousemove', function(e){ 
-		mouse.x = e.clientX || e.pageX; 
-		mouse.y = e.clientY || e.pageY;
-		//console.log(mouse.x);
-		if (!moving) {
-			if (dragging){
-				utilities.removeClass(draggable,"hide");
-			}
-			moving = true;
-			requestAnimationFrame(updatedrag);
-		}
-	}, false);
-
-	//hide the default menu
-	document.addEventListener('contextmenu', function(ev) {
-	    ev.preventDefault();
-	    return false;
-	}, false);
-
-
-	
-}
-
