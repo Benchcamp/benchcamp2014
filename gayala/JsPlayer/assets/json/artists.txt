@@ -5,10 +5,7 @@
 		"album" : "Favorite Things",
 		"artist" : "Kenny Beltrey"
 	}, {
-		"album" : "Favorite Things",
+		"album" : "Badloop Great Hits",
 		"artist" : "Badloop"
-	}, {
-		"album" : "Favorite Things",
-		"artist" : "4T Thieves"
 	}
 ]

@@ -1,8 +1,18 @@
 [{
 		"album" : "Desconocido",
+        "year" : "1999",
+        "cover" : "Desconocido.png",
 		"artist" : "Epoq"
 	}, {
 		"album" : "Favorite Things",
-		"artist" : "Kenny Beltrey, Badloop, 4T Thieves"
+        "year" : "2010",
+        "cover" : "Favorite_Things.png",
+		"artist" : "Kenny Beltrey"
+	},
+    {
+		"album" : "Badloop Great Hits",
+        "year" : "2014",
+        "cover" : "Badloop.png",
+		"artist" : "Badloop"
 	}
 ]

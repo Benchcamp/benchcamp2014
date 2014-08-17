@@ -3,7 +3,7 @@
 }
 
 #eventsButton{
-    display: none;
+    display: block;
 }
 
 html, body{

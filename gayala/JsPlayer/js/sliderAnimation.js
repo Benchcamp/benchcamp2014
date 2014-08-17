@@ -57,8 +57,8 @@ function SliderAnimation(place){
         var data = self.callback()
         var percent = Math.round((data.current * 100) /data.max);        
         
-        var currentTime = getTimeFromMilisecond(data.current);                        
-        var maxTime =  getTimeFromMilisecond(data.max);
+        var currentTime = Utility.getTimeFromMilisecond(data.current);                        
+        var maxTime =  Utility.getTimeFromMilisecond(data.max);
               
         
         if(percent > 50)

@@ -1,24 +1,34 @@
-function JSPlayer(config) {
+var JSPlayer = function () {
     var _states = {playing: "Playing", stopped: "Stopped"};
     var self = this;
     self._currentState;
     self._loop = false;
     self._random = false;
-    self.playerInstance = null;
-	self.library = new SongLibrary();
+    self.playerInstance = null;    
     self.selectedRow = null;
     self.table = null;
     self.currentSong = null;
     self.currentDragggedRow = null;
-    self.changeStateCallback = config.changeStateCallback;	
-    self.changeConfigCallback = config.changeConfigCallback;	
-    self.selectRowCallback = config.selectRowCallback;
-    self.contentPlace = config.contentPlace;
-    self.nowPlayPlace = config.nowPlayPlace;
-    self.progressBarPlace = config.progressBarPlace;
-    self.slider = new SliderAnimation(self.progressBarPlace);
-    self.oncontextmenu = config.oncontextmenu;
-     
+    
+    self.config = function(config){    
+        self.changeStateCallback = config.changeStateCallback;	
+        self.changeConfigCallback = config.changeConfigCallback;	
+        self.selectRowCallback = config.selectRowCallback;
+        self.contentPlace = config.contentPlace;
+        self.nowPlayPlace = config.nowPlayPlace;
+        self.progressBarPlace = config.progressBarPlace;
+        self.slider = new SliderAnimation(self.progressBarPlace);
+        self.oncontextmenu = config.oncontextmenu;
+        
+        
+        if(self.nowPlayPlace != null){
+            self.nowPlayPlace.setAttribute("ondrop", "event.preventDefault()");
+            self.nowPlayPlace.setAttribute("ondragover", "event.preventDefault()");    
+            self.nowPlayPlace.addEventListener('drop', self.onDrop); 
+        }
+        
+        self.notifyChangeConfig(); // notify changes to Observers
+    }
     
     self.loop = function(value){
         if(arguments.length == 0)
@@ -50,8 +60,19 @@ function JSPlayer(config) {
 	// filter events
 	self.onSongFilter = function () {
         self.table = null;
-		self.library.getSongs(function (data) {
-            self.table = createTable(data,["artist", "track", "album", "time"], 
+		Library.getSongs(function (data) {
+            
+            data = data.map(function(d){
+                return {"artist" : d.album().artist().name() ,
+                        "track": d.title(),
+                        "album": d.album().title() ,
+                        "time": d.length(),
+                        "originalData": d,
+                        "url": d.url()
+                       };
+            });
+            
+            self.table = Utility.createTable(data,["artist", "track", "album", "time"], 
                                      {onSelectedRow: self.onSelectedRow, 
                                       onDragStart: self.onDragStart,
                                       onDragEnd: self.onDragEnd,
@@ -75,8 +96,16 @@ function JSPlayer(config) {
 
 	self.onAlbumFilter = function () {
         self.table = null;
-        self.library.getAlbum(function (data) {
-            self.table = createTable(data,["album", "artist"], null);
+        Library.getAlbum(function (data) {
+            
+            data = data.map(function(d){
+                return {"album" : d.title(),
+                        "artist": d.artist().name(),
+                        "originalData": d
+                       };
+            });
+            
+            self.table = Utility.createTable(data,["album", "artist"], null);
             self.contentPlace.innerHTML = "";
             self.contentPlace.appendChild(self.table);
         });
@@ -84,8 +113,16 @@ function JSPlayer(config) {
 
 	self.onArtistFilter = function () {
         self.table = null;
-        self.library.getArtists(function (data) {
-            self.table = createTable(data,["artist", "album"], null);
+        Library.getArtists(function (data) {
+            
+            data = data.map(function(d){
+                return {"artist" : d.name() ,
+                        "album": d.albums().map(function(a){return a.title()}).join() ,
+                        "originalData": d
+                       };
+            });
+            
+            self.table = Utility.createTable(data,["artist", "album"], null);
             self.contentPlace.innerHTML = "";
             self.contentPlace.appendChild(self.table);
         });
@@ -249,12 +286,31 @@ function JSPlayer(config) {
         
         self.slide(next);
     };
-        
+            
+    return {
+            config: self.config,
+            loop: self.loop,
+            random: self.random,
+            init: self.init,
+            onSongFilter: self.onSongFilter,
+            onAlbumFilter: self.onAlbumFilter,
+            onArtistFilter: self.onArtistFilter,
+            onDragStart: self.onDragStart,
+            onDragEnd: self.onDragEnd,
+            onDrop: self.onDrop,
+            onSelectedRow: self.onSelectedRow,
+            selectRow: self.selectRow,
+            onPlayerPlayStop: self.onPlayerPlayStop,
+            display: self.display,
+            notifyChangeState: self.notifyChangeState,
+            notifyChangeConfig: self.notifyChangeConfig,
+            play: self.play,
+            stop: self.stop,
+            isPlaying: self.isPlaying,
+            playStop: self.playStop,
+            next: self.next,
+            previous: self.previous
+           };
     
-    self.nowPlayPlace.setAttribute("ondrop", "event.preventDefault()");
-    self.nowPlayPlace.setAttribute("ondragover", "event.preventDefault()");    
-    self.nowPlayPlace.addEventListener('drop', self.onDrop);    
     
-    
-    self.notifyChangeConfig();
-}
+}();

@@ -1,4 +1,6 @@
-function fetchJSONFile(path, callback) {
+var Utility = function(){
+    
+function _fetchJSONFile(path, callback) {
     var httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = function() {
         if (httpRequest.readyState === 4) {
@@ -12,12 +14,12 @@ function fetchJSONFile(path, callback) {
     httpRequest.send(); 
 }
 
-function getTimeFromMilisecond(miliseconds){    
+function _getTimeFromMilisecond(miliseconds){    
     var date = new Date(0, 0, 0, 0, 0, 0, miliseconds);    
     return ("0" + date.getMinutes()).slice (-2) + ":" + ("0" +  date.getSeconds()).slice (-2);
 };
 
-function createTable(data,columns, rowCallbacks){
+function _createTable(data,columns, rowCallbacks){
     var table = document.createElement('table');
         
     var draggable = rowCallbacks != null && rowCallbacks.onDragStart != null;
@@ -62,23 +64,35 @@ function createTable(data,columns, rowCallbacks){
     
     return table;
 }
+ 
+    function _removeFromArray(array,obj){
+        var index = array.indexOf(obj);
+        if (index > -1)
+            array.splice(index, 1);
+    }
+    
+    function _propertyBehavior(obj, propertyName, arg){    
+        if(arg.length != 0){
+            obj["__" + propertyName] = arg[0];
+            obj.notify(obj, propertyName);
+            return obj;
+        }else{
+            return obj["__" + propertyName];
+        }
+    }
+    
+    return {
+            fetchJSONFile: _fetchJSONFile,
+            getTimeFromMilisecond: _getTimeFromMilisecond,
+            createTable: _createTable,
+            propertyBehavior:_propertyBehavior,
+            removeFromArray: _removeFromArray
+           };
+    
+}();
 
 
-function Eventlog(eventCounter) {
-    var self = this;
-    self.events = [];
-    
-    self.getEvents = function () {
-        return self.events;
-    };
-    
-    self.add = function (action, element) {
-		var now = (new Date()).toLocaleString();
-		self.events.push({action: action, element: element, time: now}); // use self by Closure
-        
-        if(eventCounter != null)
-            eventCounter.innerText = self.events.length;
-        
-	};    
-    
-}
+
+
+
+
