@@ -188,9 +188,10 @@ function changeSong() {
 function displayTimes() {
     if (playing !== null) {
         var lblTotal = document.getElementById("lblTotalTime");
-
         lblTotal.innerHTML = formatPlayingTime(playing.getDuration());
-        setInterval(updateTimeAndSlider, 500);
+
+        requestAnimationFrame(updateTimeAndSlider);
+        //setInterval(updateTimeAndSlider, 500);
     }
 }
 
