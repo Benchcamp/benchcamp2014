@@ -1,0 +1,72 @@
+{"tracks":[
+	{
+	    "song":"Wind of Change",
+	    "artist":"Scorpions",
+	    "album":"Acoustica",
+	    "time":"5:34",
+	    "file":"windofchange.ogg"
+	},
+	{
+	    "song":"Send Me an Angel",
+	    "artist":"Scorpions",
+	    "album":"Acoustica",
+	    "time":"4:34",
+	    "file":"sendmeanangel.ogg"
+	},
+	{
+	    "song":"Raised on Rock",
+	    "artist":"Scorpions",
+	    "album":"Sting in the Tail",
+	    "time":"3:58",
+	    "file":"raisedonrock.ogg"
+	},
+	{
+	    "song":"Sting in the Tail",
+	    "artist":"Scorpions",
+	    "album":"Sting in the Tail",
+	    "time":"3:12",
+	    "file":"stinginthetail.ogg"
+	},
+	{
+		"song":"Master of Puppets",
+		"artist":"Metallica",
+		"album":"Master of Puppets",
+		"time":"8:38",
+	    "file":"masterofpuppets.ogg"
+	},
+	{
+		"song":"The Thing That Should Not Be",
+		"artist":"Metallica",
+		"album":"Master of Puppets",
+		"time":"6:39",
+	    "file":"thething.ogg"
+	},
+	{
+		"song":"Connect the Dots",
+		"artist":"Ayreon",
+		"album":"01011001",
+		"time":"4:13",
+	    "file":"connectthedots.ogg"
+	},
+	{
+		"song":"The Truth is in Here",
+		"artist":"Ayreon",
+		"album":"01011001",
+		"time":"5:12",
+	    "file":"thetruthisinhere.ogg"
+	},
+	{
+		"song":"E=MCsq",
+		"artist":"Ayreon",
+		"album":"01011001",
+		"time":"5:50",
+	    "file":"emc2.ogg"
+	},
+	{
+		"song":"Loser",
+		"artist":"Ayreon",
+		"album":"Timeline",
+		"time":"4:46",
+	    "file":"loser.ogg"
+	}
+]}

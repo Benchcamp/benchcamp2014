@@ -1,0 +1,397 @@
+
+html{
+	height:100%;
+	overflow: hidden;
+}
+body{
+	height:100%;
+	font-size:1em;
+	color:#2c3e50;
+	margin:0px 0 0 0;
+	font-family: Helvetica, Arial, sans-serif;
+	overflow: hidden;
+	/*disallow mouse selection*/
+	-webkit-user-select: none;  
+	-moz-user-select: none;         
+	user-select: none;
+}
+
+aside{
+	height:100% ;
+}
+
+
+nav, footer{
+	background-color: #2c3e50;
+	padding:1em;
+	color:#ecf0f1;
+}
+nav{
+	height: 80px;
+}
+footer{
+	clear:both;
+	position: absolute;
+	width:90%; /*old browsers?*/
+	width: calc(100% - 2em);
+	bottom:0;
+}
+a{
+	color:#2c3e50;
+	text-decoration:none;
+}
+
+#container{
+	position:relative; /*nice tip*/
+	height:100%;
+}
+
+.side-bar{
+	float:left;
+	background-color: #ecf0f1;
+	padding: 10px;
+	width:150px;
+}
+.section{
+	float:right;
+	width:100%;
+	height:calc(100% - 180px);
+	overflow-y:auto;
+}
+
+
+
+.btn{
+	background: #a7b2be;
+	position: relative;
+	border-width: 0;
+	padding: 10px 14px;
+	width:200px;
+	height:30px;
+	display: inline-block;
+}
+
+.btn-events{
+	color:#fff;
+	background-color: #13c4a5;
+}
+
+.events p{
+	display:inline;
+}
+
+
+td{	
+	height:auto;
+	text-align: center;
+	vertical-align: middle;
+}
+
+tr:nth-child(odd){ 
+	background-color:#bdc3c7; 
+}
+tr:nth-child(even){ 
+	background-color:#ecf0f1;
+}
+
+ul{
+	list-style-type: none;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-style: normal;
+	color:#2ecc71;
+	font-size: 2em;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+}
+
+
+
+.right{
+	float:right;
+}
+.left{
+	float:left;
+}
+.center{
+	text-align:center;
+}
+.icon-star, .icon-star2{
+	color:#f1c40f ;
+}
+
+
+/*Lists*/
+.list{
+	background-color:#f7f7f7;
+}
+.theader{
+
+	background-color:#999;
+}
+
+/*i have to use nth instead of this*/
+.even{
+	background-color:#bdc3c7 !important;
+}
+.odd{
+	background-color:#ecf0f1 !important; 
+}
+
+
+/*Player*/
+#playing{
+	background-color: #95a5a6;
+	border-radius: 10px;
+}
+#circle{
+	float:right;
+	width: 20px;
+	height: 20px;
+	border-radius: 10px;
+	background-color: #ccc;
+}
+
+#progressbar{
+	width:20px;/*same as circle width, have to improve it..*/
+	left:0px;
+	height:20px;
+	border-radius: 10px;
+	background-color: #e74c3c;
+}
+
+#btn-play, #btn-pause{
+	font-size: 1.2em;
+}
+
+.toggle-menu{
+	-webkit-transition:all 0.3s linear;
+	-moz-transition:all 0.3s linear;
+	transition:all 0.3s linear;
+	/*height:100%;*/
+}
+
+.toggle-menu.on {
+	-webkit-transform: translate3d(-100%,0,0);
+	-moz-transform: translate3d(-100%,0,0);
+	transform: translate3d(-100%,0,0);
+}
+
+.toggle-menu .side-bar {
+	overflow-y:scroll;
+}
+
+
+.song-time-vol, #transcurredtime, #btn-volume, #playing{
+	display:inline-block;
+}
+
+#volume{
+	position:absolute;
+}
+
+.timing{
+	width:60px;
+}
+
+.inactive{
+	color:#95a5a6;
+}
+
+.modal {
+	visibility: hidden;
+	position: absolute;
+	left: 0px; top: 0px;
+	width:100%; height:100%;
+	text-align:center;
+	z-index: 999;
+	background-color: rgba(0, 0, 0, 0.5);
+	opacity:0.95;
+}
+
+.modal div {
+	display:inline-block;/* automatic width depending on content :) */
+	margin: 100px auto;
+	background-color: #fff;
+	padding:20px;
+	text-align:center;
+}
+
+.left-player, .center-player, .right-player {
+    float: left;
+}
+.left-player{
+	width:160px;
+}
+.center-player{
+	text-align:center;
+}
+.right-player{
+	float:right;
+	width:100px;
+	text-align: right;
+}
+
+#playing {
+    width: calc(100% - 180px);
+}
+.center-player {
+    width: calc(100% - 220px);
+}
+.player {
+	vertical-align: middle;
+    width: 100%;
+    overflow: hidden;
+}
+
+.drag-item {
+	background-color: #7f8c8d;
+	color:#ecf0f1;
+	position:absolute;
+	width:100px;
+    height:18px;
+    overflow: hidden;
+    padding:10px;
+    z-index:1;
+    border-radius:2px;
+    text-align:center;
+	cursor: move;
+ 	cursor: -webkit-grabbing;
+ 	cursor: -moz-grabbing;
+}
+
+.context-menu {
+	background-color: #7f8c8d;
+	color:#ecf0f1;
+	position:absolute;
+	width:150px;
+    height:25px;
+    overflow: hidden;
+    padding:10px;
+    z-index:1;
+    border-radius:2px;
+    text-align:center;
+}
+.context-menu a {
+	color:#ecf0f1;
+}
+.drop-zone {
+	text-align: center;
+	padding:10px;
+	
+	border:#ccc 5px dashed;
+	-webkit-transition:all 0.3s linear;
+	-moz-transition:all 0.3s linear;
+	transition:all 0.3s linear;	
+}
+.drop-zone:hover {
+	border:#2ecc71 5px dashed;
+}
+.section-with-sidebar{
+	width: calc(100% - 170px);
+}
+.section-without-sidebar{
+	width: 100%;
+}
+
+
+
+.hide{
+	-webkit-transition:all 0.3s linear;
+	-moz-transition:all 0.3s linear;
+	transition:all 0.3s linear;	
+	display:none;
+}
+.t-filters{
+	width:100%;
+}
+
+.lyrics{
+	font-size:10px;
+}
+
+img.cover{
+	width:100px;
+	height:100px;
+}
+
+
+
+/*media widths taken from http://stackoverflow.com/a/16727073 */
+@media (max-width:481px) { 
+	/* smartphones, iPhone, portrait 480x320 phones */ 
+	.events, .play-data, aside .toggle-menu, .btn-desk-tablet, #filters, #transcurredtime, #playing{
+		display:none;
+	}
+	.currently-playing{
+		width:100%;
+		height:100%;
+		bottom:0;
+	}
+	.section .list{
+		width: 100% !important;	
+	}	
+
+}
+
+@media (min-width:481px) { 
+	/* smartphones, iPhone, portrait 480x320 phones */ 
+	.btn-mobile{
+		display:none;
+	}
+
+	.currently-playing{
+		bottom:0;
+		height:25% !important; /*have to try to solve it */
+	}
+
+	aside .side-bar{
+		height:100% !important;/*have to try to solve it */
+	}
+	.section{
+		width: calc(100% - 170px);	
+	}
+	.section .list{
+		width: 100%;	
+	}
+
+
+}
+
+@media (max-width:481px) { 
+	.events, .play-data{
+		display:none;
+	}
+}
+
+/* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */ }
+@media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ 
+}
+@media (min-width:961px) { 
+/* tablet, landscape iPad, lo-res laptops ands desktops */ }
+@media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ }
+@media (min-width:1281px) { /* hi-res laptops and desktops */ }
+
+
+
+.full-width{
+	width:100%;
+	position:absolute;
+}
+
+.currently-playing{
+	background-color:#95a5a6;
+	position:absolute;
+	bottom:71px;
+	height:calc(100% - 203px);
+	color: #ecf0f1;
+	text-align: center;
+}
+
+.currently-playing a{
+	color: #ecf0f1;
+	font-weight:bold;
+}
+
