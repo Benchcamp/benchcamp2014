@@ -1,0 +1,11 @@
+<table class="t-filters">
+	<tr class="theader">
+	    <th>Pista</th><th>Artista</th><th>Tiempo</th><th>Album</th>
+	</tr>
+	<tr class="song-type playable" ng-repeat="track in tracks">
+		<td>{{track.song}}</td>
+        <td>{{track.artist}}</td>
+        <td>{{track.time}}</td>
+        <td>{{track.album}}</td>
+    </tr>
+</table>

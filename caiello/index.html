@@ -1,25 +1,30 @@
 <!DOCTYPE html>
 <html ng-app="player">
 	<head>
-		<title>Reproductor de m&uacute;sica - tarea 3</title>
+		<title>Reproductor de m&uacute;sica - tarea 4 - angularjs</title>
 		<meta name="viewport" content="width=device-width, user-scalable=no">
 		<link rel="stylesheet" href="css/reset.min.css">
 		<link rel="stylesheet" href="css/styles.css">
 		<link rel="stylesheet" href="css/fonts.css">
-    	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-route.js"></script>
+
 		<script src="js/app.js"></script>
 		<script src="js/controllers.js"></script>
 	</head>
-	<body ng-controller="AppCtrl">
+	<body>
 		
 		<div id="draggable" class="drag-item hide"> 
 			<div id="drag-song">mover</div>
 		</div>
-		<h1>hola {{ nombre }}</h1>
+		
 		<div id="context-menu" class="context-menu hide"> 
 			<ul id="context-menu-list">
 			</ul>
 		</div>
+
+
+
 
 		<div id="container">
 			<nav>
@@ -32,17 +37,14 @@
 					</a>					
 					<!--<h1>logo</h1>-->
 				</div>
-				<div class="right events">
-					<p><span id="eventlogcount">0</span></p>
-					<button id="btn-events" class="btn btn-events">Eventos</button>
-				</div>
+
 			</nav>
 
 			<aside id="filters" class="toggle-menu side-bar">
 				<ul id="sidebar-list">
-					<li><a href="#" ng-click="filterTracks()">Canciones</a></li>
-					<li><a href="#" ng-click="filterAlbums()">&Aacute;lbums</a></li>
-					<li><a href="#" ng-click="filterArtists()">Artistas</a></li>
+					<li><a href="#/tracks/">Canciones</a></li>
+					<li><a href="#/albums/">&Aacute;lbums</a></li>
+					<li><a href="#/artists/">Artistas</a></li>
 				</ul>
 
 				<ul id="sidebar-fav">
@@ -56,8 +58,9 @@
 
 
 			<section id="section" class="section toggle-menu">
-				<div id="content" class="list" ng-controller="ArtistsListCtrl">
-				</div>
+
+
+				<div ng-view></div>
 				
 			</section>
 

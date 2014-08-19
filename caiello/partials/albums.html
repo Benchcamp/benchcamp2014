@@ -1,0 +1,11 @@
+<table class="t-filters">
+	<tr class="theader">
+		<th>Artista</th><th>Album</th><th>A&ntilde;o</th><th>Cover</th>
+	</tr>
+	<tr ng-repeat="album in albums">
+    	<td>{{album.artist}}</td>
+    	<td>{{album.album}}</td>
+    	<td>{{album.year}}</td>
+    	<td><img ng-src="assets/resources/albums/covers/{{album.cover}}"></td>
+    </tr>
+</table>
