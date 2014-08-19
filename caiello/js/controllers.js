@@ -1,22 +1,19 @@
 "use strict";
 
 //Artist List Controller
-controllers.controller('ArtistsListCtrl', function($scope, $http){
-	$scope.artists;//creo que no es necesario...
+controllers.controller('ArtistsListCtrl', function($scope, $http, songsservice){
 
-	//returns a promise
-	$http.get("assets/json/artistsv2.json").
+	songsservice.load("artists").
 	then( function (res){
 		$scope.artists=res.data.artists;
 	});
+   
 })
 
-//Artist List Service?
-controllers.controller('AlbumsListCtrl', function($scope, $http){
-	$scope.albums;
+//Artist List
+controllers.controller('AlbumsListCtrl', function($scope, $http, songsservice){
 
-	//returns a promise
-	$http.get("assets/json/albumsv2.json").
+	songsservice.load("albums").
 	then( function (res){
 		$scope.albums=res.data.albums;
 	});
@@ -24,11 +21,9 @@ controllers.controller('AlbumsListCtrl', function($scope, $http){
 
 
 //Tracks
-controllers.controller('TracksListCtrl', function($scope, $http){
-	$scope.tracks;
+controllers.controller('TracksListCtrl', function($scope, $http, songsservice){
 
-	//returns a promise
-	$http.get("assets/json/songsv2.json").
+	songsservice.load("tracks").
 	then( function (res){
 		$scope.tracks=res.data.tracks;
 	});
