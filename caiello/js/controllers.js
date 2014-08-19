@@ -1,9 +1,9 @@
 "use strict";
 
 //Artist List Controller
-controllers.controller('ArtistsListCtrl', function($scope, $http, songsservice){
+controllers.controller('ArtistsListCtrl', function($scope, $http, SongsService){
 
-	songsservice.load("artists").
+	SongsService.load("artists").
 	then( function (res){
 		$scope.artists=res.data.artists;
 	});
@@ -11,9 +11,9 @@ controllers.controller('ArtistsListCtrl', function($scope, $http, songsservice){
 })
 
 //Artist List
-controllers.controller('AlbumsListCtrl', function($scope, $http, songsservice){
+controllers.controller('AlbumsListCtrl', function($scope, $http, SongsService){
 
-	songsservice.load("albums").
+	SongsService.load("albums").
 	then( function (res){
 		$scope.albums=res.data.albums;
 	});
@@ -21,12 +21,17 @@ controllers.controller('AlbumsListCtrl', function($scope, $http, songsservice){
 
 
 //Tracks
-controllers.controller('TracksListCtrl', function($scope, $http, songsservice){
+controllers.controller('TracksListCtrl', function($scope, $http, SongsService){
 
-	songsservice.load("tracks").
+	SongsService.load("tracks").
 	then( function (res){
 		$scope.tracks=res.data.tracks;
 	});
 })
 
 
+controllers.controller('SoundJSCtrl', function ($scope, SoundJS) {
+
+    SoundJS.registerTracks();
+    
+})
