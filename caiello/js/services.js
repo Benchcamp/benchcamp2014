@@ -6,35 +6,44 @@ Services
 
 var services=angular.module("player.services", []);
 
-//using factory matchs a key with a value?
+//using factory matchs a key with a value func w/ret?
 services.factory("SongsService", function ($http) {
 
 	return {
 		load: function(type){
+			//$http.get returns a promise :)
 			return $http.get("data/"+type+".json")
 		}
 	}
 });
 
-services.service("SoundJS", function () {
-
-	var instance;
 
 
+//i need rootscope to use apply because i cant know if the sound loads without the apply of rootscope...
 
+services.factory("SoundJS", function ($q, $rootScope, $http) {
+	
+	return {
+		registerTrack: function(){
+			//$http.get returns a promise :)
+			var defer=$q.defer();
+			console.log($rootScope);
 
-	this.registerTracks=function(){
-		createjs.Sound.alternateExtensions = ["mp3"];
- 		createjs.Sound.addEventListener("fileload", createjs.proxy(this.loadHandler, this));
- 		createjs.Sound.registerSound("assets/resources/songs/emc2.ogg", "sound");
+			createjs.Sound.registerSound("assets/resources/songs/emc2.ogg", "sound");
 
+			defer.resolve()
 
-		console.log("Tracks Registered");
-		prueba();
-	}
-	this.play=function(){
-		instance = createjs.Sound.play("sound");
-	    instance.addEventListener("complete", createjs.proxy(this.handleComplete, this));
-	    instance.volume = 0.5;
+	        console.log("despues");
+		
+			return defer.promise;
+		},
+		play: function(){
+			instance = createjs.Sound.play("sound");
+		    //instance.volume = 0.5;
+		    console.log("playeando...");
+		},
+		songEnds: function(){
+			console.log("song ends");
+		}
 	}
 });

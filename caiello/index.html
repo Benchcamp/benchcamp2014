@@ -16,7 +16,7 @@
 		<script src="js/prueba.js"></script>
 
 	</head>
-	<body>
+	<body  ng-controller="PlayerCtrl">
 	
 		<div id="draggable" class="drag-item hide"> 
 			<div id="drag-song">mover</div>
@@ -135,6 +135,8 @@
 						<a href="#" class="star icon-star star5" id="star5"></a>
 				</div>
 			</div>
+
+			<div ng-controller="SoundJSCtrl"></div>
 
 			<div id="event-log-box" class="modal" >
 				<div>

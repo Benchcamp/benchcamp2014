@@ -29,9 +29,12 @@ controllers.controller('TracksListCtrl', function($scope, $http, SongsService){
 	});
 })
 
+controllers.controller('PlayerCtrl', function ($scope, SoundJS) {
 
-controllers.controller('SoundJSCtrl', function ($scope, SoundJS) {
-
-    SoundJS.registerTracks();
+    SoundJS.registerTrack();
+	
+	$scope.play = function(artist, album, song) {
     
+	    console.log("playing: "+ artist +", "+album+", "+song);
+	}
 })
