@@ -17,33 +17,33 @@ services.factory("SoundService", function ($q, $http) {
 	var _repeat=false;
 	var _shuffle=false;
 
+	//registers a track to soundjs given by a name and a filename
+	//returns a promise
 	function _registerTrack(trackname, file){
-		console.log("voy a playear: "+trackname+", arch: "+file);
 		var _res=function (){
 			defer.resolve();
 			_registeredTracks[trackname]=true;
-			console.log("resuelto vieja");
+
 		}
 		var defer=$q.defer();
 		if (!_registeredTracks[trackname]){
 			createjs.Sound.registerSound("assets/resources/songs/"+file, trackname);
 			createjs.Sound.addEventListener("fileload", _res);
-			console.log("shii");
 		}else{
 			defer.resolve();
 		}
 		return defer.promise;
 	}
 
+	//play something by a given artist, artist+album or artist+album+track
+	//first it create the queue then it play it
 	function _play(artist, album, track){
-		console.log("A PLAYEAR: "+artist+", "+album+", "+track);
 		_queueThis(artist,album,track);
 		_nextTrack();
 	}
 
+	//queue something by a given artist, artist+album or artist+album+track
 	function _queueThis(artist, album, track){
-
-		console.log("A QUEUEAR: "+artist+", "+album+", "+track);
 		_tracksQueue=[];
 		for (var i=0; i<_tracks.length; i++){
 
@@ -61,35 +61,30 @@ services.factory("SoundService", function ($q, $http) {
 
 
 		}
-		console.log("tracks en queue: ");
-		console.log(_tracksQueue);
 	}
 
+	//pauses the current song
 	function _pause(){
 		_instance.pause();
 	}
 
+	//stops the current song (pausing it and setting position to 0)
 	function _stop(){
 		_pause();
 		_instance.setPosition(0);
 	}
 
-
+	//plays the next track in the playlist
 	function _nextTrack(){
-		
 		if (!_actualTrack)
 			_actualTrack=-1;
-		
-		console.log("Tracks Queue: "+_tracksQueue.length);
-
-		_shuffle=true;
 		
 		if (_actualTrack+1 <= _tracksQueue.length)
 			_actualTrack++;
 		else 
 			if (_repeat)
 				_actualTrack=0;
-		
+
 		if (_shuffle)
 			_actualTrack=Math.floor(Math.random()*_tracksQueue.length);
 
@@ -99,23 +94,24 @@ services.factory("SoundService", function ($q, $http) {
 	}
 
 
-
+	//plays a given track
+	//if not registered yet, it will register the track and then play it
 	function _playTrack(track){
-		//if not registered yet, it will register the track and then play it
-		console.log("registrando");
 
 		_registerTrack(track.song , track.file).then(
 			function(){
 				if (_instance)
 					_stop();
 				_instance = createjs.Sound.play(track.song);
+				_instance.addEventListener("complete", _trackEnds);
 				_instance.volume = 1.0;
 			}
 		)
 	}
 
+	//function triggered when a song ends
 	function _trackEnds(){
-		console.log("song ends");
+		_nextTrack();
 	}
 
 	// loads a json of a type (albums, artists, tracks) and returns a promise
@@ -123,23 +119,31 @@ services.factory("SoundService", function ($q, $http) {
 		return $http.get("data/"+type+".json")
 	}
 
+	//load all the tracks
 	function _loadTracks(){
-		console.log("loading fckn tracks");
 		this.load("tracks").
 		then( function (res){
 			_tracks=res.data.tracks;
-			console.log(_tracks);
 		});
+	}
+
+	// negate the repeat status
+	function _changeRepeat(){
+		_repeat=!_repeat;
+	}
+
+	// negate the shuffle status
+	function _changeShuffle(){
+		_shuffle=!_shuffle;
 	}
 
 
 	return {
-		play: _play,
-		playTrack: _playTrack,
-		trackEnds: _trackEnds,
-		registerTrack: _registerTrack,
-		load: _load,
-		loadTracks: _loadTracks
+		play: _play, //play something by a given artist, artist+album or artist+album+track
+		load: _load, //load data (tracks, albums or artists)
+		loadTracks: _loadTracks, //load tracks
+		changeRepeat: _changeRepeat, //negate the actual value
+		changeShuffle: _changeShuffle //negate the actual value
 	}
 });
 
