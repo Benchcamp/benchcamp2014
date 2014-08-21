@@ -2,7 +2,7 @@
 	<tr class="theader">
 		<th>Artista</th>
     </tr>
-    <tr ng-repeat="artist in artists">
+    <tr ng-repeat="artist in artists" ng-click="play(artist.artist)">
     	<td>{{artist.artist}}</td>
     </tr>
 </table>

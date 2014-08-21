@@ -1,9 +1,9 @@
 "use strict";
 
 //Artist List Controller
-controllers.controller('ArtistsListCtrl', function($scope, $http, SongsService){
+controllers.controller('ArtistsListCtrl', function($scope, $http, SoundService){
 
-	SongsService.load("artists").
+	SoundService.load("artists").
 	then( function (res){
 		$scope.artists=res.data.artists;
 	});
@@ -11,9 +11,9 @@ controllers.controller('ArtistsListCtrl', function($scope, $http, SongsService){
 })
 
 //Artist List
-controllers.controller('AlbumsListCtrl', function($scope, $http, SongsService){
+controllers.controller('AlbumsListCtrl', function($scope, $http, SoundService){
 
-	SongsService.load("albums").
+	SoundService.load("albums").
 	then( function (res){
 		$scope.albums=res.data.albums;
 	});
@@ -21,28 +21,21 @@ controllers.controller('AlbumsListCtrl', function($scope, $http, SongsService){
 
 
 //Tracks
-controllers.controller('TracksListCtrl', function($scope, $http, SongsService){
+controllers.controller('TracksListCtrl', function($scope, $http, SoundService){
 
-	SongsService.load("tracks").
+	SoundService.load("tracks").
 	then( function (res){
 		$scope.tracks=res.data.tracks;
 	});
 })
 
-controllers.controller('PlayerCtrl', function ($scope, SoundJS) {
+controllers.controller('PlayerCtrl', function ($scope, SoundService) {
+	SoundService.loadTracks();
 
-    
-	
 	$scope.play = function(artist, album, track) {
-    	SoundJS.play(artist, album, track);
+    	SoundService.play(artist, album, track);
 	    console.log("playing: "+ artist +", "+album+", "+track);
+
 	}
 })
 
-
-controllers.controller('SoundJSCtrl', function ($scope, SoundJS) {
-
-    //SoundJS.registerTrack();
-	
-	
-})
