@@ -19,29 +19,50 @@ services.factory("SongsService", function ($http) {
 
 
 
+
 //i need rootscope to use apply because i cant know if the sound loads without the apply of rootscope...
 
 services.factory("SoundJS", function ($q, $rootScope, $http) {
-	
+	var instance;
+	var registeredTracks = [];
+
 	return {
-		registerTrack: function(){
-			//$http.get returns a promise :)
+
+		registerTrack: function(trackname){
+
+			var res=function (){
+				defer.resolve();
+				registeredTracks[trackname]=true;
+				console.log("resuelto vieja");
+			}
+
 			var defer=$q.defer();
-			console.log($rootScope);
+ 
+			if (!registeredTracks[trackname]){
+				createjs.Sound.registerSound("assets/resources/songs/emc2.ogg", trackname);
 
-			createjs.Sound.registerSound("assets/resources/songs/emc2.ogg", "sound");
+				createjs.Sound.addEventListener("fileload", res);
+			}else{
+				defer.resolve();
+			}
 
-			defer.resolve()
-
-	        console.log("despues");
-		
 			return defer.promise;
 		},
-		play: function(){
-			instance = createjs.Sound.play("sound");
+
+		play: function(artist, album, track){
+			
+			this.registerTrack(track).then(
+				function(){
+					if (!instance)
+						instance = createjs.Sound.play(track);
+					console.log("registrado y playeando")
+				}
+			)
+
 		    //instance.volume = 0.5;
 		    console.log("playeando...");
 		},
+
 		songEnds: function(){
 			console.log("song ends");
 		}
