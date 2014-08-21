@@ -34,8 +34,16 @@ controllers.controller('PlayerCtrl', function ($scope, SoundService) {
 
 	$scope.play = function(artist, album, track) {
     	SoundService.play(artist, album, track);
-
-
 	}
+
+	$scope.changeRepeat = function() {
+    	SoundService.changeRepeat();
+	}
+
+	$scope.changeShuffle = function() {
+    	SoundService.changeShuffle();
+	}
+
+
 })
 
