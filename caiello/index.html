@@ -83,7 +83,7 @@
 							<span class="icon-backward"></span>
 						</a>
 						<a id="btn-play" class="button">
-							<span ng-class="{'icon-play': !paused, 'icon-pause': paused}" ng-click=" pause()" ></span>
+							<span ng-class="{'icon-play': !paused, 'icon-pause': paused}" ng-click="paused=!paused; pause()" ></span>
 						</a>
 						<a id="btn-next" ng-click="next()" class="button">
 							<span class="icon-forward"></span>

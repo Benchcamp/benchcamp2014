@@ -16,6 +16,7 @@ services.factory("SoundService", function ($q, $http) {
 	var _tracks;
 	var _repeat=false;
 	var _shuffle=false;
+	var _playing=false;
 
 
 
@@ -79,12 +80,17 @@ services.factory("SoundService", function ($q, $http) {
 	//pauses the current song or resumes it if paused
 	function _pause(){
 		if (_instance){
-			if (!_instance.pause())
+			if (!_instance.pause()){
+				console.log("A");
 				_instance.resume();
+				_playing=true;
+			}else{
+				_playing=false;
+				console.log("B");
+			}
 		}
-		else{
-			_play() //if there is no instance, and i want to play, Ill play everything
-		}	
+
+
 	}
 
 
@@ -140,7 +146,9 @@ services.factory("SoundService", function ($q, $http) {
 	//plays a given track
 	//if not registered yet, it will register the track and then play it
 	function _playTrack(track){
-
+		console.log("playing en true");
+		_playing=true;
+		console.log(_playing);
 		_registerTrack(track.song , track.file).then(
 			function(){
 				if (_instance)
@@ -199,6 +207,8 @@ services.factory("SoundService", function ($q, $http) {
 	return {
 		play: _play, //play something by a given artist, artist+album or artist+album+track
 		pause: _pause, //pauses or resume if paused
+		playing: _playing, //bool if its playing 
+
 		load: _load, //load data (tracks, albums or artists)
 		mute: _mute, //load data (tracks, albums or artists)
 		loadTracks: _loadTracks, //load tracks

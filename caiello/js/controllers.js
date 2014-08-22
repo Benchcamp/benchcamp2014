@@ -36,7 +36,7 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService) 
 	SoundService.loadTracks();
 
 	$scope.timing=0;
-
+	$scope.paused=true;
 	//tengo que usar realmente esto?
 	function _update(){
 		$scope.timing= SoundService.getPosition();
@@ -47,12 +47,10 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService) 
 
 	$scope.play = function(artist, album, track) {
     	SoundService.play(artist, album, track);
-    	$scope.paused=true;
 	}
 
 	$scope.pause = function() {
     	SoundService.pause();
-    	$scope.paused=!$scope.paused;
 	}
 
 	$scope.next = function() {
