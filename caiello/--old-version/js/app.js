@@ -189,29 +189,29 @@ var player = (function() {
 
     //taken from http://www.kirupa.com/html5/getting_mouse_click_position.htm
     function _getPosition(element) {
-            var xPosition = 0;
-            var yPosition = 0;
-            while (element) {
-                xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
-                yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
-                element = element.offsetParent;
-            }
-            return {
-                x: xPosition,
-                y: yPosition
-            };
+        var xPosition = 0;
+        var yPosition = 0;
+        while (element) {
+            xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+            yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+            element = element.offsetParent;
         }
+        return {
+            x: xPosition,
+            y: yPosition
+        };
+    }
     
     // moves the player to a position given by an event
     function _moveToPosition(e) { //gets the position from event
-            if (_instance) {
-                var parentpos = _getPosition(e.currentTarget);
-                var posx = e.clientX - parentpos.x;
-                var pbwidth = document.getElementById("playing").clientWidth;
-                _instance.setPosition((posx / pbwidth) * _instance.getDuration());
-                _update();
-            }
+        if (_instance) {
+            var parentpos = _getPosition(e.currentTarget);
+            var posx = e.clientX - parentpos.x;
+            var pbwidth = document.getElementById("playing").clientWidth;
+            _instance.setPosition((posx / pbwidth) * _instance.getDuration());
+            _update();
         }
+    }
     
     // update all items (transcurred time, progressbar, circle)
     function _update() {
@@ -227,7 +227,6 @@ var player = (function() {
     		createjs.Sound.registerSound("assets/resources/songs/" + filename, title);
     		_registeredsong[title]=true;	
     	}
-        
     }
 
     //registers all the songs in the structure

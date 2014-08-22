@@ -1,6 +1,6 @@
 "use strict";
 
-var app=angular.module("player",["player.controllers","ngRoute", "player.services"]);
+var app=angular.module("player",["player.controllers","ngRoute", "player.services", "player.directives"]);
 
 var controllers = angular.module("player.controllers", []);/*otros modulos dependientes o requeridos*/
 

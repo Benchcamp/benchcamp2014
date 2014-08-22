@@ -6,7 +6,7 @@ Services
 
 var services=angular.module("player.services", []);
 
-//using factory matchs a key with a value func w/ret?
+//Sound service
 services.factory("SoundService", function ($q, $http) {
 
 	var _instance;
@@ -16,6 +16,10 @@ services.factory("SoundService", function ($q, $http) {
 	var _tracks;
 	var _repeat=false;
 	var _shuffle=false;
+
+
+
+
 
 	//registers a track to soundjs given by a name and a filename
 	//returns a promise
@@ -42,6 +46,14 @@ services.factory("SoundService", function ($q, $http) {
 		_nextTrack();
 	}
 
+
+	//give the transcurred time of an isntance
+	function _getPosition(){
+		if (_instance)
+			return _instance.getPosition();
+		else
+			return 0;
+	}
 	//queue something by a given artist, artist+album or artist+album+track
 	function _queueThis(artist, album, track){
 		_tracksQueue=[];
@@ -56,17 +68,26 @@ services.factory("SoundService", function ($q, $http) {
 			}else if (artist){
 				if (_tracks[i].artist==artist)
 					_tracksQueue.push(_tracks[i]);
-			}
+			}else if ((!artist)&&(!album)&&(!track))
+				_tracksQueue.push(_tracks[i])
 
-
+			_actualTrack=undefined;
 
 		}
 	}
 
-	//pauses the current song
+	//pauses the current song or resumes it if paused
 	function _pause(){
-		_instance.pause();
+		if (_instance){
+			if (!_instance.pause())
+				_instance.resume();
+		}
+		else{
+			_play() //if there is no instance, and i want to play, Ill play everything
+		}	
 	}
+
+
 
 	//stops the current song (pausing it and setting position to 0)
 	function _stop(){
@@ -76,10 +97,10 @@ services.factory("SoundService", function ($q, $http) {
 
 	//plays the next track in the playlist
 	function _nextTrack(){
-		if (!_actualTrack)
+
+		if (_actualTrack==undefined)
 			_actualTrack=-1;
-		
-		if (_actualTrack+1 <= _tracksQueue.length)
+		if (_actualTrack+1 <= _tracksQueue.length-1)
 			_actualTrack++;
 		else 
 			if (_repeat)
@@ -90,8 +111,30 @@ services.factory("SoundService", function ($q, $http) {
 
 		if (_actualTrack!=-1)
 			_playTrack(_tracksQueue[_actualTrack]);
-
 	}
+
+	//plays the prev track in the playlist
+	function _prevTrack(){
+
+		if (_actualTrack==undefined)
+			_actualTrack = _tracksQueue.length;
+
+		if (_actualTrack-1 >= 0)
+			_actualTrack--;
+		else
+			if (_repeat)
+				_actualTrack=_tracksQueue.length-1;
+
+		if (_shuffle){
+			_nextTrack();//if its random doesn't care to go next or prev..
+		}
+
+		if (_actualTrack!=_tracksQueue.length){
+			_playTrack(_tracksQueue[_actualTrack]);
+		}
+	
+	}
+
 
 
 	//plays a given track
@@ -127,6 +170,12 @@ services.factory("SoundService", function ($q, $http) {
 		});
 	}
 
+	//mute
+	function _mute(){
+		if (_instance)
+        	_instance.setMute(!_instance.getMute());
+	}
+
 	// negate the repeat status
 	function _changeRepeat(){
 		_repeat=!_repeat;
@@ -140,10 +189,15 @@ services.factory("SoundService", function ($q, $http) {
 
 	return {
 		play: _play, //play something by a given artist, artist+album or artist+album+track
+		pause: _pause, //pauses or resume if paused
 		load: _load, //load data (tracks, albums or artists)
+		mute: _mute, //load data (tracks, albums or artists)
 		loadTracks: _loadTracks, //load tracks
+		nextTrack: _nextTrack, //play the next tracks
+		prevTrack: _prevTrack, //play the prev
 		changeRepeat: _changeRepeat, //negate the actual value
-		changeShuffle: _changeShuffle //negate the actual value
+		changeShuffle: _changeShuffle, //negate the actual value
+		getPosition:_getPosition
 	}
 });
 
