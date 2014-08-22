@@ -70,7 +70,7 @@
 
 			<div id="currently-playing" class="toggle-menu currently-playing side-bar">
 				<h2>Currently playing</h2>
-				<p id="song-name">nothing :(</p>
+				<p id="song-name">{{currently}}</p>
 				<a href="#" id="rate">Rate it!</a>
 				<p id="lyrics" class="lyrics"></p>
 			</div>
@@ -83,7 +83,7 @@
 							<span class="icon-backward"></span>
 						</a>
 						<a id="btn-play" class="button">
-							<span ng-class="{'icon-play': !paused, 'icon-pause': paused}" ng-click="paused=!paused; pause()" ></span>
+							<span ng-class="{'icon-play': !paused, 'icon-pause': paused}" ng-click=" pause()" ></span>
 						</a>
 						<a id="btn-next" ng-click="next()" class="button">
 							<span class="icon-forward"></span>

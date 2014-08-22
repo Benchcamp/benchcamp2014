@@ -186,6 +186,15 @@ services.factory("SoundService", function ($q, $http) {
 		_shuffle=!_shuffle;
 	}
 
+	function _currentlyPlaying(){
+
+		if (_instance){
+			if ((_tracksQueue.length-1<=_actualTrack)&&(_actualTrack>=0)){
+				return _tracksQueue[_actualTrack].song;
+			}
+		}
+	}
+
 
 	return {
 		play: _play, //play something by a given artist, artist+album or artist+album+track
@@ -197,7 +206,8 @@ services.factory("SoundService", function ($q, $http) {
 		prevTrack: _prevTrack, //play the prev
 		changeRepeat: _changeRepeat, //negate the actual value
 		changeShuffle: _changeShuffle, //negate the actual value
-		getPosition:_getPosition
+		getPosition:_getPosition,//gets the current position
+		currentlyPlaying:_currentlyPlaying//get the name of the currently playing track
 	}
 });
 
