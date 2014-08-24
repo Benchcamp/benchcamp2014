@@ -1,12 +1,14 @@
 "use strict";
 
-
+/*
+This controller controls the player, (play, pause, some vars like transcurred time), using the service SoundService (who wrapps soundjs)
+*/
 controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService, Utilities) {
 	SoundService.loadTracks();
 
 
 	$scope.timing=0;
-	$scope.timingpercent=30;
+	$scope.timingpercent=0;
 	$scope.playing=false;
 	$scope.toggled=false;
 

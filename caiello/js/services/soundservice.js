@@ -63,11 +63,9 @@ services.factory("SoundService", function ($q, $http, $rootScope) {
 		}
 	}
 
-	//give the transcurred time of an isntance
+	//give the transcurred time of an instance
 	function _setPositionPercent(perc){
-		//return Math.floor(Math.random()*50);
 		if (_instance){
-			console.log("set pos "+perc);
 			_instance.setPosition(_instance.getDuration()*perc/100.0);
 		}
 	}
@@ -100,16 +98,12 @@ services.factory("SoundService", function ($q, $http, $rootScope) {
 		if (_instance){
 			//_paused=!_paused;
 			if (!_instance.pause()){
-				
 				_instance.resume();
-				console.log("despausando");
 				_pause=false;
 				_playing=true;
 			}else{
 				_pause=true;
 				_playing=false;
-				
-				console.log("pausando");
 			}
 		}
 
@@ -139,7 +133,6 @@ services.factory("SoundService", function ($q, $http, $rootScope) {
 		if (_shuffle)
 			_actualTrack=Math.floor(Math.random()*_tracksQueue.length);
 
-		console.log("el track actual: "+_actualTrack);
 		if (_actualTrack!=-1)
 			_playTrack(_tracksQueue[_actualTrack]);
 	}
@@ -171,10 +164,7 @@ services.factory("SoundService", function ($q, $http, $rootScope) {
 	//plays a given track
 	//if not registered yet, it will register the track and then play it
 	function _playTrack(track){
-		
-		
 		_playing=true;
-		console.log(_playing);
 		_registerTrack(track.song , track.file).then(
 			function(){
 				if (_instance)
@@ -231,7 +221,6 @@ services.factory("SoundService", function ($q, $http, $rootScope) {
 	}
 
 	function _isPlaying(){
-		//console.log("is playing "+_playing);
 		return _playing;
 	}
 

@@ -30,7 +30,6 @@ directives.directive('playingNow', function() {
     	scope.artist="no one"
 
 		scope.$on('playingsomething', function(event, track) {
-			console.log(track);
 			scope.getLyrics(track);
 		});
 
