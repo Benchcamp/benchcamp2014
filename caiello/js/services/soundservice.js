@@ -63,6 +63,15 @@ services.factory("SoundService", function ($q, $http, $rootScope) {
 		}
 	}
 
+	//give the transcurred time of an isntance
+	function _setPositionPercent(perc){
+		//return Math.floor(Math.random()*50);
+		if (_instance){
+			console.log("set pos "+perc);
+			_instance.setPosition(_instance.getDuration()*perc/100.0);
+		}
+	}
+
 
 	//queue something by a given artist, artist+album or artist+album+track
 	function _queueThis(artist, album, track){
@@ -242,6 +251,7 @@ services.factory("SoundService", function ($q, $http, $rootScope) {
 		changeShuffle: _changeShuffle, //negate the actual value
 		getPosition:_getPosition,//gets the current position
 		getPositionPercent:_getPositionPercent,//gets the current position
+		setPositionPercent:_setPositionPercent,//sets a position with a given percent
 		isPlaying:_isPlaying,//is something playing?
 		currentlyPlaying:_currentlyPlaying//get the name of the currently playing track
 	}

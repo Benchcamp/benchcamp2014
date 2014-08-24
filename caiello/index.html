@@ -21,6 +21,7 @@
 		<script src="js/controllers/playerctrl.js"></script>
 		<!--services-->
 		<script src="js/services/soundservice.js"></script>
+		<script src="js/services/utilities.js"></script>
 		<!--directives-->
 		<script src="js/directives/playingnow.js"></script>
 
@@ -110,8 +111,8 @@
 							
 						</div>
 
-						<div id="playing" ng-click="changePosition($event)">
-							<div id="progressbar"  style="width:calc(20px + {{timingpercent}}%)">
+						<div id="playing" ng-mouseup="changePosition($event)" >
+							<div id="progressbar" style="width:calc(20px + {{timingpercent}}%)">
 								<div id="circle"></div>
 							</div>
 						</div>
