@@ -111,10 +111,13 @@ services.factory("SoundService", function ($q, $http, $rootScope) {
 		else 
 			if (_repeat)
 				_actualTrack=0;
+			else
+				_actualTrack=-1;
 
 		if (_shuffle)
 			_actualTrack=Math.floor(Math.random()*_tracksQueue.length);
 
+		console.log("el track actual: "+_actualTrack);
 		if (_actualTrack!=-1)
 			_playTrack(_tracksQueue[_actualTrack]);
 	}
