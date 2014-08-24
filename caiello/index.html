@@ -46,17 +46,17 @@
 		<div id="container">
 			<nav>
 				<div class="left">
-					<a id="btn-hide-show-side" class="button btn-desk-tablet">
+					<a id="btn-hide-show-side" class="button btn-desk-tablet" ng-click="toggle()">
 						<span class="icon-menu"></span>
 					</a>
-					<a id="btn-hide-show-side-mobile" class="button btn-mobile">
+					<a id="btn-hide-show-side-mobile" class="button btn-mobile" ng-click="toggle()">
 						<span class="icon-menu"></span>
 					</a>					
 				</div>
 
 			</nav>
 
-			<aside id="filters" class="toggle-menu side-bar">
+			<aside id="filters" class="toggle-menu side-bar" ng-class="{'': !toggled, 'on': toggled}">
 				<ul id="sidebar-list">
 					<li><a href="#/tracks/">Canciones</a></li>
 					<li><a href="#/albums/">&Aacute;lbums</a></li>
@@ -73,13 +73,13 @@
 			</aside>
 
 
-			<section id="section" class="section toggle-menu">
+			<section id="section" class="section toggle-menu" ng-class="{'': !toggled, 'full-width': toggled}">
 
 				<div ng-view></div>
 				
 			</section>
 
-			<div id="currently-playing" class="toggle-menu currently-playing side-bar">
+			<div id="currently-playing" class="toggle-menu currently-playing side-bar" ng-class="{'': !toggled, 'on': toggled}">
 				<playing-now/>
 			</div>
 

@@ -8,6 +8,7 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService) 
 	$scope.timing=0;
 	$scope.timingpercent=30;
 	$scope.playing=false;
+	$scope.toggled=false;
 
 
 
@@ -55,6 +56,10 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService) 
 	$scope.changePosition=function(event){
 		console.log(event);
 
+	}
+
+	$scope.toggle=function(){
+		$scope.toggled=!$scope.toggled;
 	}
 
 
