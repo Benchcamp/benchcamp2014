@@ -4,10 +4,9 @@
 Services
 */
 
-var services=angular.module("player.services", []);
 
 //Sound service
-services.factory("SoundService", function ($q, $http) {
+services.factory("SoundService", function ($q, $http, $rootScope) {
 
 	var _instance;
 	var _registeredTracks = [];
@@ -17,10 +16,6 @@ services.factory("SoundService", function ($q, $http) {
 	var _repeat=false;
 	var _shuffle=false;
 	var _playing=false;
-
-
-
-
 
 	//registers a track to soundjs given by a name and a filename
 	//returns a promise
@@ -146,7 +141,8 @@ services.factory("SoundService", function ($q, $http) {
 	//plays a given track
 	//if not registered yet, it will register the track and then play it
 	function _playTrack(track){
-		console.log("playing en true");
+		
+		
 		_playing=true;
 		console.log(_playing);
 		_registerTrack(track.song , track.file).then(
@@ -154,6 +150,7 @@ services.factory("SoundService", function ($q, $http) {
 				if (_instance)
 					_stop();
 				_instance = createjs.Sound.play(track.song);
+				$rootScope.$broadcast('playingsomething', track);
 				_instance.addEventListener("complete", _trackEnds);
 				_instance.volume = 1.0;
 			}
@@ -203,12 +200,16 @@ services.factory("SoundService", function ($q, $http) {
 		}
 	}
 
+	function _isPlaying(){
+		//console.log("is playing "+_playing);
+		return _playing;
+	}
+
 
 	return {
 		play: _play, //play something by a given artist, artist+album or artist+album+track
 		pause: _pause, //pauses or resume if paused
 		playing: _playing, //bool if its playing 
-
 		load: _load, //load data (tracks, albums or artists)
 		mute: _mute, //load data (tracks, albums or artists)
 		loadTracks: _loadTracks, //load tracks
@@ -217,6 +218,7 @@ services.factory("SoundService", function ($q, $http) {
 		changeRepeat: _changeRepeat, //negate the actual value
 		changeShuffle: _changeShuffle, //negate the actual value
 		getPosition:_getPosition,//gets the current position
+		isPlaying:_isPlaying,//is something playing?
 		currentlyPlaying:_currentlyPlaying//get the name of the currently playing track
 	}
 });

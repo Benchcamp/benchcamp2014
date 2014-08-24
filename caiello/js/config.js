@@ -1,8 +1,5 @@
-"use strict";
-
-var app=angular.module("player",["player.controllers","ngRoute", "player.services", "player.directives"]);
-
-var controllers = angular.module("player.controllers", []);/*otros modulos dependientes o requeridos*/
+//using http://api.lyricsnmusic.com/ with a proxy from http://localhost:8888/api/
+app.constant("LYRICSAPI", "http://localhost:8888/api/songs?api_key=7103d7534425de166eaac87dd37927&q=");
 
 
 app.config(function ($routeProvider){
@@ -13,4 +10,3 @@ app.config(function ($routeProvider){
 	.when("/tracks",{controller:"TracksListCtrl", templateUrl:"views/tracks.html"})
 	.otherwise({redirectTo:"/"})
 });
-
