@@ -113,9 +113,7 @@ services.factory("SoundService", function ($q, $http, $rootScope) {
 			}
 		}
 
-
 	}
-
 
 
 	//stops the current song (pausing it and setting position to 0)

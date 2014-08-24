@@ -1,14 +1,12 @@
 'use strict';
 
 /*
-Services
+Services Utils (mouse, maths, etc.)
 */
 
 
 //Utilities Service
 services.factory("Utilities", function () {
-
-
 
 
     // Use a mouse event to return x and y coords.
@@ -73,10 +71,6 @@ services.factory("Utilities", function () {
       //console.log(coords);
       return coords;
     };
-
-
-
-
 
 	return {
 		getMouseEventResult: _getMouseEventResult, //returns coords in a mouse event
