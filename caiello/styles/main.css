@@ -54,9 +54,11 @@ a{
 }
 .section{
 	float:right;
-	width:100%;
+	right:0;
+	width:auto;
 	height:calc(100% - 180px);
 	overflow-y:auto;
+	position:absolute;
 }
 
 
