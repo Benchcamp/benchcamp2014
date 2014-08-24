@@ -51,6 +51,19 @@ services.factory("SoundService", function ($q, $http, $rootScope) {
 		else
 			return 0;
 	}
+
+	//give the transcurred time of an isntance
+	function _getPositionPercent(){
+		//return Math.floor(Math.random()*50);
+		if (_instance){
+			return _instance.getPosition()*100/_instance.getDuration();
+		}
+		else{
+			return 0;
+		}
+	}
+
+
 	//queue something by a given artist, artist+album or artist+album+track
 	function _queueThis(artist, album, track){
 		_tracksQueue=[];
@@ -109,10 +122,12 @@ services.factory("SoundService", function ($q, $http, $rootScope) {
 		if (_actualTrack+1 <= _tracksQueue.length-1)
 			_actualTrack++;
 		else 
-			if (_repeat)
+			if (_repeat){
 				_actualTrack=0;
-			else
+			}
+			else{
 				_actualTrack=-1;
+			}
 
 		if (_shuffle)
 			_actualTrack=Math.floor(Math.random()*_tracksQueue.length);
@@ -226,6 +241,7 @@ services.factory("SoundService", function ($q, $http, $rootScope) {
 		changeRepeat: _changeRepeat, //negate the actual value
 		changeShuffle: _changeShuffle, //negate the actual value
 		getPosition:_getPosition,//gets the current position
+		getPositionPercent:_getPositionPercent,//gets the current position
 		isPlaying:_isPlaying,//is something playing?
 		currentlyPlaying:_currentlyPlaying//get the name of the currently playing track
 	}

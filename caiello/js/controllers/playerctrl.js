@@ -6,27 +6,26 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService) 
 
 
 	$scope.timing=0;
+	$scope.timingpercent=30;
 	$scope.playing=false;
 
 
 
-	//a watcher to the playing status.. getting info from controller of service..
+	//a watcher to the playing status.. getting not binded info from controller of service..
 	$scope.$watch(SoundService.isPlaying, function() { 
 		$scope.playing=SoundService.isPlaying();
-		console.log($scope.playing);
-		console.log("cambio"); 
 	});
 
 	function _update(){
 		$scope.timing= SoundService.getPosition();
+		$scope.timingpercent= SoundService.getPositionPercent();
 	}
-	
+
 	$interval(_update, 20);
 
 
 	$scope.play = function(artist, album, track) {
     	SoundService.play(artist, album, track);
-    	//$scope.prueba="probando...";
 	}
 
 	$scope.pause = function() {
