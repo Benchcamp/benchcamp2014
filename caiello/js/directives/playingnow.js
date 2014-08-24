@@ -1,8 +1,6 @@
 'use strict';
 
 
-var directives=angular.module("player.directives", []);
-
 //hw directive
 directives.directive('playingNow', function() {
   return {

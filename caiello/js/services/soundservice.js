@@ -16,6 +16,7 @@ services.factory("SoundService", function ($q, $http, $rootScope) {
 	var _repeat=false;
 	var _shuffle=false;
 	var _playing=false;
+	var _paused=false;
 
 	//registers a track to soundjs given by a name and a filename
 	//returns a promise
@@ -75,13 +76,18 @@ services.factory("SoundService", function ($q, $http, $rootScope) {
 	//pauses the current song or resumes it if paused
 	function _pause(){
 		if (_instance){
+			//_paused=!_paused;
 			if (!_instance.pause()){
-				console.log("A");
+				
 				_instance.resume();
+				console.log("despausando");
+				_pause=false;
 				_playing=true;
 			}else{
+				_pause=true;
 				_playing=false;
-				console.log("B");
+				
+				console.log("pausando");
 			}
 		}
 
@@ -92,8 +98,7 @@ services.factory("SoundService", function ($q, $http, $rootScope) {
 
 	//stops the current song (pausing it and setting position to 0)
 	function _stop(){
-		_pause();
-		_instance.setPosition(0);
+		_instance.stop();
 	}
 
 	//plays the next track in the playlist

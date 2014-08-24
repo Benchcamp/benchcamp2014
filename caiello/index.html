@@ -25,6 +25,7 @@
 		<script src="js/directives/playingnow.js"></script>
 
 
+
 	</head>
 	<body  ng-controller="PlayerCtrl">
 		
@@ -90,7 +91,7 @@
 							<span class="icon-backward"></span>
 						</a>
 						<a id="btn-play" class="button">
-							<span ng-class="{'icon-play': !paused, 'icon-pause': paused}" ng-click="paused=!paused; pause()" ></span>
+							<span ng-class="{'icon-play': !playing, 'icon-pause': playing}" ng-click="pause()" ></span>
 						</a>
 						<a id="btn-next" ng-click="next()" class="button">
 							<span class="icon-forward"></span>
@@ -127,32 +128,10 @@
 				</div><!--player-->
 			</footer>
 
-
-			<div id="rate-it" class="modal rating">
-				<div>
-						<p>no seas taca&ntilde;o</p>
-						<a href="#" class="star icon-star star1" id="star1"></a>
-						<a href="#" class="star icon-star star2" id="star2"></a>
-						<a href="#" class="star icon-star star3" id="star3"></a>
-						<a href="#" class="star icon-star star4" id="star4"></a>
-						<a href="#" class="star icon-star star5" id="star5"></a>
-				</div>
-			</div>
-
 			
+			
+				
 
-			<div id="event-log-box" class="modal" >
-				<div>
-					<table id="eventlog" class="list">
-						<tr class="theader">
-							<th>Acci&oacute;n</th>
-							<th>Elemento</th>
-							<th>Hora</th>
-						</tr>
-					<!--aca agrego el resto en el log -->
-					</table>
-				</div>
-			</div><!--event-log-box-->
 
 
 

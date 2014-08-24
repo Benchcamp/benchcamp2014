@@ -200,24 +200,29 @@ ul{
 	color:#95a5a6;
 }
 
-.modal {
-	visibility: hidden;
-	position: absolute;
-	left: 0px; top: 0px;
-	width:100%; height:100%;
-	text-align:center;
-	z-index: 999;
-	background-color: rgba(0, 0, 0, 0.5);
-	opacity:0.95;
+.ng-modal-overlay {
+  position:absolute;
+  z-index:9999;
+  top:0; left:0;
+  width:100%; height:100%;
+  background-color:#333;
+  opacity: 0.7;
+}
+.ng-modal-dialog {
+
+  z-index:10000;
+  position: absolute;
+  width: 50%; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  background-color: #fff;
+}
+.ca-modal-inside {
+  padding:15px;
+  text-align:left;
 }
 
-.modal div {
-	display:inline-block;/* automatic width depending on content :) */
-	margin: 100px auto;
-	background-color: #fff;
-	padding:20px;
-	text-align:center;
-}
 
 .left-player, .center-player, .right-player {
     float: left;

@@ -6,19 +6,22 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService) 
 
 
 	$scope.timing=0;
+	$scope.playing=false;
 
-	//console.log("scope: "+$scope.ngTrack);
-	$scope.playing=SoundService.isPlaying();
 
+
+	//a watcher to the playing status.. getting info from controller of service..
+	$scope.$watch(SoundService.isPlaying, function() { 
+		$scope.playing=SoundService.isPlaying();
+		console.log($scope.playing);
+		console.log("cambio"); 
+	});
 
 	function _update(){
 		$scope.timing= SoundService.getPosition();
-		$scope.currently=SoundService.currentlyPlaying();
 	}
-	$interval(_update, 20);
-
-
 	
+	$interval(_update, 20);
 
 
 	$scope.play = function(artist, album, track) {
@@ -54,6 +57,10 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService) 
 		console.log(event);
 
 	}
+
+
+
+
 
 })
 
