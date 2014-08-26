@@ -6,10 +6,10 @@ directives.directive('playingNow', function() {
   return {
     restrict: 'AEC',
     scope: {
-    	ngTrack: '=',
-    	ahora: '='
+    	ngTrack: '='
     },
-    replace: 'true',
+    replace: true,
+    transclude: true,
     templateUrl: 'views/directives/playing-now.html',
     controller: ['$scope', '$http', 'LYRICSAPI', function($scope, $http, LYRICSAPI) {
 
@@ -32,6 +32,8 @@ directives.directive('playingNow', function() {
 		scope.$on('playingsomething', function(event, track) {
 			scope.getLyrics(track);
 		});
+
+
 
     }
 
