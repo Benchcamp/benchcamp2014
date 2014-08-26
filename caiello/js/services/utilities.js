@@ -47,7 +47,6 @@ services.factory("Utilities", function () {
           {
             offX += offEl.offsetLeft;
             offY += offEl.offsetTop;
-
             offEl = offEl.offsetParent;
           }
         }
@@ -68,7 +67,6 @@ services.factory("Utilities", function () {
     var _getMouseEventResult = function (mouseEvent, mouseEventDesc)
     {
       var coords = _getCrossBrowserElementCoords(mouseEvent);
-      //console.log(coords);
       return coords;
     };
 

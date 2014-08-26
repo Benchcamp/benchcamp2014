@@ -4,7 +4,7 @@ app.constant("LYRICSAPI", "http://localhost/api/songs?api_key=7103d7534425de166e
 
 app.config(function ($routeProvider){
 	$routeProvider
-	.when("/",{controller:"AlbumsListCtrl", templateUrl:"views/albums.html"})
+	.when("/",{controller:"TracksListCtrl", templateUrl:"views/tracks.html"})
 	.when("/albums",{controller:"AlbumsListCtrl", templateUrl:"views/albums.html"})
 	.when("/artists",{controller:"ArtistsListCtrl", templateUrl:"views/artists.html"})
 	.when("/tracks",{controller:"TracksListCtrl", templateUrl:"views/tracks.html"})

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html ng-app="player">
+	<head>
+		<title>Reproductor de m&uacute;sica - tarea 4 - angularjs</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no">
+		<link rel="stylesheet" href="styles/reset.min.css">
+		<link rel="stylesheet" href="styles/main.css">
+		<link rel="stylesheet" href="styles/fonts.css">
+		<script src="js/lib/soundjs-0.5.2.min.js"></script>
+		<script src="js/lib/angular.min.js"></script>
+		<script src="js/lib/angular-route.js"></script>
+
+		<!--app-->
+		<script src="js/app.js"></script>
+		<!--config-->
+		<script src="js/config.js"></script>
+		<!--controllers-->
+		<script src="js/controllers/artistslistctrl.js"></script>
+		<script src="js/controllers/albumslistctrl.js"></script>
+		<script src="js/controllers/trackslistctrl.js"></script>
+		<script src="js/controllers/playerctrl.js"></script>
+		<script src="js/controllers/modalctrl.js"></script>
+		<!--services-->
+		<script src="js/services/soundservice.js"></script>
+		<script src="js/services/utilities.js"></script>
+		<!--directives-->
+		<script src="js/directives/playingnow.js"></script>
+		<script src="js/directives/camodal.js"></script>
+
+
+
+
+	</head>
+	<body  ng-controller="PlayerCtrl">
+
+		<div id="draggable" class="drag-item" draggable> 
+			<div id="drag-song">mover</div>
+		</div>
+		
+		<div id="context-menu" class="context-menu hide"> 
+			<ul id="context-menu-list">
+			</ul>
+		</div>
+
+
+
+
+
+
+	</body>
+</html>

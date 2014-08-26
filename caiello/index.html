@@ -20,6 +20,10 @@
 		<script src="js/controllers/trackslistctrl.js"></script>
 		<script src="js/controllers/playerctrl.js"></script>
 		<script src="js/controllers/modalctrl.js"></script>
+
+		<script src="js/controllers/dragctrl.js"></script>
+
+
 		<!--services-->
 		<script src="js/services/soundservice.js"></script>
 		<script src="js/services/utilities.js"></script>
@@ -27,16 +31,22 @@
 		<script src="js/directives/playingnow.js"></script>
 		<script src="js/directives/camodal.js"></script>
 
+		<script src="js/directives/cadrag.js"></script>
+		<script src="js/directives/carate.js"></script>
+
 
 
 
 	</head>
-	<body  ng-controller="PlayerCtrl">
+	<body ng-controller="PlayerCtrl">
 
-		<div id="draggable" class="drag-item hide"> 
-			<div id="drag-song">mover</div>
+
+		<div ng-controller="DragCtrl">
+			<div draggable ng-mousedown="mouseDown()" ng-mousemove="mouseMove($event)" ng-mouseup="mouseUp()" > 
+				<div>mover</div>
+			</div>
 		</div>
-		
+
 		<div id="context-menu" class="context-menu hide"> 
 			<ul id="context-menu-list">
 			</ul>
@@ -138,20 +148,11 @@
 			</footer>
 
 			<ca-modal ng-show='modalShow'>
-				<p>no seas taca&ntilde;o</p>
-				<a href="#" class="star icon-star star1" id="star1"></a>
-				<a href="#" class="star icon-star star2" id="star2"></a>
-				<a href="#" class="star icon-star star3" id="star3"></a>
-				<a href="# " class="star icon-star star4" id="star4"></a>
-				<a href="#" class="star icon-star star5" id="star5"></a>
+				<ca-rate/>
 			</ca-modal>
 
 
 		</div><!--container-->
-
-
-
-
 
 	</body>
 </html>
