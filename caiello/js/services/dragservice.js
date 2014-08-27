@@ -11,10 +11,13 @@ services.factory("DragService", function ( Utilities)  {
     var _mdown = false;
     var _dragging = false;
     var _initialcoords;
+    var _draggedTrack;
 
-    function _mouseDown($event){
+    function _mouseDown($event, track){
       _mdown = true;
       _initialcoords = Utilities.getMouseEventResult($event, "Mouse move");
+      _draggedTrack=track;
+      console.log("_draggedTrack: "+_draggedTrack.song)
     };
     
     function _mouseMove($event) {
@@ -30,6 +33,11 @@ services.factory("DragService", function ( Utilities)  {
     function _mouseUp() {
         _mdown = false;
         _dragging=false;
+
+        //the dragged track will be autodestroyed in 1/10 seconds...
+        setTimeout(function() {_draggedTrack=null;}, 100);
+        
+
     }
 
 

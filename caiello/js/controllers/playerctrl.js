@@ -75,9 +75,8 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService, 
 
     //Drag Ctrl?
 	$scope.mouseDown = function($event, track) {
-		console.log("draggeando: "+track.song);
-		DragService.mouseDown();
-	
+		//console.log("draggeando: "+track.song);
+		DragService.mouseDown($event,track);
   	};
 
   	$scope.mouseUp = function() {

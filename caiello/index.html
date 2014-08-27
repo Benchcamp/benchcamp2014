@@ -22,8 +22,9 @@
 		<script src="js/controllers/trackslistctrl.js"></script>
 		<script src="js/controllers/playerctrl.js"></script>
 		<script src="js/controllers/modalctrl.js"></script>
+		<script src="js/controllers/favouritesctrl.js"></script>
 
-<!--		<script src="js/controllers/dragctrl.js"></script>-->
+		<!--<script src="js/controllers/dragctrl.js"></script>-->
 
 
 		<!--services-->
@@ -76,13 +77,14 @@
 					<li><a href="#/tracks/">Canciones</a></li>
 					<li><a href="#/albums/">&Aacute;lbums</a></li>
 					<li><a href="#/artists/">Artistas</a></li>
+					<li><hr/></li>
 				</ul>
-
-				<ca-favourites/>
-
+				
+				<ca-favourites></ca-favourites>
 				<div id="drop-zone-fav" class="drop-zone ng-hide-add" data-name="nombre" ng-hide="!dragging">
 					dropeate ac&aacute;!
 				</div>
+				
 			</aside>
 
 
