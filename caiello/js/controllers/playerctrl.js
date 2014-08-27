@@ -72,26 +72,29 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService, 
 
 
 
-    //Drag Ctrl?
 
-	$scope.mouseDown = function() {
+    //Drag Ctrl?
+	$scope.mouseDown = function($event, track) {
+		console.log("draggeando: "+track.song);
 		DragService.mouseDown();
+	
   	};
 
   	$scope.mouseUp = function() {
 		DragService.mouseUp();
+		$scope.dragging=false;
   	};
 
   	$scope.mouseMove = function($event) {
-  		var res=DragService.mouseMove($event);
-  		if (res){	//dragging
-  			$scope.xaxis=res.x;
-  			$scope.yaxis=res.y;
-  			$scope.dragging=true;
-  		}else{	//not dragging
-  			$scope.dragging=false;
-  		}
+		var res=DragService.mouseMove($event);
+		if (res!=null){
+			$scope.xaxis=res.x;
+			$scope.yaxis=res.y;
+			$scope.dragging=true;
+		}
+  		
   	};
+
 
 
 

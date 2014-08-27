@@ -284,14 +284,22 @@ ul{
 	text-align: center;
 	padding:10px;
 	border:#ccc 5px dashed;
-	-webkit-transition:all 0.3s linear;
-	-moz-transition:all 0.3s linear;
-	transition:all 0.3s linear;	
+	-webkit-transition:0.5s linear all;
+  	transition:0.5s linear all;
+  	opacity:1;
+
 }
+.drop-zone.ng-hide-add, .drop-zone.ng-hide-remove{
+  display:block!important; /*important because ng-hide in angular has !important and i need to overwrite it*/
+}
+
+.drop-zone.ng-hide{
+	opacity:0;
+}
+
 .drop-zone:hover {
 	border:#2ecc71 5px dashed;
 }
-
 
 .context-menu {
 	background-color: #7f8c8d;

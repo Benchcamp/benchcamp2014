@@ -12,7 +12,7 @@ directives.directive("draggable", function() {
         link: function(scope, element, attrs) {
             //console.log(scope.xaxis);
             scope.isDragging = function() {
-                console.log("yeah, "+scope.xaxis);
+                //console.log("yeah, "+scope.xaxis);
             }
             
         },
