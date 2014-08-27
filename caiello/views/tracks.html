@@ -1,8 +1,9 @@
+
 <table class="t-filters">
 	<tr class="theader">
 	    <th>Pista</th><th>Artista</th><th>Tiempo</th><th>Album</th>
 	</tr>
-	<tr class="song-type playable" ng-click="play(track.artist,track.album,track.song)" ng-repeat="track in tracks">
+	<tr class="song-type playable" ng-click="play(track.artist,track.album,track.song)" ng-repeat="track in tracks" ng-mousedown="mouseDown()" ng-mousemove="mouseMove($event)" ng-mouseup="mouseUp()" >
 		<td>{{track.song}}</td>
         <td>{{track.artist}}</td>
         <td>{{track.time}}</td>

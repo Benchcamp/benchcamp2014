@@ -3,15 +3,19 @@
 /*
 This controller controls the player, (play, pause, some vars like transcurred time), using the service SoundService (who wrapps soundjs)
 */
-controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService, Utilities) {
+controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService, Utilities, DragService) {
 	SoundService.loadTracks();
 
-
+	//player vars
 	$scope.timing=0;
 	$scope.timingpercent=0;
 	$scope.playing=false;
 	$scope.toggled=false;
 
+	//drag vars
+	$scope.xaxis = 0;
+	$scope.yaxis = 0;
+	$scope.dragging = false;
 
 
 	//a watcher to the playing status.. getting not binded info from controller of service..
@@ -68,6 +72,26 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService, 
 
 
 
+    //Drag Ctrl?
+
+	$scope.mouseDown = function() {
+		DragService.mouseDown();
+  	};
+
+  	$scope.mouseUp = function() {
+		DragService.mouseUp();
+  	};
+
+  	$scope.mouseMove = function($event) {
+  		var res=DragService.mouseMove($event);
+  		if (res){	//dragging
+  			$scope.xaxis=res.x;
+  			$scope.yaxis=res.y;
+  			$scope.dragging=true;
+  		}else{	//not dragging
+  			$scope.dragging=false;
+  		}
+  	};
 
 
 

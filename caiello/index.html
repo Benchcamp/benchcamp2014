@@ -21,12 +21,13 @@
 		<script src="js/controllers/playerctrl.js"></script>
 		<script src="js/controllers/modalctrl.js"></script>
 
-		<script src="js/controllers/dragctrl.js"></script>
+<!--		<script src="js/controllers/dragctrl.js"></script>-->
 
 
 		<!--services-->
 		<script src="js/services/soundservice.js"></script>
 		<script src="js/services/utilities.js"></script>
+		<script src="js/services/dragservice.js"></script>
 		<!--directives-->
 		<script src="js/directives/playingnow.js"></script>
 		<script src="js/directives/camodal.js"></script>
@@ -41,11 +42,11 @@
 	<body ng-controller="PlayerCtrl">
 
 
-		<div ng-controller="DragCtrl">
-			<div draggable ng-mousedown="mouseDown()" ng-mousemove="mouseMove($event)" ng-mouseup="mouseUp()" > 
+		
+			<div draggable> 
 				<div>mover</div>
 			</div>
-		</div>
+		
 
 		<div id="context-menu" class="context-menu hide"> 
 			<ul id="context-menu-list">

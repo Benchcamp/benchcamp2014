@@ -10,7 +10,7 @@ directives.directive("draggable", function() {
         transclude: true,
         templateUrl: 'views/directives/cadrag.html',
         link: function(scope, element, attrs) {
-            console.log(scope.xaxis);
+            //console.log(scope.xaxis);
             scope.isDragging = function() {
                 console.log("yeah, "+scope.xaxis);
             }
