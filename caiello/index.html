@@ -31,11 +31,12 @@
 		<script src="js/services/soundservice.js"></script>
 		<script src="js/services/utilities.js"></script>
 		<script src="js/services/dragservice.js"></script>
+
 		<!--directives-->
 		<script src="js/directives/playingnow.js"></script>
 		<script src="js/directives/camodal.js"></script>
-
 		<script src="js/directives/cadrag.js"></script>
+		<script src="js/directives/cadrop.js"></script>
 		<script src="js/directives/carate.js"></script>
 		<script src="js/directives/cafavourites.js"></script>
 
@@ -82,11 +83,9 @@
 				
 				<ca-favourites></ca-favourites>
 
-				<div id="drop-zone-fav" class="drop-zone ng-hide-add" ng-show="dragging" ng-mouseover="mouseUpOnDropZone()">
-					<div> 
-						dropeate
-					</div>
-				</div>
+				<ca-dropzone>
+					drop to add to favourites...
+				</ca-dropzone>
 				
 			</aside>
 
@@ -108,11 +107,9 @@
 
 			<footer>
 				<div id="player"  class="player">
-					<div ng-show="dragging" class="drop-zone ng-hide-add" ng-show="dragging" ng-mouseover="mouseUpOnDropZone()">
-						<div > 
-							dropeate 
-						</div>
-					</div>
+					<ca-dropzone>drop to play...</ca-dropzone>
+
+		
 
 
 					<div ng-show="!dragging">
