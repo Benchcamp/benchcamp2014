@@ -81,9 +81,10 @@
 					<li><hr/></li>
 				</ul>
 				
-				<ca-favourites></ca-favourites>
+				<ca-favourites>
+				</ca-favourites>
 
-				<ca-dropzone dzname="favourites">
+				<ca-dropzone dzname="favourites" dragging="dragging" ng-mouseover="mouseUpOnDropZone('favourites')">
 					drop to add to favourites...
 				</ca-dropzone>
 				
@@ -105,13 +106,16 @@
 
 			</div>
 
+
+
+
 			<footer>
+					
+
+
 				<div id="player" class="player">
-					<ca-dropzone dzname="player">	drop to play...
-					</ca-dropzone>
 
 					<div ng-show="!dragging">
-
 
 						<div class="left">
 							<a id="btn-back" ng-click="prev()" class="button">
@@ -133,10 +137,7 @@
 								<a id="btn-volume" ng-click="mute()" class="button">
 									<span class="icon-volume-high" ng-class="{'': !v_inactive, 'inactive': v_inactive}" ng-click="v_inactive=!v_inactive"></span>
 								</a>
-
-								
 							</div>
-
 							<div id="playing" ng-click="changePosition($event)" >
 								<div id="progressbar" style="width:calc(20px + {{timingpercent}}%)">
 									<div id="circle"></div>
@@ -154,9 +155,13 @@
 						</div>
 					</div>
 
-	
 
 				</div><!--player-->
+
+				<ca-dropzone ng-mouseover="mouseUpOnDropZone('player')" dragging="dragging"> 
+					drop to play...
+				</ca-dropzone>
+
 			</footer>
 
 			<ca-modal ng-show='modalShow'>

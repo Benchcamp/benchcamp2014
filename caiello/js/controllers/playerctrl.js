@@ -34,35 +34,35 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService, 
 	//plays an artist, an album or a track
 	$scope.play = function(artist, album, track) {
     	SoundService.play(artist, album, track);
-	}
+	};
 	//pause the actual instance
 	$scope.pause = function() {
     	SoundService.pause();
-	}
+	};
 	//next track
 	$scope.next = function() {
     	SoundService.nextTrack();
-	}
+	};
 	//previous track
 	$scope.prev = function() {
     	SoundService.prevTrack();
-	}
+	};
 	//mute the sound
 	$scope.mute=function(){
 		SoundService.mute();
-	}
+	};
 	//changes repeat to no repeat and viceversa
 	$scope.changeRepeat = function() {
     	SoundService.changeRepeat();
-	}
+	};
 	//change shuffle to no shuffle and viceversa
 	$scope.changeShuffle = function() {
     	SoundService.changeShuffle();
-	}
+	};
 	//toggle the menu (i have to create a directive)
 	$scope.toggle=function(){
 		$scope.toggled=!$scope.toggled;
-	}
+	};
 	//changes the current playing position given a click in the transcurred time
     $scope.changePosition = function ($event) {
     	var res = Utilities.getMouseEventResult($event, "Mouse up");
@@ -70,7 +70,7 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService, 
 
     };
 
-    //Drag Ctrl?
+    //Drag 
 	$scope.mouseDown = function($event, thing) {
 		DragService.mouseDown($event,thing);
   	};
@@ -89,16 +89,17 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService, 
 		}
   	};
 
-  	$scope.mouseUpOnDropZone=function(something){
-  		console.log(something);
-  		var draggedThing=DragService.droppedSomething(); //if something was dropped
-  		if (draggedThing){//i do something with the dragging thing
-  			SoundService.play(draggedThing.artist, draggedThing.album, draggedThing.song);
+  	$scope.mouseUpOnDropZone=function(zone){
+  		var droppedThing=DragService.droppedSomething(); //if something was dropped
+  		if (droppedThing){//i do something with the dragging thing
+  			if (zone=="player"){
+  				SoundService.play(droppedThing.artist, droppedThing.album, droppedThing.song);	
+  			}
+  			else if (zone=="favourites"){
+  				console.log("agregare a favoritos");
+  			}
   		}
-  	}
-
-
-
+  	};
 
 })
 

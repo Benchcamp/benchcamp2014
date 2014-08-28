@@ -3,8 +3,6 @@
 //Favourites Controller
 controllers.controller('FavouritesCtrl', function($scope){
 
-
-
 	$scope.favourites = {
 	tracks: [
 		{
@@ -17,6 +15,19 @@ controllers.controller('FavouritesCtrl', function($scope){
 			"track": "track..2"
 		}
 	]};
+
+  	$scope.addToFavourites = function(thingToAdd) {
+		console.log(thingToAdd);
+		var thing={
+			"artist": thingToAdd,
+			"album": thingToAdd,
+			"track": thingToAdd
+		};
+		$scope.favourites.tracks.push(thing);
+  	};
+
+
+
 
 })
 

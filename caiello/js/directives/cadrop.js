@@ -6,9 +6,12 @@ directives.directive("caDropzone", function() {
         restrict: "AE",
         transclude: true,
         templateUrl: 'views/directives/cadrop.html',
+        scope:{
+            dragging:"=",
+            //dzname:"="
+        },
         link: function(scope, element, attrs) {
-            //console.log(attrs.dzname);
-
+            //scope.dzname=attrs.dzname;
         },
     }
 })
