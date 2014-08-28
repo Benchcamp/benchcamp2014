@@ -1,7 +1,7 @@
 'use strict';
 
 
-//hw directive
+//playing now directive
 directives.directive('playingNow', function() {
   return {
     restrict: 'AEC',

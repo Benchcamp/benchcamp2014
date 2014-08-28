@@ -70,12 +70,8 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService, 
 
     };
 
-
-
-
     //Drag Ctrl?
 	$scope.mouseDown = function($event, thing) {
-		//console.log("draggeando: "+thing.artist);
 		DragService.mouseDown($event,thing);
   	};
 
@@ -93,15 +89,12 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService, 
 		}
   	};
 
-  	$scope.mouseUpOnDropZone=function(){
-  		//console.log("droppeare");
+  	$scope.mouseUpOnDropZone=function(something){
+  		console.log(something);
   		var draggedThing=DragService.droppedSomething(); //if something was dropped
   		if (draggedThing){//i do something with the dragging thing
-  			console.log("dropped: "+draggedThing.song);
-
   			SoundService.play(draggedThing.artist, draggedThing.album, draggedThing.song);
   		}
-
   	}
 
 
