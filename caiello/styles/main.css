@@ -35,6 +35,7 @@ footer{
 	position: absolute;
 	width:90%; /*old browsers?*/
 	width: calc(100% - 2em);
+	min-height: 50px;
 	bottom:0;
 }
 a{
@@ -287,13 +288,16 @@ ul{
 	-webkit-transition:0.5s linear all;
   	transition:0.5s linear all;
   	opacity:1;
-
+  	height:50px;
+  	display:inline-block; vertical-align:middle;
 }
 .drop-zone.ng-hide-add, .drop-zone.ng-hide-remove{
   display:block!important; /*important because ng-hide in angular has !important and i need to overwrite it*/
 }
 
 .drop-zone.ng-hide{
+	height:0px;
+	padding:0;
 	opacity:0;
 }
 

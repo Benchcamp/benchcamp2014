@@ -81,8 +81,11 @@
 				</ul>
 				
 				<ca-favourites></ca-favourites>
-				<div id="drop-zone-fav" class="drop-zone ng-hide-add" data-name="nombre" ng-hide="!dragging">
-					dropeate ac&aacute;!
+
+				<div id="drop-zone-fav" class="drop-zone ng-hide-add" ng-show="dragging" ng-mouseover="mouseUpOnDropZone()">
+					<div> 
+						dropeate
+					</div>
 				</div>
 				
 			</aside>
@@ -104,47 +107,60 @@
 			</div>
 
 			<footer>
-				<div id="player" class="player">
-
-					<div class="left">
-						<a id="btn-back" ng-click="prev()" class="button">
-							<span class="icon-backward"></span>
-						</a>
-						<a id="btn-play" class="button">
-							<span ng-class="{'icon-play': !playing, 'icon-pause': playing}" ng-click="pause()" ></span>
-						</a>
-						<a id="btn-next" ng-click="next()" class="button">
-							<span class="icon-forward"></span>
-						</a>
+				<div id="player"  class="player">
+					<div ng-show="dragging" class="drop-zone ng-hide-add" ng-show="dragging" ng-mouseover="mouseUpOnDropZone()">
+						<div > 
+							dropeate 
+						</div>
 					</div>
 
-					<div class="play-data center-player">
 
-						<div class="song-time-vol">
-							<p id="transcurredtime" class="timing">{{timing | date:'mm:ss'}}</p>
-							
-							<a id="btn-volume" ng-click="mute()" class="button">
-								<span class="icon-volume-high" ng-class="{'': !v_inactive, 'inactive': v_inactive}" ng-click="v_inactive=!v_inactive"></span>
+					<div ng-show="!dragging">
+
+
+						<div class="left">
+							<a id="btn-back" ng-click="prev()" class="button">
+								<span class="icon-backward"></span>
 							</a>
-
-							
+							<a id="btn-play" class="button">
+								<span ng-class="{'icon-play': !playing, 'icon-pause': playing}" ng-click="pause()" ></span>
+							</a>
+							<a id="btn-next" ng-click="next()" class="button">
+								<span class="icon-forward"></span>
+							</a>
 						</div>
 
-						<div id="playing" ng-mouseup="changePosition($event)" >
-							<div id="progressbar" style="width:calc(20px + {{timingpercent}}%)">
-								<div id="circle"></div>
+						<div class="play-data center-player">
+
+							<div class="song-time-vol">
+								<p id="transcurredtime" class="timing">{{timing | date:'mm:ss'}}</p>
+								
+								<a id="btn-volume" ng-click="mute()" class="button">
+									<span class="icon-volume-high" ng-class="{'': !v_inactive, 'inactive': v_inactive}" ng-click="v_inactive=!v_inactive"></span>
+								</a>
+
+								
+							</div>
+
+							<div id="playing" ng-click="changePosition($event)" >
+								<div id="progressbar" style="width:calc(20px + {{timingpercent}}%)">
+									<div id="circle"></div>
+								</div>
 							</div>
 						</div>
+
+						<div class="right-player">
+							<a ng-click="changeRepeat()" id="btn-l" class="button">
+								<span id="i-loop" ng-class="{'inactive': !l_inactive, '': l_inactive}" ng-click="l_inactive=!l_inactive" class="icon-loop"></span>
+							</a>
+							<a ng-click="changeShuffle()" id="btn-r" class="button">
+								<span id="i-shuffle" ng-class="{'inactive': !s_inactive, '': s_inactive}" ng-click="s_inactive=!s_inactive" class="icon-shuffle"></span>
+							</a>
+						</div>
 					</div>
 
-					<div class="right-player">
-						<a ng-click="changeRepeat()" id="btn-l" class="button">
-							<span id="i-loop" ng-class="{'inactive': !l_inactive, '': l_inactive}" ng-click="l_inactive=!l_inactive" class="icon-loop"></span>
-						</a>
-						<a ng-click="changeShuffle()" id="btn-r" class="button">
-							<span id="i-shuffle" ng-class="{'inactive': !s_inactive, '': s_inactive}" ng-click="s_inactive=!s_inactive" class="icon-shuffle"></span>
-						</a>
-					</div>
+	
+
 				</div><!--player-->
 			</footer>
 

@@ -2,7 +2,7 @@
 	<tr class="theader">
 		<th>Artista</th><th>Album</th><th>A&ntilde;o</th><th>Cover</th>
 	</tr>
-	<tr ng-repeat="album in albums" ng-click="play(album.artist, album.album)">
+	<tr ng-repeat="album in albums" ng-click="play(album.artist, album.album)" ng-mousedown="mouseDown($event, album)" ng-mouseup="mouseUp()" ng-mousemove="mouseMove()">
     	<td>{{album.artist}}</td>
     	<td>{{album.album}}</td>
     	<td>{{album.year}}</td>

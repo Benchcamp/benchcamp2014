@@ -11,13 +11,12 @@ services.factory("DragService", function ( Utilities)  {
     var _mdown = false;
     var _dragging = false;
     var _initialcoords;
-    var _draggedTrack;
+    var _draggedThing;
 
-    function _mouseDown($event, track){
+    function _mouseDown($event, thingtodrag){
       _mdown = true;
       _initialcoords = Utilities.getMouseEventResult($event, "Mouse move");
-      _draggedTrack=track;
-      console.log("_draggedTrack: "+_draggedTrack.song)
+      _draggedThing=thingtodrag;
     };
     
     function _mouseMove($event) {
@@ -30,22 +29,26 @@ services.factory("DragService", function ( Utilities)  {
         }
     }
 
+    //detects if a mouse is up, then destroy the thing in 1/10 seconds..
     function _mouseUp() {
         _mdown = false;
         _dragging=false;
-
-        //the dragged track will be autodestroyed in 1/10 seconds...
-        setTimeout(function() {_draggedTrack=null;}, 100);
-        
-
+        //the dragged thing will be autodestroyed in 1/10 seconds...
+        setTimeout(function() {_draggedThing=null;}, 100);
     }
-
+    
+    //if a mouse is up on the dropzone, and is something dragging, then i return the dragged thing
+    function _droppedSomething(){
+        return _draggedThing;
+    }
 
 
     return {
         mouseDown: _mouseDown, // handle what happens when mouse is down
         mouseMove : _mouseMove, //handle what happens when mouse is moving
-        mouseUp : _mouseUp //handle what happens when mouse is up
+        mouseUp : _mouseUp, //handle what happens when mouse is up
+        draggedThing: _draggedThing, //the thing being dragged
+        droppedSomething : _droppedSomething //
     }
 
 

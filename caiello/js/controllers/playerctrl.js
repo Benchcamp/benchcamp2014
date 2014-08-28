@@ -59,7 +59,7 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService, 
 	$scope.changeShuffle = function() {
     	SoundService.changeShuffle();
 	}
-	//toggle the menu (maybe i have to create another ctrl to this..)
+	//toggle the menu (i have to create a directive)
 	$scope.toggle=function(){
 		$scope.toggled=!$scope.toggled;
 	}
@@ -74,9 +74,9 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService, 
 
 
     //Drag Ctrl?
-	$scope.mouseDown = function($event, track) {
-		//console.log("draggeando: "+track.song);
-		DragService.mouseDown($event,track);
+	$scope.mouseDown = function($event, thing) {
+		//console.log("draggeando: "+thing.artist);
+		DragService.mouseDown($event,thing);
   	};
 
   	$scope.mouseUp = function() {
@@ -91,9 +91,18 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService, 
 			$scope.yaxis=res.y;
 			$scope.dragging=true;
 		}
-  		
   	};
 
+  	$scope.mouseUpOnDropZone=function(){
+  		//console.log("droppeare");
+  		var draggedThing=DragService.droppedSomething(); //if something was dropped
+  		if (draggedThing){//i do something with the dragging thing
+  			console.log("dropped: "+draggedThing.song);
+
+  			SoundService.play(draggedThing.artist, draggedThing.album, draggedThing.song);
+  		}
+
+  	}
 
 
 

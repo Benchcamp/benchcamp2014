@@ -2,7 +2,7 @@
 	<tr class="theader">
 		<th>Artista</th>
     </tr>
-    <tr ng-repeat="artist in artists" ng-click="play(artist.artist)">
+    <tr ng-repeat="artist in artists" ng-click="play(artist.artist)" ng-mousedown="mouseDown($event, artist)" ng-mouseup="mouseUp()" ng-mousemove="mouseMove()">
     	<td>{{artist.artist}}</td>
     </tr>
 </table>
