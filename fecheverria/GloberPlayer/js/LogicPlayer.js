@@ -1,4 +1,12 @@
-var LogicPlayer = function(counterEvents, refreshView){
+(function() {
+    var app = angular.module('control-buttons', []);
+    
+    
+})();
+
+
+
+/*var LogicPlayer = function(counterEvents, refreshView){
     
     var self = this;
     self.selectedSong = { id: "", onPlay: false };
@@ -50,4 +58,4 @@ var LogicPlayer = function(counterEvents, refreshView){
 
     };
 
-};
+}*/;

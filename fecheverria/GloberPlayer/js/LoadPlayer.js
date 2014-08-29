@@ -10,7 +10,6 @@ var LoadPlayer =( function (refreshView) {
     
     var handleLoad = function (event) {
         
-        
         console.log("Preloaded:", event.id, event.src);
         
         var track = dataTrack(event.id);

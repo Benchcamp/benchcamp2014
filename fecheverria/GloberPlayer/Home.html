@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="globerPlayer">
     <head>
         <title>Glober Player</title>
         <meta name="viewport" content="width=device-width, user-scalable=no">
         
-        <script type="text/javascript" src="js/soundjs-0.5.2.min.js"></script>
-        <script type="text/javascript" src="js/RefreshView.js"></script>
-        <script type="text/javascript" src="js/LoadInfo.js"></script>
-        <script type="text/javascript" src="js/LoadPlayer.js"></script>
+        <script type="text/javascript" src="js/libraries/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="js/libraries/angular.min.js"></script>
+        <script type="text/javascript" src="js/libraries/soundjs-0.5.2.min.js"></script>
         <script type="text/javascript" src="js/LogicPlayer.js" ></script>
-        <script type="text/javascript" src="js/CountEvents.js" ></script>
-        <script type="text/javascript" src="js/Init.js"></script>
+        
+        <!--<script type="text/javascript" src="js/LoadInfo.js"></script>
+        <script type="text/javascript" src="js/LoadPlayer.js"></script>
+        <script type="text/javascript" src="js/CountEvents.js" ></script>-->
+        <script type="text/javascript" src="js/app.js"></script>
         
         <link rel="stylesheet" type="text/css" href="css/normalize.css">
         <link rel="stylesheet" type="text/css" href="css/styleIcons.css">
@@ -27,12 +29,14 @@
             <input class="buttonOfEvents" id="showEvents" type="button" value="Events">
             <label class="numberOfEvents" id="cantOfEvents">0</label>
         </nav>
-        <div class="menu">
+        <div ng-controller="musicForTypes as types" class="menu">
             <div id="itemTypes" class="menuOptions">
                 <div id="menuItems" class="menuItems">
-                    <spam id="showSongs" class="selectedItem">Songs</spam>
-                    <spam id="showAlbums" class="">Albums</spam>
-                    <spam id="showArtists" class="">Artists</spam>
+                    
+                    <spam ng-class="{ selectedItem: types.isSet(1) }" ng-click="types.setType(1)">Songs</spam>
+                    <spam ng-class="{ selectedItem: types.isSet(2) }" ng-click="types.setType(2)">Albums</spam>
+                    <spam ng-class="{ selectedItem: types.isSet(3) }" ng-click="types.setType(3)">Artists</spam>
+                    
                 </div>
                 <div id="menuItems" class="menuItems">
                     <spam class="favorites">Favorites</spam>
@@ -40,7 +44,22 @@
             </div>
             <div id="showEvents">
             </div>
-            <div id="currentlySong">
+            
+            <div id="listOfThemes">
+                <a href="#currentlySong" class="icon-onplay"></a>
+                <div  class="traks">
+                    <table-of-traks ng-show="types.isSet(1)" class="listOfItems">
+                       
+                    </table-of-traks>
+                    <div ng-show="types.isSet(2)" class="listOfItems">Albums
+                    </div>
+                    <div ng-show="types.isSet(3)" class="listOfItems">Atrists
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="currentlySong">
                 
                 <a href="#listOfThemes"  class="icon-indent-increase"></a>
                 <div class="songOnPlay">
@@ -52,35 +71,8 @@
                         <span class="icon-star"></span>
                         <span class="icon-star"></span>    
                 </div>
-            </div>
-            
-            <div id="listOfThemes">
-                <a href="#currentlySong" class="icon-onplay"></a>
-                <div  class="traks">
-                    <div id="boxSongs" class="listOfItems" style="display: inline;">
-                        <table class="tableOfTraks">
-                            <thead>
-                                <tr>
-                                    <th class="track">Track</th>
-                                    <th class="artist">Artist</th>
-                                    <th class="time">Time</th>
-                                    <th class="album">Album</th>
-                                </tr>
-                            </thead>
-                            <tbody id="listOfMusic">
-
-                            </tbody>
-
-                        </table>
-                    </div>
-                    <div id="boxAlbums" class="listOfItems" style="display: none;">Albums
-                    </div>
-                    <div id="boxArtists" class="listOfItems" style="display: none;">Atrists
-                    </div>
-                </div>
-            </div>
-
         </div>
+            
         <footer>
             <div class="buttonsReproductor">
                 <span id="back" class="icon-backward"></span>

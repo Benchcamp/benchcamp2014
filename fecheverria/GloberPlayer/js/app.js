@@ -1,9 +1,40 @@
-document.addEventListener("DOMContentLoaded", function() {
+(function() {
+    var app = angular.module('globerPlayer', []);
+
+    app.controller('musicForTypes', function(){
+
+        this.selectedType = 1;
+
+        this.setType = function setType(newValue){
+            this.selectedType = newValue;
+        };
+
+        this.isSet = function isSet(tabName){
+            return this.selectedType === tabName;
+        };
+
+
+    });
     
-    var counterEvents = CounterOfEvents;
-    var refreshView = new RefreshView(counterEvents);
-    refreshView.init();
+    app.directive('tableOfTraks', function(){
+        return {
+            restrict: 'E',
+            templateUrl: 'table-of-traks.html',
+            controller: function(){
+                
+            },
+            controllerAs: 'traks'
+        };
+        
+    });
     
+})();
+
+/*  //var counterEvents = CounterOfEvents;
+    //var refreshView = new RefreshView(counterEvents);
+    //refreshView.init();
+    
+
     var logicPlayer = new LogicPlayer(counterEvents, refreshView);
     var loadPlayer = LoadPlayer;
     //loadPlayer(refreshView);
@@ -24,10 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("showSongs").addEventListener('click', refreshView.loadSongs, false);
     document.getElementById("showAlbums").addEventListener('click', refreshView.loadAlbums, false);
     document.getElementById("showArtists").addEventListener('click', refreshView.loadArtists, false);
-
+    
+    
 });
-
-
-//http://addyosmani.com/resources/essentialjsdesignpatterns/book/#mixinpatternjavascript
-//http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html
-
+*/
