@@ -6,12 +6,9 @@
 		<script src="js/lib/soundjs-0.5.2.min.js"></script>
 		<script src="js/lib/angular.min.js"></script>
 		<script src="js/lib/angular-route.js"></script>
-
 		<link rel="stylesheet" href="styles/reset.min.css">
 		<link rel="stylesheet" href="styles/main.css">
 		<link rel="stylesheet" href="styles/fonts.css">
-
-
 		<!--app-->
 		<script src="js/app.js"></script>
 		<!--config-->
@@ -22,154 +19,50 @@
 		<script src="js/controllers/trackslistctrl.js"></script>
 		<script src="js/controllers/playerctrl.js"></script>
 		<script src="js/controllers/modalctrl.js"></script>
-		<script src="js/controllers/favouritesctrl.js"></script>
-
-		<!--<script src="js/controllers/dragctrl.js"></script>-->
-
-
 		<!--services-->
 		<script src="js/services/soundservice.js"></script>
 		<script src="js/services/utilities.js"></script>
 		<script src="js/services/dragservice.js"></script>
-
 		<!--directives-->
-		<script src="js/directives/playingnow.js"></script>
+		<script src="js/directives/caplayingnow.js"></script>
 		<script src="js/directives/camodal.js"></script>
 		<script src="js/directives/cadrag.js"></script>
 		<script src="js/directives/cadrop.js"></script>
 		<script src="js/directives/carate.js"></script>
 		<script src="js/directives/cafavourites.js"></script>
-
-
-
-
+		<script src="js/directives/canavigation.js"></script>
+		<script src="js/directives/casidebar.js"></script>
+		<script src="js/directives/casection.js"></script>
+		<script src="js/directives/caplayer.js"></script>
 	</head>
 	<body ng-controller="PlayerCtrl">
-
-
-		
 		<draggable> 
 			<div>mover</div>
 		</draggable>
-		
-
-		<div id="context-menu" class="context-menu hide"> 
-			<ul id="context-menu-list">
-			</ul>
-		</div>
-
-
-
-
 		<div id="container" ng-controller="ModalCtrl">
-			<nav>
-				<div class="left">
-					<a id="btn-hide-show-side" class="button btn-desk-tablet" ng-click="toggle()">
-						<span class="icon-menu"></span>
-					</a>
-					<a id="btn-hide-show-side-mobile" class="button btn-mobile" ng-click="toggle()">
-						<span class="icon-menu"></span>
-					</a>					
-				</div>
-			</nav>
-
-			<aside id="filters" class="toggle-menu side-bar" ng-class="{'': !toggled, 'on': toggled}">
-				<ul id="sidebar-list">
-					<li><a href="#/tracks/">Canciones</a></li>
-					<li><a href="#/albums/">&Aacute;lbums</a></li>
-					<li><a href="#/artists/">Artistas</a></li>
-					<li><hr/></li>
-				</ul>
-				
+			<ca-modal ng-show='modalShow'>
+				<ca-rate></ca-rate>
+			</ca-modal>
+			<ca-navigation></ca-navigation>
+			<ca-sidebar>
 				<ca-favourites>
 				</ca-favourites>
-
-				<ca-dropzone dzname="favourites" dragging="dragging" ng-mouseover="mouseUpOnDropZone('favourites')">
+				<ca-dropzone dragging="dragging" ng-mouseover="mouseUpOnDropZone('favourites')">
 					drop to add to favourites...
 				</ca-dropzone>
-				
-			</aside>
-
-
-			<section id="section" class="section toggle-menu" ng-class="{'': !toggled, 'full-width': toggled}">
-
+			</ca-sidebar>
+			<ca-section>
 				<div ng-view></div>
-				
-			</section>
-
-			<div id="currently-playing" class="toggle-menu currently-playing side-bar" ng-class="{'': !toggled, 'on': toggled}">
-
-				<playing-now>
-					<a ng-click="showModal()">Rate it!</a>
-				</playing-now>
-
-
-			</div>
-
-
-
-
+			</ca-section>
+			<ca-playing-now>
+				<a ng-click="showModal()">Rate it!</a>
+			</ca-playing-now>
 			<footer>
-					
-
-
-				<div id="player" class="player">
-
-					<div ng-show="!dragging">
-
-						<div class="left">
-							<a id="btn-back" ng-click="prev()" class="button">
-								<span class="icon-backward"></span>
-							</a>
-							<a id="btn-play" class="button">
-								<span ng-class="{'icon-play': !playing, 'icon-pause': playing}" ng-click="pause()" ></span>
-							</a>
-							<a id="btn-next" ng-click="next()" class="button">
-								<span class="icon-forward"></span>
-							</a>
-						</div>
-
-						<div class="play-data center-player">
-
-							<div class="song-time-vol">
-								<p id="transcurredtime" class="timing">{{timing | date:'mm:ss'}}</p>
-								
-								<a id="btn-volume" ng-click="mute()" class="button">
-									<span class="icon-volume-high" ng-class="{'': !v_inactive, 'inactive': v_inactive}" ng-click="v_inactive=!v_inactive"></span>
-								</a>
-							</div>
-							<div id="playing" ng-click="changePosition($event)" >
-								<div id="progressbar" style="width:calc(20px + {{timingpercent}}%)">
-									<div id="circle"></div>
-								</div>
-							</div>
-						</div>
-
-						<div class="right-player">
-							<a ng-click="changeRepeat()" id="btn-l" class="button">
-								<span id="i-loop" ng-class="{'inactive': !l_inactive, '': l_inactive}" ng-click="l_inactive=!l_inactive" class="icon-loop"></span>
-							</a>
-							<a ng-click="changeShuffle()" id="btn-r" class="button">
-								<span id="i-shuffle" ng-class="{'inactive': !s_inactive, '': s_inactive}" ng-click="s_inactive=!s_inactive" class="icon-shuffle"></span>
-							</a>
-						</div>
-					</div>
-
-
-				</div><!--player-->
-
+				<ca-player></ca-player>
 				<ca-dropzone ng-mouseover="mouseUpOnDropZone('player')" dragging="dragging"> 
 					drop to play...
 				</ca-dropzone>
-
 			</footer>
-
-			<ca-modal ng-show='modalShow'>
-				<ca-rate/>
-			</ca-modal>
-
-
 		</div><!--container-->
-
 	</body>
 </html>

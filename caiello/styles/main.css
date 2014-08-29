@@ -377,7 +377,7 @@ img.cover{
 	}
 	.currently-playing{
 		width:100%;
-		height:calc(100% - 120px);
+		height:calc(100% - 200px);
 		
 	}
 	.section .list{

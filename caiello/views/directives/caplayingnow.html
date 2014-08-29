@@ -1,0 +1,9 @@
+<div id="currently-playing" class="toggle-menu currently-playing side-bar" ng-class="{'': !toggled, 'on': toggled}">
+	<div>
+		<h2>Currently playing</h2>
+		<p id="song-name">{{track}}</p>
+		<p id="artist-name">by {{artist}}</p>
+		<p class="lyrics">{{lyrics}}</p>
+		<div ng-transclude><!--if something else is needed after that..--></div>
+	</div>
+</div>

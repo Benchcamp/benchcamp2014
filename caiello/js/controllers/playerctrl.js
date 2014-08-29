@@ -97,7 +97,6 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService, 
   			}
   			else if (zone=="favourites"){
   				DragService.handleDroppedThing(zone,droppedThing);
-  				console.log("agregare a favoritos");
   			}
   		}
   	};
