@@ -207,7 +207,6 @@ ul{
 
 
 .modal {
-
 	position: absolute;
 	left: 0px; top: 0px;
 	width:100%; height:100%;
@@ -331,6 +330,13 @@ ul{
 	width: 100%;
 }
 
+li.fav-item{
+	font-size:0.7em;
+	margin-bottom:0.5em;
+	cursor: hand;
+	cursor: pointer;
+
+}
 
 
 .hide{

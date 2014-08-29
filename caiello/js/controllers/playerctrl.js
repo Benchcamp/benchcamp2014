@@ -96,10 +96,10 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService, 
   				SoundService.play(droppedThing.artist, droppedThing.album, droppedThing.song);	
   			}
   			else if (zone=="favourites"){
+  				DragService.handleDroppedThing(zone,droppedThing);
   				console.log("agregare a favoritos");
   			}
   		}
   	};
-
 })
 

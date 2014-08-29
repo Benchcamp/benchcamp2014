@@ -1,4 +1,7 @@
-<ul  ng-click="addToFavourites('hola')" id="sidebar-fav" ng-controller="FavouritesCtrl">
-	<li><b>Favoritos</b></li>
-	<li ng-click="play(fav.album)" ng-repeat="fav in favourites.tracks">{{fav.album}}</li>
+<ul  id="sidebar-fav" ng-controller="FavouritesCtrl">
+		<li><b>Favoritos</b></li>
+		<li class="fav-item" ng-click="play(fav.artist, fav.album, fav.song)" ng-repeat="fav in favs track by $index" >
+			{{fav.artist}} {{fav.album}} {{fav.song}}
+		</li>
+	
 </ul>

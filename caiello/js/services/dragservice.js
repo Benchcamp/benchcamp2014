@@ -6,13 +6,14 @@ Drag Services
 
 
 //Drag Service
-services.factory("DragService", function ( Utilities)  {
+services.factory("DragService", function ( Utilities, $rootScope)  {
 
     var _mdown = false;
     var _dragging = false;
     var _initialcoords;
     var _draggedThing;
 
+    //when a mouse is down I save the thing to drag
     function _mouseDown($event, thingtodrag){
       _mdown = true;
       _initialcoords = Utilities.getMouseEventResult($event, "Mouse move");
@@ -43,12 +44,20 @@ services.factory("DragService", function ( Utilities)  {
     }
 
 
+    // handle what to do with a dropped thing in a dropzone with a message of broadcast
+    function _handleDroppedThing(handletype, droppedthing){
+        $rootScope.$broadcast(handletype, droppedthing);
+    };
+    
+
+
     return {
         mouseDown: _mouseDown, // handle what happens when mouse is down
         mouseMove : _mouseMove, //handle what happens when mouse is moving
         mouseUp : _mouseUp, //handle what happens when mouse is up
         draggedThing: _draggedThing, //the thing being dragged
-        droppedSomething : _droppedSomething //
+        droppedSomething : _droppedSomething, //return the dropped thing
+        handleDroppedThing:_handleDroppedThing // handle what to do with a dropped thing in a dropzone with a broadcast
     }
 
 
