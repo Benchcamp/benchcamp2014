@@ -310,12 +310,12 @@ ul{
 .context-menu {
 	background-color: #7f8c8d;
 	color:#ecf0f1;
-	position:absolute !important;
+	position:absolute;
 	width:150px;
-    height:70px;
+    height:25px;
     overflow: hidden;
     padding:10px;
-    z-index:0;
+    z-index:1;
     border-radius:2px;
     text-align:center;
 }

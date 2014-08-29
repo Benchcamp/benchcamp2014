@@ -16,7 +16,7 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService, 
 	$scope.xaxis = 0;
 	$scope.yaxis = 0;
 	$scope.dragging = false;
-	$scope.contextshow=false;
+
 
 	//a watcher to the playing status.. getting not binded info from controller of service..
 	$scope.$watch(SoundService.isPlaying, function() { 
@@ -100,19 +100,5 @@ controllers.controller('PlayerCtrl', function ($scope, $interval, SoundService, 
   			}
   		}
   	};
-
-
-  	
-
-  	$scope.playOrFavFromContext = function($event) {
-		$scope.contextshow=!$scope.contextshow;
-		var res = Utilities.getMouseEventResult($event, "Mouse up");
-		console.log(res);
-		if (res!=null){
-			$scope.xaxis=res.x;
-			$scope.yaxis=res.y;
-		}
-  	};
-
 })
 

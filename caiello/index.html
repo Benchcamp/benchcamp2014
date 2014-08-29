@@ -23,7 +23,6 @@
 		<script src="js/services/soundservice.js"></script>
 		<script src="js/services/utilities.js"></script>
 		<script src="js/services/dragservice.js"></script>
-		<script src="js/services/contextservice.js"></script>
 		<!--directives-->
 		<script src="js/directives/caplayingnow.js"></script>
 		<script src="js/directives/camodal.js"></script>
@@ -35,14 +34,11 @@
 		<script src="js/directives/casidebar.js"></script>
 		<script src="js/directives/casection.js"></script>
 		<script src="js/directives/caplayer.js"></script>
-		<script src="js/directives/carightclick.js"></script>
-		<script src="js/directives/cacontextmenu.js"></script>
 	</head>
 	<body ng-controller="PlayerCtrl">
 		<ca-draggable> 
 			<div>mover</div>
 		</ca-draggable>
-		
 		<div id="container" ng-controller="ModalCtrl">
 			<ca-modal ng-show='modalShow'>
 				<ca-rate></ca-rate>
@@ -56,10 +52,7 @@
 				</ca-dropzone>
 			</ca-sidebar>
 			<ca-section>
-				<ca-contextmenu>
-				</ca-contextmenu>
 				<div ng-view></div>
-				
 			</ca-section>
 			<ca-playing-now>
 				<a ng-click="showModal()">Rate it!</a>
