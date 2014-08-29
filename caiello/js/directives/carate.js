@@ -13,10 +13,17 @@ directives.directive("caRate", function() {
                 scope.stars.push(false);
         	}
         	
-        	scope.selectRating = function(star){
+        	scope.selectRating = function(starindex){
         		//stub
+        		for (var i=0; i<5; i++){
+        			if (i<=starindex){
+        				scope.stars[i]=true;
+        			}else{
+        				scope.stars[i]=false;
+        			}
+        		
+            	}
             }
-
         }
     }
 })

@@ -1,3 +1,3 @@
 <p>no seas taca&ntilde;o</p>
 
-<a class="icon-star2" ng-repeat="star in stars track by $index" ng-mouseover="selectRating($index)"> </a>
+<a ng-repeat="star in stars track by $index" ng-mouseover="selectRating($index)" class="icon-star" ng-class="{'icon-star2' : star}"> </a>
