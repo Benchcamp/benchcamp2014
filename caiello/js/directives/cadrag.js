@@ -1,7 +1,7 @@
 'use strict';
 
 //modal directive
-directives.directive("draggable", function() {
+directives.directive("caDraggable", function() {
     return {
         restrict: "AE",
         // scope: {

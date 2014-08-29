@@ -22,12 +22,7 @@ services.factory("Utilities", function () {
         mouseEvent = window.event;
       }
 
-      if (mouseEvent.pageX || mouseEvent.pageY)
-      {
-        result.x = mouseEvent.pageX;
-        result.y = mouseEvent.pageY;
-      }
-      else if (mouseEvent.clientX || mouseEvent.clientY)
+     if (mouseEvent.clientX || mouseEvent.clientY)
       {
         result.x = mouseEvent.clientX + document.body.scrollLeft +
           document.documentElement.scrollLeft;
@@ -66,6 +61,7 @@ services.factory("Utilities", function () {
     //returns the coordinates of a given mouse event
     var _getMouseEventResult = function (mouseEvent, mouseEventDesc)
     {
+
       var coords = _getCrossBrowserElementCoords(mouseEvent);
       return coords;
     };
